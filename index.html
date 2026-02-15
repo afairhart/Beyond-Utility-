@@ -126,7 +126,7 @@
       font-size: 1.05rem;
       line-height: 1.6;
       max-width: 440px;
-      margin-bottom: 32px;
+      margin-bottom: 40px;
     }
 
     /* ── DIVIDER ── */
@@ -150,25 +150,6 @@
       font-size: 1.05rem;
       line-height: 1.75;
       color: var(--text);
-    }
-
-    /* ── THEMES ── */
-    .themes {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      padding: 48px 24px 0;
-      font-size: 0.8rem;
-      color: var(--text-dim);
-      text-align: center;
-      flex-wrap: wrap;
-    }
-
-    .themes span { white-space: nowrap; }
-
-    .themes span + span::before {
-      content: '\00B7';
-      margin-right: 12px;
     }
 
     /* ── DETAILS ── */
@@ -200,27 +181,30 @@
     /* ── HERO CTA ── */
     .hero-cta {
       display: inline-block;
-      padding: 14px 36px;
+      padding: 18px 52px;
       font-family: 'Outfit', sans-serif;
-      font-size: 1rem;
+      font-size: 1.15rem;
       font-weight: 600;
       letter-spacing: 0.05em;
       color: #fff;
       background: var(--blue);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(75, 123, 245, 0.3);
     }
 
     .hero-cta:hover {
       background: var(--blue-light);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 0 36px rgba(75, 123, 245, 0.45);
     }
 
     .hero-cta:active {
       transform: scale(0.97);
       background: var(--blue-light);
+      box-shadow: 0 0 20px rgba(75, 123, 245, 0.25);
     }
 
     /* ── VIDEO MODAL ── */
@@ -317,9 +301,8 @@
 
       /* Hero — use dvh so it accounts for mobile browser chrome */
       .hero {
-        padding: 90px 20px 48px;
-        min-height: 100vh;
-        min-height: 100dvh;
+        padding: 90px 20px 32px;
+        min-height: auto;
       }
       .hero h1 { font-size: clamp(2rem, 8vw, 2.8rem); margin-bottom: 16px; }
       .hero-sub { font-size: 0.92rem; line-height: 1.55; margin-bottom: 28px; max-width: 340px; }
@@ -331,16 +314,6 @@
         min-height: 52px;
         border-radius: 8px;
       }
-
-      /* Themes — stack vertically */
-      .themes {
-        flex-direction: column;
-        align-items: center;
-        padding: 32px 20px 0;
-        gap: 6px;
-        font-size: 0.75rem;
-      }
-      .themes span + span::before { display: none; }
 
       /* Details */
       .details { padding: 32px 20px; gap: 24px; }
@@ -409,12 +382,6 @@
   </section>
 
   <div class="divider"></div>
-
-  <div class="themes fade-in">
-    <span>Distributed & Hybrid Infrastructure</span>
-    <span>Industrial Treatment & Reuse</span>
-    <span>Water Intelligence & Efficiency</span>
-  </div>
 
   <div class="details">
     <div class="detail fade-in">

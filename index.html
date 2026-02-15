@@ -22,7 +22,7 @@
       --text-dim: rgba(255, 255, 255, 0.45);
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -300,10 +300,27 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
-      .nav { padding: 18px 20px; }
-      .nav-right { gap: 16px; }
-      .details { gap: 28px; }
-      .footer { flex-direction: column; gap: 12px; text-align: center; }
+      .nav { padding: 16px 16px; }
+      .nav-logo { font-size: 0.9rem; }
+      .nav-right { gap: 10px; }
+      .nav-link, .nav-login { font-size: 0.65rem; }
+      .nav-login { padding: 6px 12px; }
+
+      .hero { padding: 100px 20px 60px; min-height: 90vh; }
+      .hero h1 { margin-bottom: 18px; }
+      .hero-sub { font-size: 0.95rem; margin-bottom: 28px; }
+      .hero-cta { padding: 14px 32px; font-size: 0.95rem; width: 100%; max-width: 300px; }
+
+      .themes { padding: 36px 20px 0; gap: 8px; font-size: 0.72rem; }
+      .details { padding: 36px 20px; gap: 28px; }
+      .detail-value { font-size: 1.05rem; }
+
+      .modal-content { width: 95%; }
+      .modal-content iframe { height: 75vh; border-radius: 16px; }
+      .modal-close { top: -36px; font-size: 1.8rem; }
+
+      .footer { flex-direction: column; gap: 12px; text-align: center; padding: 24px 20px; }
+      .footer-right { flex-direction: column; gap: 10px; }
     }
   </style>
 </head>
@@ -312,7 +329,7 @@
   <nav class="nav">
     <a href="#" class="nav-logo">Beyond Utility <span>Water Ventures</span></a>
     <div class="nav-right">
-      <a href="#" class="nav-link" id="navPitch">Pitch Us</a>
+      <a href="#" class="nav-link" id="navPitch">Share Your Story</a>
       <a href="#" class="nav-login">Log In</a>
     </div>
   </nav>
@@ -320,7 +337,7 @@
   <section class="hero" id="pitch">
     <h1 class="fade-in">Investing in the <em>new water economy</em></h1>
     <p class="hero-sub fade-in d1">Pre-seed and seed capital for the technologies and business models reshaping water infrastructure globally.</p>
-    <button class="hero-cta fade-in d2" id="openPitch">Pitch Us</button>
+    <button class="hero-cta fade-in d2" id="openPitch">Share Your Story</button>
   </section>
 
   <div class="divider"></div>

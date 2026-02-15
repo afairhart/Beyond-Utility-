@@ -59,6 +59,7 @@
       font-size: 1.05rem;
       color: #fff;
       text-decoration: none;
+      white-space: nowrap;
     }
 
     .nav-logo span { color: var(--gold); }
@@ -376,7 +377,6 @@
   <nav class="nav">
     <a href="#" class="nav-logo">Beyond Utility <span>Water Ventures</span></a>
     <div class="nav-right">
-      <a href="#" class="nav-link" id="navPitch">Share Your Story</a>
       <a href="login.html" class="nav-login">Log In</a>
     </div>
   </nav>
@@ -456,7 +456,6 @@
     }
 
     document.getElementById('openPitch').addEventListener('click', openModal);
-    document.getElementById('navPitch').addEventListener('click', e => { e.preventDefault(); openModal(); });
     document.getElementById('closeModal').addEventListener('click', closeModal);
     modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });

@@ -7,7 +7,7 @@
   <meta name="description" content="Pre-seed and seed venture capital for the next generation of water infrastructure.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -43,7 +43,8 @@
     }
 
     .nav-logo {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
       font-size: 1.05rem;
       color: #fff;
       text-decoration: none;
@@ -69,6 +70,24 @@
 
     .nav-link:hover { color: var(--gold); }
 
+    .nav-login {
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 5px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .nav-login:hover {
+      border-color: var(--gold);
+      background: rgba(212, 168, 75, 0.08);
+    }
+
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
@@ -81,9 +100,9 @@
     }
 
     .hero h1 {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
       font-size: clamp(2.8rem, 6vw, 4.8rem);
-      font-weight: 400;
+      font-weight: 600;
       line-height: 1.1;
       letter-spacing: -0.03em;
       max-width: 720px;
@@ -187,7 +206,8 @@
     }
 
     .detail-value {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
       font-size: 1.2rem;
     }
 
@@ -198,9 +218,9 @@
     }
 
     .pitch h2 {
-      font-family: 'DM Serif Display', serif;
+      font-family: 'Outfit', sans-serif;
       font-size: clamp(1.6rem, 3vw, 2.2rem);
-      font-weight: 400;
+      font-weight: 600;
       margin-bottom: 14px;
     }
 
@@ -270,6 +290,7 @@
     <div class="nav-right">
       <a href="mailto:hello@beyondutilityventures.com" class="nav-link">Contact</a>
       <a href="#pitch" class="nav-link">Pitch Us</a>
+      <a href="#" class="nav-login">Log In</a>
     </div>
   </nav>
 
@@ -322,6 +343,7 @@
     <div class="footer-right">
       <a href="mailto:hello@beyondutilityventures.com">hello@beyondutilityventures.com</a>
       <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="privacy.html">Privacy Policy</a>
     </div>
   </footer>
 

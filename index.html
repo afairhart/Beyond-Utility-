@@ -4,1014 +4,407 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Beyond Utility Water Ventures</title>
-  <meta name="description" content="Pre-seed and seed venture capital for the next generation of water infrastructure. Investing globally in the technologies reshaping how we deliver, treat, and manage water.">
+  <meta name="description" content="Pre-seed and seed venture capital for the next generation of water infrastructure.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <style>
-    /* ========================================
-       RESET & BASE
-       ======================================== */
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
       --teal-dark: #0A2E2E;
       --teal: #0F3D3E;
-      --teal-mid: #1A5C5E;
-      --teal-light: #2A7A7C;
       --copper: #C8956C;
-      --copper-light: #DAB08E;
       --copper-dark: #A87750;
+      --copper-light: #DAB08E;
       --cream: #F7F2ED;
-      --cream-dark: #EDE5DC;
-      --white: #FFFFFF;
-      --text-dark: #1A1A1A;
-      --text-muted: #5A5A5A;
-      --text-on-dark: #E8E0D8;
+      --text-on-dark: rgba(232, 224, 216, 0.85);
+      --text-dim: rgba(232, 224, 216, 0.5);
     }
 
-    html {
-      scroll-behavior: smooth;
-      font-size: 16px;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      color: var(--text-dark);
-      background: var(--cream);
-      line-height: 1.6;
+      background: var(--teal-dark);
+      color: #fff;
       -webkit-font-smoothing: antialiased;
     }
 
-    h1, h2, h3 {
-      font-family: 'DM Serif Display', serif;
-      line-height: 1.15;
-      font-weight: 400;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /* ========================================
-       LAYOUT
-       ======================================== */
-    .container {
-      max-width: 1140px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .section {
-      padding: 100px 0;
-    }
-
-    /* ========================================
-       NAV
-       ======================================== */
+    /* ── NAV ── */
     .nav {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       z-index: 100;
-      padding: 20px 0;
-      transition: background 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .nav.scrolled {
-      background: rgba(10, 46, 46, 0.97);
-      padding: 14px 0;
-      box-shadow: 0 2px 20px rgba(0,0,0,0.15);
-      backdrop-filter: blur(10px);
-    }
-
-    .nav-inner {
+      padding: 24px 40px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
     }
 
     .nav-logo {
       font-family: 'DM Serif Display', serif;
-      font-size: 1.2rem;
-      color: var(--white);
+      font-size: 1.1rem;
+      color: #fff;
+      text-decoration: none;
       letter-spacing: -0.01em;
     }
 
-    .nav-logo span {
-      color: var(--copper-light);
-    }
+    .nav-logo span { color: var(--copper-light); }
 
-    .nav-links {
+    .nav-right {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 28px;
     }
 
     .nav-link {
       color: var(--text-on-dark);
-      font-size: 0.875rem;
+      text-decoration: none;
+      font-size: 0.8rem;
       font-weight: 500;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
       transition: color 0.2s;
     }
 
-    .nav-link:hover {
-      color: var(--copper-light);
-    }
+    .nav-link:hover { color: var(--copper-light); }
 
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--copper);
-      color: var(--white);
-      padding: 10px 22px;
-      border-radius: 6px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      transition: background 0.2s, transform 0.2s;
-      border: none;
-      cursor: pointer;
-    }
-
-    .nav-cta:hover {
-      background: var(--copper-dark);
-      transform: translateY(-1px);
-    }
-
-    .mobile-menu-btn {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-    }
-
-    .mobile-menu-btn span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--white);
-      margin: 5px 0;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-
-    /* ========================================
-       HERO
-       ======================================== */
+    /* ── HERO ── */
     .hero {
-      background: linear-gradient(170deg, var(--teal-dark) 0%, var(--teal) 50%, var(--teal-mid) 100%);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      text-align: center;
+      padding: 120px 24px 80px;
       position: relative;
-      overflow: hidden;
-      padding-top: 80px;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 80%;
-      height: 200%;
-      background: radial-gradient(ellipse, rgba(200, 149, 108, 0.06) 0%, transparent 70%);
-      pointer-events: none;
+    .hero-headline {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 400;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      max-width: 800px;
+      margin-bottom: 28px;
     }
 
-    .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(200,149,108,0.2), transparent);
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      max-width: 760px;
-    }
-
-    .hero-label {
-      display: inline-block;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--copper);
-      margin-bottom: 24px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.5rem, 5vw, 3.8rem);
-      color: var(--white);
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
-    }
-
-    .hero h1 em {
+    .hero-headline em {
       font-style: normal;
       color: var(--copper-light);
     }
 
     .hero-sub {
-      font-size: 1.15rem;
       color: var(--text-on-dark);
-      max-width: 560px;
+      font-size: 1.1rem;
+      line-height: 1.65;
+      max-width: 480px;
       margin-bottom: 48px;
-      line-height: 1.7;
     }
 
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .btn-primary {
+    .btn {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       background: var(--copper);
-      color: var(--white);
+      color: #fff;
       padding: 16px 32px;
       border-radius: 8px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
       border: none;
       cursor: pointer;
     }
 
-    .btn-primary:hover {
+    .btn:hover {
       background: var(--copper-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(200, 149, 108, 0.25);
+      transform: translateY(-1px);
     }
 
-    .btn-primary svg {
-      width: 20px;
-      height: 20px;
-    }
+    .btn svg { width: 20px; height: 20px; }
 
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--text-on-dark);
-      padding: 16px 24px;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-
-    .btn-secondary:hover {
-      color: var(--copper-light);
-    }
-
-    /* ========================================
-       THESIS
-       ======================================== */
-    .thesis {
-      background: var(--cream);
-    }
-
-    .thesis-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-
-    .thesis-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--copper-dark);
-      margin-bottom: 20px;
-    }
-
-    .thesis h2 {
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
-      color: var(--teal-dark);
-      margin-bottom: 24px;
-      letter-spacing: -0.02em;
-    }
-
-    .thesis-text {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.8;
-    }
-
-    .thesis-text p + p {
-      margin-top: 20px;
-    }
-
-    .thesis-highlight {
-      background: var(--teal-dark);
-      color: var(--white);
-      padding: 40px;
-      border-radius: 12px;
-      margin-top: 8px;
-    }
-
-    .thesis-highlight p {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.3rem;
-      line-height: 1.6;
-      color: var(--text-on-dark);
-    }
-
-    .thesis-highlight .attribution {
-      margin-top: 20px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.85rem;
-      color: var(--copper-light);
-      font-style: normal;
-    }
-
-    /* ========================================
-       FOCUS AREAS
-       ======================================== */
-    .focus {
-      background: var(--teal-dark);
-    }
-
-    .focus-header {
-      text-align: center;
-      max-width: 640px;
-      margin: 0 auto 64px;
-    }
-
-    .focus-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--copper);
-      margin-bottom: 20px;
-    }
-
-    .focus h2 {
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
-      color: var(--white);
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
-    }
-
-    .focus-subtitle {
-      color: var(--text-on-dark);
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-
-    .focus-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .focus-card {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 36px 32px;
-      transition: background 0.3s, border-color 0.3s, transform 0.3s;
-    }
-
-    .focus-card:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(200, 149, 108, 0.3);
-      transform: translateY(-4px);
-    }
-
-    .focus-icon {
-      width: 48px;
-      height: 48px;
-      background: rgba(200, 149, 108, 0.15);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-    }
-
-    .focus-icon svg {
-      width: 24px;
-      height: 24px;
-      color: var(--copper);
-    }
-
-    .focus-card h3 {
-      font-size: 1.25rem;
-      color: var(--white);
-      margin-bottom: 12px;
-    }
-
-    .focus-card p {
-      color: var(--text-on-dark);
-      font-size: 0.925rem;
-      line-height: 1.7;
-    }
-
-    .focus-meta {
-      text-align: center;
-      margin-top: 48px;
-      padding-top: 40px;
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    .focus-meta-items {
-      display: flex;
-      justify-content: center;
-      gap: 64px;
-    }
-
-    .focus-meta-item {
-      text-align: center;
-    }
-
-    .focus-meta-item .label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--copper);
-      margin-bottom: 4px;
-    }
-
-    .focus-meta-item .value {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.4rem;
-      color: var(--white);
-    }
-
-    /* ========================================
-       FOUNDER SUPPORT
-       ======================================== */
-    .support {
-      background: var(--cream);
-    }
-
-    .support-header {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 64px;
-    }
-
-    .support-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--copper-dark);
-      margin-bottom: 20px;
-    }
-
-    .support h2 {
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
-      color: var(--teal-dark);
-      letter-spacing: -0.02em;
-    }
-
-    .support-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
-    }
-
-    .support-card {
-      background: var(--white);
-      border: 1px solid var(--cream-dark);
-      border-radius: 12px;
-      padding: 36px 32px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
-
-    .support-card:hover {
-      border-color: var(--copper-light);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
-    }
-
-    .support-card-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--teal-dark);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 20px;
-    }
-
-    .support-card-icon svg {
-      width: 22px;
-      height: 22px;
-      color: var(--copper);
-    }
-
-    .support-card h3 {
-      font-size: 1.15rem;
-      color: var(--teal-dark);
-      margin-bottom: 10px;
-    }
-
-    .support-card p {
-      color: var(--text-muted);
-      font-size: 0.925rem;
-      line-height: 1.7;
-    }
-
-    /* ========================================
-       PITCH CTA
-       ======================================== */
-    .pitch {
-      background: linear-gradient(170deg, var(--teal) 0%, var(--teal-dark) 100%);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .pitch::before {
-      content: '';
+    .hero-scroll {
       position: absolute;
-      top: -30%;
-      left: -10%;
-      width: 60%;
-      height: 160%;
-      background: radial-gradient(ellipse, rgba(200, 149, 108, 0.05) 0%, transparent 70%);
-      pointer-events: none;
+      bottom: 40px;
+      color: var(--text-dim);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
-    .pitch-content {
-      position: relative;
-      z-index: 1;
-      text-align: center;
-      max-width: 640px;
+    /* ── DIVIDER LINE ── */
+    .divider {
+      width: 48px;
+      height: 1px;
+      background: var(--copper);
+      opacity: 0.4;
       margin: 0 auto;
     }
 
-    .pitch-label {
-      font-size: 0.8rem;
+    /* ── INFO SECTION ── */
+    .info {
+      padding: 100px 24px;
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .info p {
+      font-size: 1.15rem;
+      line-height: 1.8;
+      color: var(--text-on-dark);
+    }
+
+    .info p + p { margin-top: 24px; }
+
+    /* ── DETAILS ROW ── */
+    .details {
+      padding: 60px 24px;
+      display: flex;
+      justify-content: center;
+      gap: 64px;
+      flex-wrap: wrap;
+    }
+
+    .detail {
+      text-align: center;
+    }
+
+    .detail-label {
+      font-size: 0.7rem;
       font-weight: 600;
       letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--copper);
-      margin-bottom: 20px;
+      margin-bottom: 6px;
+    }
+
+    .detail-value {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: #fff;
+    }
+
+    /* ── FOCUS (compact) ── */
+    .focus {
+      padding: 80px 24px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .focus-label {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--copper);
+      margin-bottom: 40px;
+    }
+
+    .focus-items {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+
+    .focus-item h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .focus-item p {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--text-on-dark);
+    }
+
+    /* ── PITCH CTA ── */
+    .pitch {
+      padding: 100px 24px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
 
     .pitch h2 {
-      font-size: clamp(2rem, 3.5vw, 2.8rem);
-      color: var(--white);
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-weight: 400;
       margin-bottom: 16px;
       letter-spacing: -0.02em;
     }
 
-    .pitch-sub {
+    .pitch p {
       color: var(--text-on-dark);
-      font-size: 1.05rem;
-      line-height: 1.7;
-      margin-bottom: 40px;
-    }
-
-    .pitch-video-cta {
-      display: inline-flex;
-      align-items: center;
-      gap: 16px;
-      background: var(--copper);
-      color: var(--white);
-      padding: 20px 40px;
-      border-radius: 10px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
-      border: none;
-      cursor: pointer;
-      margin-bottom: 24px;
-    }
-
-    .pitch-video-cta:hover {
-      background: var(--copper-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(200, 149, 108, 0.3);
-    }
-
-    .pitch-video-cta svg {
-      width: 24px;
-      height: 24px;
+      font-size: 1rem;
+      max-width: 420px;
+      margin: 0 auto 40px;
+      line-height: 1.65;
     }
 
     .pitch-note {
-      color: rgba(232, 224, 216, 0.6);
-      font-size: 0.85rem;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--text-dim);
     }
 
-    /* ========================================
-       FOOTER
-       ======================================== */
+    /* ── FOOTER ── */
     .footer {
-      background: var(--teal-dark);
-      padding: 48px 0;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-
-    .footer-inner {
+      padding: 40px;
       display: flex;
-      align-items: center;
       justify-content: space-between;
-    }
-
-    .footer-brand {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1rem;
-      color: var(--white);
-    }
-
-    .footer-brand span {
-      color: var(--copper-light);
-    }
-
-    .footer-links {
-      display: flex;
       align-items: center;
-      gap: 24px;
-    }
-
-    .footer-link {
-      color: var(--text-on-dark);
-      font-size: 0.85rem;
-      transition: color 0.2s;
-    }
-
-    .footer-link:hover {
-      color: var(--copper-light);
-    }
-
-    .footer-copy {
-      color: rgba(232, 224, 216, 0.4);
+      border-top: 1px solid rgba(255,255,255,0.06);
       font-size: 0.8rem;
     }
 
-    /* ========================================
-       ANIMATIONS
-       ======================================== */
-    .fade-up {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    .footer-left {
+      color: var(--text-dim);
     }
 
-    .fade-up.visible {
+    .footer-right {
+      display: flex;
+      gap: 24px;
+    }
+
+    .footer-right a {
+      color: var(--text-on-dark);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+    }
+
+    .footer-right a:hover { color: var(--copper-light); }
+
+    /* ── ANIMATIONS ── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-in.visible {
       opacity: 1;
       transform: translateY(0);
     }
 
-    .fade-up.delay-1 { transition-delay: 0.1s; }
-    .fade-up.delay-2 { transition-delay: 0.2s; }
-    .fade-up.delay-3 { transition-delay: 0.3s; }
-    .fade-up.delay-4 { transition-delay: 0.4s; }
+    .fade-in.d1 { transition-delay: 0.15s; }
+    .fade-in.d2 { transition-delay: 0.3s; }
+    .fade-in.d3 { transition-delay: 0.45s; }
 
-    /* ========================================
-       RESPONSIVE
-       ======================================== */
-    @media (max-width: 968px) {
-      .thesis-grid {
-        grid-template-columns: 1fr;
-        gap: 48px;
-      }
-
-      .focus-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .focus-meta-items {
-        gap: 40px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .section {
-        padding: 72px 0;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .nav-links.open {
-        display: flex;
-        flex-direction: column;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        background: var(--teal-dark);
-        padding: 24px;
-        gap: 16px;
-        border-bottom: 1px solid rgba(255,255,255,0.1);
-      }
-
-      .mobile-menu-btn {
-        display: block;
-      }
-
-      .focus-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .support-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .focus-meta-items {
-        flex-direction: column;
-        gap: 24px;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .container {
-        padding: 0 16px;
-      }
-
-      .hero {
-        min-height: auto;
-        padding: 120px 0 80px;
-      }
-
-      .pitch-video-cta {
-        padding: 16px 28px;
-        font-size: 1rem;
-      }
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .nav { padding: 16px 20px; }
+      .nav-right { gap: 16px; }
+      .nav-link { font-size: 0.7rem; }
+      .hero { padding: 100px 20px 60px; }
+      .details { gap: 32px; }
+      .focus-items { grid-template-columns: 1fr; gap: 28px; text-align: center; }
+      .footer { flex-direction: column; gap: 16px; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ========== NAV ========== -->
-  <nav class="nav" id="nav">
-    <div class="container nav-inner">
-      <a href="#" class="nav-logo">Beyond Utility <span>Water Ventures</span></a>
-      <div class="nav-links" id="navLinks">
-        <a href="#thesis" class="nav-link">Thesis</a>
-        <a href="#focus" class="nav-link">Focus</a>
-        <a href="#support" class="nav-link">Founders</a>
-        <a href="#pitch" class="nav-cta">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-          Submit Your Pitch
-        </a>
-      </div>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+  <nav class="nav">
+    <a href="#" class="nav-logo">Beyond Utility <span>Water Ventures</span></a>
+    <div class="nav-right">
+      <a href="mailto:hello@beyondutilityventures.com" class="nav-link">Contact</a>
+      <a href="#pitch" class="nav-link">Pitch Us</a>
     </div>
   </nav>
 
-  <!-- ========== HERO ========== -->
-  <section class="hero" id="hero">
-    <div class="container">
-      <div class="hero-content">
-        <span class="hero-label fade-up">Pre-Seed & Seed Water Tech</span>
-        <h1 class="fade-up delay-1">Investing in the <em>new water economy</em></h1>
-        <p class="hero-sub fade-up delay-2">Water infrastructure is being fundamentally reimagined. We back the founders building the technologies and business models that will define how the world delivers, treats, and manages water.</p>
-        <div class="hero-actions fade-up delay-3">
-          <a href="#pitch" class="btn-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-            Submit a Video Pitch
-          </a>
-          <a href="#thesis" class="btn-secondary">
-            Learn more
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-          </a>
-        </div>
+  <section class="hero">
+    <h1 class="hero-headline fade-in">Investing in the <em>new water economy</em></h1>
+    <p class="hero-sub fade-in d1">Water infrastructure is being fundamentally reimagined. We back the founders building what comes next.</p>
+    <a href="#pitch" class="btn fade-in d2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+      Share Your Story
+    </a>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="info">
+    <p class="fade-in">The systems that have delivered and treated water for over a century are reaching their limits. Distributed treatment, intelligent water grids, industrial-scale reuse, and buildings that actively manage their own water are creating new business models and infrastructure that will serve every person and every business.</p>
+    <p class="fade-in d1">We invest at the earliest stages in the companies making this future a reality.</p>
+  </section>
+
+  <div class="details">
+    <div class="detail fade-in">
+      <p class="detail-label">Stage</p>
+      <p class="detail-value">Pre-Seed & Seed</p>
+    </div>
+    <div class="detail fade-in d1">
+      <p class="detail-label">Geography</p>
+      <p class="detail-value">Global</p>
+    </div>
+    <div class="detail fade-in d2">
+      <p class="detail-label">Sector</p>
+      <p class="detail-value">Water Technology</p>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <section class="focus">
+    <p class="focus-label fade-in">Where We Focus</p>
+    <div class="focus-items">
+      <div class="focus-item fade-in">
+        <h3>Distributed Infrastructure</h3>
+        <p>Hybrid water grids, decentralized treatment, and delivery systems closer to the point of use.</p>
+      </div>
+      <div class="focus-item fade-in d1">
+        <h3>Industrial Treatment & Reuse</h3>
+        <p>Technologies for industrial water resilience, efficiency, and closed-loop reuse at scale.</p>
+      </div>
+      <div class="focus-item fade-in d2">
+        <h3>Water Intelligence</h3>
+        <p>Monitoring, management, and efficiency platforms for commercial and residential buildings.</p>
       </div>
     </div>
   </section>
 
-  <!-- ========== THESIS ========== -->
-  <section class="thesis section" id="thesis">
-    <div class="container">
-      <div class="thesis-grid">
-        <div>
-          <p class="thesis-label fade-up">Our Thesis</p>
-          <h2 class="fade-up delay-1">Water is entering its most transformative era</h2>
-          <div class="thesis-text fade-up delay-2">
-            <p>The systems that have delivered and treated water for over a century are reaching their limits. New demands from industry, agriculture, and growing populations require fundamentally different approaches.</p>
-            <p>We see a future of distributed treatment, intelligent water grids, industrial-scale reuse, and buildings that actively manage their own water. New business models and infrastructure are emerging to serve every person and every business in ways that centralized systems alone cannot.</p>
-            <p>Beyond Utility Water Ventures invests at the earliest stages in the companies making this future a reality. We target pre-seed and seed globally, focused on the areas we believe will see the fastest growth in the next decade.</p>
-          </div>
-        </div>
-        <div>
-          <div class="thesis-highlight fade-up delay-2">
-            <p>Access to more water, like access to more energy, is foundational to human prosperity. Greater water access improves life expectancy, food supply, sanitation, and quality of life.</p>
-            <p style="margin-top:16px;">We believe the technologies enabling greater access and efficiency will define the next generation of water infrastructure.</p>
-            <p class="attribution">The secondary meaning of <em>Beyond Utility</em></p>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div class="divider"></div>
+
+  <section class="pitch" id="pitch">
+    <h2 class="fade-in">Tell us your story</h2>
+    <p class="fade-in d1">Skip the cold email. Record a short video about yourself, your team, and the problem you're solving.</p>
+    <a href="#" class="btn fade-in d2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
+      Record Your Video Pitch
+    </a>
+    <p class="pitch-note fade-in d3">2-3 minutes. We review every submission.</p>
   </section>
 
-  <!-- ========== FOCUS AREAS ========== -->
-  <section class="focus section" id="focus">
-    <div class="container">
-      <div class="focus-header">
-        <p class="focus-label fade-up">Investment Focus</p>
-        <h2 class="fade-up delay-1">Where we invest</h2>
-        <p class="focus-subtitle fade-up delay-2">Technologies and business models emerging in the fastest-growing areas of the water sector.</p>
-      </div>
-
-      <div class="focus-grid">
-        <div class="focus-card fade-up">
-          <div class="focus-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-          </div>
-          <h3>Distributed & Hybrid Infrastructure</h3>
-          <p>Technologies enabling the shift from purely centralized systems to hybrid water grids with distributed treatment, storage, and delivery closer to the point of use.</p>
-        </div>
-
-        <div class="focus-card fade-up delay-1">
-          <div class="focus-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-          </div>
-          <h3>Industrial Water Treatment & Reuse</h3>
-          <p>Expanded treatment capabilities for industrial users who need greater resilience, efficiency, and water reuse to control their own water supply and manage costs.</p>
-        </div>
-
-        <div class="focus-card fade-up delay-2">
-          <div class="focus-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-          </div>
-          <h3>Commercial & Residential Water Intelligence</h3>
-          <p>Platforms and devices bringing awareness, efficiency, and active water management to commercial buildings and homes, from monitoring to on-site reuse.</p>
-        </div>
-      </div>
-
-      <div class="focus-meta fade-up">
-        <div class="focus-meta-items">
-          <div class="focus-meta-item">
-            <p class="label">Stage</p>
-            <p class="value">Pre-Seed & Seed</p>
-          </div>
-          <div class="focus-meta-item">
-            <p class="label">Geography</p>
-            <p class="value">Global</p>
-          </div>
-          <div class="focus-meta-item">
-            <p class="label">Sector</p>
-            <p class="value">Water Technology</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== FOUNDER SUPPORT ========== -->
-  <section class="support section" id="support">
-    <div class="container">
-      <div class="support-header">
-        <p class="support-label fade-up">For Founders</p>
-        <h2 class="fade-up delay-1">How we support our portfolio</h2>
-      </div>
-
-      <div class="support-grid">
-        <div class="support-card fade-up">
-          <div class="support-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-          </div>
-          <h3>Water Industry Network</h3>
-          <p>Direct access to a deep network of utilities, regulators, and water sector decision-makers built over years of operating in the industry. We open doors to the customers and partners that matter most.</p>
-        </div>
-
-        <div class="support-card fade-up delay-1">
-          <div class="support-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-          </div>
-          <h3>Business Development</h3>
-          <p>Hands-on help navigating the water sector's unique sales cycles. We help founders build go-to-market strategies, structure pilot programs, and convert early traction into sustainable revenue.</p>
-        </div>
-
-        <div class="support-card fade-up delay-2">
-          <div class="support-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-          </div>
-          <h3>Regulatory & Policy Guidance</h3>
-          <p>The water sector is heavily regulated and varies by geography. We provide guidance on navigating regulatory landscapes and positioning products within existing and emerging policy frameworks.</p>
-        </div>
-
-        <div class="support-card fade-up delay-3">
-          <div class="support-card-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
-          </div>
-          <h3>Corporate & LP Partnerships</h3>
-          <p>Our LP base includes deep experts and thought leaders in the water space. We connect portfolio companies with these strategic partners for technology validation, distribution, and co-development opportunities.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== PITCH CTA ========== -->
-  <section class="pitch section" id="pitch">
-    <div class="container">
-      <div class="pitch-content">
-        <p class="pitch-label fade-up">Get Funded</p>
-        <h2 class="fade-up delay-1">Tell us your story</h2>
-        <p class="pitch-sub fade-up delay-2">Skip the cold email. Record a short video telling us about yourself, your team, and the problem you're solving. We review every submission.</p>
-        <div class="fade-up delay-3">
-          <a href="#" class="pitch-video-cta" id="pitchCta">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
-            Record Your Video Pitch
-          </a>
-          <p class="pitch-note">2-3 minutes is all we need. We'll be in touch within two weeks.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== FOOTER ========== -->
   <footer class="footer">
-    <div class="container footer-inner">
-      <div class="footer-brand">Beyond Utility <span>Water Ventures</span></div>
-      <div class="footer-links">
-        <a href="mailto:hello@beyondutilityventures.com" class="footer-link">Contact</a>
-        <a href="https://linkedin.com" target="_blank" rel="noopener" class="footer-link">LinkedIn</a>
-        <span class="footer-copy">&copy; 2026</span>
-      </div>
+    <span class="footer-left">&copy; 2026 Beyond Utility Water Ventures</span>
+    <div class="footer-right">
+      <a href="mailto:hello@beyondutilityventures.com">hello@beyondutilityventures.com</a>
+      <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn</a>
     </div>
   </footer>
 
-  <!-- ========== JS ========== -->
   <script>
-    // Scroll-triggered nav background
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 60);
-    });
-
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const navLinks = document.getElementById('navLinks');
-    mobileMenuBtn.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
-    });
-
-    // Close mobile menu on link click
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-      });
-    });
-
-    // Scroll-triggered fade-in animations
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, {
-      threshold: 0.15,
-      rootMargin: '0px 0px -40px 0px'
-    });
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          const offset = 80;
-          const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
-          window.scrollTo({ top, behavior: 'smooth' });
-        }
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
   </script>

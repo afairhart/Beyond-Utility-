@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Investment Model — Beyond Utility Water Ventures</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata@2.3.0/dist/chartjs-plugin-dragdata.min.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #080E1A;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-hover: rgba(255, 255, 255, 0.12);
+      --blue: #4B7BF5;
+      --blue-light: #7BA1F7;
+      --blue-dim: rgba(75, 123, 245, 0.15);
+      --gold: #D4A84B;
+      --gold-dark: #B8903D;
+      --green: #34D399;
+      --green-dim: rgba(52, 211, 153, 0.12);
+      --red: #F87171;
+      --red-dim: rgba(248, 113, 113, 0.12);
+      --text: rgba(255, 255, 255, 0.88);
+      --text-dim: rgba(255, 255, 255, 0.45);
+      --text-muted: rgba(255, 255, 255, 0.3);
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      padding: 28px 40px;
+      padding-top: calc(28px + env(safe-area-inset-top));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-back {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border: 1px solid var(--border-hover);
+      border-radius: 5px;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-back:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    .nav-logout {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border: 1px solid var(--border-hover);
+      border-radius: 5px;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-logout:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    /* ── PAGE LAYOUT ── */
+    .page {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 40px 60px;
+      width: 100%;
+    }
+
+    .page-header {
+      margin-bottom: 32px;
+    }
+
+    .page-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .page-header p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      max-width: 680px;
+    }
+
+    /* ── METRICS ROW ── */
+    .metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .metric-card {
+      padding: 20px 24px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .metric-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .metric-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .metric-value.positive { color: var(--green); }
+    .metric-value.gold { color: var(--gold); }
+
+    /* ── GRID LAYOUT ── */
+    .model-grid {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      padding: 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+
+    /* ── CHART ── */
+    .chart-wrapper {
+      position: relative;
+      height: 320px;
+      margin-bottom: 8px;
+    }
+
+    .chart-actions {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 12px;
+    }
+
+    .btn-reset {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      background: none;
+      border: 1px solid var(--border-hover);
+      border-radius: 5px;
+      padding: 6px 14px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .btn-reset:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    /* ── CONTROLS PANEL ── */
+    .controls-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .control-section {
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .control-section-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .control-group {
+      margin-bottom: 14px;
+    }
+
+    .control-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .control-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+
+    .control-label .value {
+      color: var(--text);
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--blue);
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--bg);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      background: var(--blue);
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid var(--bg);
+    }
+
+    /* ── COMPUTED SECTION ── */
+    .computed-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 0.8rem;
+    }
+
+    .computed-row .label { color: var(--text-dim); }
+    .computed-row .val { color: var(--text); font-weight: 500; }
+
+    .computed-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    /* ── CASHFLOWS ── */
+    .cashflows-list {
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .cashflows-list::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .cashflows-list::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .cashflows-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+    }
+
+    .cf-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      padding: 4px 0;
+    }
+
+    .cf-row .year { color: var(--text-dim); }
+    .cf-row .amount { font-weight: 500; }
+    .cf-row .amount.negative { color: var(--red); }
+    .cf-row .amount.positive { color: var(--green); }
+
+    /* ── DEAL LIST ── */
+    .deals-section {
+      margin-top: 0;
+    }
+
+    .deals-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .deal-card {
+      padding: 16px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.2s;
+    }
+
+    .deal-card.inactive {
+      opacity: 0.4;
+    }
+
+    .deal-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .deal-number {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .deal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .deal-row-label {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    .deal-multiple-input {
+      width: 72px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-hover);
+      border-radius: 5px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 5px 10px;
+      text-align: right;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .deal-multiple-input:focus {
+      border-color: var(--blue);
+    }
+
+    /* ── TOGGLE SWITCH ── */
+    .toggle {
+      position: relative;
+      display: inline-block;
+      width: 36px;
+      height: 20px;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      transition: background 0.2s;
+    }
+
+    .toggle-slider::before {
+      content: '';
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      left: 3px;
+      bottom: 3px;
+      background: #fff;
+      border-radius: 50%;
+      transition: transform 0.2s;
+    }
+
+    .toggle input:checked + .toggle-slider {
+      background: var(--blue);
+    }
+
+    .toggle input:checked + .toggle-slider::before {
+      transform: translateX(16px);
+    }
+
+    .toggle input:disabled + .toggle-slider {
+      opacity: 0.3;
+      cursor: default;
+    }
+
+    .deal-meta {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    /* ── ASSUMPTIONS ── */
+    .assumptions-card {
+      margin-top: 28px;
+    }
+
+    .assumptions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .assumption-item {
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .assumption-item h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--gold);
+    }
+
+    .assumption-item p {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 32px 40px;
+      display: flex;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .model-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .metrics-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav { padding: 14px 16px; padding-top: calc(14px + env(safe-area-inset-top)); }
+      .nav-logo { font-size: 0.85rem; }
+      .page { padding: 24px 16px 40px; }
+      .page-header h1 { font-size: 1.5rem; }
+      .card { padding: 20px 16px; }
+      .metrics-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .metric-card { padding: 14px 16px; }
+      .metric-value { font-size: 1.25rem; }
+      .deals-grid { grid-template-columns: 1fr; }
+      .chart-wrapper { height: 240px; }
+      .footer { padding: 24px 16px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo">Beyond Utility <span>Water Ventures</span></a>
+      <a href="dashboard.html" class="nav-back">&larr; Dashboard</a>
+    </div>
+    <a href="#" class="nav-logout" id="logoutBtn">Log Out</a>
+  </nav>
+
+  <main class="page">
+    <div class="page-header">
+      <h1>Fund Investment Model</h1>
+      <p>Interactive model showing projected fund outcomes across 10&ndash;20 portfolio investments with pre-seed initial checks and strategic follow-on allocation. Drag the chart bars or edit deal multiples directly to stress-test scenarios.</p>
+    </div>
+
+    <!-- Top-level metrics -->
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-label">Total Invested</div>
+        <div class="metric-value" id="metricInvested">—</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Total Returned</div>
+        <div class="metric-value positive" id="metricReturned">—</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">MOIC</div>
+        <div class="metric-value gold" id="metricMoic">—</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Net IRR (fees incl.)</div>
+        <div class="metric-value gold" id="metricIrr">—</div>
+      </div>
+    </div>
+
+    <!-- Chart + Controls -->
+    <div class="model-grid">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
+          <div>
+            <div class="card-title">Outcome Map</div>
+            <div class="card-subtitle">Drag bars up/down to adjust deal multiples, or edit in the deal list below.</div>
+          </div>
+          <div class="chart-actions" style="margin:0;">
+            <button class="btn-reset" id="resetBtn">Reset Defaults</button>
+          </div>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="outcomeChart"></canvas>
+        </div>
+      </div>
+
+      <div class="controls-panel">
+        <!-- Fund Parameters -->
+        <div class="control-section">
+          <div class="control-section-title">Fund Parameters</div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Number of Investments</span><span class="value" id="valNum">15</span></div>
+            <input type="range" id="sliderNum" min="10" max="20" step="1" value="15">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Fund Size</span><span class="value" id="valFundSize">$12.5M</span></div>
+            <input type="range" id="sliderFundSize" min="5000000" max="25000000" step="500000" value="12500000">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Mgmt Fee % / Year</span><span class="value" id="valFee">2.0%</span></div>
+            <input type="range" id="sliderFee" min="0" max="0.03" step="0.0025" value="0.02">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Fund Life (Years)</span><span class="value" id="valLife">10</span></div>
+            <input type="range" id="sliderLife" min="5" max="15" step="1" value="10">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Exit Year</span><span class="value" id="valExit">10</span></div>
+            <input type="range" id="sliderExit" min="3" max="15" step="1" value="10">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Follow-On Year</span><span class="value" id="valFollowYear">2</span></div>
+            <input type="range" id="sliderFollowYear" min="1" max="5" step="1" value="2">
+          </div>
+        </div>
+
+        <!-- Allocation -->
+        <div class="control-section">
+          <div class="control-section-title">Capital Allocation</div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Initial Check Size</span><span class="value" id="valCheck">$400k</span></div>
+            <input type="range" id="sliderCheck" min="100000" max="1000000" step="25000" value="400000">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Initial Allocation %</span><span class="value" id="valInitPct">50%</span></div>
+            <input type="range" id="sliderInitPct" min="0.3" max="0.8" step="0.05" value="0.5">
+          </div>
+
+          <div class="control-group">
+            <div class="control-label"><span>Follow-On / Winner</span><span class="value" id="valFollowAmt">$1.5M</span></div>
+            <input type="range" id="sliderFollowAmt" min="250000" max="3000000" step="50000" value="1500000">
+          </div>
+        </div>
+
+        <!-- Computed -->
+        <div class="control-section">
+          <div class="control-section-title">Computed Breakdown</div>
+          <div class="computed-row"><span class="label">Total Fees (over life)</span><span class="val" id="compFees">—</span></div>
+          <div class="computed-row"><span class="label">Investable Capital</span><span class="val" id="compInvestable">—</span></div>
+          <div class="computed-divider"></div>
+          <div class="computed-row"><span class="label">Active Deals</span><span class="val" id="compActive">—</span></div>
+          <div class="computed-row"><span class="label">Follow-On Deals</span><span class="val" id="compFollow">—</span></div>
+          <div class="computed-row"><span class="label">Initial / Deal</span><span class="val" id="compInitDeal">—</span></div>
+          <div class="computed-row"><span class="label">Follow-On / Deal</span><span class="val" id="compFollowDeal">—</span></div>
+        </div>
+
+        <!-- Cashflows -->
+        <div class="control-section">
+          <div class="control-section-title">Annual Cashflows</div>
+          <div class="cashflows-list" id="cashflowsList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deal List -->
+    <div class="card deals-section">
+      <div class="deals-header">
+        <div>
+          <div class="card-title">Deal List</div>
+          <div class="card-subtitle">Toggle active status and follow-on participation per deal. Edit multiples directly.</div>
+        </div>
+        <div style="font-size:0.75rem;color:var(--text-dim);">Pre-seed + Follow-on</div>
+      </div>
+      <div class="deals-grid" id="dealsGrid"></div>
+    </div>
+
+    <!-- Key Assumptions -->
+    <div class="card assumptions-card">
+      <div class="card-title" style="margin-bottom:16px;">Key Assumptions &amp; Methodology</div>
+      <div class="assumptions-grid">
+        <div class="assumption-item">
+          <h4>Fund Structure</h4>
+          <p>$12.5M target fund. 2% annual management fee over a 10-year fund life. 20% carried interest above a preferred return (not modeled in the base IRR).</p>
+        </div>
+        <div class="assumption-item">
+          <h4>Investment Strategy</h4>
+          <p>Pre-seed checks into 10&ndash;20 water technology companies. ~50% of capital reserved for initial deployment, ~50% reserved for follow-on into the strongest performers.</p>
+        </div>
+        <div class="assumption-item">
+          <h4>Follow-On Approach</h4>
+          <p>Up to 3&ndash;5 companies receive follow-on capital at the Seed or Series A stage (modeled at Year 2). Follow-on is reserved for companies demonstrating product-market fit and revenue traction.</p>
+        </div>
+        <div class="assumption-item">
+          <h4>Exit Assumptions</h4>
+          <p>All exits modeled at a single exit year (default Year 10) for simplicity. In practice, exits will be staggered via M&amp;A, secondary sales, or IPO across years 5&ndash;12.</p>
+        </div>
+        <div class="assumption-item">
+          <h4>Outcome Distribution</h4>
+          <p>Default multiples follow a power-law pattern: a few outsized winners (25&ndash;40x), a tier of strong performers (10&ndash;15x), and a tail of moderate-to-low returns. Drag the chart to model alternative scenarios.</p>
+        </div>
+        <div class="assumption-item">
+          <h4>IRR Methodology</h4>
+          <p>Net IRR is computed using Newton-Raphson with bisection fallback over annual cashflows. Fee drag is included as annual cash outflows. The IRR reflects the LP's time-value-adjusted return.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>&copy; 2026 Beyond Utility Water Ventures</span>
+  </footer>
+
+  <script>
+    // ── Auth guard ──
+    if (sessionStorage.getItem('buAuth') !== '1') {
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      sessionStorage.removeItem('buAuth');
+      window.location.href = 'index.html';
+    });
+
+    // ── Utilities ──
+    function clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+
+    function fmtMoney(x) {
+      var abs = Math.abs(x);
+      var sign = x < 0 ? '-' : '';
+      if (abs >= 1e9) return sign + '$' + (abs / 1e9).toFixed(2) + 'B';
+      if (abs >= 1e6) return sign + '$' + (abs / 1e6).toFixed(2) + 'M';
+      if (abs >= 1e3) return sign + '$' + (abs / 1e3).toFixed(1) + 'k';
+      return sign + '$' + abs.toFixed(0);
+    }
+
+    function fmtPct(x) {
+      if (x == null || !Number.isFinite(x)) return '\u2014';
+      return (x * 100).toFixed(1) + '%';
+    }
+
+    // ── IRR Solver ──
+    function npv(rate, cfs) {
+      var v = 0;
+      for (var i = 0; i < cfs.length; i++) {
+        v += cfs[i].cf / Math.pow(1 + rate, cfs[i].t);
+      }
+      return v;
+    }
+
+    function dNpv(rate, cfs) {
+      var v = 0;
+      for (var i = 0; i < cfs.length; i++) {
+        if (cfs[i].t === 0) continue;
+        v += (-cfs[i].t * cfs[i].cf) / Math.pow(1 + rate, cfs[i].t + 1);
+      }
+      return v;
+    }
+
+    function solveIrr(cfs) {
+      var minR = -0.9, maxR = 5;
+      var fMin = npv(minR, cfs);
+      var fMax = npv(maxR, cfs);
+      if (!Number.isFinite(fMin) || !Number.isFinite(fMax)) return null;
+      if (fMin === 0) return minR;
+      if (fMax === 0) return maxR;
+      if (fMin * fMax > 0) return null;
+
+      // Newton
+      var r = 0.3;
+      for (var i = 0; i < 30; i++) {
+        var f = npv(r, cfs);
+        var df = dNpv(r, cfs);
+        if (!Number.isFinite(f) || !Number.isFinite(df) || df === 0) break;
+        var step = f / df;
+        var next = r - step;
+        if (Math.abs(step) < 1e-10) return clamp(next, minR, maxR);
+        r = clamp(next, minR, maxR);
+      }
+
+      // Bisection fallback
+      var lo = minR, hi = maxR;
+      var flo = fMin, fhi = fMax;
+      for (var i = 0; i < 120; i++) {
+        var mid = (lo + hi) / 2;
+        var fmid = npv(mid, cfs);
+        if (!Number.isFinite(fmid)) return null;
+        if (Math.abs(fmid) < 1e-10) return mid;
+        if (flo * fmid <= 0) { hi = mid; fhi = fmid; }
+        else { lo = mid; flo = fmid; }
+      }
+      return (lo + hi) / 2;
+    }
+
+    // ── Default deal multiples ──
+    var BASE_MULTIPLES = [40, 25, 25, 15, 15, 15, 10, 10, 5, 5, 3, 3, 2, 2, 1, 1, 0.5, 0.5, 0.5, 0.5];
+
+    function makeDeals(n) {
+      var arr = [];
+      for (var i = 0; i < n; i++) {
+        arr.push({
+          id: i + 1,
+          active: true,
+          multiple: BASE_MULTIPLES[i] !== undefined ? BASE_MULTIPLES[i] : 5,
+          followOn: i < Math.min(5, n)
+        });
+      }
+      return arr;
+    }
+
+    // ── State ──
+    var state = {
+      fundSize: 12500000,
+      mgmtFeePct: 0.02,
+      fundLifeYears: 10,
+      exitYear: 10,
+      followOnYear: 2,
+      numInvestments: 15,
+      initialCheck: 400000,
+      initialAllocationPct: 0.5,
+      followOnPerWinner: 1500000,
+      deals: makeDeals(15)
+    };
+
+    // ── Chart setup ──
+    var ctx = document.getElementById('outcomeChart').getContext('2d');
+    var chart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: state.deals.map(function(d) { return '#' + d.id; }),
+        datasets: [{
+          label: 'Outcome Multiple',
+          data: state.deals.map(function(d) { return d.multiple; }),
+          backgroundColor: state.deals.map(function(d) {
+            if (!d.active) return 'rgba(255,255,255,0.05)';
+            if (d.followOn) return 'rgba(75, 123, 245, 0.7)';
+            return 'rgba(212, 168, 75, 0.6)';
+          }),
+          borderColor: state.deals.map(function(d) {
+            if (!d.active) return 'rgba(255,255,255,0.1)';
+            if (d.followOn) return 'rgba(75, 123, 245, 1)';
+            return 'rgba(212, 168, 75, 1)';
+          }),
+          borderWidth: 1,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 200 },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(8, 14, 26, 0.95)',
+            borderColor: 'rgba(255,255,255,0.1)',
+            borderWidth: 1,
+            titleFont: { family: 'Outfit', weight: '600' },
+            bodyFont: { family: 'Inter' },
+            callbacks: {
+              label: function(ctx) {
+                var deal = state.deals[ctx.dataIndex];
+                if (!deal) return '';
+                var flags = deal.active ? 'Active' : 'Inactive';
+                if (deal.followOn) flags += ', Follow-on';
+                return ctx.parsed.y + 'x (' + flags + ')';
+              }
+            }
+          },
+          dragData: {
+            round: 1,
+            showTooltip: true,
+            onDragStart: function() { return true; },
+            onDrag: function(e, datasetIndex, index, value) {
+              return clamp(value, 0, 50);
+            },
+            onDragEnd: function(e, datasetIndex, index, value) {
+              state.deals[index].multiple = clamp(Math.round(value * 10) / 10, 0, 50);
+              recalculate();
+              renderDeals();
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: {
+              color: 'rgba(255,255,255,0.35)',
+              font: { family: 'Inter', size: 11 }
+            }
+          },
+          y: {
+            min: 0,
+            max: 50,
+            grid: {
+              color: 'rgba(255,255,255,0.04)'
+            },
+            ticks: {
+              color: 'rgba(255,255,255,0.35)',
+              font: { family: 'Inter', size: 11 },
+              callback: function(v) { return v + 'x'; }
+            }
+          }
+        }
+      }
+    });
+
+    // ── Recalculate ──
+    function recalculate() {
+      var s = state;
+      var totalFees = s.fundSize * s.mgmtFeePct * s.fundLifeYears;
+      var investable = s.fundSize - totalFees;
+      var activeDeals = s.deals.filter(function(d) { return d.active; });
+      var initialPool = investable * s.initialAllocationPct;
+      var initialPerDeal = activeDeals.length > 0 ? Math.min(s.initialCheck, initialPool / activeDeals.length) : 0;
+      var initialInvested = initialPerDeal * activeDeals.length;
+      var followPool = investable - initialInvested;
+      var followDeals = activeDeals.filter(function(d) { return d.followOn; });
+      var followPerDeal = followDeals.length > 0 ? Math.min(s.followOnPerWinner, followPool / followDeals.length) : 0;
+      var followInvested = followPerDeal * followDeals.length;
+
+      var perDeal = activeDeals.map(function(d) {
+        var invested = initialPerDeal + (d.followOn ? followPerDeal : 0);
+        var returned = invested * d.multiple;
+        return { id: d.id, invested: invested, returned: returned };
+      });
+
+      var totalInvested = initialInvested + followInvested;
+      var totalReturned = 0;
+      for (var i = 0; i < perDeal.length; i++) totalReturned += perDeal[i].returned;
+      var moic = totalInvested > 0 ? totalReturned / totalInvested : null;
+
+      // Cashflows
+      var byYear = {};
+      byYear[0] = (byYear[0] || 0) - initialInvested;
+      for (var y = 1; y <= s.fundLifeYears; y++) {
+        byYear[y] = (byYear[y] || 0) - (s.fundSize * s.mgmtFeePct);
+      }
+      if (followInvested > 0) {
+        byYear[s.followOnYear] = (byYear[s.followOnYear] || 0) - followInvested;
+      }
+      byYear[s.exitYear] = (byYear[s.exitYear] || 0) + totalReturned;
+
+      var cashflows = [];
+      for (var key in byYear) {
+        cashflows.push({ t: parseInt(key), cf: byYear[key] });
+      }
+      cashflows.sort(function(a, b) { return a.t - b.t; });
+      var netIrr = solveIrr(cashflows);
+
+      // Update DOM
+      document.getElementById('metricInvested').textContent = fmtMoney(totalInvested);
+      document.getElementById('metricReturned').textContent = fmtMoney(totalReturned);
+      document.getElementById('metricMoic').textContent = moic ? moic.toFixed(2) + 'x' : '\u2014';
+      document.getElementById('metricIrr').textContent = fmtPct(netIrr);
+
+      document.getElementById('compFees').textContent = fmtMoney(totalFees);
+      document.getElementById('compInvestable').textContent = fmtMoney(investable);
+      document.getElementById('compActive').textContent = activeDeals.length;
+      document.getElementById('compFollow').textContent = followDeals.length;
+      document.getElementById('compInitDeal').textContent = fmtMoney(initialPerDeal);
+      document.getElementById('compFollowDeal').textContent = fmtMoney(followPerDeal);
+
+      // Cashflows list
+      var cfHtml = '';
+      for (var i = 0; i < cashflows.length; i++) {
+        var c = cashflows[i];
+        var cls = c.cf < 0 ? 'negative' : 'positive';
+        cfHtml += '<div class="cf-row"><span class="year">Year ' + c.t + '</span><span class="amount ' + cls + '">' + fmtMoney(c.cf) + '</span></div>';
+      }
+      document.getElementById('cashflowsList').innerHTML = cfHtml;
+
+      // Update chart
+      chart.data.labels = s.deals.map(function(d) { return '#' + d.id; });
+      chart.data.datasets[0].data = s.deals.map(function(d) { return d.multiple; });
+      chart.data.datasets[0].backgroundColor = s.deals.map(function(d) {
+        if (!d.active) return 'rgba(255,255,255,0.05)';
+        if (d.followOn) return 'rgba(75, 123, 245, 0.7)';
+        return 'rgba(212, 168, 75, 0.6)';
+      });
+      chart.data.datasets[0].borderColor = s.deals.map(function(d) {
+        if (!d.active) return 'rgba(255,255,255,0.1)';
+        if (d.followOn) return 'rgba(75, 123, 245, 1)';
+        return 'rgba(212, 168, 75, 1)';
+      });
+      chart.update('none');
+
+      // Store perDeal for deal cards
+      state._perDeal = {};
+      for (var i = 0; i < perDeal.length; i++) {
+        state._perDeal[perDeal[i].id] = perDeal[i];
+      }
+    }
+
+    // ── Render Deals Grid ──
+    function renderDeals() {
+      var html = '';
+      for (var i = 0; i < state.deals.length; i++) {
+        var d = state.deals[i];
+        var pd = state._perDeal && state._perDeal[d.id];
+        var invested = pd ? fmtMoney(pd.invested) : '$0';
+        var returned = pd ? fmtMoney(pd.returned) : '$0';
+        var inactiveClass = d.active ? '' : ' inactive';
+
+        html += '<div class="deal-card' + inactiveClass + '" data-deal="' + d.id + '">';
+        html += '  <div class="deal-card-header">';
+        html += '    <span class="deal-number">#' + d.id + '</span>';
+        html += '    <label class="toggle"><input type="checkbox" data-toggle="active" data-deal-id="' + d.id + '"' + (d.active ? ' checked' : '') + '><span class="toggle-slider"></span></label>';
+        html += '  </div>';
+        html += '  <div class="deal-row">';
+        html += '    <span class="deal-row-label">Multiple</span>';
+        html += '    <input type="number" class="deal-multiple-input" data-deal-id="' + d.id + '" value="' + d.multiple + '" min="0" max="50" step="0.5">';
+        html += '  </div>';
+        html += '  <div class="deal-row">';
+        html += '    <span class="deal-row-label">Follow-on</span>';
+        html += '    <label class="toggle"><input type="checkbox" data-toggle="followOn" data-deal-id="' + d.id + '"' + (d.followOn ? ' checked' : '') + (d.active ? '' : ' disabled') + '><span class="toggle-slider"></span></label>';
+        html += '  </div>';
+        html += '  <div class="deal-meta">Invested: ' + invested + ' &middot; Returned: ' + returned + '</div>';
+        html += '</div>';
+      }
+      document.getElementById('dealsGrid').innerHTML = html;
+
+      // Attach event listeners
+      document.querySelectorAll('[data-toggle="active"]').forEach(function(el) {
+        el.addEventListener('change', function() {
+          var id = parseInt(this.getAttribute('data-deal-id'));
+          var deal = state.deals.find(function(d) { return d.id === id; });
+          if (deal) { deal.active = this.checked; }
+          recalculate();
+          renderDeals();
+        });
+      });
+
+      document.querySelectorAll('[data-toggle="followOn"]').forEach(function(el) {
+        el.addEventListener('change', function() {
+          var id = parseInt(this.getAttribute('data-deal-id'));
+          var deal = state.deals.find(function(d) { return d.id === id; });
+          if (deal) { deal.followOn = this.checked; }
+          recalculate();
+          renderDeals();
+        });
+      });
+
+      document.querySelectorAll('.deal-multiple-input').forEach(function(el) {
+        el.addEventListener('input', function() {
+          var id = parseInt(this.getAttribute('data-deal-id'));
+          var val = parseFloat(this.value) || 0;
+          val = clamp(val, 0, 50);
+          var deal = state.deals.find(function(d) { return d.id === id; });
+          if (deal) { deal.multiple = val; }
+          recalculate();
+        });
+        // Re-render full deal list on blur so invested/returned update
+        el.addEventListener('blur', function() {
+          renderDeals();
+        });
+      });
+    }
+
+    // ── Slider Bindings ──
+    function bindSlider(sliderId, valueId, stateKey, formatter, onChange) {
+      var slider = document.getElementById(sliderId);
+      var display = document.getElementById(valueId);
+      slider.addEventListener('input', function() {
+        var val = parseFloat(this.value);
+        state[stateKey] = val;
+        display.textContent = formatter(val);
+        if (onChange) onChange(val);
+        recalculate();
+        renderDeals();
+      });
+    }
+
+    bindSlider('sliderNum', 'valNum', 'numInvestments', function(v) { return v; }, function(v) {
+      // Resize deals array
+      var n = Math.round(v);
+      state.numInvestments = n;
+      if (state.deals.length < n) {
+        var defaults = makeDeals(n);
+        for (var i = state.deals.length; i < n; i++) {
+          state.deals.push(defaults[i]);
+        }
+      } else if (state.deals.length > n) {
+        state.deals = state.deals.slice(0, n);
+      }
+    });
+
+    bindSlider('sliderFundSize', 'valFundSize', 'fundSize', function(v) { return fmtMoney(v); });
+    bindSlider('sliderFee', 'valFee', 'mgmtFeePct', function(v) { return (v * 100).toFixed(1) + '%'; });
+    bindSlider('sliderLife', 'valLife', 'fundLifeYears', function(v) { return v; });
+    bindSlider('sliderExit', 'valExit', 'exitYear', function(v) { return v; });
+    bindSlider('sliderFollowYear', 'valFollowYear', 'followOnYear', function(v) { return v; });
+    bindSlider('sliderCheck', 'valCheck', 'initialCheck', function(v) { return fmtMoney(v); });
+    bindSlider('sliderInitPct', 'valInitPct', 'initialAllocationPct', function(v) { return Math.round(v * 100) + '%'; });
+    bindSlider('sliderFollowAmt', 'valFollowAmt', 'followOnPerWinner', function(v) { return fmtMoney(v); });
+
+    // ── Reset ──
+    document.getElementById('resetBtn').addEventListener('click', function() {
+      state.deals = makeDeals(state.numInvestments);
+      recalculate();
+      renderDeals();
+    });
+
+    // ── Initial render ──
+    recalculate();
+    renderDeals();
+  </script>
+
+</body>
+</html>

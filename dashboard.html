@@ -120,6 +120,33 @@
       line-height: 1.6;
     }
 
+    .dashboard-card-link {
+      text-decoration: none;
+      color: #fff;
+      display: block;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+      position: relative;
+    }
+
+    .dashboard-card-link:hover {
+      border-color: rgba(75, 123, 245, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .dashboard-card-link:hover .card-arrow {
+      color: var(--blue-light);
+      transform: translateX(4px);
+    }
+
+    .card-arrow {
+      display: block;
+      margin-top: 14px;
+      font-size: 1.1rem;
+      color: var(--blue);
+      transition: color 0.2s, transform 0.2s;
+    }
+
     .tag {
       display: inline-block;
       font-size: 0.65rem;
@@ -167,11 +194,12 @@
       <p>Welcome back. Here's the latest on the fund.</p>
     </div>
 
-    <div class="dashboard-card">
+    <a href="investment-model.html" class="dashboard-card dashboard-card-link">
       <span class="tag">Fund Overview</span>
-      <h2>Beyond Utility Water Ventures Fund I</h2>
-      <p>This section will be updated with current fund performance, deployment status, and key metrics. Check back soon for detailed reporting.</p>
-    </div>
+      <h2>Fund Investment Model</h2>
+      <p>Interactive model showing projected fund outcomes across 10&ndash;20 portfolio investments. View assumptions, drag to adjust deal multiples, and stress-test scenarios.</p>
+      <span class="card-arrow">&rarr;</span>
+    </a>
 
     <div class="dashboard-card">
       <span class="tag">Portfolio</span>

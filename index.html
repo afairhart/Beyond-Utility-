@@ -129,10 +129,13 @@
       background: var(--gold);
       color: var(--bg);
       padding: 14px 28px;
+      border: none;
       border-radius: 6px;
+      font-family: inherit;
       font-size: 0.9rem;
       font-weight: 600;
       text-decoration: none;
+      cursor: pointer;
       transition: background 0.2s, transform 0.2s;
     }
 
@@ -263,6 +266,52 @@
 
     .footer-right a:hover { color: var(--gold); }
 
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      position: relative;
+      width: 90%;
+      max-width: 640px;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+
+    .modal-close:hover { color: #fff; }
+
+    .modal iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 24px;
+    }
+
+    @media (max-width: 640px) {
+      .modal iframe { height: 70vh; }
+    }
+
     /* ── ANIMATIONS ── */
     .fade-in {
       opacity: 0;
@@ -297,10 +346,10 @@
   <section class="hero">
     <h1 class="fade-in">Investing in the <em>new water economy</em></h1>
     <p class="hero-sub fade-in d1">Pre-seed and seed capital for the technologies and business models reshaping water infrastructure globally.</p>
-    <a href="#pitch" class="btn fade-in d2">
+    <button class="btn fade-in d2" onclick="document.getElementById('videoask-modal').classList.add('open')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
       Share Your Story
-    </a>
+    </button>
   </section>
 
   <div class="divider"></div>
@@ -331,12 +380,19 @@
   <section class="pitch" id="pitch">
     <h2 class="fade-in">Tell us your story</h2>
     <p class="pitch-sub fade-in d1">Record a short video about yourself, your team, and the problem you're solving.</p>
-    <a href="#" class="btn fade-in d2">
+    <button class="btn fade-in d2" onclick="document.getElementById('videoask-modal').classList.add('open')">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
       Record Your Video Pitch
-    </a>
+    </button>
     <p class="pitch-note fade-in d3">2-3 minutes. We review every submission.</p>
   </section>
+
+  <div class="modal-overlay" id="videoask-modal">
+    <div class="modal">
+      <button class="modal-close" onclick="document.getElementById('videoask-modal').classList.remove('open')">&times;</button>
+      <iframe src="https://www.videoask.com/fxwqt6dkl" allow="camera *; microphone *; autoplay *; encrypted-media *; fullscreen *; display-capture *;"></iframe>
+    </div>
+  </div>
 
   <footer class="footer">
     <span class="footer-left">&copy; 2026 Beyond Utility Water Ventures</span>
@@ -359,6 +415,10 @@
         const t = document.querySelector(a.getAttribute('href'));
         if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
+    });
+
+    document.getElementById('videoask-modal').addEventListener('click', e => {
+      if (e.target === e.currentTarget) e.target.classList.remove('open');
     });
   </script>
 

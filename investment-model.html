@@ -27,6 +27,7 @@
       --green-dim: rgba(52, 211, 153, 0.12);
       --red: #F87171;
       --red-dim: rgba(248, 113, 113, 0.12);
+      --orange: #FBBF24;
       --text: rgba(255, 255, 255, 0.88);
       --text-dim: rgba(255, 255, 255, 0.45);
       --text-muted: rgba(255, 255, 255, 0.3);
@@ -54,11 +55,7 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .nav-left {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
+    .nav-left { display: flex; align-items: center; gap: 20px; }
 
     .nav-logo {
       font-family: 'Outfit', sans-serif;
@@ -70,7 +67,7 @@
 
     .nav-logo span { color: var(--gold); }
 
-    .nav-back {
+    .nav-back, .nav-logout {
       color: var(--text-dim);
       text-decoration: none;
       font-size: 0.75rem;
@@ -84,31 +81,12 @@
       white-space: nowrap;
     }
 
-    .nav-back:hover {
+    .nav-back:hover, .nav-logout:hover {
       border-color: rgba(255, 255, 255, 0.3);
       color: #fff;
     }
 
-    .nav-logout {
-      color: var(--text-dim);
-      text-decoration: none;
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 8px 18px;
-      border: 1px solid var(--border-hover);
-      border-radius: 5px;
-      transition: border-color 0.2s, color 0.2s;
-      white-space: nowrap;
-    }
-
-    .nav-logout:hover {
-      border-color: rgba(255, 255, 255, 0.3);
-      color: #fff;
-    }
-
-    /* ── PAGE LAYOUT ── */
+    /* ── PAGE ── */
     .page {
       flex: 1;
       max-width: 1200px;
@@ -117,9 +95,7 @@
       width: 100%;
     }
 
-    .page-header {
-      margin-bottom: 32px;
-    }
+    .page-header { margin-bottom: 32px; }
 
     .page-header h1 {
       font-family: 'Outfit', sans-serif;
@@ -139,20 +115,20 @@
     /* ── METRICS ROW ── */
     .metrics-row {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 14px;
       margin-bottom: 28px;
     }
 
     .metric-card {
-      padding: 20px 24px;
+      padding: 18px 20px;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 12px;
     }
 
     .metric-label {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -162,17 +138,19 @@
 
     .metric-value {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.6rem;
+      font-size: 1.45rem;
       font-weight: 600;
     }
 
     .metric-value.positive { color: var(--green); }
     .metric-value.gold { color: var(--gold); }
+    .metric-value.warning { color: var(--orange); }
+    .metric-value.over { color: var(--red); }
 
-    /* ── GRID LAYOUT ── */
+    /* ── GRID ── */
     .model-grid {
       display: grid;
-      grid-template-columns: 1fr 360px;
+      grid-template-columns: 1fr 340px;
       gap: 24px;
       margin-bottom: 28px;
     }
@@ -205,10 +183,24 @@
       margin-bottom: 8px;
     }
 
-    .chart-actions {
+    .chart-legend {
       display: flex;
-      justify-content: flex-end;
-      margin-bottom: 12px;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .chart-legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .chart-legend-swatch {
+      width: 12px;
+      height: 12px;
+      border-radius: 3px;
     }
 
     .btn-reset {
@@ -231,7 +223,7 @@
       color: #fff;
     }
 
-    /* ── CONTROLS PANEL ── */
+    /* ── CONTROLS ── */
     .controls-panel {
       display: flex;
       flex-direction: column;
@@ -253,13 +245,8 @@
       color: var(--text);
     }
 
-    .control-group {
-      margin-bottom: 14px;
-    }
-
-    .control-group:last-child {
-      margin-bottom: 0;
-    }
+    .control-group { margin-bottom: 14px; }
+    .control-group:last-child { margin-bottom: 0; }
 
     .control-label {
       display: flex;
@@ -307,7 +294,19 @@
       border: 2px solid var(--bg);
     }
 
-    /* ── COMPUTED SECTION ── */
+    /* ── FIXED TERMS ── */
+    .fixed-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      font-size: 0.78rem;
+    }
+
+    .fixed-row .label { color: var(--text-muted); }
+    .fixed-row .val { color: var(--text-dim); font-weight: 500; }
+
+    /* ── COMPUTED ── */
     .computed-row {
       display: flex;
       justify-content: space-between;
@@ -325,24 +324,43 @@
       margin: 8px 0;
     }
 
+    /* ── UTILIZATION BAR ── */
+    .util-bar-wrap {
+      margin-top: 10px;
+    }
+
+    .util-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-bottom: 5px;
+    }
+
+    .util-bar-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .util-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .util-bar-fill.ok { background: var(--green); }
+    .util-bar-fill.warn { background: var(--orange); }
+    .util-bar-fill.over { background: var(--red); }
+
     /* ── CASHFLOWS ── */
-    .cashflows-list {
-      max-height: 180px;
-      overflow-y: auto;
-    }
+    .cashflows-list { max-height: 180px; overflow-y: auto; }
 
-    .cashflows-list::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .cashflows-list::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .cashflows-list::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 2px;
-    }
+    .cashflows-list::-webkit-scrollbar { width: 4px; }
+    .cashflows-list::-webkit-scrollbar-track { background: transparent; }
+    .cashflows-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
 
     .cf-row {
       display: flex;
@@ -356,18 +374,7 @@
     .cf-row .amount.negative { color: var(--red); }
     .cf-row .amount.positive { color: var(--green); }
 
-    /* ── DEAL LIST ── */
-    .deals-section {
-      margin-top: 0;
-    }
-
-    .deals-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 20px;
-    }
-
+    /* ── DEALS ── */
     .deals-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -382,9 +389,8 @@
       transition: border-color 0.2s;
     }
 
-    .deal-card.inactive {
-      opacity: 0.4;
-    }
+    .deal-card.inactive { opacity: 0.4; }
+    .deal-card.follow-on { border-color: rgba(75, 123, 245, 0.25); }
 
     .deal-card-header {
       display: flex;
@@ -426,11 +432,9 @@
       transition: border-color 0.2s;
     }
 
-    .deal-multiple-input:focus {
-      border-color: var(--blue);
-    }
+    .deal-multiple-input:focus { border-color: var(--blue); }
 
-    /* ── TOGGLE SWITCH ── */
+    /* ── TOGGLE ── */
     .toggle {
       position: relative;
       display: inline-block;
@@ -438,11 +442,7 @@
       height: 20px;
     }
 
-    .toggle input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
 
     .toggle-slider {
       position: absolute;
@@ -465,18 +465,9 @@
       transition: transform 0.2s;
     }
 
-    .toggle input:checked + .toggle-slider {
-      background: var(--blue);
-    }
-
-    .toggle input:checked + .toggle-slider::before {
-      transform: translateX(16px);
-    }
-
-    .toggle input:disabled + .toggle-slider {
-      opacity: 0.3;
-      cursor: default;
-    }
+    .toggle input:checked + .toggle-slider { background: var(--blue); }
+    .toggle input:checked + .toggle-slider::before { transform: translateX(16px); }
+    .toggle input:disabled + .toggle-slider { opacity: 0.3; cursor: default; }
 
     .deal-meta {
       font-size: 0.72rem;
@@ -485,10 +476,11 @@
       line-height: 1.4;
     }
 
+    .deal-meta .invested-label { color: var(--text-dim); }
+    .deal-meta .returned-val { color: var(--green); }
+
     /* ── ASSUMPTIONS ── */
-    .assumptions-card {
-      margin-top: 28px;
-    }
+    .assumptions-card { margin-top: 28px; }
 
     .assumptions-grid {
       display: grid;
@@ -529,15 +521,12 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
-      .model-grid {
-        grid-template-columns: 1fr;
-      }
+      .model-grid { grid-template-columns: 1fr; }
+      .metrics-row { grid-template-columns: repeat(3, 1fr); }
     }
 
     @media (max-width: 768px) {
-      .metrics-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .metrics-row { grid-template-columns: repeat(2, 1fr); }
     }
 
     @media (max-width: 640px) {
@@ -548,7 +537,7 @@
       .card { padding: 20px 16px; }
       .metrics-row { grid-template-columns: 1fr 1fr; gap: 10px; }
       .metric-card { padding: 14px 16px; }
-      .metric-value { font-size: 1.25rem; }
+      .metric-value { font-size: 1.2rem; }
       .deals-grid { grid-template-columns: 1fr; }
       .chart-wrapper { height: 240px; }
       .footer { padding: 24px 16px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
@@ -572,26 +561,30 @@
   <main class="page">
     <div class="page-header">
       <h1>Fund Investment Model</h1>
-      <p>Interactive model showing projected fund outcomes across 10&ndash;20 portfolio investments with pre-seed initial checks and strategic follow-on allocation. Drag the chart bars or edit deal multiples directly to stress-test scenarios.</p>
+      <p>Interactive model projecting fund outcomes across a portfolio of 10&ndash;20 pre-seed water technology investments with strategic follow-on reserves. Drag chart bars or edit deal multiples to stress-test scenarios.</p>
     </div>
 
-    <!-- Top-level metrics -->
+    <!-- Top metrics -->
     <div class="metrics-row">
       <div class="metric-card">
-        <div class="metric-label">Total Invested</div>
-        <div class="metric-value" id="metricInvested">—</div>
+        <div class="metric-label">Total Deployed</div>
+        <div class="metric-value" id="metricInvested">&mdash;</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">Total Returned</div>
-        <div class="metric-value positive" id="metricReturned">—</div>
+        <div class="metric-value positive" id="metricReturned">&mdash;</div>
       </div>
       <div class="metric-card">
         <div class="metric-label">MOIC</div>
-        <div class="metric-value gold" id="metricMoic">—</div>
+        <div class="metric-value gold" id="metricMoic">&mdash;</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">Net IRR (fees incl.)</div>
-        <div class="metric-value gold" id="metricIrr">—</div>
+        <div class="metric-label">Net IRR</div>
+        <div class="metric-value gold" id="metricIrr">&mdash;</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Capital Utilized</div>
+        <div class="metric-value" id="metricUtil">&mdash;</div>
       </div>
     </div>
 
@@ -601,26 +594,42 @@
         <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;">
           <div>
             <div class="card-title">Outcome Map</div>
-            <div class="card-subtitle">Drag bars up/down to adjust deal multiples, or edit in the deal list below.</div>
+            <div class="card-subtitle">Drag bars up/down to set deal multiples. Blue = follow-on deal, Gold = initial only.</div>
           </div>
-          <div class="chart-actions" style="margin:0;">
-            <button class="btn-reset" id="resetBtn">Reset Defaults</button>
-          </div>
+          <button class="btn-reset" id="resetBtn">Reset Defaults</button>
         </div>
         <div class="chart-wrapper">
           <canvas id="outcomeChart"></canvas>
         </div>
+        <div class="chart-legend">
+          <div class="chart-legend-item">
+            <span class="chart-legend-swatch" style="background:rgba(75,123,245,0.7);border:1px solid rgba(75,123,245,1);"></span>
+            <span>Follow-on deal ($400k + follow-on)</span>
+          </div>
+          <div class="chart-legend-item">
+            <span class="chart-legend-swatch" style="background:rgba(212,168,75,0.6);border:1px solid rgba(212,168,75,1);"></span>
+            <span>Initial only ($400k)</span>
+          </div>
+          <div class="chart-legend-item">
+            <span class="chart-legend-swatch" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);"></span>
+            <span>Inactive</span>
+          </div>
+        </div>
       </div>
 
       <div class="controls-panel">
-        <!-- Fund Parameters -->
+        <!-- Fixed Fund Terms -->
         <div class="control-section">
-          <div class="control-section-title">Fund Parameters</div>
+          <div class="control-section-title">Fund Terms (Fixed)</div>
+          <div class="fixed-row"><span class="label">Management Fee</span><span class="val">2.0% / year</span></div>
+          <div class="fixed-row"><span class="label">Fund Life</span><span class="val">10 years</span></div>
+          <div class="fixed-row"><span class="label">Exit Year</span><span class="val">Year 10</span></div>
+          <div class="fixed-row"><span class="label">Initial / Follow-on Split</span><span class="val">50 / 50</span></div>
+        </div>
 
-          <div class="control-group">
-            <div class="control-label"><span>Number of Investments</span><span class="value" id="valNum">15</span></div>
-            <input type="range" id="sliderNum" min="10" max="20" step="1" value="15">
-          </div>
+        <!-- Adjustable Controls -->
+        <div class="control-section">
+          <div class="control-section-title">Model Inputs</div>
 
           <div class="control-group">
             <div class="control-label"><span>Fund Size</span><span class="value" id="valFundSize">$12.5M</span></div>
@@ -628,56 +637,47 @@
           </div>
 
           <div class="control-group">
-            <div class="control-label"><span>Mgmt Fee % / Year</span><span class="value" id="valFee">2.0%</span></div>
-            <input type="range" id="sliderFee" min="0" max="0.03" step="0.0025" value="0.02">
+            <div class="control-label"><span>Number of Investments</span><span class="value" id="valNum">15</span></div>
+            <input type="range" id="sliderNum" min="10" max="20" step="1" value="15">
           </div>
 
           <div class="control-group">
-            <div class="control-label"><span>Fund Life (Years)</span><span class="value" id="valLife">10</span></div>
-            <input type="range" id="sliderLife" min="5" max="15" step="1" value="10">
+            <div class="control-label"><span>Initial Check Size</span><span class="value" id="valCheck">$400k</span></div>
+            <input type="range" id="sliderCheck" min="150000" max="750000" step="25000" value="400000">
           </div>
 
           <div class="control-group">
-            <div class="control-label"><span>Exit Year</span><span class="value" id="valExit">10</span></div>
-            <input type="range" id="sliderExit" min="3" max="15" step="1" value="10">
+            <div class="control-label"><span>Follow-On per Winner</span><span class="value" id="valFollowAmt">$1.3M</span></div>
+            <input type="range" id="sliderFollowAmt" min="500000" max="3000000" step="50000" value="1300000">
           </div>
 
           <div class="control-group">
-            <div class="control-label"><span>Follow-On Year</span><span class="value" id="valFollowYear">2</span></div>
+            <div class="control-label"><span>Follow-On Deploy Year</span><span class="value" id="valFollowYear">Year 2</span></div>
             <input type="range" id="sliderFollowYear" min="1" max="5" step="1" value="2">
           </div>
         </div>
 
-        <!-- Allocation -->
+        <!-- Capital Breakdown -->
         <div class="control-section">
-          <div class="control-section-title">Capital Allocation</div>
-
-          <div class="control-group">
-            <div class="control-label"><span>Initial Check Size</span><span class="value" id="valCheck">$400k</span></div>
-            <input type="range" id="sliderCheck" min="100000" max="1000000" step="25000" value="400000">
-          </div>
-
-          <div class="control-group">
-            <div class="control-label"><span>Initial Allocation %</span><span class="value" id="valInitPct">50%</span></div>
-            <input type="range" id="sliderInitPct" min="0.3" max="0.8" step="0.05" value="0.5">
-          </div>
-
-          <div class="control-group">
-            <div class="control-label"><span>Follow-On / Winner</span><span class="value" id="valFollowAmt">$1.5M</span></div>
-            <input type="range" id="sliderFollowAmt" min="250000" max="3000000" step="50000" value="1500000">
-          </div>
-        </div>
-
-        <!-- Computed -->
-        <div class="control-section">
-          <div class="control-section-title">Computed Breakdown</div>
-          <div class="computed-row"><span class="label">Total Fees (over life)</span><span class="val" id="compFees">—</span></div>
-          <div class="computed-row"><span class="label">Investable Capital</span><span class="val" id="compInvestable">—</span></div>
+          <div class="control-section-title">Capital Breakdown</div>
+          <div class="computed-row"><span class="label">Fund Size</span><span class="val" id="compFundSize">&mdash;</span></div>
+          <div class="computed-row"><span class="label">Total Fees (2% &times; 10 yrs)</span><span class="val" id="compFees">&mdash;</span></div>
+          <div class="computed-row"><span class="label">Investable Capital</span><span class="val" id="compInvestable">&mdash;</span></div>
           <div class="computed-divider"></div>
-          <div class="computed-row"><span class="label">Active Deals</span><span class="val" id="compActive">—</span></div>
-          <div class="computed-row"><span class="label">Follow-On Deals</span><span class="val" id="compFollow">—</span></div>
-          <div class="computed-row"><span class="label">Initial / Deal</span><span class="val" id="compInitDeal">—</span></div>
-          <div class="computed-row"><span class="label">Follow-On / Deal</span><span class="val" id="compFollowDeal">—</span></div>
+          <div class="computed-row"><span class="label">Initial Checks</span><span class="val" id="compInitTotal">&mdash;</span></div>
+          <div class="computed-row"><span class="label">Follow-On Capital</span><span class="val" id="compFollowTotal">&mdash;</span></div>
+          <div class="computed-row"><span class="label">Total Deployed</span><span class="val" id="compDeployed">&mdash;</span></div>
+          <div class="computed-row"><span class="label">Remaining / (Over)</span><span class="val" id="compRemaining">&mdash;</span></div>
+
+          <div class="util-bar-wrap">
+            <div class="util-bar-label">
+              <span>Capital Utilization</span>
+              <span id="utilPctLabel">&mdash;</span>
+            </div>
+            <div class="util-bar-track">
+              <div class="util-bar-fill ok" id="utilBar" style="width:0%"></div>
+            </div>
+          </div>
         </div>
 
         <!-- Cashflows -->
@@ -689,44 +689,46 @@
     </div>
 
     <!-- Deal List -->
-    <div class="card deals-section">
-      <div class="deals-header">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;">
         <div>
           <div class="card-title">Deal List</div>
-          <div class="card-subtitle">Toggle active status and follow-on participation per deal. Edit multiples directly.</div>
+          <div class="card-subtitle" style="margin-bottom:0;">Toggle active status and follow-on per deal. Each active deal receives the initial check; follow-on deals receive additional capital.</div>
         </div>
-        <div style="font-size:0.75rem;color:var(--text-dim);">Pre-seed + Follow-on</div>
+        <div style="font-size:0.72rem;color:var(--text-dim);white-space:nowrap;margin-left:20px;">
+          <span id="summaryActive">15</span> active &middot; <span id="summaryFollow">3</span> follow-on
+        </div>
       </div>
       <div class="deals-grid" id="dealsGrid"></div>
     </div>
 
-    <!-- Key Assumptions -->
+    <!-- Assumptions -->
     <div class="card assumptions-card">
       <div class="card-title" style="margin-bottom:16px;">Key Assumptions &amp; Methodology</div>
       <div class="assumptions-grid">
         <div class="assumption-item">
           <h4>Fund Structure</h4>
-          <p>$12.5M target fund. 2% annual management fee over a 10-year fund life. 20% carried interest above a preferred return (not modeled in the base IRR).</p>
+          <p>$12.5M target fund. 2% annual management fee over a 10-year fund life, resulting in $2.5M in fees and $10M investable capital. 20% carried interest above a preferred return (carry not modeled in base IRR).</p>
         </div>
         <div class="assumption-item">
           <h4>Investment Strategy</h4>
-          <p>Pre-seed checks into 10&ndash;20 water technology companies. ~50% of capital reserved for initial deployment, ~50% reserved for follow-on into the strongest performers.</p>
+          <p>Pre-seed checks of $400k into 10&ndash;20 water technology companies. 50% of investable capital allocated to initial checks, 50% reserved for follow-on into the strongest performers.</p>
         </div>
         <div class="assumption-item">
           <h4>Follow-On Approach</h4>
-          <p>Up to 3&ndash;5 companies receive follow-on capital at the Seed or Series A stage (modeled at Year 2). Follow-on is reserved for companies demonstrating product-market fit and revenue traction.</p>
+          <p>Up to 3 companies receive significant follow-on capital at the Seed or Series A stage (modeled at Year 2). Follow-on concentration reflects higher valuations at later stages&mdash;fewer bets, larger checks into proven winners.</p>
         </div>
         <div class="assumption-item">
           <h4>Exit Assumptions</h4>
-          <p>All exits modeled at a single exit year (default Year 10) for simplicity. In practice, exits will be staggered via M&amp;A, secondary sales, or IPO across years 5&ndash;12.</p>
+          <p>All exits modeled at Year 10 for simplicity. In practice, exits will be staggered across years 5&ndash;12 via M&amp;A, secondary sales, or IPO.</p>
         </div>
         <div class="assumption-item">
           <h4>Outcome Distribution</h4>
-          <p>Default multiples follow a power-law pattern: a few outsized winners (25&ndash;40x), a tier of strong performers (10&ndash;15x), and a tail of moderate-to-low returns. Drag the chart to model alternative scenarios.</p>
+          <p>Default multiples follow a power-law distribution: a few outsized winners (25&ndash;40x), a tier of strong performers (10&ndash;15x), and a tail of moderate-to-low returns. Drag the chart or edit deal multiples to model alternative scenarios.</p>
         </div>
         <div class="assumption-item">
           <h4>IRR Methodology</h4>
-          <p>Net IRR is computed using Newton-Raphson with bisection fallback over annual cashflows. Fee drag is included as annual cash outflows. The IRR reflects the LP's time-value-adjusted return.</p>
+          <p>Net IRR computed via Newton-Raphson with bisection fallback over annual cashflows. Management fee drag is included as annual outflows. Reflects the LP&rsquo;s time-value-adjusted net return over the fund life.</p>
         </div>
       </div>
     </div>
@@ -737,11 +739,10 @@
   </footer>
 
   <script>
-    // ── Auth guard ──
+    // ── Auth ──
     if (sessionStorage.getItem('buAuth') !== '1') {
       window.location.href = 'login.html';
     }
-
     document.getElementById('logoutBtn').addEventListener('click', function(e) {
       e.preventDefault();
       sessionStorage.removeItem('buAuth');
@@ -768,9 +769,7 @@
     // ── IRR Solver ──
     function npv(rate, cfs) {
       var v = 0;
-      for (var i = 0; i < cfs.length; i++) {
-        v += cfs[i].cf / Math.pow(1 + rate, cfs[i].t);
-      }
+      for (var i = 0; i < cfs.length; i++) v += cfs[i].cf / Math.pow(1 + rate, cfs[i].t);
       return v;
     }
 
@@ -785,41 +784,36 @@
 
     function solveIrr(cfs) {
       var minR = -0.9, maxR = 5;
-      var fMin = npv(minR, cfs);
-      var fMax = npv(maxR, cfs);
+      var fMin = npv(minR, cfs), fMax = npv(maxR, cfs);
       if (!Number.isFinite(fMin) || !Number.isFinite(fMax)) return null;
-      if (fMin === 0) return minR;
-      if (fMax === 0) return maxR;
       if (fMin * fMax > 0) return null;
-
-      // Newton
       var r = 0.3;
       for (var i = 0; i < 30; i++) {
-        var f = npv(r, cfs);
-        var df = dNpv(r, cfs);
+        var f = npv(r, cfs), df = dNpv(r, cfs);
         if (!Number.isFinite(f) || !Number.isFinite(df) || df === 0) break;
-        var step = f / df;
-        var next = r - step;
+        var step = f / df, next = r - step;
         if (Math.abs(step) < 1e-10) return clamp(next, minR, maxR);
         r = clamp(next, minR, maxR);
       }
-
-      // Bisection fallback
-      var lo = minR, hi = maxR;
-      var flo = fMin, fhi = fMax;
+      var lo = minR, hi = maxR, flo = fMin;
       for (var i = 0; i < 120; i++) {
-        var mid = (lo + hi) / 2;
-        var fmid = npv(mid, cfs);
+        var mid = (lo + hi) / 2, fmid = npv(mid, cfs);
         if (!Number.isFinite(fmid)) return null;
         if (Math.abs(fmid) < 1e-10) return mid;
-        if (flo * fmid <= 0) { hi = mid; fhi = fmid; }
-        else { lo = mid; flo = fmid; }
+        if (flo * fmid <= 0) hi = mid; else { lo = mid; flo = fmid; }
       }
       return (lo + hi) / 2;
     }
 
-    // ── Default deal multiples ──
+    // ── Defaults ──
+    // Power-law: a few big winners, strong middle, long tail
     var BASE_MULTIPLES = [40, 25, 25, 15, 15, 15, 10, 10, 5, 5, 3, 3, 2, 2, 1, 1, 0.5, 0.5, 0.5, 0.5];
+
+    // Fixed fund terms
+    var MGMT_FEE = 0.02;
+    var FUND_LIFE = 10;
+    var EXIT_YEAR = 10;
+    var ALLOC_SPLIT = 0.5; // 50/50 initial/follow-on
 
     function makeDeals(n) {
       var arr = [];
@@ -828,7 +822,7 @@
           id: i + 1,
           active: true,
           multiple: BASE_MULTIPLES[i] !== undefined ? BASE_MULTIPLES[i] : 5,
-          followOn: i < Math.min(5, n)
+          followOn: i < 3 // top 3 get follow-on by default
         });
       }
       return arr;
@@ -837,19 +831,32 @@
     // ── State ──
     var state = {
       fundSize: 12500000,
-      mgmtFeePct: 0.02,
-      fundLifeYears: 10,
-      exitYear: 10,
-      followOnYear: 2,
       numInvestments: 15,
       initialCheck: 400000,
-      initialAllocationPct: 0.5,
-      followOnPerWinner: 1500000,
+      followOnPerWinner: 1300000,
+      followOnYear: 2,
       deals: makeDeals(15)
     };
 
-    // ── Chart setup ──
+    // ── Chart ──
     var ctx = document.getElementById('outcomeChart').getContext('2d');
+
+    function getBarColors(deals) {
+      return {
+        bg: deals.map(function(d) {
+          if (!d.active) return 'rgba(255,255,255,0.05)';
+          if (d.followOn) return 'rgba(75, 123, 245, 0.7)';
+          return 'rgba(212, 168, 75, 0.6)';
+        }),
+        border: deals.map(function(d) {
+          if (!d.active) return 'rgba(255,255,255,0.1)';
+          if (d.followOn) return 'rgba(75, 123, 245, 1)';
+          return 'rgba(212, 168, 75, 1)';
+        })
+      };
+    }
+
+    var colors = getBarColors(state.deals);
     var chart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -857,16 +864,8 @@
         datasets: [{
           label: 'Outcome Multiple',
           data: state.deals.map(function(d) { return d.multiple; }),
-          backgroundColor: state.deals.map(function(d) {
-            if (!d.active) return 'rgba(255,255,255,0.05)';
-            if (d.followOn) return 'rgba(75, 123, 245, 0.7)';
-            return 'rgba(212, 168, 75, 0.6)';
-          }),
-          borderColor: state.deals.map(function(d) {
-            if (!d.active) return 'rgba(255,255,255,0.1)';
-            if (d.followOn) return 'rgba(75, 123, 245, 1)';
-            return 'rgba(212, 168, 75, 1)';
-          }),
+          backgroundColor: colors.bg,
+          borderColor: colors.border,
           borderWidth: 1,
           borderRadius: 4
         }]
@@ -884,12 +883,15 @@
             titleFont: { family: 'Outfit', weight: '600' },
             bodyFont: { family: 'Inter' },
             callbacks: {
-              label: function(ctx) {
-                var deal = state.deals[ctx.dataIndex];
-                if (!deal) return '';
-                var flags = deal.active ? 'Active' : 'Inactive';
-                if (deal.followOn) flags += ', Follow-on';
-                return ctx.parsed.y + 'x (' + flags + ')';
+              label: function(c) {
+                var d = state.deals[c.dataIndex];
+                if (!d) return '';
+                var pd = state._perDeal && state._perDeal[d.id];
+                var info = c.parsed.y + 'x';
+                if (pd) info += ' \u2192 ' + fmtMoney(pd.returned);
+                var flags = d.active ? 'Active' : 'Inactive';
+                if (d.followOn) flags += ', Follow-on';
+                return info + ' (' + flags + ')';
               }
             }
           },
@@ -897,11 +899,9 @@
             round: 1,
             showTooltip: true,
             onDragStart: function() { return true; },
-            onDrag: function(e, datasetIndex, index, value) {
-              return clamp(value, 0, 50);
-            },
-            onDragEnd: function(e, datasetIndex, index, value) {
-              state.deals[index].multiple = clamp(Math.round(value * 10) / 10, 0, 50);
+            onDrag: function(e, di, idx, val) { return clamp(val, 0, 50); },
+            onDragEnd: function(e, di, idx, val) {
+              state.deals[idx].multiple = clamp(Math.round(val * 10) / 10, 0, 50);
               recalculate();
               renderDeals();
             }
@@ -910,17 +910,11 @@
         scales: {
           x: {
             grid: { display: false },
-            ticks: {
-              color: 'rgba(255,255,255,0.35)',
-              font: { family: 'Inter', size: 11 }
-            }
+            ticks: { color: 'rgba(255,255,255,0.35)', font: { family: 'Inter', size: 11 } }
           },
           y: {
-            min: 0,
-            max: 50,
-            grid: {
-              color: 'rgba(255,255,255,0.04)'
-            },
+            min: 0, max: 50,
+            grid: { color: 'rgba(255,255,255,0.04)' },
             ticks: {
               color: 'rgba(255,255,255,0.35)',
               font: { family: 'Inter', size: 11 },
@@ -932,62 +926,82 @@
     });
 
     // ── Recalculate ──
+    // This is the core model. Check sizes drive everything directly.
+    // Each active deal gets exactly initialCheck.
+    // Each follow-on deal gets an additional followOnPerWinner.
+    // Capital utilization = total deployed / investable.
     function recalculate() {
       var s = state;
-      var totalFees = s.fundSize * s.mgmtFeePct * s.fundLifeYears;
+      var totalFees = s.fundSize * MGMT_FEE * FUND_LIFE;
       var investable = s.fundSize - totalFees;
+
       var activeDeals = s.deals.filter(function(d) { return d.active; });
-      var initialPool = investable * s.initialAllocationPct;
-      var initialPerDeal = activeDeals.length > 0 ? Math.min(s.initialCheck, initialPool / activeDeals.length) : 0;
-      var initialInvested = initialPerDeal * activeDeals.length;
-      var followPool = investable - initialInvested;
       var followDeals = activeDeals.filter(function(d) { return d.followOn; });
-      var followPerDeal = followDeals.length > 0 ? Math.min(s.followOnPerWinner, followPool / followDeals.length) : 0;
-      var followInvested = followPerDeal * followDeals.length;
 
-      var perDeal = activeDeals.map(function(d) {
-        var invested = initialPerDeal + (d.followOn ? followPerDeal : 0);
-        var returned = invested * d.multiple;
-        return { id: d.id, invested: invested, returned: returned };
-      });
+      var initialTotal = s.initialCheck * activeDeals.length;
+      var followTotal = s.followOnPerWinner * followDeals.length;
+      var totalDeployed = initialTotal + followTotal;
+      var remaining = investable - totalDeployed;
+      var utilPct = investable > 0 ? totalDeployed / investable : 0;
 
-      var totalInvested = initialInvested + followInvested;
+      // Per-deal returns
+      var perDeal = {};
       var totalReturned = 0;
-      for (var i = 0; i < perDeal.length; i++) totalReturned += perDeal[i].returned;
-      var moic = totalInvested > 0 ? totalReturned / totalInvested : null;
+      for (var i = 0; i < activeDeals.length; i++) {
+        var d = activeDeals[i];
+        var invested = s.initialCheck + (d.followOn ? s.followOnPerWinner : 0);
+        var returned = invested * d.multiple;
+        totalReturned += returned;
+        perDeal[d.id] = { invested: invested, returned: returned };
+      }
+      state._perDeal = perDeal;
 
-      // Cashflows
+      var moic = totalDeployed > 0 ? totalReturned / totalDeployed : null;
+
+      // Cashflows: year 0 initial deploy, followOnYear follow-on deploy, annual fees, exit year proceeds
       var byYear = {};
-      byYear[0] = (byYear[0] || 0) - initialInvested;
-      for (var y = 1; y <= s.fundLifeYears; y++) {
-        byYear[y] = (byYear[y] || 0) - (s.fundSize * s.mgmtFeePct);
+      byYear[0] = -initialTotal;
+      for (var y = 1; y <= FUND_LIFE; y++) {
+        byYear[y] = (byYear[y] || 0) - (s.fundSize * MGMT_FEE);
       }
-      if (followInvested > 0) {
-        byYear[s.followOnYear] = (byYear[s.followOnYear] || 0) - followInvested;
+      if (followTotal > 0) {
+        byYear[s.followOnYear] = (byYear[s.followOnYear] || 0) - followTotal;
       }
-      byYear[s.exitYear] = (byYear[s.exitYear] || 0) + totalReturned;
+      byYear[EXIT_YEAR] = (byYear[EXIT_YEAR] || 0) + totalReturned;
 
       var cashflows = [];
-      for (var key in byYear) {
-        cashflows.push({ t: parseInt(key), cf: byYear[key] });
-      }
+      for (var key in byYear) cashflows.push({ t: parseInt(key), cf: byYear[key] });
       cashflows.sort(function(a, b) { return a.t - b.t; });
       var netIrr = solveIrr(cashflows);
 
-      // Update DOM
-      document.getElementById('metricInvested').textContent = fmtMoney(totalInvested);
+      // ── Update DOM ──
+      document.getElementById('metricInvested').textContent = fmtMoney(totalDeployed);
       document.getElementById('metricReturned').textContent = fmtMoney(totalReturned);
       document.getElementById('metricMoic').textContent = moic ? moic.toFixed(2) + 'x' : '\u2014';
       document.getElementById('metricIrr').textContent = fmtPct(netIrr);
 
+      var utilEl = document.getElementById('metricUtil');
+      utilEl.textContent = Math.round(utilPct * 100) + '%';
+      utilEl.className = 'metric-value' + (utilPct > 1.05 ? ' over' : utilPct > 0.95 ? ' gold' : '');
+
+      document.getElementById('compFundSize').textContent = fmtMoney(s.fundSize);
       document.getElementById('compFees').textContent = fmtMoney(totalFees);
       document.getElementById('compInvestable').textContent = fmtMoney(investable);
-      document.getElementById('compActive').textContent = activeDeals.length;
-      document.getElementById('compFollow').textContent = followDeals.length;
-      document.getElementById('compInitDeal').textContent = fmtMoney(initialPerDeal);
-      document.getElementById('compFollowDeal').textContent = fmtMoney(followPerDeal);
+      document.getElementById('compInitTotal').textContent = activeDeals.length + ' deals \u00d7 ' + fmtMoney(s.initialCheck) + ' = ' + fmtMoney(initialTotal);
+      document.getElementById('compFollowTotal').textContent = followDeals.length + ' deals \u00d7 ' + fmtMoney(s.followOnPerWinner) + ' = ' + fmtMoney(followTotal);
+      document.getElementById('compDeployed').textContent = fmtMoney(totalDeployed);
 
-      // Cashflows list
+      var remEl = document.getElementById('compRemaining');
+      remEl.textContent = fmtMoney(remaining);
+      remEl.style.color = remaining < 0 ? 'var(--red)' : remaining < investable * 0.05 ? 'var(--green)' : 'var(--text)';
+
+      var barPct = Math.min(utilPct * 100, 100);
+      var barEl = document.getElementById('utilBar');
+      barEl.style.width = barPct + '%';
+      barEl.className = 'util-bar-fill ' + (utilPct > 1.05 ? 'over' : utilPct > 0.95 ? 'ok' : 'warn');
+      document.getElementById('utilPctLabel').textContent = Math.round(utilPct * 100) + '%';
+
+      // Cashflows
       var cfHtml = '';
       for (var i = 0; i < cashflows.length; i++) {
         var c = cashflows[i];
@@ -996,39 +1010,32 @@
       }
       document.getElementById('cashflowsList').innerHTML = cfHtml;
 
+      // Deal summary counts
+      document.getElementById('summaryActive').textContent = activeDeals.length;
+      document.getElementById('summaryFollow').textContent = followDeals.length;
+
       // Update chart
+      var colors = getBarColors(s.deals);
       chart.data.labels = s.deals.map(function(d) { return '#' + d.id; });
       chart.data.datasets[0].data = s.deals.map(function(d) { return d.multiple; });
-      chart.data.datasets[0].backgroundColor = s.deals.map(function(d) {
-        if (!d.active) return 'rgba(255,255,255,0.05)';
-        if (d.followOn) return 'rgba(75, 123, 245, 0.7)';
-        return 'rgba(212, 168, 75, 0.6)';
-      });
-      chart.data.datasets[0].borderColor = s.deals.map(function(d) {
-        if (!d.active) return 'rgba(255,255,255,0.1)';
-        if (d.followOn) return 'rgba(75, 123, 245, 1)';
-        return 'rgba(212, 168, 75, 1)';
-      });
+      chart.data.datasets[0].backgroundColor = colors.bg;
+      chart.data.datasets[0].borderColor = colors.border;
       chart.update('none');
-
-      // Store perDeal for deal cards
-      state._perDeal = {};
-      for (var i = 0; i < perDeal.length; i++) {
-        state._perDeal[perDeal[i].id] = perDeal[i];
-      }
     }
 
-    // ── Render Deals Grid ──
+    // ── Render Deals ──
     function renderDeals() {
       var html = '';
       for (var i = 0; i < state.deals.length; i++) {
         var d = state.deals[i];
         var pd = state._perDeal && state._perDeal[d.id];
-        var invested = pd ? fmtMoney(pd.invested) : '$0';
+        var invested = pd ? fmtMoney(pd.invested) : fmtMoney(state.initialCheck);
         var returned = pd ? fmtMoney(pd.returned) : '$0';
-        var inactiveClass = d.active ? '' : ' inactive';
+        var classes = 'deal-card';
+        if (!d.active) classes += ' inactive';
+        else if (d.followOn) classes += ' follow-on';
 
-        html += '<div class="deal-card' + inactiveClass + '" data-deal="' + d.id + '">';
+        html += '<div class="' + classes + '">';
         html += '  <div class="deal-card-header">';
         html += '    <span class="deal-number">#' + d.id + '</span>';
         html += '    <label class="toggle"><input type="checkbox" data-toggle="active" data-deal-id="' + d.id + '"' + (d.active ? ' checked' : '') + '><span class="toggle-slider"></span></label>';
@@ -1041,17 +1048,17 @@
         html += '    <span class="deal-row-label">Follow-on</span>';
         html += '    <label class="toggle"><input type="checkbox" data-toggle="followOn" data-deal-id="' + d.id + '"' + (d.followOn ? ' checked' : '') + (d.active ? '' : ' disabled') + '><span class="toggle-slider"></span></label>';
         html += '  </div>';
-        html += '  <div class="deal-meta">Invested: ' + invested + ' &middot; Returned: ' + returned + '</div>';
+        html += '  <div class="deal-meta"><span class="invested-label">Invested: ' + invested + '</span> &middot; Returned: <span class="returned-val">' + returned + '</span></div>';
         html += '</div>';
       }
       document.getElementById('dealsGrid').innerHTML = html;
 
-      // Attach event listeners
+      // Event listeners
       document.querySelectorAll('[data-toggle="active"]').forEach(function(el) {
         el.addEventListener('change', function() {
           var id = parseInt(this.getAttribute('data-deal-id'));
           var deal = state.deals.find(function(d) { return d.id === id; });
-          if (deal) { deal.active = this.checked; }
+          if (deal) deal.active = this.checked;
           recalculate();
           renderDeals();
         });
@@ -1061,7 +1068,7 @@
         el.addEventListener('change', function() {
           var id = parseInt(this.getAttribute('data-deal-id'));
           var deal = state.deals.find(function(d) { return d.id === id; });
-          if (deal) { deal.followOn = this.checked; }
+          if (deal) deal.followOn = this.checked;
           recalculate();
           renderDeals();
         });
@@ -1070,55 +1077,45 @@
       document.querySelectorAll('.deal-multiple-input').forEach(function(el) {
         el.addEventListener('input', function() {
           var id = parseInt(this.getAttribute('data-deal-id'));
-          var val = parseFloat(this.value) || 0;
-          val = clamp(val, 0, 50);
+          var val = clamp(parseFloat(this.value) || 0, 0, 50);
           var deal = state.deals.find(function(d) { return d.id === id; });
-          if (deal) { deal.multiple = val; }
+          if (deal) deal.multiple = val;
           recalculate();
         });
-        // Re-render full deal list on blur so invested/returned update
-        el.addEventListener('blur', function() {
-          renderDeals();
-        });
+        el.addEventListener('blur', function() { renderDeals(); });
       });
     }
 
     // ── Slider Bindings ──
-    function bindSlider(sliderId, valueId, stateKey, formatter, onChange) {
-      var slider = document.getElementById(sliderId);
-      var display = document.getElementById(valueId);
-      slider.addEventListener('input', function() {
-        var val = parseFloat(this.value);
-        state[stateKey] = val;
-        display.textContent = formatter(val);
-        if (onChange) onChange(val);
+    function bindSlider(id, valId, key, fmt, cb) {
+      var el = document.getElementById(id);
+      var display = document.getElementById(valId);
+      el.addEventListener('input', function() {
+        var v = parseFloat(this.value);
+        state[key] = v;
+        display.textContent = fmt(v);
+        if (cb) cb(v);
         recalculate();
         renderDeals();
       });
     }
 
-    bindSlider('sliderNum', 'valNum', 'numInvestments', function(v) { return v; }, function(v) {
-      // Resize deals array
+    bindSlider('sliderFundSize', 'valFundSize', 'fundSize', function(v) { return fmtMoney(v); });
+
+    bindSlider('sliderNum', 'valNum', 'numInvestments', function(v) { return Math.round(v); }, function(v) {
       var n = Math.round(v);
       state.numInvestments = n;
       if (state.deals.length < n) {
         var defaults = makeDeals(n);
-        for (var i = state.deals.length; i < n; i++) {
-          state.deals.push(defaults[i]);
-        }
+        for (var i = state.deals.length; i < n; i++) state.deals.push(defaults[i]);
       } else if (state.deals.length > n) {
         state.deals = state.deals.slice(0, n);
       }
     });
 
-    bindSlider('sliderFundSize', 'valFundSize', 'fundSize', function(v) { return fmtMoney(v); });
-    bindSlider('sliderFee', 'valFee', 'mgmtFeePct', function(v) { return (v * 100).toFixed(1) + '%'; });
-    bindSlider('sliderLife', 'valLife', 'fundLifeYears', function(v) { return v; });
-    bindSlider('sliderExit', 'valExit', 'exitYear', function(v) { return v; });
-    bindSlider('sliderFollowYear', 'valFollowYear', 'followOnYear', function(v) { return v; });
     bindSlider('sliderCheck', 'valCheck', 'initialCheck', function(v) { return fmtMoney(v); });
-    bindSlider('sliderInitPct', 'valInitPct', 'initialAllocationPct', function(v) { return Math.round(v * 100) + '%'; });
     bindSlider('sliderFollowAmt', 'valFollowAmt', 'followOnPerWinner', function(v) { return fmtMoney(v); });
+    bindSlider('sliderFollowYear', 'valFollowYear', 'followOnYear', function(v) { return 'Year ' + v; });
 
     // ── Reset ──
     document.getElementById('resetBtn').addEventListener('click', function() {
@@ -1127,7 +1124,7 @@
       renderDeals();
     });
 
-    // ── Initial render ──
+    // ── Init ──
     recalculate();
     renderDeals();
   </script>

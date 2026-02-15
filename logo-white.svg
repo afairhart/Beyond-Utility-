@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <!-- Logo mark — white version for dark backgrounds -->
+  <path d="M256 48C256 48 368 192 368 300C368 362 318 412 256 412C194 412 144 362 144 300C144 192 256 48 256 48Z" fill="#ffffff"/>
+  <path d="M224 220V380" stroke="#080E1A" stroke-width="24" stroke-linecap="round"/>
+  <path d="M224 224C224 224 280 218 280 252C280 286 224 286 224 286" stroke="#080E1A" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M224 286C224 286 290 280 290 320C290 360 224 358 224 358" stroke="#080E1A" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

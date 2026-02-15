@@ -136,6 +136,25 @@
       margin-bottom: 32px;
     }
 
+    /* ── TYPEWRITER ── */
+    .typewriter {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      font-weight: 500;
+      color: var(--gold);
+      min-height: 1.6em;
+      margin-bottom: 12px;
+    }
+
+    .typewriter-cursor {
+      color: var(--gold);
+      animation: blink 0.7s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+
     /* ── DIVIDER ── */
     .divider {
       width: 40px;
@@ -312,6 +331,7 @@
         min-height: auto;
       }
       .hero h1 { font-size: clamp(2rem, 8vw, 2.8rem); margin-bottom: 16px; }
+      .typewriter { font-size: 1.05rem; }
       .hero-sub { font-size: 0.92rem; line-height: 1.55; margin-bottom: 28px; max-width: 340px; }
       .hero-cta {
         padding: 16px 32px;
@@ -383,8 +403,9 @@
 
   <section class="hero" id="pitch">
     <h1 class="fade-in">Investing in the <em>new water economy</em></h1>
-    <p class="hero-sub fade-in d1">Pre-seed and seed capital for the technologies and business models reshaping water infrastructure globally.</p>
-    <button class="hero-cta fade-in d2" id="openPitch">Share Your Story</button>
+    <p class="typewriter fade-in d1"><span id="typewriter-text"></span><span class="typewriter-cursor">|</span></p>
+    <p class="hero-sub fade-in d2">Pre-seed and seed capital for the technologies and business models reshaping water infrastructure globally.</p>
+    <button class="hero-cta fade-in d3" id="openPitch">Share Your Story</button>
   </section>
 
   <div class="divider"></div>
@@ -437,6 +458,54 @@
         if (t) t.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
     });
+
+    // Typewriter effect
+    const typewriterEl = document.getElementById('typewriter-text');
+    const categories = [
+      'Desalination',
+      'Distributed Reuse',
+      'Advanced Wastewater',
+      'Reuse Appliances',
+      'Efficient Appliances',
+      'Next Gen Septic',
+    ];
+    const typeSpeed = 70;
+    const deleteSpeed = 40;
+    const holdTime = 2000;
+    let catIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typewriterTick() {
+      const current = categories[catIndex];
+      if (!isDeleting) {
+        typewriterEl.textContent = current.slice(0, charIndex + 1);
+        charIndex++;
+        if (charIndex >= current.length) {
+          isDeleting = true;
+          setTimeout(typewriterTick, holdTime);
+          return;
+        }
+        setTimeout(typewriterTick, typeSpeed);
+      } else {
+        charIndex--;
+        typewriterEl.textContent = current.slice(0, charIndex);
+        if (charIndex <= 0) {
+          isDeleting = false;
+          catIndex = (catIndex + 1) % categories.length;
+          setTimeout(typewriterTick, 400);
+          return;
+        }
+        setTimeout(typewriterTick, deleteSpeed);
+      }
+    }
+
+    // Respect reduced motion — show static text instead
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      typewriterEl.textContent = categories[0];
+    } else {
+      setTimeout(typewriterTick, 800);
+    }
 
     // Video modal
     const modal = document.getElementById('videoModal');

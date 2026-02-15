@@ -190,19 +190,73 @@
       font-size: 1.2rem;
     }
 
-    /* ── HERO VIDEO ── */
-    .hero-video {
-      width: 100%;
-      max-width: 640px;
-      margin-top: 8px;
+    /* ── HERO CTA ── */
+    .hero-cta {
+      display: inline-block;
+      padding: 14px 36px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: #fff;
+      background: var(--blue);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
     }
 
-    .hero-video iframe {
+    .hero-cta:hover {
+      background: var(--blue-light);
+      transform: translateY(-1px);
+    }
+
+    /* ── VIDEO MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 90%;
+      max-width: 640px;
+    }
+
+    .modal-content iframe {
       width: 100%;
       height: 600px;
       border: none;
       border-radius: 24px;
     }
+
+    .modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.6rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .modal-close:hover { opacity: 1; }
 
     /* ── FOOTER ── */
     .footer {
@@ -230,7 +284,7 @@
     .footer-right a:hover { color: var(--gold); }
 
     @media (max-width: 640px) {
-      .hero-video iframe { height: 70vh; }
+      .modal-content iframe { height: 70vh; }
     }
 
     /* ── ANIMATIONS ── */
@@ -258,7 +312,7 @@
   <nav class="nav">
     <a href="#" class="nav-logo">Beyond Utility <span>Water Ventures</span></a>
     <div class="nav-right">
-      <a href="#pitch" class="nav-link">Pitch Us</a>
+      <a href="#" class="nav-link" id="navPitch">Pitch Us</a>
       <a href="#" class="nav-login">Log In</a>
     </div>
   </nav>
@@ -266,9 +320,7 @@
   <section class="hero" id="pitch">
     <h1 class="fade-in">Investing in the <em>new water economy</em></h1>
     <p class="hero-sub fade-in d1">Pre-seed and seed capital for the technologies and business models reshaping water infrastructure globally.</p>
-    <div class="hero-video fade-in d2">
-      <iframe src="https://www.videoask.com/fxwqt6dkl" allow="camera *; microphone *; autoplay *; encrypted-media *; fullscreen *; display-capture *;"></iframe>
-    </div>
+    <button class="hero-cta fade-in d2" id="openPitch">Pitch Us</button>
   </section>
 
   <div class="divider"></div>
@@ -306,6 +358,14 @@
     </div>
   </footer>
 
+  <!-- Video Modal -->
+  <div class="modal-overlay" id="videoModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">&times;</button>
+      <iframe id="videoFrame" allow="camera *; microphone *; autoplay *; encrypted-media *; fullscreen *; display-capture *;"></iframe>
+    </div>
+  </div>
+
   <script>
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
@@ -320,6 +380,25 @@
       });
     });
 
+    // Video modal
+    const modal = document.getElementById('videoModal');
+    const frame = document.getElementById('videoFrame');
+    const videoUrl = 'https://www.videoask.com/fxwqt6dkl';
+
+    function openModal() {
+      frame.src = videoUrl;
+      modal.classList.add('active');
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      frame.src = '';
+    }
+
+    document.getElementById('openPitch').addEventListener('click', openModal);
+    document.getElementById('navPitch').addEventListener('click', e => { e.preventDefault(); openModal(); });
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
   </script>
 
 </body>

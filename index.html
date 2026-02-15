@@ -12,21 +12,21 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --teal-dark: #0A2E2E;
-      --teal: #0F3D3E;
-      --copper: #C8956C;
-      --copper-dark: #A87750;
-      --copper-light: #DAB08E;
-      --cream: #F7F2ED;
-      --text-on-dark: rgba(232, 224, 216, 0.85);
-      --text-dim: rgba(232, 224, 216, 0.5);
+      --bg: #080E1A;
+      --blue: #4B7BF5;
+      --blue-light: #7BA1F7;
+      --blue-dim: rgba(75, 123, 245, 0.15);
+      --gold: #D4A84B;
+      --gold-dark: #B8903D;
+      --text: rgba(255, 255, 255, 0.88);
+      --text-dim: rgba(255, 255, 255, 0.45);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--teal-dark);
+      background: var(--bg);
       color: #fff;
       -webkit-font-smoothing: antialiased;
     }
@@ -34,11 +34,9 @@
     /* ── NAV ── */
     .nav {
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 24px 40px;
+      padding: 28px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -46,13 +44,12 @@
 
     .nav-logo {
       font-family: 'DM Serif Display', serif;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       color: #fff;
       text-decoration: none;
-      letter-spacing: -0.01em;
     }
 
-    .nav-logo span { color: var(--copper-light); }
+    .nav-logo span { color: var(--gold); }
 
     .nav-right {
       display: flex;
@@ -61,16 +58,16 @@
     }
 
     .nav-link {
-      color: var(--text-on-dark);
+      color: var(--text);
       text-decoration: none;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 500;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
       transition: color 0.2s;
     }
 
-    .nav-link:hover { color: var(--copper-light); }
+    .nav-link:hover { color: var(--gold); }
 
     /* ── HERO ── */
     .hero {
@@ -81,29 +78,28 @@
       align-items: center;
       text-align: center;
       padding: 120px 24px 80px;
-      position: relative;
     }
 
-    .hero-headline {
+    .hero h1 {
       font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-size: clamp(2.8rem, 6vw, 4.8rem);
       font-weight: 400;
       line-height: 1.1;
       letter-spacing: -0.03em;
-      max-width: 800px;
-      margin-bottom: 28px;
+      max-width: 720px;
+      margin-bottom: 24px;
     }
 
-    .hero-headline em {
+    .hero h1 em {
       font-style: normal;
-      color: var(--copper-light);
+      color: var(--blue-light);
     }
 
     .hero-sub {
-      color: var(--text-on-dark);
-      font-size: 1.1rem;
-      line-height: 1.65;
-      max-width: 480px;
+      color: var(--text);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      max-width: 440px;
       margin-bottom: 48px;
     }
 
@@ -111,205 +107,140 @@
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--copper);
-      color: #fff;
-      padding: 16px 32px;
-      border-radius: 8px;
-      font-size: 0.95rem;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 0.9rem;
       font-weight: 600;
       text-decoration: none;
       transition: background 0.2s, transform 0.2s;
-      border: none;
-      cursor: pointer;
     }
 
     .btn:hover {
-      background: var(--copper-dark);
+      background: var(--gold-dark);
       transform: translateY(-1px);
     }
 
-    .btn svg { width: 20px; height: 20px; }
+    .btn svg { width: 18px; height: 18px; }
 
-    .hero-scroll {
-      position: absolute;
-      bottom: 40px;
-      color: var(--text-dim);
-      font-size: 0.75rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    /* ── DIVIDER LINE ── */
+    /* ── DIVIDER ── */
     .divider {
-      width: 48px;
+      width: 40px;
       height: 1px;
-      background: var(--copper);
-      opacity: 0.4;
+      background: var(--blue);
+      opacity: 0.3;
       margin: 0 auto;
     }
 
-    /* ── INFO SECTION ── */
+    /* ── INFO ── */
     .info {
-      padding: 100px 24px;
-      max-width: 720px;
+      padding: 80px 24px;
+      max-width: 600px;
       margin: 0 auto;
       text-align: center;
     }
 
     .info p {
-      font-size: 1.15rem;
-      line-height: 1.8;
-      color: var(--text-on-dark);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      color: var(--text);
     }
 
-    .info p + p { margin-top: 24px; }
-
-    /* ── DETAILS ROW ── */
+    /* ── DETAILS ── */
     .details {
-      padding: 60px 24px;
+      padding: 48px 24px;
       display: flex;
       justify-content: center;
-      gap: 64px;
+      gap: 56px;
       flex-wrap: wrap;
     }
 
-    .detail {
-      text-align: center;
-    }
+    .detail { text-align: center; }
 
     .detail-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       font-weight: 600;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--copper);
-      margin-bottom: 6px;
+      color: var(--blue);
+      margin-bottom: 4px;
     }
 
     .detail-value {
       font-family: 'DM Serif Display', serif;
-      font-size: 1.3rem;
-      color: #fff;
+      font-size: 1.2rem;
     }
 
-    /* ── FOCUS (compact) ── */
-    .focus {
-      padding: 80px 24px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .focus-label {
-      text-align: center;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--copper);
-      margin-bottom: 40px;
-    }
-
-    .focus-items {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 32px;
-    }
-
-    .focus-item h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
-      margin-bottom: 8px;
-    }
-
-    .focus-item p {
-      font-size: 0.85rem;
-      line-height: 1.65;
-      color: var(--text-on-dark);
-    }
-
-    /* ── PITCH CTA ── */
+    /* ── PITCH ── */
     .pitch {
-      padding: 100px 24px;
+      padding: 80px 24px 100px;
       text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.06);
     }
 
     .pitch h2 {
       font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
       font-weight: 400;
-      margin-bottom: 16px;
-      letter-spacing: -0.02em;
+      margin-bottom: 14px;
     }
 
-    .pitch p {
-      color: var(--text-on-dark);
-      font-size: 1rem;
-      max-width: 420px;
-      margin: 0 auto 40px;
-      line-height: 1.65;
+    .pitch-sub {
+      color: var(--text);
+      font-size: 0.95rem;
+      max-width: 380px;
+      margin: 0 auto 36px;
+      line-height: 1.6;
     }
 
     .pitch-note {
-      margin-top: 20px;
-      font-size: 0.8rem;
+      margin-top: 16px;
+      font-size: 0.75rem;
       color: var(--text-dim);
     }
 
     /* ── FOOTER ── */
     .footer {
-      padding: 40px;
+      padding: 32px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      font-size: 0.8rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      font-size: 0.75rem;
     }
 
-    .footer-left {
-      color: var(--text-dim);
-    }
+    .footer-left { color: var(--text-dim); }
 
     .footer-right {
       display: flex;
-      gap: 24px;
+      gap: 20px;
     }
 
     .footer-right a {
-      color: var(--text-on-dark);
+      color: var(--text-dim);
       text-decoration: none;
-      font-size: 0.8rem;
       transition: color 0.2s;
     }
 
-    .footer-right a:hover { color: var(--copper-light); }
+    .footer-right a:hover { color: var(--gold); }
 
     /* ── ANIMATIONS ── */
     .fade-in {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(16px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
     .fade-in.d1 { transition-delay: 0.15s; }
     .fade-in.d2 { transition-delay: 0.3s; }
     .fade-in.d3 { transition-delay: 0.45s; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 640px) {
-      .nav { padding: 16px 20px; }
+      .nav { padding: 18px 20px; }
       .nav-right { gap: 16px; }
-      .nav-link { font-size: 0.7rem; }
-      .hero { padding: 100px 20px 60px; }
-      .details { gap: 32px; }
-      .focus-items { grid-template-columns: 1fr; gap: 28px; text-align: center; }
-      .footer { flex-direction: column; gap: 16px; text-align: center; }
+      .details { gap: 28px; }
+      .footer { flex-direction: column; gap: 12px; text-align: center; }
     }
   </style>
 </head>
@@ -324,8 +255,8 @@
   </nav>
 
   <section class="hero">
-    <h1 class="hero-headline fade-in">Investing in the <em>new water economy</em></h1>
-    <p class="hero-sub fade-in d1">Water infrastructure is being fundamentally reimagined. We back the founders building what comes next.</p>
+    <h1 class="fade-in">Investing in the <em>new water economy</em></h1>
+    <p class="hero-sub fade-in d1">Pre-seed and seed capital for the technologies and business models reshaping water infrastructure globally.</p>
     <a href="#pitch" class="btn fade-in d2">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
       Share Your Story
@@ -333,11 +264,6 @@
   </section>
 
   <div class="divider"></div>
-
-  <section class="info">
-    <p class="fade-in">The systems that have delivered and treated water for over a century are reaching their limits. Distributed treatment, intelligent water grids, industrial-scale reuse, and buildings that actively manage their own water are creating new business models and infrastructure that will serve every person and every business.</p>
-    <p class="fade-in d1">We invest at the earliest stages in the companies making this future a reality.</p>
-  </section>
 
   <div class="details">
     <div class="detail fade-in">
@@ -356,29 +282,9 @@
 
   <div class="divider"></div>
 
-  <section class="focus">
-    <p class="focus-label fade-in">Where We Focus</p>
-    <div class="focus-items">
-      <div class="focus-item fade-in">
-        <h3>Distributed Infrastructure</h3>
-        <p>Hybrid water grids, decentralized treatment, and delivery systems closer to the point of use.</p>
-      </div>
-      <div class="focus-item fade-in d1">
-        <h3>Industrial Treatment & Reuse</h3>
-        <p>Technologies for industrial water resilience, efficiency, and closed-loop reuse at scale.</p>
-      </div>
-      <div class="focus-item fade-in d2">
-        <h3>Water Intelligence</h3>
-        <p>Monitoring, management, and efficiency platforms for commercial and residential buildings.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
   <section class="pitch" id="pitch">
     <h2 class="fade-in">Tell us your story</h2>
-    <p class="fade-in d1">Skip the cold email. Record a short video about yourself, your team, and the problem you're solving.</p>
+    <p class="pitch-sub fade-in d1">Record a short video about yourself, your team, and the problem you're solving.</p>
     <a href="#" class="btn fade-in d2">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg>
       Record Your Video Pitch

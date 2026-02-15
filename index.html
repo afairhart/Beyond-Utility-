@@ -147,6 +147,25 @@
       color: var(--text);
     }
 
+    /* ── THEMES ── */
+    .themes {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      padding: 48px 24px 0;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      text-align: center;
+      flex-wrap: wrap;
+    }
+
+    .themes span { white-space: nowrap; }
+
+    .themes span + span::before {
+      content: '\00B7';
+      margin-right: 12px;
+    }
+
     /* ── DETAILS ── */
     .details {
       padding: 48px 24px;
@@ -264,6 +283,12 @@
   </section>
 
   <div class="divider"></div>
+
+  <div class="themes fade-in">
+    <span>Distributed & Hybrid Infrastructure</span>
+    <span>Industrial Treatment & Reuse</span>
+    <span>Water Intelligence & Efficiency</span>
+  </div>
 
   <div class="details">
     <div class="detail fade-in">

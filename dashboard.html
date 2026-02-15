@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Partner Dashboard — Beyond Utility Water Ventures</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #080E1A;
+      --blue: #4B7BF5;
+      --blue-light: #7BA1F7;
+      --blue-dim: rgba(75, 123, 245, 0.15);
+      --gold: #D4A84B;
+      --gold-dark: #B8903D;
+      --text: rgba(255, 255, 255, 0.88);
+      --text-dim: rgba(255, 255, 255, 0.45);
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── NAV ── */
+    .nav {
+      padding: 28px 40px;
+      padding-top: calc(28px + env(safe-area-inset-top));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--gold); }
+
+    .nav-logout {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 5px;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+
+    .nav-logout:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    /* ── DASHBOARD ── */
+    .dashboard {
+      flex: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 60px 40px;
+      width: 100%;
+    }
+
+    .dashboard-header {
+      margin-bottom: 48px;
+    }
+
+    .dashboard-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .dashboard-header p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+    }
+
+    .dashboard-card {
+      padding: 32px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .dashboard-card h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .dashboard-card p {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(212, 168, 75, 0.1);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 32px 40px;
+      display: flex;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .nav { padding: 14px 16px; padding-top: calc(14px + env(safe-area-inset-top)); }
+      .nav-logo { font-size: 0.85rem; }
+      .dashboard { padding: 32px 20px; }
+      .dashboard-header h1 { font-size: 1.5rem; }
+      .dashboard-card { padding: 24px 20px; }
+      .footer { padding: 24px 20px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Beyond Utility <span>Water Ventures</span></a>
+    <a href="#" class="nav-logout" id="logoutBtn">Log Out</a>
+  </nav>
+
+  <main class="dashboard">
+    <div class="dashboard-header">
+      <h1>Partner Dashboard</h1>
+      <p>Welcome back. Here's the latest on the fund.</p>
+    </div>
+
+    <div class="dashboard-card">
+      <span class="tag">Fund Overview</span>
+      <h2>Beyond Utility Water Ventures Fund I</h2>
+      <p>This section will be updated with current fund performance, deployment status, and key metrics. Check back soon for detailed reporting.</p>
+    </div>
+
+    <div class="dashboard-card">
+      <span class="tag">Portfolio</span>
+      <h2>Portfolio Companies</h2>
+      <p>Detailed information about portfolio companies, progress updates, and investment memos will appear here.</p>
+    </div>
+
+    <div class="dashboard-card">
+      <span class="tag">Documents</span>
+      <h2>Partner Documents</h2>
+      <p>Quarterly reports, capital call notices, and other fund documents will be available for download here.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>&copy; 2026 Beyond Utility Water Ventures</span>
+  </footer>
+
+  <script>
+    // Guard: redirect to login if not authenticated
+    if (sessionStorage.getItem('buAuth') !== '1') {
+      window.location.href = 'login.html';
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      sessionStorage.removeItem('buAuth');
+      window.location.href = 'index.html';
+    });
+  </script>
+
+</body>
+</html>

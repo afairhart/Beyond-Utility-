@@ -740,14 +740,21 @@
     <span>&copy; 2026 Beyond Utility Water Ventures</span>
   </footer>
 
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
   <script>
     // ── Auth ──
-    if (sessionStorage.getItem('buAuth') !== '1') {
-      window.location.href = 'login.html';
-    }
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+    (async function() {
+      const result = await BUAuth.guard();
+      if (!result) return;
+    })();
+    document.getElementById('logoutBtn').addEventListener('click', async function(e) {
       e.preventDefault();
-      sessionStorage.removeItem('buAuth');
+      await BUAuth.logout();
       window.location.href = 'index.html';
     });
 

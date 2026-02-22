@@ -22,6 +22,7 @@
       --gold-dark: #B8903D;
       --text: rgba(255, 255, 255, 0.88);
       --text-dim: rgba(255, 255, 255, 0.45);
+      --red: #f87171;
     }
 
     html { -webkit-text-size-adjust: 100%; }
@@ -35,6 +36,9 @@
       display: flex;
       flex-direction: column;
     }
+
+    /* Hide everything until auth resolves */
+    .auth-loading main, .auth-loading footer { display: none; }
 
     /* ── NAV ── */
     .nav {
@@ -68,6 +72,8 @@
       border-radius: 5px;
       transition: border-color 0.2s, color 0.2s;
       white-space: nowrap;
+      cursor: pointer;
+      background: none;
     }
 
     .nav-logout:hover {
@@ -162,6 +168,125 @@
       margin-bottom: 16px;
     }
 
+    /* ── USER MANAGEMENT (admin only) ── */
+    .admin-section { display: none; }
+
+    .user-list {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .user-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+    }
+
+    .user-info { flex: 1; min-width: 0; }
+
+    .user-email {
+      font-size: 0.9rem;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .user-role {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .user-role.admin { color: var(--gold); }
+    .user-role.partner { color: var(--blue-light); }
+
+    .user-remove {
+      background: none;
+      border: 1px solid rgba(248, 113, 113, 0.25);
+      color: var(--red);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+      margin-left: 12px;
+      flex-shrink: 0;
+    }
+
+    .user-remove:hover {
+      background: rgba(248, 113, 113, 0.1);
+      border-color: var(--red);
+    }
+
+    /* Add user form */
+    .add-user-form {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .add-user-form input {
+      flex: 1;
+      min-width: 140px;
+      padding: 12px 14px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .add-user-form input:focus {
+      border-color: var(--blue);
+    }
+
+    .add-user-form input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .add-user-btn {
+      padding: 12px 24px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--blue);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .add-user-btn:hover { background: var(--blue-light); }
+    .add-user-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .add-user-msg {
+      width: 100%;
+      font-size: 0.8rem;
+      margin-top: 8px;
+      min-height: 1.2em;
+    }
+
+    .add-user-msg.success { color: #34d399; }
+    .add-user-msg.error { color: var(--red); }
+
     /* ── FOOTER ── */
     .footer {
       padding: 32px 40px;
@@ -179,15 +304,16 @@
       .dashboard { padding: 32px 20px; }
       .dashboard-header h1 { font-size: 1.5rem; }
       .dashboard-card { padding: 24px 20px; }
+      .add-user-form { flex-direction: column; }
       .footer { padding: 24px 20px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
     }
   </style>
 </head>
-<body>
+<body class="auth-loading">
 
   <nav class="nav">
     <a href="index.html" class="nav-logo">Beyond Utility <span>Water Ventures</span></a>
-    <a href="#" class="nav-logout" id="logoutBtn">Log Out</a>
+    <button class="nav-logout" id="logoutBtn">Log Out</button>
   </nav>
 
   <main class="dashboard">
@@ -214,23 +340,135 @@
       <h2>Partner Documents</h2>
       <p>Quarterly reports, capital call notices, and other fund documents will be available for download here.</p>
     </div>
+
+    <!-- Admin-only: User Management -->
+    <div class="dashboard-card admin-section" id="adminSection">
+      <span class="tag">Admin</span>
+      <h2>Manage Users</h2>
+      <p>Invite partners by creating accounts below. Only you can see this section.</p>
+
+      <form class="add-user-form" id="addUserForm">
+        <input type="email" id="newEmail" placeholder="Email address" required>
+        <input type="password" id="newPassword" placeholder="Temp password" required minlength="6">
+        <button type="submit" class="add-user-btn" id="addUserBtn">Add User</button>
+        <div class="add-user-msg" id="addUserMsg"></div>
+      </form>
+
+      <div class="user-list" id="userList"></div>
+    </div>
   </main>
 
   <footer class="footer">
     <span>&copy; 2026 Beyond Utility Water Ventures</span>
   </footer>
 
-  <script>
-    // Guard: redirect to login if not authenticated
-    if (sessionStorage.getItem('buAuth') !== '1') {
-      window.location.href = 'login.html';
-    }
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
 
-    document.getElementById('logoutBtn').addEventListener('click', function(e) {
-      e.preventDefault();
-      sessionStorage.removeItem('buAuth');
+  <script>
+    let currentProfile = null;
+
+    (async function init() {
+      const result = await BUAuth.guard();
+      if (!result) return; // redirected to login
+
+      const { user, profile } = result;
+      currentProfile = profile;
+
+      // Show the page
+      document.body.classList.remove('auth-loading');
+
+      // If admin, show user management
+      if (profile.role === 'admin') {
+        document.getElementById('adminSection').style.display = 'block';
+        loadUsers(user.uid);
+      }
+    })();
+
+    // ── Logout ──
+    document.getElementById('logoutBtn').addEventListener('click', async function() {
+      await BUAuth.logout();
       window.location.href = 'index.html';
     });
+
+    // ── Load user list (admin) ──
+    async function loadUsers(adminUid) {
+      const users = await BUAuth.listUsers();
+      const list = document.getElementById('userList');
+      list.innerHTML = '';
+
+      users.forEach(u => {
+        const row = document.createElement('div');
+        row.className = 'user-row';
+
+        const isCurrentUser = u.uid === adminUid;
+
+        row.innerHTML =
+          '<div class="user-info">' +
+            '<div class="user-email">' + escapeHtml(u.email) + '</div>' +
+            '<div class="user-role ' + u.role + '">' + u.role + (isCurrentUser ? ' (you)' : '') + '</div>' +
+          '</div>' +
+          (isCurrentUser ? '' :
+            '<button class="user-remove" data-uid="' + u.uid + '">Remove</button>');
+
+        list.appendChild(row);
+      });
+
+      // Attach remove handlers
+      list.querySelectorAll('.user-remove').forEach(btn => {
+        btn.addEventListener('click', async function() {
+          if (!confirm('Remove this user? They will no longer be able to log in.')) return;
+          btn.disabled = true;
+          btn.textContent = '...';
+          await BUAuth.removeUser(btn.dataset.uid);
+          loadUsers(adminUid);
+        });
+      });
+    }
+
+    // ── Add user form (admin) ──
+    document.getElementById('addUserForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('newEmail').value.trim();
+      const password = document.getElementById('newPassword').value;
+      const msgEl = document.getElementById('addUserMsg');
+      const btn = document.getElementById('addUserBtn');
+
+      btn.disabled = true;
+      btn.textContent = 'Creating...';
+      msgEl.textContent = '';
+      msgEl.className = 'add-user-msg';
+
+      try {
+        await BUAuth.createUser(email, password);
+        msgEl.textContent = 'User created. Share login credentials with them.';
+        msgEl.classList.add('success');
+        document.getElementById('newEmail').value = '';
+        document.getElementById('newPassword').value = '';
+        // Refresh list
+        const user = await BUAuth.currentUser();
+        loadUsers(user.uid);
+      } catch (err) {
+        msgEl.textContent = err.code === 'auth/email-already-in-use'
+          ? 'That email already has an account.'
+          : err.code === 'auth/weak-password'
+          ? 'Password must be at least 6 characters.'
+          : 'Error: ' + err.message;
+        msgEl.classList.add('error');
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Add User';
+    });
+
+    function escapeHtml(str) {
+      const d = document.createElement('div');
+      d.textContent = str;
+      return d.innerHTML;
+    }
   </script>
 
 </body>

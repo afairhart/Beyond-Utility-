@@ -227,9 +227,16 @@
   <script src="firebase-config.js"></script>
 
   <script>
-    // If already logged in, go straight to dashboard
-    BUAuth.currentUser().then(user => {
-      if (user) window.location.href = 'dashboard.html';
+    // If already logged in and has a profile, go straight to dashboard
+    BUAuth.currentUser().then(async user => {
+      if (!user) return;
+      const profile = await BUAuth.getProfile(user.uid);
+      if (profile) {
+        window.location.href = 'dashboard.html';
+      } else {
+        // Auth account exists but profile was removed — sign them out
+        await BUAuth.logout();
+      }
     });
 
     const loginBtn = document.querySelector('.login-btn');
@@ -244,7 +251,24 @@
       loginBtn.textContent = 'Signing in…';
 
       try {
-        await BUAuth.login(email, password);
+        const cred = await BUAuth.login(email, password);
+
+        // Check if user has a Firestore profile (admin may have removed them)
+        const profile = await BUAuth.getProfile(cred.user.uid);
+        if (!profile) {
+          // Check if this is the very first user (bootstrap case)
+          const snapshot = await db.collection('users').limit(1).get();
+          if (!snapshot.empty) {
+            // Users exist but this person was removed — block access
+            await BUAuth.logout();
+            errorEl.textContent = 'This account has been deactivated. Contact your administrator.';
+            errorEl.classList.add('visible');
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Log In';
+            return;
+          }
+        }
+
         window.location.href = 'dashboard.html';
       } catch (err) {
         errorEl.textContent = err.code === 'auth/invalid-credential'

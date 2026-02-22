@@ -29,6 +29,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
+const functions = firebase.functions();
 
 // ── Auth Helpers ──
 const BUAuth = {
@@ -115,11 +116,11 @@ const BUAuth = {
     return snapshot.docs.map(doc => ({ uid: doc.id, ...doc.data() }));
   },
 
-  /** Delete a user profile from Firestore (admin only).
-   *  Note: This removes their Firestore doc. The Firebase Auth account
-   *  can only be fully deleted from the Firebase Console. */
+  /** Fully delete a user — removes Firestore profile AND Firebase Auth account.
+   *  Calls a Cloud Function that uses the Admin SDK. */
   async removeUser(uid) {
-    await db.collection('users').doc(uid).delete();
+    const deleteUser = functions.httpsCallable('deleteUser');
+    await deleteUser({ uid: uid });
   },
 
   /**

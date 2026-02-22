@@ -124,7 +124,9 @@ const BUAuth = {
 
   /**
    * Auth guard — redirects to login if not authenticated.
-   * Returns { user, profile } if authenticated.
+   * Returns { user, profile } if authenticated and authorized.
+   * If the user's Firestore profile was removed by an admin,
+   * they are signed out and sent back to login.
    */
   async guard() {
     const user = await this.currentUser();
@@ -132,7 +134,23 @@ const BUAuth = {
       window.location.href = 'login.html';
       return null;
     }
-    const profile = await this.ensureProfile(user);
+
+    // Check if any users exist at all (first-user bootstrap)
+    const snapshot = await db.collection('users').limit(1).get();
+    if (snapshot.empty) {
+      // No users yet — bootstrap the first admin
+      const profile = await this.ensureProfile(user);
+      return { user, profile };
+    }
+
+    // Users exist — only allow access if this user has a profile
+    const profile = await this.getProfile(user.uid);
+    if (!profile) {
+      await this.logout();
+      window.location.href = 'login.html';
+      return null;
+    }
+
     return { user, profile };
   }
 };

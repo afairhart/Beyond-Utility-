@@ -203,8 +203,8 @@
 
       <form id="loginForm">
         <div class="form-group">
-          <label for="username">Username</label>
-          <input type="text" id="username" name="username" placeholder="Enter username" required autocomplete="username">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter email" required autocomplete="email">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
@@ -220,22 +220,46 @@
     <span>&copy; 2026 Beyond Utility Water Ventures</span>
   </footer>
 
-  <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      var u = document.getElementById('username').value;
-      var p = document.getElementById('password').value;
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
 
-      if (u === 'admin' && p === 'admin') {
-        sessionStorage.setItem('buAuth', '1');
+  <script>
+    // If already logged in, go straight to dashboard
+    BUAuth.currentUser().then(user => {
+      if (user) window.location.href = 'dashboard.html';
+    });
+
+    const loginBtn = document.querySelector('.login-btn');
+
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('loginError');
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Signing in…';
+
+      try {
+        await BUAuth.login(email, password);
         window.location.href = 'dashboard.html';
-      } else {
-        document.getElementById('loginError').classList.add('visible');
+      } catch (err) {
+        errorEl.textContent = err.code === 'auth/invalid-credential'
+          ? 'Invalid email or password. Please try again.'
+          : err.code === 'auth/too-many-requests'
+          ? 'Too many attempts. Please wait and try again.'
+          : 'Login failed. Please try again.';
+        errorEl.classList.add('visible');
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Log In';
       }
     });
 
-    // Clear error when user starts typing again
-    document.getElementById('username').addEventListener('input', function() {
+    // Clear error when user starts typing
+    document.getElementById('email').addEventListener('input', function() {
       document.getElementById('loginError').classList.remove('visible');
     });
     document.getElementById('password').addEventListener('input', function() {

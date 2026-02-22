@@ -420,7 +420,7 @@
       // Attach remove handlers
       list.querySelectorAll('.user-remove').forEach(btn => {
         btn.addEventListener('click', async function() {
-          if (!confirm('Remove this user? They will no longer be able to log in.')) return;
+          if (!confirm('Remove this user? They will be deactivated and unable to access the dashboard.')) return;
           btn.disabled = true;
           btn.textContent = '...';
           await BUAuth.removeUser(btn.dataset.uid);

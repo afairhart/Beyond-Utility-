@@ -1,4 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="4" fill="#080E1A"/>
-  <text x="16" y="23" text-anchor="middle" font-family="'Outfit','Helvetica Neue',Arial,sans-serif" font-weight="700" font-size="18" fill="#ffffff">BU</text>
+  <!-- Beyond Utility Water Ventures — Favicon -->
+  <!-- Water drop with stylized B, on dark rounded square -->
+  <rect width="32" height="32" rx="6" fill="#080E1A"/>
+  <!-- Drop silhouette -->
+  <path d="M16 4C16 4 23 12 23 18.75C23 22.6 20 25.75 16 25.75C12 25.75 9 22.6 9 18.75C9 12 16 4 16 4Z" fill="#4B7BF5"/>
+  <!-- Stylized B — stem + two bumps -->
+  <path d="M14 14V24" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  <path d="M14 14.2C14 14.2 17.5 13.8 17.5 16.1C17.5 18.4 14 18.2 14 18.2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <path d="M14 18.2C14 18.2 18.2 17.8 18.2 20.4C18.2 23 14 22.8 14 22.8" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
 </svg>

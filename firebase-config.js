@@ -29,7 +29,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
-const functions = firebase.functions();
 
 // ── Auth Helpers ──
 const BUAuth = {
@@ -119,7 +118,7 @@ const BUAuth = {
   /** Fully delete a user — removes Firestore profile AND Firebase Auth account.
    *  Calls a Cloud Function that uses the Admin SDK. */
   async removeUser(uid) {
-    const deleteUser = functions.httpsCallable('deleteUser');
+    const deleteUser = firebase.functions().httpsCallable('deleteUser');
     await deleteUser({ uid: uid });
   },
 

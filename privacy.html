@@ -207,7 +207,7 @@
     </ul>
 
     <h2>Contact Us</h2>
-    <p>If you have questions about this Privacy Policy or wish to exercise your rights, please contact us at <a href="mailto:alex@beyondutilityventures.com">alex@beyondutilityventures.com</a>.</p>
+    <p>If you have questions about this Privacy Policy or wish to exercise your rights, please contact us at <a class="ob-em" data-u="alex" data-d="beyondutilityventures.com"></a>.</p>
 
     <h2>Changes to This Policy</h2>
     <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated revision date.</p>
@@ -216,10 +216,24 @@
   <footer class="footer">
     <span class="footer-left">&copy; 2026 Beyond Utility Water Ventures</span>
     <div class="footer-right">
-      <a href="mailto:alex@beyondutilityventures.com">alex@beyondutilityventures.com</a>
-      <a href="https://www.linkedin.com/in/alexanderfairhart/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="ob-em" data-u="alex" data-d="beyondutilityventures.com"></a>
+      <a class="ob-li" data-p="/in/alexanderfairhart/" target="_blank" rel="noopener"></a>
     </div>
   </footer>
+
+  <script>
+    // Assemble obfuscated contact links at runtime (defeats scrapers)
+    document.querySelectorAll('.ob-em').forEach(function(el) {
+      var addr = el.dataset.u + '\x40' + el.dataset.d;
+      el.href = 'ma' + 'ilto:' + addr;
+      el.textContent = addr;
+    });
+    document.querySelectorAll('.ob-li').forEach(function(el) {
+      var url = 'https://www.linked' + 'in.com' + el.dataset.p;
+      el.href = url;
+      el.textContent = 'LinkedIn';
+    });
+  </script>
 
 </body>
 </html>

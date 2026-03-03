@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -359,6 +360,40 @@
       line-height: 1.55;
     }
 
+    /* ── DOWNLOAD BTN ── */
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 16px;
+      padding: 8px 18px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+      background: transparent;
+      border: 1px solid var(--border-hover);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .download-btn:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: #fff;
+    }
+
+    .download-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
     /* ── FOOTER ── */
     .footer {
       padding: 32px 40px;
@@ -407,6 +442,10 @@
     <div class="page-header">
       <h1>Fund Investment Model</h1>
       <p>A $12.5M pre-seed fund deploying into 12 water technology companies over a 3-year investment period, with concentrated follow-on reserves for the top performers.</p>
+      <button class="download-btn" onclick="downloadExcel()">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Model (.xlsx)
+      </button>
     </div>
 
     <!-- Top metrics -->
@@ -843,6 +882,131 @@
         }
       }
     });
+
+    // ── Excel Download ──
+    function downloadExcel() {
+      var wb = XLSX.utils.book_new();
+
+      // ── Sheet 1: Fund Overview ──
+      var overview = [
+        ['Beyond Utility Water Ventures — Fund Model'],
+        [],
+        ['FUND PARAMETERS'],
+        ['Fund Size', FUND_SIZE],
+        ['Management Fee (annual)', MGMT_FEE],
+        ['Fund Life (years)', FUND_LIFE],
+        ['Deployment Period (years)', DEPLOYMENT_YEARS],
+        ['Deals Per Year', DEALS_PER_YEAR],
+        ['Initial Check Size', INITIAL_CHECK],
+        ['Follow-On Year', FOLLOW_ON_YEAR],
+        ['Follow-On Count', FOLLOW_ON_COUNT],
+        [],
+        ['CAPITAL BREAKDOWN'],
+        ['Total Fees (2% × 10 yrs)', totalFees],
+        ['Investable Capital', investable],
+        ['First Checks (12 × $400k)', initialTotal],
+        ['Follow-On Capital', followTotal],
+        ['Follow-On Per Winner', followOnPerWinner],
+        ['Total Deployed', totalDeployed],
+        ['Dry Powder', remaining],
+        [],
+        ['FUND PERFORMANCE'],
+        ['Total Returned', totalReturned],
+        ['MOIC', moic],
+        ['Net IRR', netIrr],
+        [],
+        ['FORMULAS'],
+        ['Total Fees', '= Fund Size × Mgmt Fee × Fund Life'],
+        ['Investable Capital', '= Fund Size − Total Fees'],
+        ['Follow-On Pool', '= Investable Capital − First Checks'],
+        ['Follow-On Per Winner', '= Follow-On Pool ÷ Follow-On Count'],
+        ['MOIC', '= Total Returned ÷ Total Deployed'],
+        ['IRR', '= Internal rate of return on annual cashflows (Newton-Raphson solver)']
+      ];
+      var ws1 = XLSX.utils.aoa_to_sheet(overview);
+      ws1['!cols'] = [{ wch: 30 }, { wch: 20 }];
+      // Format currency cells
+      var currCells = ['B4','B9','B14','B15','B16','B17','B18','B19','B20','B23'];
+      for (var i = 0; i < currCells.length; i++) {
+        if (ws1[currCells[i]]) ws1[currCells[i]].z = '$#,##0';
+      }
+      if (ws1['B5']) ws1['B5'].z = '0.0%';
+      if (ws1['B24']) ws1['B24'].z = '0.0x';
+      if (ws1['B25']) ws1['B25'].z = '0.0%';
+      XLSX.utils.book_append_sheet(wb, ws1, 'Fund Overview');
+
+      // ── Sheet 2: Portfolio ──
+      var portfolio = [
+        ['Deal #', 'Return Multiple', 'Follow-On?', 'Invested', 'Returned', 'Net Profit', 'Profit Formula']
+      ];
+      for (var i = 0; i < deals.length; i++) {
+        var d = deals[i];
+        portfolio.push([
+          d.id,
+          d.multiple,
+          d.followOn ? 'Yes' : 'No',
+          d.invested,
+          d.returned,
+          d.returned - d.invested,
+          '= Invested × Multiple'
+        ]);
+      }
+      portfolio.push([]);
+      portfolio.push(['', 'TOTALS', '', totalDeployed, totalReturned, totalReturned - totalDeployed]);
+      var ws2 = XLSX.utils.aoa_to_sheet(portfolio);
+      ws2['!cols'] = [{ wch: 8 }, { wch: 16 }, { wch: 12 }, { wch: 16 }, { wch: 16 }, { wch: 16 }, { wch: 24 }];
+      // Format currency columns D, E, F (rows 2-13 and totals row 15)
+      for (var r = 2; r <= 15; r++) {
+        ['D','E','F'].forEach(function(c) {
+          var ref = c + r;
+          if (ws2[ref] && typeof ws2[ref].v === 'number') ws2[ref].z = '$#,##0';
+        });
+      }
+      // Format multiple column
+      for (var r = 2; r <= 13; r++) {
+        if (ws2['B' + r]) ws2['B' + r].z = '0x';
+      }
+      XLSX.utils.book_append_sheet(wb, ws2, 'Portfolio');
+
+      // ── Sheet 3: Annual Cashflows ──
+      var cfSheet = [
+        ['Year', 'Initial Checks', 'Follow-On', 'Management Fees', 'Exits', 'Net Cashflow', 'Cumulative', 'Net CF Formula']
+      ];
+      var cumVal = 0;
+      for (var y = 0; y <= FUND_LIFE; y++) {
+        var initCf = (y >= 1 && y <= DEPLOYMENT_YEARS) ? -(DEALS_PER_YEAR * INITIAL_CHECK) : 0;
+        var followCf = (y === FOLLOW_ON_YEAR) ? -followTotal : 0;
+        var feeCf = (y >= 1) ? -(FUND_SIZE * MGMT_FEE) : 0;
+        var exitCf = (y === EXIT_YEAR) ? totalReturned : 0;
+        var net = initCf + followCf + feeCf + exitCf;
+        cumVal += net;
+        cfSheet.push([
+          'Year ' + y,
+          initCf,
+          followCf,
+          feeCf,
+          exitCf,
+          net,
+          cumVal,
+          '= Initial + Follow-On + Fees + Exits'
+        ]);
+      }
+      cfSheet.push([]);
+      cfSheet.push(['NET IRR', netIrr, '', '', '', '', '', 'Solved via Newton-Raphson on net cashflows']);
+      var ws3 = XLSX.utils.aoa_to_sheet(cfSheet);
+      ws3['!cols'] = [{ wch: 10 }, { wch: 16 }, { wch: 16 }, { wch: 16 }, { wch: 16 }, { wch: 16 }, { wch: 16 }, { wch: 38 }];
+      // Format currency cells
+      for (var r = 2; r <= 12; r++) {
+        ['B','C','D','E','F','G'].forEach(function(c) {
+          var ref = c + r;
+          if (ws3[ref] && typeof ws3[ref].v === 'number') ws3[ref].z = '$#,##0';
+        });
+      }
+      if (ws3['B14']) ws3['B14'].z = '0.0%';
+      XLSX.utils.book_append_sheet(wb, ws3, 'Annual Cashflows');
+
+      XLSX.writeFile(wb, 'BU_Water_Ventures_Fund_Model.xlsx');
+    }
   </script>
 
 </body>

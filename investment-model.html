@@ -472,7 +472,7 @@
     <div class="model-grid">
       <div class="card">
         <div class="card-title">Return Distribution</div>
-        <div class="card-subtitle">Projected outcome multiples across the 12-company portfolio. Blue bars indicate follow-on investments.</div>
+        <div class="card-subtitle">Projected net multiples (post-dilution) across the 12-company portfolio. Blue bars indicate follow-on investments.</div>
         <div class="chart-wrapper">
           <canvas id="outcomeChart"></canvas>
         </div>
@@ -498,6 +498,7 @@
           <div class="fixed-row"><span class="label">Deployment Period</span><span class="val">Years 1&ndash;3</span></div>
           <div class="fixed-row"><span class="label">Initial Check</span><span class="val">$400k &times; 12 (4 / yr)</span></div>
           <div class="fixed-row"><span class="label">Follow-On Reserve</span><span class="val">Top 3, Year 3</span></div>
+          <div class="fixed-row"><span class="label">Dilution / Round</span><span class="val">20% &times; 3 rounds</span></div>
         </div>
 
         <!-- Capital Breakdown -->
@@ -511,6 +512,9 @@
           <div class="computed-row"><span class="label">Follow-On Capital</span><span class="val" id="compFollowTotal">&mdash;</span></div>
           <div class="computed-row"><span class="label">Total Deployed</span><span class="val" id="compDeployed">&mdash;</span></div>
           <div class="computed-row"><span class="label">Dry Powder</span><span class="val" id="compRemaining">&mdash;</span></div>
+          <div class="computed-divider"></div>
+          <div class="computed-row"><span class="label">Retention (no follow-on)</span><span class="val" id="compRetBase">&mdash;</span></div>
+          <div class="computed-row"><span class="label">Retention (w/ follow-on)</span><span class="val" id="compRetFollow">&mdash;</span></div>
         </div>
 
         <!-- Cashflows -->
@@ -562,7 +566,11 @@
         </div>
         <div class="assumption-item">
           <h4>Outcome Distribution</h4>
-          <p>Return multiples follow a power-law: one breakout winner (50x), strong performers (25x, 15x, 10x), moderate returns (5x, 3x, 2x), capital-return deals (1x), and total losses (0x). Two of twelve companies fail entirely.</p>
+          <p>Gross return multiples follow a power-law: one breakout winner (50x), strong performers (25x, 15x, 10x), moderate returns (5x, 3x, 2x), capital-return deals (1x), and total losses (0x). Two of twelve companies fail entirely. Net multiples are reduced by dilution.</p>
+        </div>
+        <div class="assumption-item">
+          <h4>Dilution</h4>
+          <p>20% ownership dilution per subsequent funding round, with 3 rounds assumed between pre-seed entry and exit (Seed, Series A, Series B). Non-follow-on companies retain 51.2% of initial ownership; follow-on companies retain 64.0% by participating pro-rata in one round. This is consistent with industry benchmarks for early-stage water technology companies.</p>
         </div>
         <div class="assumption-item">
           <h4>Exit Assumptions</h4>
@@ -592,9 +600,14 @@
     var FOLLOW_ON_YEAR = 3;    // Follow-on after seeing early results
     var FOLLOW_ON_COUNT = 3;
 
-    // 12 investments, sorted by return multiple (descending)
+    // Dilution assumptions
+    var DILUTION_PER_ROUND = 0.20;      // 20% dilution per subsequent funding round
+    var EXPECTED_ROUNDS = 3;             // Avg subsequent rounds to exit (Seed, A, B)
+    var FOLLOW_ON_ROUND_OFFSET = 1;     // Follow-on participation offsets 1 round of dilution
+
+    // 12 investments, sorted by GROSS return multiple (descending, pre-dilution)
     // Top 3 performers receive follow-on
-    var MULTIPLES = [50, 25, 15, 10, 5, 5, 3, 2, 1, 1, 0, 0];
+    var GROSS_MULTIPLES = [50, 25, 15, 10, 5, 5, 3, 2, 1, 1, 0, 0];
 
     // ── Utilities ──
     function fmtMoney(x) {
@@ -653,31 +666,44 @@
     // ── Calculate Everything ──
     var totalFees = FUND_SIZE * MGMT_FEE * FUND_LIFE;
     var investable = FUND_SIZE - totalFees;
-    var initialTotal = INITIAL_CHECK * MULTIPLES.length;
+    var initialTotal = INITIAL_CHECK * GROSS_MULTIPLES.length;
     var followOnPool = investable - initialTotal;
     var followOnPerWinner = followOnPool / FOLLOW_ON_COUNT;
     var followTotal = followOnPerWinner * FOLLOW_ON_COUNT;
     var totalDeployed = initialTotal + followTotal;
     var remaining = investable - totalDeployed;
 
-    // Per-deal returns
+    // Dilution: ownership retention after subsequent funding rounds
+    var retentionBase = Math.pow(1 - DILUTION_PER_ROUND, EXPECTED_ROUNDS);
+    var retentionFollowOn = Math.pow(1 - DILUTION_PER_ROUND, Math.max(0, EXPECTED_ROUNDS - FOLLOW_ON_ROUND_OFFSET));
+
+    // Per-deal returns (net of dilution)
     var deals = [];
     var totalReturned = 0;
-    for (var i = 0; i < MULTIPLES.length; i++) {
+    var totalReturnedGross = 0;
+    for (var i = 0; i < GROSS_MULTIPLES.length; i++) {
       var hasFollowOn = i < FOLLOW_ON_COUNT;
       var invested = INITIAL_CHECK + (hasFollowOn ? followOnPerWinner : 0);
-      var returned = invested * MULTIPLES[i];
+      var retention = hasFollowOn ? retentionFollowOn : retentionBase;
+      var netMultiple = GROSS_MULTIPLES[i] * retention;
+      var returned = invested * netMultiple;
+      var returnedGross = invested * GROSS_MULTIPLES[i];
       totalReturned += returned;
+      totalReturnedGross += returnedGross;
       deals.push({
         id: i + 1,
-        multiple: MULTIPLES[i],
+        grossMultiple: GROSS_MULTIPLES[i],
+        netMultiple: netMultiple,
+        retention: retention,
         followOn: hasFollowOn,
         invested: invested,
-        returned: returned
+        returned: returned,
+        returnedGross: returnedGross
       });
     }
 
     var moic = totalDeployed > 0 ? totalReturned / totalDeployed : null;
+    var moicGross = totalDeployed > 0 ? totalReturnedGross / totalDeployed : null;
 
     // Cashflows — initial checks staggered across years 1-3
     var byYear = {};
@@ -715,10 +741,12 @@
     document.getElementById('compFundSize').textContent = fmtMoney(FUND_SIZE);
     document.getElementById('compFees').textContent = fmtMoney(totalFees);
     document.getElementById('compInvestable').textContent = fmtMoney(investable);
-    document.getElementById('compInitTotal').textContent = MULTIPLES.length + ' \u00d7 ' + fmtMoney(INITIAL_CHECK) + ' = ' + fmtMoney(initialTotal);
+    document.getElementById('compInitTotal').textContent = GROSS_MULTIPLES.length + ' \u00d7 ' + fmtMoney(INITIAL_CHECK) + ' = ' + fmtMoney(initialTotal);
     document.getElementById('compFollowTotal').textContent = FOLLOW_ON_COUNT + ' \u00d7 ' + fmtMoney(followOnPerWinner) + ' = ' + fmtMoney(followTotal);
     document.getElementById('compDeployed').textContent = fmtMoney(totalDeployed);
     document.getElementById('compRemaining').textContent = fmtMoney(remaining);
+    document.getElementById('compRetBase').textContent = (retentionBase * 100).toFixed(1) + '%';
+    document.getElementById('compRetFollow').textContent = (retentionFollowOn * 100).toFixed(1) + '%';
 
     // Cashflows
     var cfHtml = '';
@@ -735,18 +763,19 @@
       var d = deals[i];
       var classes = 'deal-card';
       if (d.followOn) classes += ' follow-on';
-      if (d.multiple === 0) classes += ' zero';
+      if (d.grossMultiple === 0) classes += ' zero';
 
       var badge = '';
       if (d.followOn) badge = '<span class="deal-badge follow">Follow-on</span>';
-      else if (d.multiple === 0) badge = '<span class="deal-badge loss">Loss</span>';
+      else if (d.grossMultiple === 0) badge = '<span class="deal-badge loss">Loss</span>';
 
       dealsHtml += '<div class="' + classes + '">';
       dealsHtml += '  <div class="deal-card-header">';
       dealsHtml += '    <span class="deal-number">#' + d.id + '</span>';
       dealsHtml += '    ' + badge;
       dealsHtml += '  </div>';
-      dealsHtml += '  <div class="deal-row"><span class="deal-row-label">Multiple</span><span class="deal-row-value">' + d.multiple + 'x</span></div>';
+      dealsHtml += '  <div class="deal-row"><span class="deal-row-label">Gross Multiple</span><span class="deal-row-value">' + d.grossMultiple + 'x</span></div>';
+      dealsHtml += '  <div class="deal-row"><span class="deal-row-label">Net of Dilution</span><span class="deal-row-value" style="color:var(--gold)">' + d.netMultiple.toFixed(1) + 'x</span></div>';
       dealsHtml += '  <div class="deal-row"><span class="deal-row-label">Invested</span><span class="deal-row-value">' + fmtMoney(d.invested) + '</span></div>';
       dealsHtml += '  <div class="deal-row"><span class="deal-row-label">Returned</span><span class="deal-row-value green">' + fmtMoney(d.returned) + '</span></div>';
       dealsHtml += '</div>';
@@ -760,15 +789,15 @@
       data: {
         labels: deals.map(function(d) { return '#' + d.id; }),
         datasets: [{
-          label: 'Outcome Multiple',
-          data: deals.map(function(d) { return d.multiple; }),
+          label: 'Net Multiple (post-dilution)',
+          data: deals.map(function(d) { return d.netMultiple; }),
           backgroundColor: deals.map(function(d) {
-            if (d.multiple === 0) return 'rgba(255,255,255,0.05)';
+            if (d.grossMultiple === 0) return 'rgba(255,255,255,0.05)';
             if (d.followOn) return 'rgba(75, 123, 245, 0.7)';
             return 'rgba(212, 168, 75, 0.6)';
           }),
           borderColor: deals.map(function(d) {
-            if (d.multiple === 0) return 'rgba(255,255,255,0.1)';
+            if (d.grossMultiple === 0) return 'rgba(255,255,255,0.1)';
             if (d.followOn) return 'rgba(75, 123, 245, 1)';
             return 'rgba(212, 168, 75, 1)';
           }),
@@ -792,7 +821,7 @@
               label: function(c) {
                 var d = deals[c.dataIndex];
                 if (!d) return '';
-                return d.multiple + 'x \u2192 ' + fmtMoney(d.returned) + (d.followOn ? ' (Follow-on)' : '');
+                return d.grossMultiple + 'x gross \u2192 ' + d.netMultiple.toFixed(1) + 'x net \u2192 ' + fmtMoney(d.returned) + (d.followOn ? ' (Follow-on)' : '');
               }
             }
           }
@@ -901,6 +930,13 @@
         ['Follow-On Year', FOLLOW_ON_YEAR],
         ['Follow-On Count', FOLLOW_ON_COUNT],
         [],
+        ['DILUTION ASSUMPTIONS'],
+        ['Dilution Per Round', DILUTION_PER_ROUND],
+        ['Expected Subsequent Rounds', EXPECTED_ROUNDS],
+        ['Follow-On Offsets (rounds)', FOLLOW_ON_ROUND_OFFSET],
+        ['Ownership Retention (no follow-on)', retentionBase],
+        ['Ownership Retention (w/ follow-on)', retentionFollowOn],
+        [],
         ['CAPITAL BREAKDOWN'],
         ['Total Fees (2% × 10 yrs)', totalFees],
         ['Investable Capital', investable],
@@ -910,9 +946,12 @@
         ['Total Deployed', totalDeployed],
         ['Dry Powder', remaining],
         [],
-        ['FUND PERFORMANCE'],
-        ['Total Returned', totalReturned],
-        ['MOIC', moic],
+        ['FUND PERFORMANCE (NET OF DILUTION)'],
+        ['Total Returned (net of dilution)', totalReturned],
+        ['Total Returned (gross, no dilution)', totalReturnedGross],
+        ['Dilution Impact', totalReturned - totalReturnedGross],
+        ['MOIC (net of dilution)', moic],
+        ['MOIC (gross, no dilution)', moicGross],
         ['Net IRR', netIrr],
         [],
         ['FORMULAS'],
@@ -920,51 +959,65 @@
         ['Investable Capital', '= Fund Size − Total Fees'],
         ['Follow-On Pool', '= Investable Capital − First Checks'],
         ['Follow-On Per Winner', '= Follow-On Pool ÷ Follow-On Count'],
+        ['Retention (no follow-on)', '= (1 − Dilution Per Round) ^ Expected Rounds'],
+        ['Retention (w/ follow-on)', '= (1 − Dilution Per Round) ^ (Expected Rounds − Follow-On Offset)'],
+        ['Net Multiple', '= Gross Multiple × Retention Factor'],
         ['MOIC', '= Total Returned ÷ Total Deployed'],
         ['IRR', '= Internal rate of return on annual cashflows (Newton-Raphson solver)']
       ];
       var ws1 = XLSX.utils.aoa_to_sheet(overview);
-      ws1['!cols'] = [{ wch: 30 }, { wch: 20 }];
-      // Format currency cells
-      var currCells = ['B4','B9','B14','B15','B16','B17','B18','B19','B20','B23'];
-      for (var i = 0; i < currCells.length; i++) {
-        if (ws1[currCells[i]]) ws1[currCells[i]].z = '$#,##0';
+      ws1['!cols'] = [{ wch: 36 }, { wch: 22 }];
+      // Format cells by iterating and applying formats based on content type
+      var range = XLSX.utils.decode_range(ws1['!ref']);
+      for (var R = range.s.r; R <= range.e.r; R++) {
+        var cell = ws1[XLSX.utils.encode_cell({r:R, c:1})];
+        if (!cell || typeof cell.v !== 'number') continue;
+        var label = ws1[XLSX.utils.encode_cell({r:R, c:0})];
+        var lbl = label ? String(label.v).toLowerCase() : '';
+        if (lbl.indexOf('dilution per') >= 0 || lbl.indexOf('retention') >= 0 || lbl.indexOf('fee (annual)') >= 0 || lbl.indexOf('irr') >= 0) {
+          cell.z = '0.0%';
+        } else if (lbl.indexOf('moic') >= 0) {
+          cell.z = '0.0x';
+        } else if (Math.abs(cell.v) >= 1000) {
+          cell.z = '$#,##0';
+        }
       }
-      if (ws1['B5']) ws1['B5'].z = '0.0%';
-      if (ws1['B24']) ws1['B24'].z = '0.0x';
-      if (ws1['B25']) ws1['B25'].z = '0.0%';
       XLSX.utils.book_append_sheet(wb, ws1, 'Fund Overview');
 
       // ── Sheet 2: Portfolio ──
       var portfolio = [
-        ['Deal #', 'Return Multiple', 'Follow-On?', 'Invested', 'Returned', 'Net Profit', 'Profit Formula']
+        ['Deal #', 'Gross Multiple', 'Retention', 'Net Multiple', 'Follow-On?', 'Invested', 'Returned (net)', 'Net Profit', 'Formula']
       ];
       for (var i = 0; i < deals.length; i++) {
         var d = deals[i];
         portfolio.push([
           d.id,
-          d.multiple,
+          d.grossMultiple,
+          d.retention,
+          d.netMultiple,
           d.followOn ? 'Yes' : 'No',
           d.invested,
           d.returned,
           d.returned - d.invested,
-          '= Invested × Multiple'
+          '= Invested × Gross Multiple × Retention'
         ]);
       }
       portfolio.push([]);
-      portfolio.push(['', 'TOTALS', '', totalDeployed, totalReturned, totalReturned - totalDeployed]);
+      portfolio.push(['', 'TOTALS', '', '', '', totalDeployed, totalReturned, totalReturned - totalDeployed]);
       var ws2 = XLSX.utils.aoa_to_sheet(portfolio);
-      ws2['!cols'] = [{ wch: 8 }, { wch: 16 }, { wch: 12 }, { wch: 16 }, { wch: 16 }, { wch: 16 }, { wch: 24 }];
-      // Format currency columns D, E, F (rows 2-13 and totals row 15)
+      ws2['!cols'] = [{ wch: 8 }, { wch: 16 }, { wch: 12 }, { wch: 14 }, { wch: 12 }, { wch: 16 }, { wch: 18 }, { wch: 16 }, { wch: 38 }];
+      // Format currency columns F, G, H (rows 2-13 and totals row 15)
       for (var r = 2; r <= 15; r++) {
-        ['D','E','F'].forEach(function(c) {
+        ['F','G','H'].forEach(function(c) {
           var ref = c + r;
           if (ws2[ref] && typeof ws2[ref].v === 'number') ws2[ref].z = '$#,##0';
         });
       }
-      // Format multiple column
+      // Format gross multiple column (B) and net multiple column (D)
       for (var r = 2; r <= 13; r++) {
         if (ws2['B' + r]) ws2['B' + r].z = '0x';
+        if (ws2['D' + r]) ws2['D' + r].z = '0.0x';
+        if (ws2['C' + r]) ws2['C' + r].z = '0.0%';
       }
       XLSX.utils.book_append_sheet(wb, ws2, 'Portfolio');
 

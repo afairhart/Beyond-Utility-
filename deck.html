@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Beyond Utility Water Ventures — Fund I LP Deck</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #080E1A;
+      --bg-light: #0D1526;
+      --blue: #4B7BF5;
+      --blue-light: #7BA1F7;
+      --blue-dim: rgba(75, 123, 245, 0.15);
+      --gold: #D4A84B;
+      --gold-light: #E4C06B;
+      --text: rgba(255, 255, 255, 0.92);
+      --text-dim: rgba(255, 255, 255, 0.50);
+      --text-muted: rgba(255, 255, 255, 0.30);
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── SLIDE SYSTEM ── */
+    .slide {
+      width: 1280px;
+      height: 720px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      page-break-after: always;
+      page-break-inside: avoid;
+      margin: 0 auto 2px;
+    }
+
+    .slide:last-child { page-break-after: auto; }
+
+    .slide-inner {
+      flex: 1;
+      padding: 64px 80px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      z-index: 1;
+    }
+
+    .slide-footer {
+      padding: 0 80px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── DECORATIVE ELEMENTS ── */
+    .slide-accent {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle at top right, rgba(75, 123, 245, 0.08), transparent 70%);
+      pointer-events: none;
+    }
+
+    .slide-accent-gold {
+      background: radial-gradient(circle at top right, rgba(212, 168, 75, 0.06), transparent 70%);
+    }
+
+    .corner-mark {
+      position: absolute;
+      top: 28px;
+      right: 40px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ── TYPOGRAPHY ── */
+    h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+
+    .slide-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+
+    .slide-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .slide-subtitle {
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      max-width: 680px;
+    }
+
+    /* ── LAYOUT HELPERS ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      flex: 1;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 32px;
+      flex: 1;
+    }
+
+    .col { display: flex; flex-direction: column; }
+
+    .spacer { flex: 1; }
+
+    .divider {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      opacity: 0.5;
+      margin: 16px 0;
+    }
+
+    /* ── STAT BLOCKS ── */
+    .stat {
+      margin-bottom: 24px;
+    }
+
+    .stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+    }
+
+    .stat-value .unit {
+      font-size: 1.4rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    .stat-sm .stat-value {
+      font-size: 1.6rem;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+    }
+
+    .card h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 1.55;
+    }
+
+    /* ── BULLET LIST ── */
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .bullet-list li {
+      font-size: 0.85rem;
+      color: var(--text);
+      line-height: 1.5;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .bullet-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    .bullet-list.gold li::before { background: var(--gold); }
+
+    .bullet-list li .dim {
+      color: var(--text-dim);
+      font-size: 0.78rem;
+    }
+
+    /* ── PROCESS STEPS ── */
+    .process-step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .process-num {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--blue);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--blue-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .process-text h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .process-text p {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.45;
+    }
+
+    /* ── LOGO GRID (Partners) ── */
+    .partner-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+    }
+
+    .partner-chip {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .partner-chip img {
+      width: 22px;
+      height: 22px;
+      border-radius: 4px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .partner-chip span {
+      font-size: 0.6rem;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ── QUOTE ── */
+    .quote-block {
+      padding: 32px 40px;
+      background: rgba(75, 123, 245, 0.05);
+      border-left: 3px solid var(--blue);
+      border-radius: 0 10px 10px 0;
+      margin-top: 20px;
+    }
+
+    .quote-block p {
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .quote-block cite {
+      display: block;
+      margin-top: 12px;
+      font-style: normal;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ── TABLE ── */
+    .terms-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .terms-table tr { border-bottom: 1px solid var(--border); }
+    .terms-table tr:last-child { border-bottom: none; }
+
+    .terms-table td {
+      padding: 14px 0;
+      font-size: 0.82rem;
+      vertical-align: top;
+    }
+
+    .terms-table td:first-child {
+      color: var(--text-dim);
+      width: 200px;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 0.02em;
+    }
+
+    .terms-table td:last-child {
+      color: var(--text);
+    }
+
+    /* ── TIMELINE ── */
+    .timeline {
+      display: flex;
+      gap: 0;
+      margin-top: 24px;
+    }
+
+    .timeline-block {
+      flex: 1;
+      padding: 16px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .timeline-block:first-child { border-radius: 8px 0 0 8px; }
+    .timeline-block:last-child { border-radius: 0 8px 8px 0; }
+    .timeline-block + .timeline-block { border-left: none; }
+
+    .timeline-block h4 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 6px;
+    }
+
+    .timeline-block p {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.4;
+    }
+
+    .timeline-block.active {
+      background: var(--blue-dim);
+      border-color: rgba(75, 123, 245, 0.25);
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: var(--bg); }
+      .slide {
+        margin: 0;
+        page-break-after: always;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      @page {
+        size: 1280px 720px;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 1 — TITLE
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent"></div>
+  <div class="slide-inner" style="justify-content: center;">
+    <div class="slide-label">Fund I &bull; Vintage 2026</div>
+    <h1 style="font-family:'Outfit',sans-serif; font-size:3.2rem; font-weight:800; letter-spacing:-0.04em; line-height:1.1; margin-bottom:24px;">
+      Beyond Utility<br><span style="color:var(--gold);">Water Ventures</span>
+    </h1>
+    <p style="font-size:1.15rem; color:var(--text-dim); line-height:1.6; max-width:640px;">
+      Pre-seed and seed stage venture fund investing in water and wastewater technologies powering the next generation of water infrastructure.
+    </p>
+    <div style="margin-top:40px; display:flex; gap:40px;">
+      <div class="stat stat-sm">
+        <div class="stat-value">$12.5<span class="unit">M</span></div>
+        <div class="stat-label">Target Fund Size</div>
+      </div>
+      <div class="stat stat-sm">
+        <div class="stat-value">10–20</div>
+        <div class="stat-label">Target Investments</div>
+      </div>
+      <div class="stat stat-sm">
+        <div class="stat-value">Pre-Seed <span class="unit">&</span> Seed</div>
+        <div class="stat-label">Stage Focus</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>Confidential</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 2 — THE OPPORTUNITY
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent slide-accent-gold"></div>
+  <div class="corner-mark">The Opportunity</div>
+  <div class="slide-inner">
+    <div class="slide-label">Why Water, Why Now</div>
+    <h2 class="slide-title">Water infrastructure is being<br>rebuilt from the ground up.</h2>
+    <div class="two-col" style="margin-top:12px;">
+      <div class="col">
+        <ul class="bullet-list">
+          <li>Aging infrastructure across the developed world requires trillions in reinvestment over the next 25 years.</li>
+          <li>Regulatory pressure on PFAS, lead, and emerging contaminants is creating urgent demand for new treatment technologies.</li>
+          <li>Climate variability is driving water scarcity, flooding, and distribution challenges at an accelerating pace.</li>
+          <li>Water utilities are increasingly open to adopting technology — a significant shift from the historically conservative sector.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="card" style="margin-bottom:16px;">
+          <h4 style="color:var(--gold);">$1T+</h4>
+          <p>Estimated U.S. water infrastructure investment needed over the next 25 years (EPA &amp; ASCE estimates).</p>
+        </div>
+        <div class="card" style="margin-bottom:16px;">
+          <h4 style="color:var(--blue-light);">50-Year Horizon</h4>
+          <p>Water infrastructure will look dramatically different. The companies building that future are being founded now.</p>
+        </div>
+        <div class="card">
+          <h4 style="color:var(--gold);">Underserved by VC</h4>
+          <p>Water technology receives a fraction of climate-tech venture capital despite massive market opportunity.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>2</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 3 — TEAM
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent"></div>
+  <div class="corner-mark">Team</div>
+  <div class="slide-inner">
+    <div class="slide-label">General Partner</div>
+    <h2 class="slide-title">Alex Fairhart</h2>
+    <div class="two-col" style="margin-top:4px;">
+      <div class="col">
+        <p class="slide-subtitle" style="max-width:100%; font-size:0.95rem;">
+          A career spent at every stage of the water innovation lifecycle — from academic research and PhD-stage spinouts through angel investing, consulting, and building companies across the water industry.
+        </p>
+        <div class="divider" style="margin:24px 0;"></div>
+        <ul class="bullet-list gold">
+          <li><strong>Angel Investor</strong> <span class="dim">— ~10 years of direct investing in water technology startups and secondary share purchases from early employees.</span></li>
+          <li><strong>Scientist &amp; Academic</strong> <span class="dim">— Research background across water treatment, infrastructure systems, and environmental science.</span></li>
+          <li><strong>Regulatory Expertise</strong> <span class="dim">— Deep understanding of water quality regulations, compliance pathways, and permitting landscapes.</span></li>
+          <li><strong>Founder &amp; Operator</strong> <span class="dim">— Direct experience building and running businesses within the water sector.</span></li>
+          <li><strong>Consultant</strong> <span class="dim">— Advisory work with water companies on technical diligence, market entry, and growth strategy.</span></li>
+        </ul>
+      </div>
+      <div class="col">
+        <div class="card" style="margin-bottom:16px;">
+          <h4>Domain-First Investing</h4>
+          <p>In a specialized, relationship-driven sector, deep domain knowledge is the primary competitive advantage — both for sourcing differentiated deals and supporting founders through water-specific challenges.</p>
+        </div>
+        <div class="card" style="margin-bottom:16px;">
+          <h4>Technical Diligence</h4>
+          <p>Capable of conducting rigorous technical evaluations in-house. 20–40 hours average diligence per deal, with external experts engaged when needed.</p>
+        </div>
+        <div class="card">
+          <h4>Expert Network</h4>
+          <p>Augmented by dedicated hours from expert partners, technical advisors, and industry specialists across the water and wastewater ecosystem.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>3</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 4 — INVESTMENT THESIS
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent slide-accent-gold"></div>
+  <div class="corner-mark">Thesis</div>
+  <div class="slide-inner">
+    <div class="slide-label">Investment Thesis</div>
+    <h2 class="slide-title">Back the founders building<br>next-generation water infrastructure.</h2>
+    <p class="slide-subtitle" style="margin-bottom:32px;">
+      We invest at the earliest stages — when deep domain expertise, hands-on support, and industry access matter most.
+    </p>
+    <div class="three-col">
+      <div class="card">
+        <h4 style="color:var(--blue-light);">70% Market</h4>
+        <p>Evaluation weighted heavily toward market opportunity. Is this solving a real, large, urgent water problem? Is there regulatory tailwind?</p>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--gold);">30% Financials</h4>
+        <p>Unit economics, believable go-to-market strategy, and documented steps toward commercial traction — even at pre-revenue stage.</p>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--blue-light);">Founder-First</h4>
+        <p>50–75% of investments expected to be first-time founders. We look for domain expertise, adaptability, leadership, and a strong IP strategy.</p>
+      </div>
+    </div>
+    <div style="margin-top:28px; display:flex; gap:24px;">
+      <div class="card" style="flex:1;">
+        <h4>Pre-Seed &amp; Seed</h4>
+        <p>Investing when others see too much risk. Our domain expertise lets us underwrite water-specific technology and market risk that generalist VCs cannot.</p>
+      </div>
+      <div class="card" style="flex:1;">
+        <h4>Water &amp; Wastewater Technologies</h4>
+        <p>Treatment, monitoring, distribution, reuse, infrastructure software, digital water, and industrial process optimization.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>4</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 5 — DEAL ACCESS & SOURCING
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent"></div>
+  <div class="corner-mark">Deal Access</div>
+  <div class="slide-inner">
+    <div class="slide-label">Sourcing &amp; Deal Access</div>
+    <h2 class="slide-title">Differentiated access in a<br>small, relationship-driven sector.</h2>
+    <div class="two-col" style="margin-top:24px;">
+      <div class="col">
+        <ul class="bullet-list">
+          <li><strong>Founder Referrals</strong> <span class="dim">— Portfolio founders and water industry contacts as the primary source of warm deal flow.</span></li>
+          <li><strong>University &amp; Accelerator Networks</strong> <span class="dim">— PhD spinouts, incubators, and early-stage programs surfacing pre-seed opportunities.</span></li>
+          <li><strong>VC Syndicate Relationships</strong> <span class="dim">— Active dealflow sharing with later-stage water and climate tech VCs.</span></li>
+          <li><strong>Industry Events &amp; Cold Outreach</strong> <span class="dim">— Conferences, trade events, and proactive sourcing of companies solving known water problems.</span></li>
+          <li><strong>Inbound Applications</strong> <span class="dim">— 25–50% of deal flow arrives inbound, reflecting growing brand recognition in water tech.</span></li>
+        </ul>
+        <div style="margin-top:20px;">
+          <div class="stat stat-sm">
+            <div class="stat-value">5–10<span class="unit">%</span></div>
+            <div class="stat-label">Funnel Conversion Rate</div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card" style="margin-bottom:16px; border-left:3px solid var(--gold); border-radius:0 10px 10px 0;">
+          <h4>Why This Matters</h4>
+          <p>The water technology ecosystem is small. Founders, researchers, and operators largely know each other. In this market, relationships compound — every investment, advisory engagement, and industry interaction strengthens the sourcing flywheel.</p>
+        </div>
+        <div class="card">
+          <h4>Co-Investment Network</h4>
+          <p>Active relationships with 18+ venture firms, strategic investors, accelerators, and research networks across the water sector. Dealflow sharing partnerships enable both proprietary sourcing and syndication at scale.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>5</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 6 — DEALFLOW PARTNERSHIPS
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent slide-accent-gold"></div>
+  <div class="corner-mark">Network</div>
+  <div class="slide-inner">
+    <div class="slide-label">Dealflow Partnerships</div>
+    <h2 class="slide-title" style="font-size:2rem; margin-bottom:28px;">Co-investors, accelerators &amp; research networks.</h2>
+    <div class="partner-grid">
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/hgventures.com" alt="" onerror="this.style.display='none'">
+        <span>HG Ventures</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/burntislandventures.com" alt="" onerror="this.style.display='none'">
+        <span>Burnt Island</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/sumacapital.com" alt="" onerror="this.style.display='none'">
+        <span>Suma Capital</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/echorivercap.com" alt="" onerror="this.style.display='none'">
+        <span>Echo River</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/skionwater.com" alt="" onerror="this.style.display='none'">
+        <span>Skion Water</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/emerald.vc" alt="" onerror="this.style.display='none'">
+        <span>Emerald Tech</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/archimed.group" alt="" onerror="this.style.display='none'">
+        <span>Archimed</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/bdapartners.com" alt="" onerror="this.style.display='none'">
+        <span>BDA Partners</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/crhventures.com" alt="" onerror="this.style.display='none'">
+        <span>CRH Ventures</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/aqualateral.com" alt="" onerror="this.style.display='none'">
+        <span>Aqualateral</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/mazarineventures.com" alt="" onerror="this.style.display='none'">
+        <span>Mazarine</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/natural.ventures" alt="" onerror="this.style.display='none'">
+        <span>Natural Ventures</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/pureterra.com" alt="" onerror="this.style.display='none'">
+        <span>Pure Terra</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/breakthroughenergy.org" alt="" onerror="this.style.display='none'">
+        <span>Breakthrough</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/xylem.com" alt="" onerror="this.style.display='none'">
+        <span>Xylem Labs</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/imagineh2o.org" alt="" onerror="this.style.display='none'">
+        <span>Imagine H2O</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/bluetechresearch.com" alt="" onerror="this.style.display='none'">
+        <span>BlueTech</span>
+      </div>
+      <div class="partner-chip">
+        <img src="https://logo.clearbit.com/isleutilities.com" alt="" onerror="this.style.display='none'">
+        <span>Isle Utilities</span>
+      </div>
+    </div>
+    <div style="margin-top:28px;" class="two-col">
+      <div class="card">
+        <h4>Syndication Strategy</h4>
+        <p>Active dealflow sharing with later-stage VCs in the water sector. Our pre-seed and seed positioning creates natural syndication and follow-on pathways with partners investing at Series A and beyond.</p>
+      </div>
+      <div class="card">
+        <h4>Research &amp; Scouting</h4>
+        <p>Partnerships with accelerators like Imagine H2O and research networks like BlueTech Research and Isle Utilities surface early-stage companies before they reach traditional VC radar.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>6</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 7 — VALUE ADD
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent"></div>
+  <div class="corner-mark">Value Add</div>
+  <div class="slide-inner">
+    <div class="slide-label">Portfolio Support</div>
+    <h2 class="slide-title">Hands-on partnership,<br>not passive capital.</h2>
+    <p class="slide-subtitle" style="margin-bottom:32px;">Weekly engagement with portfolio companies. Here's what that looks like in practice.</p>
+    <div class="three-col">
+      <div class="card">
+        <h4 style="color:var(--blue-light);">Technical Diligence &amp; R&amp;D Support</h4>
+        <p>In-house capability to evaluate water treatment chemistry, systems design, and engineering claims. Ongoing technical advisory as products move from lab to field.</p>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--gold);">Regulatory Navigation</h4>
+        <p>Deep understanding of EPA, state-level, and emerging contaminant regulations. Help founders understand compliance pathways, permitting timelines, and regulatory risk.</p>
+      </div>
+      <div class="card">
+        <h4 style="color:var(--blue-light);">Industry Introductions</h4>
+        <p>Warm connections to utilities, industrial buyers, municipal decision-makers, and channel partners across the water sector. Business development that accelerates first customers.</p>
+      </div>
+    </div>
+    <div style="margin-top:16px;" class="three-col">
+      <div class="card">
+        <h4>Fundraising</h4>
+        <p>Direct introductions to follow-on investors through our co-investment network. Guidance on positioning, materials, and narrative for Series A readiness.</p>
+      </div>
+      <div class="card">
+        <h4>Hiring &amp; Talent</h4>
+        <p>Help sourcing key hires — particularly technical talent with water industry experience, which is scarce and difficult to find through traditional channels.</p>
+      </div>
+      <div class="card">
+        <h4>Mentorship</h4>
+        <p>Founder-to-founder guidance from someone who has built and operated businesses in the water sector. Practical, not theoretical.</p>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>7</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 8 — INVESTMENT PROCESS
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent slide-accent-gold"></div>
+  <div class="corner-mark">Process</div>
+  <div class="slide-inner">
+    <div class="slide-label">Investment Process</div>
+    <h2 class="slide-title" style="font-size:2rem; margin-bottom:24px;">Rigorous, domain-informed diligence.</h2>
+    <div class="two-col">
+      <div class="col">
+        <div class="process-step">
+          <div class="process-num">1</div>
+          <div class="process-text">
+            <h4>Initial Screening</h4>
+            <p>Problem clarity, water sector alignment, and founder-market fit. Quick pass/proceed decision.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">2</div>
+          <div class="process-text">
+            <h4>Team Evaluation</h4>
+            <p>Informal references, domain expertise assessment, leadership qualities, and adaptability signals.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">3</div>
+          <div class="process-text">
+            <h4>Technical Review</h4>
+            <p>In-person demo and deep-dive on technology, IP strategy, and competitive landscape. External experts engaged as needed.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">4</div>
+          <div class="process-text">
+            <h4>Market Validation</h4>
+            <p>Customer willingness to pay, regulatory tailwinds, market sizing, and go-to-market credibility.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <div class="process-step">
+          <div class="process-num">5</div>
+          <div class="process-text">
+            <h4>Economics &amp; Traction</h4>
+            <p>Unit economics, documented evidence toward commercial traction, even at pre-revenue stage.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">6</div>
+          <div class="process-text">
+            <h4>Legal &amp; Structure</h4>
+            <p>Cap table review, IP ownership, corporate structure, and term alignment.</p>
+          </div>
+        </div>
+        <div class="process-step">
+          <div class="process-num">7</div>
+          <div class="process-text">
+            <h4>Downside Analysis</h4>
+            <p>What kills this company? Regulatory risk, technology risk, market timing, team risk — and mitigants for each.</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top:8px; border-left:3px solid var(--gold); border-radius:0 10px 10px 0;">
+          <h4>Most Common Pass</h4>
+          <p>Lack of a highly believable go-to-market strategy. We need to see documented steps — not just a TAM slide — showing the founder understands their path to first revenue.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>8</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 9 — PORTFOLIO CONSTRUCTION
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent"></div>
+  <div class="corner-mark">Construction</div>
+  <div class="slide-inner">
+    <div class="slide-label">Portfolio Construction</div>
+    <h2 class="slide-title" style="font-size:2rem; margin-bottom:20px;">Concentrated portfolio, meaningful ownership.</h2>
+    <div class="two-col">
+      <div class="col">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:24px;">
+          <div class="stat">
+            <div class="stat-value">10–20</div>
+            <div class="stat-label">Target Investments</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">$500<span class="unit">K</span></div>
+            <div class="stat-label">Typical Check Size</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">7.5<span class="unit">%</span></div>
+            <div class="stat-label">Average Ownership Target</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">50<span class="unit">%</span></div>
+            <div class="stat-label">Follow-on Reserves</div>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Reserve Strategy</h4>
+          <p>50% of fund capital reserved for follow-on investments in best-performing portfolio companies. Allows us to maintain ownership through subsequent rounds and double down on winners.</p>
+        </div>
+      </div>
+      <div class="col">
+        <div class="card" style="margin-bottom:16px;">
+          <h4>Deployment Timeline</h4>
+          <p>Investments deployed across a ~3-year investment period, targeting 4–7 new investments per year.</p>
+        </div>
+        <div class="timeline">
+          <div class="timeline-block active">
+            <h4>Year 1</h4>
+            <p>Initial investments<br>4–7 deals</p>
+          </div>
+          <div class="timeline-block active">
+            <h4>Year 2</h4>
+            <p>Core deployment<br>4–7 deals</p>
+          </div>
+          <div class="timeline-block">
+            <h4>Year 3</h4>
+            <p>Final primary + follow-ons</p>
+          </div>
+          <div class="timeline-block">
+            <h4>Years 4–7</h4>
+            <p>Follow-on &amp; exits</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top:16px;">
+          <h4>Exit Timeline</h4>
+          <p>Typical exit horizon of 5–7 years. Water technology exits include strategic acquisitions by utilities, industrial conglomerates, and larger water technology companies, as well as follow-on venture funding to later-stage investors in our network.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>9</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 10 — FUND TERMS
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent slide-accent-gold"></div>
+  <div class="corner-mark">Terms</div>
+  <div class="slide-inner">
+    <div class="slide-label">Fund Terms</div>
+    <h2 class="slide-title" style="font-size:2rem; margin-bottom:28px;">Summary of key terms.</h2>
+    <div class="two-col">
+      <div class="col">
+        <table class="terms-table">
+          <tr>
+            <td>Fund Name</td>
+            <td>Beyond Utility Water Ventures Fund I</td>
+          </tr>
+          <tr>
+            <td>Vintage</td>
+            <td>2026</td>
+          </tr>
+          <tr>
+            <td>Target Size</td>
+            <td>$12,500,000</td>
+          </tr>
+          <tr>
+            <td>First Close</td>
+            <td>April 10, 2026</td>
+          </tr>
+          <tr>
+            <td>Stage</td>
+            <td>Pre-Seed &amp; Seed</td>
+          </tr>
+          <tr>
+            <td>Sector</td>
+            <td>Water &amp; wastewater technology</td>
+          </tr>
+          <tr>
+            <td>Geography</td>
+            <td>Primarily North America</td>
+          </tr>
+          <tr>
+            <td>Headquarters</td>
+            <td>Seattle, WA</td>
+          </tr>
+        </table>
+      </div>
+      <div class="col">
+        <table class="terms-table">
+          <tr>
+            <td>Check Size</td>
+            <td>~$500,000</td>
+          </tr>
+          <tr>
+            <td>Target Ownership</td>
+            <td>~7.5%</td>
+          </tr>
+          <tr>
+            <td>Target Deals</td>
+            <td>10–20</td>
+          </tr>
+          <tr>
+            <td>Follow-on Reserves</td>
+            <td>50% of fund</td>
+          </tr>
+          <tr>
+            <td>Investment Period</td>
+            <td>~3 years</td>
+          </tr>
+          <tr>
+            <td>Fund Life</td>
+            <td>10 years (+ extensions)</td>
+          </tr>
+          <tr>
+            <td>Management Fee</td>
+            <td>TBD</td>
+          </tr>
+          <tr>
+            <td>Carried Interest</td>
+            <td>TBD</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>10</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     SLIDE 11 — CLOSING
+     ════════════════════════════════════════════════════════════════ -->
+<div class="slide">
+  <div class="slide-accent"></div>
+  <div class="slide-inner" style="justify-content: center; align-items: center; text-align: center;">
+    <div class="slide-label" style="margin-bottom:20px;">Fund I &bull; 2026</div>
+    <h1 style="font-family:'Outfit',sans-serif; font-size:3rem; font-weight:800; letter-spacing:-0.04em; line-height:1.1; margin-bottom:20px;">
+      Beyond Utility<br><span style="color:var(--gold);">Water Ventures</span>
+    </h1>
+    <p style="font-size:1.05rem; color:var(--text-dim); line-height:1.6; max-width:520px; margin: 0 auto 40px;">
+      Investing in the technologies and founders building the next generation of water infrastructure.
+    </p>
+    <div class="divider" style="margin:0 auto 40px;"></div>
+    <p style="font-size:0.85rem; color:var(--text-dim); line-height:1.8;">
+      Alex Fairhart, General Partner<br>
+      Seattle, WA<br>
+      <span style="color:var(--blue-light);">alex@beyondutilitywater.com</span>
+    </p>
+  </div>
+  <div class="slide-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>Confidential</span>
+  </div>
+</div>
+
+</body>
+</html>

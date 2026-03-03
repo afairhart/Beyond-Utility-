@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Memo — Beyond Utility Water Ventures Fund I</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #ffffff;
+      --bg-accent: #F8F9FC;
+      --blue: #3B5EC9;
+      --blue-light: #5A7FE8;
+      --blue-dim: rgba(59, 94, 201, 0.08);
+      --gold: #B8903D;
+      --gold-light: #D4A84B;
+      --gold-dim: rgba(184, 144, 61, 0.08);
+      --navy: #0B1120;
+      --text: #1A1F2E;
+      --text-secondary: #5A6178;
+      --text-muted: #9AA0B4;
+      --border: #E8EAF0;
+      --border-light: #F0F1F5;
+    }
+
+    html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      font-size: 10.5pt;
+      line-height: 1.7;
+    }
+
+    h1, h2, h3, h4 { font-family: 'Outfit', sans-serif; }
+
+    /* ── PAGE CONTAINER ── */
+    .page {
+      width: 8.5in;
+      min-height: 11in;
+      margin: 0 auto;
+      padding: 0.75in 1in;
+      page-break-after: always;
+      position: relative;
+    }
+
+    .page:last-child { page-break-after: auto; }
+
+    /* ── COVER ── */
+    .cover {
+      background: var(--navy);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1.2in 1in;
+    }
+
+    .cover-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+    }
+
+    .cover h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .cover h1 span { color: var(--gold-light); }
+
+    .cover-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      max-width: 440px;
+      margin-bottom: 48px;
+    }
+
+    .cover-meta {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      line-height: 1.8;
+    }
+
+    .cover-meta strong { color: rgba(255,255,255,0.55); font-weight: 500; }
+
+    .cover-footer {
+      position: absolute;
+      bottom: 0.6in;
+      left: 1in;
+      right: 1in;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.04em;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 16px;
+    }
+
+    /* ── HEADERS ── */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      margin-bottom: 28px;
+      border-bottom: 2px solid var(--navy);
+    }
+
+    .page-header-brand {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .page-header-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--blue);
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--navy);
+      margin-bottom: 16px;
+      line-height: 1.25;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: 24px;
+      margin-bottom: 8px;
+    }
+
+    /* ── BODY TEXT ── */
+    p {
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+    }
+
+    p.lead {
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    strong { color: var(--text); font-weight: 600; }
+
+    /* ── CALLOUT BOX ── */
+    .callout {
+      background: var(--bg-accent);
+      border-left: 3px solid var(--blue);
+      padding: 16px 20px;
+      border-radius: 0 6px 6px 0;
+      margin: 20px 0;
+    }
+
+    .callout p { margin-bottom: 0; font-size: 0.9rem; }
+
+    .callout-gold { border-left-color: var(--gold); }
+
+    /* ── STAT ROW ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .stat-box {
+      background: var(--bg-accent);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .stat-box .value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .stat-box .value .unit {
+      font-size: 1rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .stat-box .label {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── LISTS ── */
+    ul.memo-list {
+      list-style: none;
+      margin: 12px 0 16px;
+    }
+
+    ul.memo-list li {
+      padding: 6px 0 6px 20px;
+      position: relative;
+      color: var(--text-secondary);
+    }
+
+    ul.memo-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 13px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+
+    ul.memo-list.gold li::before { background: var(--gold); }
+
+    /* ── TABLE ── */
+    .memo-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 0.88rem;
+    }
+
+    .memo-table th {
+      text-align: left;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 10px 12px;
+      border-bottom: 2px solid var(--border);
+      background: var(--bg-accent);
+    }
+
+    .memo-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      vertical-align: top;
+    }
+
+    .memo-table td:first-child {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* ── TWO COLUMN ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    /* ── PAGE FOOTER ── */
+    .page-footer {
+      position: absolute;
+      bottom: 0.55in;
+      left: 1in;
+      right: 1in;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+
+    /* ── PROCESS STEPS ── */
+    .process-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 16px 0;
+    }
+
+    .process-item {
+      display: flex;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--bg-accent);
+      border-radius: 6px;
+    }
+
+    .process-item .num {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      color: var(--blue);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--blue-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .process-item h4 {
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .process-item p {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 0;
+      line-height: 1.4;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: #fff; }
+      .page {
+        margin: 0;
+        padding: 0.6in 0.85in;
+        page-break-after: always;
+      }
+      @page {
+        size: 8.5in 11in;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════════════════
+     COVER PAGE
+     ════════════════════════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-label">Investment Memo &bull; Confidential</div>
+  <h1>Beyond Utility<br><span>Water Ventures</span></h1>
+  <p class="cover-subtitle">Fund I Investment Memorandum for prospective limited partners.</p>
+  <div class="cover-meta">
+    <strong>Fund:</strong> Beyond Utility Water Ventures Fund I<br>
+    <strong>Vintage:</strong> 2026<br>
+    <strong>Target Size:</strong> $12,500,000<br>
+    <strong>Stage:</strong> Pre-Seed &amp; Seed<br>
+    <strong>Sector:</strong> Water &amp; Wastewater Technologies<br>
+    <strong>GP:</strong> Alex Fairhart<br>
+    <strong>Headquarters:</strong> Seattle, WA
+  </div>
+  <div class="cover-footer">
+    <span>Beyond Utility Water Ventures</span>
+    <span>Prepared March 2026</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 1 — EXECUTIVE SUMMARY
+     ════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-brand">Beyond Utility Water Ventures</span>
+    <span class="page-header-title">Investment Memo</span>
+  </div>
+
+  <div class="section-num">Section 1</div>
+  <h2>Executive Summary</h2>
+
+  <p class="lead">Beyond Utility Water Ventures Fund I is a $12.5M pre-seed and seed stage venture fund focused exclusively on water and wastewater technologies. The fund targets 10–20 investments in companies building the next generation of water infrastructure — a market expected to require trillions of dollars in investment over the coming decades.</p>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="value">$12.5<span class="unit">M</span></div>
+      <div class="label">Target Fund Size</div>
+    </div>
+    <div class="stat-box">
+      <div class="value">10–20</div>
+      <div class="label">Target Investments</div>
+    </div>
+    <div class="stat-box">
+      <div class="value">$500<span class="unit">K</span></div>
+      <div class="label">Typical Check Size</div>
+    </div>
+    <div class="stat-box">
+      <div class="value">7.5<span class="unit">%</span></div>
+      <div class="label">Ownership Target</div>
+    </div>
+  </div>
+
+  <p>The fund is managed by Alex Fairhart, a water industry professional whose career spans angel investing (~10 years), scientific research, regulatory practice, consulting, and company-building across the water sector. This domain expertise forms the basis of the fund's competitive advantage: differentiated deal sourcing, rigorous in-house technical diligence, and hands-on operational support that generalist investors cannot replicate.</p>
+
+  <div class="callout">
+    <p><strong>Core thesis:</strong> Water infrastructure will look dramatically different over the next 50 years. The companies building that future are being founded today, and they need investors who understand the science, the regulations, and the market dynamics at a level most VCs do not.</p>
+  </div>
+
+  <h3>Key Fund Highlights</h3>
+  <ul class="memo-list">
+    <li><strong>Specialized focus</strong> in an underserved market — water technology receives a fraction of climate-tech venture capital despite enormous infrastructure investment needs.</li>
+    <li><strong>Deep domain expertise</strong> enabling proprietary sourcing, technical diligence, and portfolio support that generalist funds cannot provide.</li>
+    <li><strong>Relationship-driven deal access</strong> in a small industry where the GP has long-standing connections to founders, researchers, utilities, and co-investors.</li>
+    <li><strong>50% follow-on reserves</strong> allowing the fund to maintain ownership and double down on top-performing portfolio companies.</li>
+    <li><strong>Active co-investment network</strong> of 18+ venture firms, accelerators, and research organizations across the water technology ecosystem.</li>
+    <li><strong>Weekly engagement</strong> with portfolio companies — including technical advisory, regulatory navigation, industry introductions, and fundraising support.</li>
+  </ul>
+
+  <div class="page-footer">
+    <span>Confidential</span>
+    <span>1</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 2 — MARKET OPPORTUNITY
+     ════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-brand">Beyond Utility Water Ventures</span>
+    <span class="page-header-title">Investment Memo</span>
+  </div>
+
+  <div class="section-num">Section 2</div>
+  <h2>Market Opportunity</h2>
+
+  <p class="lead">The global water sector is experiencing a once-in-a-generation transformation driven by aging infrastructure, regulatory expansion, climate variability, and growing acceptance of technology-driven solutions by historically conservative water utilities.</p>
+
+  <h3>Macro Drivers</h3>
+
+  <p><strong>Aging infrastructure.</strong> The American Society of Civil Engineers and the EPA estimate that the United States alone requires over $1 trillion in water infrastructure investment over the next 25 years. Pipes, treatment facilities, and distribution systems installed mid-20th century are reaching end of life, creating massive demand for both replacement and modernization.</p>
+
+  <p><strong>Regulatory expansion.</strong> New and emerging regulations around PFAS, lead, microplastics, and other contaminants of concern are creating urgent, compliance-driven demand for new treatment technologies. Utilities must invest regardless of budget constraints — regulatory mandates are non-discretionary spend.</p>
+
+  <p><strong>Climate variability.</strong> Droughts, flooding, saltwater intrusion, and shifting precipitation patterns are disrupting water availability and quality assumptions that have underpinned water system design for decades. Adaptation requires new monitoring, treatment, and distribution technologies.</p>
+
+  <p><strong>Utility technology adoption.</strong> Water utilities are increasingly open to piloting and adopting technology solutions. Digital water, smart metering, remote monitoring, and AI-driven operations are moving from early adopter to mainstream adoption. This shift dramatically improves the go-to-market environment for water tech startups.</p>
+
+  <div class="callout callout-gold">
+    <p><strong>Underserved by venture capital.</strong> Despite a market measured in the trillions, water technology receives a small fraction of the venture capital directed toward energy, mobility, and other climate-tech verticals. This creates a structurally favorable environment for a specialized fund: less competition for deals, more reasonable entry valuations, and founders who are underserved by the existing investor ecosystem.</p>
+  </div>
+
+  <h3>Why Early-Stage Water Tech</h3>
+
+  <p>The best water technology companies often start in university labs, research institutions, or with PhD-trained founders addressing problems they've observed firsthand. These founders are technically exceptional but frequently lack business experience, industry connections, and understanding of the specific go-to-market challenges unique to selling into utilities and industrial water users. A specialized investor who can provide domain-specific support from the earliest stages has a meaningful structural advantage in both deal access and value creation.</p>
+
+  <div class="page-footer">
+    <span>Confidential</span>
+    <span>2</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 3 — TEAM & COMPETITIVE ADVANTAGE
+     ════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-brand">Beyond Utility Water Ventures</span>
+    <span class="page-header-title">Investment Memo</span>
+  </div>
+
+  <div class="section-num">Section 3</div>
+  <h2>Team &amp; Competitive Advantage</h2>
+
+  <h3>General Partner: Alex Fairhart</h3>
+
+  <p>Alex Fairhart brings a multi-dimensional background across the water industry that is rare among venture investors. His career has spanned the following roles, each contributing to the fund's ability to source, evaluate, and support water technology companies:</p>
+
+  <ul class="memo-list gold">
+    <li><strong>Angel Investor</strong> — Approximately 10 years of direct investing in water technology startups, including ~5 direct angel investments and ~5 secondary share purchases from early employees of water tech companies.</li>
+    <li><strong>Scientist &amp; Academic</strong> — Research experience across water treatment, infrastructure systems, and environmental science. This background enables rigorous in-house technical diligence that most VCs must outsource or skip entirely.</li>
+    <li><strong>Regulatory Expert</strong> — Deep knowledge of water quality regulations, compliance pathways, and the regulatory landscape. This is critical for evaluating both the market opportunity (regulatory tailwinds) and risk profile (regulatory barriers) of potential investments.</li>
+    <li><strong>Founder &amp; Business Owner</strong> — Direct experience building and operating companies in the water sector, providing practical empathy for the challenges portfolio founders face.</li>
+    <li><strong>Consultant</strong> — Advisory work with water companies on technical diligence, market entry, and growth strategy.</li>
+  </ul>
+
+  <h3>Why This Background Matters</h3>
+
+  <p>The water technology sector is small, specialized, and relationship-driven. Founders, researchers, utilities, and regulators often know each other. A GP who has worked across multiple nodes of this ecosystem — research, operations, investing, regulatory — has structural advantages in three areas that directly drive fund returns:</p>
+
+  <div class="two-col" style="margin-top:16px;">
+    <div>
+      <div class="callout">
+        <p><strong>1. Deal Access.</strong> Long-standing relationships with founders, university labs, accelerators, and co-investors in the water space generate proprietary deal flow. In a sector where the best companies are often unknown to generalist VCs, this network is a primary source of competitive advantage.</p>
+      </div>
+    </div>
+    <div>
+      <div class="callout">
+        <p><strong>2. Evaluation Quality.</strong> The ability to conduct technical diligence in-house — assessing treatment chemistry, systems engineering, IP strategy, and regulatory risk — enables faster and more accurate investment decisions with lower reliance on external consultants.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:16px;">
+    <p><strong>3. Portfolio Value Creation.</strong> Domain-specific support — regulatory navigation, utility introductions, technical advisory, and water-sector hiring — creates measurable value for portfolio companies and increases the probability of follow-on fundraising and successful exits.</p>
+  </div>
+
+  <h3>Team Structure</h3>
+  <p>Alex Fairhart serves as the sole full-time General Partner. The team is augmented by dedicated hours from expert partners and external technical and industry advisors engaged as needed for specific investments and portfolio company support.</p>
+
+  <div class="page-footer">
+    <span>Confidential</span>
+    <span>3</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 4 — INVESTMENT STRATEGY
+     ════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-brand">Beyond Utility Water Ventures</span>
+    <span class="page-header-title">Investment Memo</span>
+  </div>
+
+  <div class="section-num">Section 4</div>
+  <h2>Investment Strategy &amp; Process</h2>
+
+  <h3>Thesis</h3>
+  <p>The fund invests at the Pre-Seed and Seed stages in companies developing water and wastewater technologies. The evaluation framework weights approximately <strong>70% market opportunity</strong> (problem urgency, market size, regulatory tailwind, customer willingness to pay) and <strong>30% financial metrics</strong> (unit economics, go-to-market credibility, documented traction). The fund invests in pre-revenue companies where we have conviction in the founder, the technology, and the market.</p>
+
+  <h3>Selection Criteria</h3>
+  <ul class="memo-list">
+    <li><strong>Market domain expertise</strong> — Does the founder deeply understand the water problem they're solving?</li>
+    <li><strong>Team traits</strong> — Leadership, adaptability, and domain credibility. 50–75% of investments expected to be first-time founders.</li>
+    <li><strong>Market size &amp; urgency</strong> — Is there a large, growing, or regulation-driven market?</li>
+    <li><strong>Believable go-to-market</strong> — Documented steps toward traction, not just a TAM slide. This is the most common reason we pass on otherwise promising companies.</li>
+    <li><strong>IP strategy</strong> — Strong defensibility through patents, proprietary data, or technical moats.</li>
+  </ul>
+
+  <h3>Investment Process</h3>
+
+  <div class="process-grid">
+    <div class="process-item">
+      <div class="num">1</div>
+      <div>
+        <h4>Initial Screening</h4>
+        <p>Problem clarity, sector alignment, founder-market fit</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="num">2</div>
+      <div>
+        <h4>Team Evaluation</h4>
+        <p>Informal references, domain expertise, leadership</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="num">3</div>
+      <div>
+        <h4>Technical Review</h4>
+        <p>In-person demo, IP review, competitive analysis</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="num">4</div>
+      <div>
+        <h4>Market Validation</h4>
+        <p>Willingness to pay, regulatory drivers, TAM</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="num">5</div>
+      <div>
+        <h4>Economics &amp; Traction</h4>
+        <p>Unit economics, documented commercial progress</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="num">6</div>
+      <div>
+        <h4>Legal &amp; Structure</h4>
+        <p>Cap table, IP ownership, corporate structure</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="num">7</div>
+      <div>
+        <h4>Downside Analysis</h4>
+        <p>Kill-the-deal exercise: what risks and mitigants?</p>
+      </div>
+    </div>
+    <div class="process-item">
+      <div class="num" style="background:var(--gold-dim); color:var(--gold);">IC</div>
+      <div>
+        <h4>Investment Decision</h4>
+        <p>Final approval and term negotiation</p>
+      </div>
+    </div>
+  </div>
+
+  <p>Average diligence depth is <strong>20–40 hours per deal</strong>. Technical diligence is always conducted in-house, with external experts engaged when needed for specialized domains. The funnel conversion rate is approximately <strong>5–10%</strong> from initial screening to term sheet.</p>
+
+  <div class="page-footer">
+    <span>Confidential</span>
+    <span>4</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 5 — PORTFOLIO CONSTRUCTION & TERMS
+     ════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-brand">Beyond Utility Water Ventures</span>
+    <span class="page-header-title">Investment Memo</span>
+  </div>
+
+  <div class="section-num">Section 5</div>
+  <h2>Portfolio Construction</h2>
+
+  <div class="stat-row">
+    <div class="stat-box">
+      <div class="value">10–20</div>
+      <div class="label">Target Investments</div>
+    </div>
+    <div class="stat-box">
+      <div class="value">50<span class="unit">%</span></div>
+      <div class="label">Follow-on Reserves</div>
+    </div>
+    <div class="stat-box">
+      <div class="value">~3<span class="unit"> yr</span></div>
+      <div class="label">Investment Period</div>
+    </div>
+    <div class="stat-box">
+      <div class="value">5–7<span class="unit"> yr</span></div>
+      <div class="label">Target Exit Horizon</div>
+    </div>
+  </div>
+
+  <p>The fund targets a concentrated portfolio of 10–20 pre-seed and seed stage investments, with typical initial check sizes of approximately $500,000 targeting ~7.5% ownership. Fifty percent of fund capital is reserved for follow-on investments in the best-performing portfolio companies, allowing the fund to maintain ownership through subsequent rounds and allocate additional capital to emerging winners.</p>
+
+  <p>Primary investments will be deployed over an approximately 3-year investment period, with follow-on capital deployed through years 3–5. The anticipated exit timeline is 5–7 years per investment. Exit pathways in water technology include strategic acquisitions by large utilities, industrial conglomerates, and established water technology companies, as well as follow-on funding rounds led by later-stage investors in our co-investment network.</p>
+
+  <h3>Portfolio Engagement</h3>
+  <p>The GP engages with portfolio companies on a weekly basis, providing:</p>
+
+  <ul class="memo-list gold">
+    <li><strong>Technical advisory</strong> — Ongoing R&amp;D guidance, product-market fit validation, and testing strategy</li>
+    <li><strong>Regulatory navigation</strong> — Compliance pathway mapping, permitting support, and policy monitoring</li>
+    <li><strong>Business development</strong> — Warm introductions to utilities, industrial buyers, and channel partners</li>
+    <li><strong>Fundraising support</strong> — Investor introductions, narrative development, and round structuring</li>
+    <li><strong>Hiring &amp; talent</strong> — Access to water-sector talent networks for hard-to-fill technical roles</li>
+  </ul>
+
+  <div class="section-num" style="margin-top:32px;">Section 6</div>
+  <h2>Fund Terms</h2>
+
+  <table class="memo-table">
+    <thead>
+      <tr><th>Term</th><th>Detail</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Fund Name</td><td>Beyond Utility Water Ventures Fund I</td></tr>
+      <tr><td>Vintage</td><td>2026</td></tr>
+      <tr><td>Target Fund Size</td><td>$12,500,000</td></tr>
+      <tr><td>First Close Target</td><td>April 10, 2026</td></tr>
+      <tr><td>Stage Focus</td><td>Pre-Seed &amp; Seed</td></tr>
+      <tr><td>Sector Focus</td><td>Water &amp; wastewater technologies, next-gen water infrastructure</td></tr>
+      <tr><td>Typical Check Size</td><td>~$500,000</td></tr>
+      <tr><td>Target Ownership</td><td>~7.5% per investment</td></tr>
+      <tr><td>Follow-on Reserves</td><td>50% of fund capital</td></tr>
+      <tr><td>Management Fee</td><td>TBD</td></tr>
+      <tr><td>Carried Interest</td><td>TBD</td></tr>
+      <tr><td>GP Commitment</td><td>TBD</td></tr>
+      <tr><td>Fund Duration</td><td>10 years (with possible extensions)</td></tr>
+      <tr><td>Headquarters</td><td>Seattle, WA</td></tr>
+    </tbody>
+  </table>
+
+  <div class="page-footer">
+    <span>Confidential</span>
+    <span>5</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 6 — DEALFLOW NETWORK & SOURCING
+     ════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-brand">Beyond Utility Water Ventures</span>
+    <span class="page-header-title">Investment Memo</span>
+  </div>
+
+  <div class="section-num">Section 7</div>
+  <h2>Dealflow Network</h2>
+
+  <p>The fund maintains active dealflow partnerships with 18 venture firms, strategic investors, accelerators, and research organizations across the water technology ecosystem. These relationships serve as both sourcing channels and co-investment partners for syndicated deals.</p>
+
+  <h3>Co-Investment &amp; Venture Partners</h3>
+
+  <table class="memo-table">
+    <thead>
+      <tr><th>Firm</th><th>Type</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>HG Ventures</td><td>Venture Capital</td></tr>
+      <tr><td>Burnt Island Ventures</td><td>Venture Capital</td></tr>
+      <tr><td>Suma Capital</td><td>Impact Investment</td></tr>
+      <tr><td>Echo River Capital</td><td>Venture Capital</td></tr>
+      <tr><td>Skion Water</td><td>Strategic Investment</td></tr>
+      <tr><td>Emerald Technology Ventures</td><td>Venture Capital</td></tr>
+      <tr><td>Archimed</td><td>Private Equity</td></tr>
+      <tr><td>BDA Partners</td><td>M&amp;A Advisory</td></tr>
+      <tr><td>CRH Ventures</td><td>Corporate Venture Capital</td></tr>
+      <tr><td>Aqualateral</td><td>Water Investment</td></tr>
+      <tr><td>Mazarine</td><td>Venture Capital</td></tr>
+      <tr><td>Natural Ventures</td><td>Venture Capital</td></tr>
+      <tr><td>Pure Terra Ventures</td><td>Climate Tech VC</td></tr>
+      <tr><td>Breakthrough Energy Ventures</td><td>Climate Venture Capital</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Accelerators &amp; Research Networks</h3>
+
+  <table class="memo-table">
+    <thead>
+      <tr><th>Organization</th><th>Role</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Xylem Innovation Labs</td><td>Corporate Innovation</td></tr>
+      <tr><td>Imagine H2O</td><td>Water Accelerator</td></tr>
+      <tr><td>BlueTech Research</td><td>Market Intelligence</td></tr>
+      <tr><td>Isle Utilities</td><td>Technology Scouting</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-gold" style="margin-top:20px;">
+    <p><strong>Syndication strategy:</strong> The fund's pre-seed and seed positioning creates natural syndication pathways. Early relationships with portfolio companies give co-investment partners priority access to later-stage rounds, incentivizing ongoing dealflow sharing and collaboration.</p>
+  </div>
+
+  <div class="section-num" style="margin-top:32px;">Section 8</div>
+  <h2>Founder References</h2>
+  <p>The following individuals have agreed to serve as references regarding the GP's capabilities, character, and value-add as an investor and advisor in the water technology sector:</p>
+
+  <div class="two-col" style="margin-top:12px;">
+    <ul class="memo-list gold">
+      <li>Aaron Tartakovsky</li>
+      <li>Sean McFetridge</li>
+      <li>Ruby Lai</li>
+      <li>Harry Brooksbank</li>
+    </ul>
+    <ul class="memo-list gold">
+      <li>Brad Roan</li>
+      <li>Vidal Guitart</li>
+      <li>Noemi Florea</li>
+    </ul>
+  </div>
+  <p style="font-size:0.8rem; color:var(--text-muted); margin-top:8px;">Contact details available upon request.</p>
+
+  <div class="page-footer">
+    <span>Confidential</span>
+    <span>6</span>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     PAGE 7 — RISK FACTORS & CLOSING
+     ════════════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="page-header">
+    <span class="page-header-brand">Beyond Utility Water Ventures</span>
+    <span class="page-header-title">Investment Memo</span>
+  </div>
+
+  <div class="section-num">Section 9</div>
+  <h2>Risk Factors &amp; Mitigants</h2>
+
+  <table class="memo-table">
+    <thead>
+      <tr><th>Risk</th><th>Mitigant</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>First-time fund manager</td>
+        <td>10+ years of angel investing in the sector, extensive domain expertise, and established industry relationships that reduce the cold-start problem typical of emerging managers. The GP has direct investing experience — this is a formalization and scaling of an existing practice, not a new activity.</td>
+      </tr>
+      <tr>
+        <td>Solo GP / key person risk</td>
+        <td>Augmented by expert partners with dedicated hours, external advisors, and a co-investment network that provides collaborative diligence. The fund size ($12.5M) is appropriately scaled for a single GP managing a concentrated portfolio of 10–20 investments.</td>
+      </tr>
+      <tr>
+        <td>Early-stage technology risk</td>
+        <td>In-house technical diligence capability (20–40 hours per deal) and deep domain knowledge allow more accurate assessment of technology viability than generalist investors. IP strategy is a core selection criterion.</td>
+      </tr>
+      <tr>
+        <td>Long sales cycles in water</td>
+        <td>This is a known characteristic of the sector. The GP's evaluation framework prioritizes believable go-to-market strategies and documented steps toward traction specifically because water utility sales cycles can be 12–24+ months.</td>
+      </tr>
+      <tr>
+        <td>Concentrated sector exposure</td>
+        <td>The water sector itself is diversifying — treatment, monitoring, distribution, digital infrastructure, industrial reuse — providing sub-sector diversification within the portfolio. Regulatory tailwinds (PFAS, lead, etc.) create non-discretionary demand that is relatively recession-resistant.</td>
+      </tr>
+      <tr>
+        <td>Limited track record data</td>
+        <td>The GP's angel portfolio has not yet produced exits. However, the fund's structural advantages — domain expertise, deal access, portfolio support — are demonstrable through founder references and the breadth of the dealflow partnership network.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="section-num" style="margin-top:36px;">Section 10</div>
+  <h2>Conclusion</h2>
+
+  <p class="lead">Beyond Utility Water Ventures Fund I represents an opportunity to invest alongside a deeply specialized operator in one of the most structurally attractive and underserved sectors in venture capital.</p>
+
+  <p>The water industry is entering a period of generational transformation. Regulatory mandates, infrastructure failure, and climate variability are creating urgent, non-discretionary demand for new technologies. The companies building solutions to these problems need investors who understand the science, the regulations, the customers, and the go-to-market realities unique to water.</p>
+
+  <p>This fund is purpose-built to be that investor — with the domain expertise, the industry network, and the hands-on engagement model to support founders from first check to exit.</p>
+
+  <div style="margin-top:40px; text-align:center; padding:32px; border-top:2px solid var(--navy);">
+    <p style="font-family:'Outfit',sans-serif; font-size:1.1rem; font-weight:600; color:var(--navy); margin-bottom:8px;">Alex Fairhart</p>
+    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:0;">General Partner &bull; Beyond Utility Water Ventures<br>Seattle, WA</p>
+  </div>
+
+  <div class="page-footer">
+    <span>Confidential</span>
+    <span>7</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -27,6 +27,10 @@
       --green-dim: rgba(52, 211, 153, 0.12);
       --red: #F87171;
       --red-dim: rgba(248, 113, 113, 0.12);
+      --teal: #2DD4BF;
+      --teal-dim: rgba(45, 212, 191, 0.12);
+      --purple: #A78BFA;
+      --purple-dim: rgba(167, 139, 250, 0.12);
       --text: rgba(255, 255, 255, 0.88);
       --text-dim: rgba(255, 255, 255, 0.45);
       --text-muted: rgba(255, 255, 255, 0.3);
@@ -94,7 +98,7 @@
       width: 100%;
     }
 
-    .page-header { margin-bottom: 32px; }
+    .page-header { margin-bottom: 36px; }
 
     .page-header h1 {
       font-family: 'Outfit', sans-serif;
@@ -108,14 +112,112 @@
       color: var(--text-dim);
       font-size: 0.95rem;
       line-height: 1.6;
-      max-width: 680px;
+      max-width: 720px;
+    }
+
+    /* ── ALLOCATION OVERVIEW ── */
+    .alloc-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+
+    .alloc-card {
+      padding: 20px 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .alloc-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .alloc-card.treatment::before { background: var(--blue); }
+    .alloc-card.digital::before { background: var(--teal); }
+    .alloc-card.hardware::before { background: var(--gold); }
+    .alloc-card.other::before { background: var(--purple); }
+
+    .alloc-count {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .alloc-card.treatment .alloc-count { color: var(--blue-light); }
+    .alloc-card.digital .alloc-count { color: var(--teal); }
+    .alloc-card.hardware .alloc-count { color: var(--gold); }
+    .alloc-card.other .alloc-count { color: var(--purple); }
+
+    .alloc-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    .alloc-pct {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* ── SECTOR SECTIONS ── */
+    .sector {
+      margin-bottom: 36px;
+    }
+
+    .sector-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sector-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .sector.treatment .sector-dot { background: var(--blue); }
+    .sector.digital .sector-dot { background: var(--teal); }
+    .sector.hardware .sector-dot { background: var(--gold); }
+    .sector.other .sector-dot { background: var(--purple); }
+
+    .sector-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .sector-count {
+      font-size: 0.68rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      margin-left: auto;
     }
 
     /* ── SLOT GRID ── */
     .slot-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 16px;
     }
 
     .slot-card {
@@ -132,48 +234,69 @@
     }
 
     .slot-header {
-      padding: 20px 24px 0;
+      padding: 18px 22px 0;
       display: flex;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
     }
 
     .slot-number {
       font-family: 'Outfit', sans-serif;
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text-muted);
       letter-spacing: 0.04em;
     }
 
     .slot-year {
-      font-size: 0.65rem;
-      font-weight: 500;
+      font-size: 0.6rem;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       padding: 3px 8px;
       border-radius: 4px;
-      background: var(--blue-dim);
-      color: var(--blue-light);
     }
 
+    .sector.treatment .slot-year { background: var(--blue-dim); color: var(--blue-light); }
+    .sector.digital .slot-year { background: var(--teal-dim); color: var(--teal); }
+    .sector.hardware .slot-year { background: rgba(212, 168, 75, 0.12); color: var(--gold); }
+    .sector.other .slot-year { background: var(--purple-dim); color: var(--purple); }
+
     .slot-body {
-      padding: 12px 24px 24px;
+      padding: 12px 22px 22px;
     }
 
     .slot-category {
       font-family: 'Outfit', sans-serif;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       line-height: 1.3;
     }
 
     .slot-description {
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       color: var(--text-dim);
       line-height: 1.6;
       margin-bottom: 16px;
+    }
+
+    .slot-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .slot-tag {
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
     }
 
     .slot-exit {
@@ -182,17 +305,17 @@
     }
 
     .slot-exit-label {
-      font-size: 0.65rem;
-      font-weight: 500;
+      font-size: 0.6rem;
+      font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--text-muted);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
     .slot-exit-text {
-      font-size: 0.78rem;
-      color: var(--gold);
+      font-size: 0.75rem;
+      color: var(--text-dim);
       line-height: 1.5;
     }
 
@@ -208,6 +331,7 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
+      .alloc-row { grid-template-columns: repeat(2, 1fr); }
       .slot-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
@@ -216,6 +340,9 @@
       .nav-logo { font-size: 0.85rem; }
       .page { padding: 24px 16px 40px; }
       .page-header h1 { font-size: 1.5rem; }
+      .alloc-row { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .alloc-card { padding: 16px; }
+      .alloc-count { font-size: 1.3rem; }
       .slot-grid { grid-template-columns: 1fr; }
       .footer { padding: 24px 16px; padding-bottom: calc(24px + env(safe-area-inset-bottom)); }
     }
@@ -237,192 +364,329 @@
   <main class="page">
     <div class="page-header">
       <h1>Portfolio Construction</h1>
-      <p>12 target investments across water technology categories, deployed over a 3-year period. Each slot represents a thesis area with defined exit pathways.</p>
+      <p>12 target investments distributed equally across four water technology sectors, deployed over a 3-year investment period. One investment per sector per year.</p>
     </div>
 
-    <div class="slot-grid">
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#1</span>
-          <span class="slot-year">Year 1</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
+    <!-- Allocation Overview -->
+    <div class="alloc-row">
+      <div class="alloc-card treatment">
+        <div class="alloc-count">3</div>
+        <div class="alloc-label">Treatment Technology</div>
+        <div class="alloc-pct">25% of portfolio &middot; $1.2M first checks</div>
       </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#2</span>
-          <span class="slot-year">Year 1</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
+      <div class="alloc-card digital">
+        <div class="alloc-count">3</div>
+        <div class="alloc-label">Digital &amp; Software</div>
+        <div class="alloc-pct">25% of portfolio &middot; $1.2M first checks</div>
       </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#3</span>
-          <span class="slot-year">Year 1</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
+      <div class="alloc-card hardware">
+        <div class="alloc-count">3</div>
+        <div class="alloc-label">Non-Treatment Hardware</div>
+        <div class="alloc-pct">25% of portfolio &middot; $1.2M first checks</div>
       </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#4</span>
-          <span class="slot-year">Year 1</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
+      <div class="alloc-card other">
+        <div class="alloc-count">3</div>
+        <div class="alloc-label">Other / Emerging</div>
+        <div class="alloc-pct">25% of portfolio &middot; $1.2M first checks</div>
       </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#5</span>
-          <span class="slot-year">Year 2</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#6</span>
-          <span class="slot-year">Year 2</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#7</span>
-          <span class="slot-year">Year 2</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#8</span>
-          <span class="slot-year">Year 2</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#9</span>
-          <span class="slot-year">Year 3</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#10</span>
-          <span class="slot-year">Year 3</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#11</span>
-          <span class="slot-year">Year 3</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="slot-card">
-        <div class="slot-header">
-          <span class="slot-number">#12</span>
-          <span class="slot-year">Year 3</span>
-        </div>
-        <div class="slot-body">
-          <div class="slot-category">TBD</div>
-          <div class="slot-description">Investment category and thesis to be defined.</div>
-          <div class="slot-exit">
-            <div class="slot-exit-label">Potential Exit</div>
-            <div class="slot-exit-text">&mdash;</div>
-          </div>
-        </div>
-      </div>
-
     </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTOR 1: Treatment Technology              -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="sector treatment">
+      <div class="sector-header">
+        <span class="sector-dot"></span>
+        <span class="sector-title">Treatment Technology</span>
+        <span class="sector-count">3 investments</span>
+      </div>
+      <div class="slot-grid">
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#1</span>
+            <span class="slot-year">Year 1</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Advanced Membrane &amp; Filtration</div>
+            <div class="slot-description">Next-generation membrane materials, novel filtration architectures, or low-energy separation technologies for municipal or industrial water treatment.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">Desalination</span>
+              <span class="slot-tag">Nanofiltration</span>
+              <span class="slot-tag">Industrial Reuse</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Strategic acquisition by Xylem, Veolia, Pall, or Suez. Typical acquirer pays 6&ndash;12x revenue for differentiated membrane IP.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#2</span>
+            <span class="slot-year">Year 2</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Biological &amp; Electrochemical Treatment</div>
+            <div class="slot-description">Bio-augmented processes, electrochemical oxidation, or advanced nutrient removal systems targeting PFAS, microplastics, or emerging contaminants.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">PFAS</span>
+              <span class="slot-tag">Nutrient Removal</span>
+              <span class="slot-tag">Contaminants</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Regulatory-driven M&amp;A from treatment OEMs or EPC firms. EPA mandates on emerging contaminants create urgency for acquirers.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#3</span>
+            <span class="slot-year">Year 3</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Decentralized &amp; Point-of-Use</div>
+            <div class="slot-description">Compact, modular treatment systems for small utilities, rural communities, or commercial/industrial facilities not served by centralized infrastructure.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">Modular</span>
+              <span class="slot-tag">Rural Access</span>
+              <span class="slot-tag">Commercial</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Acquisition by water service companies (e.g., Essential Utilities, SUEZ) or building products distributors expanding into water quality.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTOR 2: Digital & Software                -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="sector digital">
+      <div class="sector-header">
+        <span class="sector-dot"></span>
+        <span class="sector-title">Digital &amp; Software</span>
+        <span class="sector-count">3 investments</span>
+      </div>
+      <div class="slot-grid">
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#4</span>
+            <span class="slot-year">Year 1</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Smart Network &amp; Leak Detection</div>
+            <div class="slot-description">AI/ML-driven platforms for real-time leak detection, pressure management, and non-revenue water reduction across distribution networks.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">AI / ML</span>
+              <span class="slot-tag">IoT</span>
+              <span class="slot-tag">Non-Revenue Water</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">SaaS multiples via growth equity round or strategic acquisition by Itron, Badger Meter, or enterprise infrastructure software platforms.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#5</span>
+            <span class="slot-year">Year 2</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Water Quality Analytics</div>
+            <div class="slot-description">Continuous monitoring platforms, digital twin modeling, or predictive analytics for water quality compliance, contaminant detection, and treatment optimization.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">Analytics</span>
+              <span class="slot-tag">Compliance</span>
+              <span class="slot-tag">Digital Twin</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Enterprise software acquirers (Bentley Systems, Autodesk Water) or vertical SaaS roll-ups targeting utility infrastructure.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#6</span>
+            <span class="slot-year">Year 3</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Utility Operations Software</div>
+            <div class="slot-description">Workflow automation, asset management, or customer engagement platforms purpose-built for water and wastewater utility operations.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">SaaS</span>
+              <span class="slot-tag">Asset Mgmt</span>
+              <span class="slot-tag">Workflow</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Acquisition by utility software incumbents (Tyler Technologies, Trimble) or PE-backed roll-ups in govtech/utilitytech.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTOR 3: Non-Treatment Hardware            -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="sector hardware">
+      <div class="sector-header">
+        <span class="sector-dot"></span>
+        <span class="sector-title">Non-Treatment Hardware</span>
+        <span class="sector-count">3 investments</span>
+      </div>
+      <div class="slot-grid">
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#7</span>
+            <span class="slot-year">Year 1</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Smart Metering &amp; Sensors</div>
+            <div class="slot-description">Next-generation AMI meters, low-power sensor networks, or edge computing devices for real-time flow, pressure, and quality measurement in distribution systems.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">AMI</span>
+              <span class="slot-tag">Edge Computing</span>
+              <span class="slot-tag">Sensors</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Strategic acquisition by metering incumbents (Badger Meter, Sensus/Xylem, Itron) or large-scale utility procurement contracts driving revenue scale.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#8</span>
+            <span class="slot-year">Year 2</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Pipe Inspection &amp; Assessment</div>
+            <div class="slot-description">Robotic inspection systems, acoustic monitoring, or non-invasive condition assessment technology for aging water and sewer infrastructure.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">Robotics</span>
+              <span class="slot-tag">Condition Assessment</span>
+              <span class="slot-tag">Acoustics</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Acquisition by infrastructure services firms (Mueller Water, Aegion) or CIPP/rehab companies expanding into assessment-as-a-service.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#9</span>
+            <span class="slot-year">Year 3</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Pumping &amp; Distribution Efficiency</div>
+            <div class="slot-description">High-efficiency pump systems, variable-speed drives, or novel distribution architectures that reduce energy consumption and operating costs for utilities.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">Energy Efficiency</span>
+              <span class="slot-tag">VFD</span>
+              <span class="slot-tag">Pumps</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Strategic by Grundfos, Roper Technologies, or Watts Water. Energy savings create fast ROI and utility budget alignment.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════ -->
+    <!-- SECTOR 4: Other / Emerging                  -->
+    <!-- ═══════════════════════════════════════════ -->
+    <div class="sector other">
+      <div class="sector-header">
+        <span class="sector-dot"></span>
+        <span class="sector-title">Other &amp; Emerging</span>
+        <span class="sector-count">3 investments</span>
+      </div>
+      <div class="slot-grid">
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#10</span>
+            <span class="slot-year">Year 1</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Water Reuse &amp; Recycling</div>
+            <div class="slot-description">Industrial water recycling systems, direct potable reuse enabling technology, or greywater recovery solutions for commercial and residential applications.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">Circular Water</span>
+              <span class="slot-tag">DPR</span>
+              <span class="slot-tag">Greywater</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Acquisition by industrial water service providers (Veolia, Evoqua/Xylem) or water-stressed municipal utilities seeking reuse capacity.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#11</span>
+            <span class="slot-year">Year 2</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Stormwater &amp; Green Infrastructure</div>
+            <div class="slot-description">Nature-based solutions, permeable infrastructure, or stormwater capture and treatment systems addressing urban flooding and CSO compliance.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">Urban Resilience</span>
+              <span class="slot-tag">CSO</span>
+              <span class="slot-tag">Nature-Based</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Municipal procurement scale-up, infrastructure fund investment, or acquisition by construction/engineering firms (Arcadis, AECOM) entering green infra.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slot-card">
+          <div class="slot-header">
+            <span class="slot-number">#12</span>
+            <span class="slot-year">Year 3</span>
+          </div>
+          <div class="slot-body">
+            <div class="slot-category">Water Data &amp; Market Infrastructure</div>
+            <div class="slot-description">Water rights marketplaces, pricing/risk analytics, supply-chain transparency tools, or fintech solutions for water asset valuation and trading.</div>
+            <div class="slot-meta">
+              <span class="slot-tag">Fintech</span>
+              <span class="slot-tag">Water Rights</span>
+              <span class="slot-tag">Data</span>
+            </div>
+            <div class="slot-exit">
+              <div class="slot-exit-label">Exit Pathway</div>
+              <div class="slot-exit-text">Acquisition by commodity trading platforms, ESG data providers, or agricultural finance companies. Network effects drive defensibility.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </main>
 
   <footer class="footer">

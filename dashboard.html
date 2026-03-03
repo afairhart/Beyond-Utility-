@@ -156,6 +156,11 @@
       opacity: 0.3;
     }
 
+    .tile-chart-icon {
+      width: 70%;
+      height: 70%;
+    }
+
     .tile-body {
       padding: 20px;
       flex: 1;
@@ -402,11 +407,20 @@
 
       <a href="investment-model.html" class="tile">
         <div class="tile-preview">
-          <span class="tile-preview-icon">&#x1F4CA;</span>
+          <svg class="tile-chart-icon" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="50" width="12" height="22" rx="2" fill="rgba(75,123,245,0.5)"/>
+            <rect x="24" y="40" width="12" height="32" rx="2" fill="rgba(75,123,245,0.6)"/>
+            <rect x="40" y="28" width="12" height="44" rx="2" fill="rgba(75,123,245,0.7)"/>
+            <rect x="56" y="35" width="12" height="37" rx="2" fill="rgba(212,168,75,0.6)"/>
+            <rect x="72" y="18" width="12" height="54" rx="2" fill="rgba(75,123,245,0.8)"/>
+            <rect x="88" y="8" width="12" height="64" rx="2" fill="rgba(75,123,245,0.9)"/>
+            <rect x="104" y="22" width="12" height="50" rx="2" fill="rgba(212,168,75,0.7)"/>
+            <line x1="4" y1="72" x2="120" y2="72" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+          </svg>
         </div>
         <div class="tile-body">
           <span class="tag">Fund Overview</span>
-          <h2>Fund Investment Model</h2>
+          <h2>Financial Model</h2>
           <p>Interactive model with projected fund outcomes. Drag to adjust deal multiples and stress-test scenarios.</p>
           <span class="tile-arrow">&rarr;</span>
         </div>

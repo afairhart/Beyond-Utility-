@@ -406,7 +406,7 @@
   <main class="page">
     <div class="page-header">
       <h1>Fund Investment Model</h1>
-      <p>A $12.5M pre-seed fund deploying into 12 water technology companies with concentrated follow-on reserves for the top performers.</p>
+      <p>A $12.5M pre-seed fund deploying into 12 water technology companies over a 3-year investment period, with concentrated follow-on reserves for the top performers.</p>
     </div>
 
     <!-- Top metrics -->
@@ -456,8 +456,9 @@
           <div class="fixed-row"><span class="label">Fund Size</span><span class="val">$12.5M</span></div>
           <div class="fixed-row"><span class="label">Management Fee</span><span class="val">2.0% / year</span></div>
           <div class="fixed-row"><span class="label">Fund Life</span><span class="val">10 years</span></div>
-          <div class="fixed-row"><span class="label">Initial Check</span><span class="val">$400k &times; 12</span></div>
-          <div class="fixed-row"><span class="label">Follow-On Reserve</span><span class="val">Top 3 performers</span></div>
+          <div class="fixed-row"><span class="label">Deployment Period</span><span class="val">Years 1&ndash;3</span></div>
+          <div class="fixed-row"><span class="label">Initial Check</span><span class="val">$400k &times; 12 (4 / yr)</span></div>
+          <div class="fixed-row"><span class="label">Follow-On Reserve</span><span class="val">Top 3, Year 3</span></div>
         </div>
 
         <!-- Capital Breakdown -->
@@ -481,6 +482,15 @@
       </div>
     </div>
 
+    <!-- J-Curve -->
+    <div class="card" style="margin-bottom:28px;">
+      <div class="card-title">Fund J-Curve</div>
+      <div class="card-subtitle">Cumulative net cash position over the fund life. Capital deployed across years 1–3; returns modeled at year 10.</div>
+      <div class="chart-wrapper">
+        <canvas id="jCurveChart"></canvas>
+      </div>
+    </div>
+
     <!-- Deal List -->
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:20px;">
@@ -501,15 +511,15 @@
       <div class="assumptions-grid">
         <div class="assumption-item">
           <h4>Fund Structure</h4>
-          <p>$12.5M fund with a 2% annual management fee over 10 years, yielding $2.5M in fees and $10M investable capital. Capital is split approximately 50/50 between first checks and follow-on reserves.</p>
+          <p>$12.5M fund with a 2% annual management fee over 10 years, yielding $2.5M in fees and $10M investable capital. Capital is deployed over a 3-year investment period, split approximately 50/50 between first checks and follow-on reserves.</p>
         </div>
         <div class="assumption-item">
           <h4>Investment Strategy</h4>
-          <p>12 pre-seed investments of $400k each into water technology companies ($4.8M deployed). The remaining investable capital is reserved for concentrated follow-on into the top 3 performers.</p>
+          <p>12 pre-seed investments of $400k each into water technology companies ($4.8M deployed), with 4 new investments per year across years 1&ndash;3. The remaining investable capital is reserved for concentrated follow-on into the top 3 performers.</p>
         </div>
         <div class="assumption-item">
           <h4>Follow-On Approach</h4>
-          <p>The 3 strongest performers receive significant follow-on capital at the Seed or Series A stage (modeled at Year 2). Follow-on concentration reflects conviction&mdash;fewer bets, larger checks into proven winners.</p>
+          <p>The 3 strongest performers receive significant follow-on capital at the Seed or Series A stage (modeled at Year 3, once early cohorts show traction). Follow-on concentration reflects conviction&mdash;fewer bets, larger checks into proven winners.</p>
         </div>
         <div class="assumption-item">
           <h4>Outcome Distribution</h4>
@@ -521,7 +531,7 @@
         </div>
         <div class="assumption-item">
           <h4>IRR Methodology</h4>
-          <p>Net IRR computed via Newton-Raphson with bisection fallback over annual cashflows. Management fee drag is included as annual outflows. Reflects the LP&rsquo;s time-value-adjusted net return over the fund life.</p>
+          <p>Net IRR computed via Newton-Raphson with bisection fallback over annual cashflows. The staggered deployment across years 1&ndash;3 is reflected in the cashflow timing. Management fee drag is included as annual outflows. Reflects the LP&rsquo;s time-value-adjusted net return over the fund life.</p>
         </div>
       </div>
     </div>
@@ -538,7 +548,9 @@
     var FUND_LIFE = 10;
     var EXIT_YEAR = 10;
     var INITIAL_CHECK = 400000;
-    var FOLLOW_ON_YEAR = 2;
+    var DEALS_PER_YEAR = 4;
+    var DEPLOYMENT_YEARS = 3;  // All 12 investments within 3 years
+    var FOLLOW_ON_YEAR = 3;    // Follow-on after seeing early results
     var FOLLOW_ON_COUNT = 3;
 
     // 12 investments, sorted by return multiple (descending)
@@ -628,19 +640,32 @@
 
     var moic = totalDeployed > 0 ? totalReturned / totalDeployed : null;
 
-    // Cashflows
+    // Cashflows — initial checks staggered across years 1-3
     var byYear = {};
-    byYear[0] = -initialTotal;
+    for (var y = 1; y <= DEPLOYMENT_YEARS; y++) {
+      byYear[y] = (byYear[y] || 0) - (DEALS_PER_YEAR * INITIAL_CHECK);
+    }
+    // Management fees: years 1-10
     for (var y = 1; y <= FUND_LIFE; y++) {
       byYear[y] = (byYear[y] || 0) - (FUND_SIZE * MGMT_FEE);
     }
+    // Follow-on into top performers at year 3
     byYear[FOLLOW_ON_YEAR] = (byYear[FOLLOW_ON_YEAR] || 0) - followTotal;
+    // Exits at year 10
     byYear[EXIT_YEAR] = (byYear[EXIT_YEAR] || 0) + totalReturned;
 
     var cashflows = [];
     for (var key in byYear) cashflows.push({ t: parseInt(key), cf: byYear[key] });
     cashflows.sort(function(a, b) { return a.t - b.t; });
     var netIrr = solveIrr(cashflows);
+
+    // Cumulative cashflows for J-curve
+    var cumCashflows = [];
+    var cumulative = 0;
+    for (var y = 0; y <= FUND_LIFE; y++) {
+      cumulative += (byYear[y] || 0);
+      cumCashflows.push({ year: y, cumulative: cumulative });
+    }
 
     // ── Populate DOM ──
     document.getElementById('metricInvested').textContent = fmtMoney(totalDeployed);
@@ -745,6 +770,74 @@
               color: 'rgba(255,255,255,0.35)',
               font: { family: 'Inter', size: 11 },
               callback: function(v) { return v + 'x'; }
+            }
+          }
+        }
+      }
+    });
+    // ── J-Curve Chart ──
+    var jCtx = document.getElementById('jCurveChart').getContext('2d');
+    new Chart(jCtx, {
+      type: 'line',
+      data: {
+        labels: cumCashflows.map(function(c) { return 'Yr ' + c.year; }),
+        datasets: [{
+          label: 'Cumulative Net Cash',
+          data: cumCashflows.map(function(c) { return c.cumulative; }),
+          borderColor: 'rgba(75, 123, 245, 1)',
+          backgroundColor: function(context) {
+            var chart = context.chart;
+            var ctx2 = chart.ctx, area = chart.chartArea;
+            if (!area) return 'rgba(75, 123, 245, 0.1)';
+            var grad = ctx2.createLinearGradient(0, area.top, 0, area.bottom);
+            grad.addColorStop(0, 'rgba(52, 211, 153, 0.15)');
+            grad.addColorStop(0.5, 'rgba(75, 123, 245, 0.05)');
+            grad.addColorStop(1, 'rgba(248, 113, 113, 0.15)');
+            return grad;
+          },
+          fill: true,
+          tension: 0.3,
+          borderWidth: 2,
+          pointBackgroundColor: cumCashflows.map(function(c) {
+            return c.cumulative >= 0 ? 'rgba(52, 211, 153, 1)' : 'rgba(248, 113, 113, 1)';
+          }),
+          pointBorderColor: cumCashflows.map(function(c) {
+            return c.cumulative >= 0 ? 'rgba(52, 211, 153, 1)' : 'rgba(248, 113, 113, 1)';
+          }),
+          pointRadius: 4,
+          pointHoverRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        animation: { duration: 600 },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(8, 14, 26, 0.95)',
+            borderColor: 'rgba(255,255,255,0.1)',
+            borderWidth: 1,
+            titleFont: { family: 'Outfit', weight: '600' },
+            bodyFont: { family: 'Inter' },
+            callbacks: {
+              label: function(c) {
+                return 'Net position: ' + fmtMoney(c.raw);
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: 'rgba(255,255,255,0.35)', font: { family: 'Inter', size: 11 } }
+          },
+          y: {
+            grid: { color: 'rgba(255,255,255,0.04)' },
+            ticks: {
+              color: 'rgba(255,255,255,0.35)',
+              font: { family: 'Inter', size: 11 },
+              callback: function(v) { return fmtMoney(v); }
             }
           }
         }

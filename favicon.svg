@@ -1,16 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <rect width="32" height="32" rx="6" fill="#080E1A"/>
   <g transform="translate(16,16)">
-    <!-- Hexagonal aperture / vortex shape -->
-    <polygon points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="none" stroke="rgba(26,155,215,0.25)" stroke-width="0.8"/>
-    <!-- Six aperture blades creating vortex effect -->
-    <path d="M0,-10 L3,-3.5 L9.5,-5.5Z" fill="#1A9BD7" opacity="0.95"/>
-    <path d="M9.5,-5.5 L3.5,0 L9.5,5.5Z" fill="#22AAE2" opacity="0.85"/>
-    <path d="M9.5,5.5 L2,3.5 L0,11Z" fill="#2BB8EC" opacity="0.75"/>
-    <path d="M0,11 L-3,3.5 L-9.5,5.5Z" fill="#1A9BD7" opacity="0.95"/>
-    <path d="M-9.5,5.5 L-3.5,0 L-9.5,-5.5Z" fill="#22AAE2" opacity="0.85"/>
-    <path d="M-9.5,-5.5 L-2,-3.5 L0,-10Z" fill="#2BB8EC" opacity="0.75"/>
-    <!-- Center highlight -->
-    <circle cx="0" cy="0" r="2.5" fill="#5CC0EB" opacity="0.5"/>
+    <polygon points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="none" stroke="rgba(75,123,245,0.25)" stroke-width="0.8"/>
+    <path d="M0,-10 L3,-3.5 L9.5,-5.5Z" fill="#4B7BF5" opacity="0.95"/>
+    <path d="M9.5,-5.5 L3.5,0 L9.5,5.5Z" fill="#6390F6" opacity="0.85"/>
+    <path d="M9.5,5.5 L2,3.5 L0,11Z" fill="#7BA1F7" opacity="0.75"/>
+    <path d="M0,11 L-3,3.5 L-9.5,5.5Z" fill="#4B7BF5" opacity="0.95"/>
+    <path d="M-9.5,5.5 L-3.5,0 L-9.5,-5.5Z" fill="#6390F6" opacity="0.85"/>
+    <path d="M-9.5,-5.5 L-2,-3.5 L0,-10Z" fill="#7BA1F7" opacity="0.75"/>
+    <circle cx="0" cy="0" r="2.5" fill="#7BA1F7" opacity="0.5"/>
   </g>
 </svg>

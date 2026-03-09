@@ -968,6 +968,12 @@
       const { user, profile } = result;
       currentProfile = profile;
 
+      // Admin-only page — redirect non-admins to dashboard
+      if (profile.role !== 'admin') {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+
       document.body.classList.remove('auth-loading');
 
       if (profile.role === 'admin') {

@@ -285,6 +285,17 @@
     .user-role.admin { color: var(--gold); }
     .user-role.partner { color: var(--blue-light); }
 
+    .user-activity {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 3px;
+    }
+
+    .user-activity .login-count {
+      color: var(--blue-light);
+      font-weight: 600;
+    }
+
     .user-remove {
       background: none;
       border: 1px solid rgba(248, 113, 113, 0.25);
@@ -509,7 +520,7 @@
         </div>
       </div>
 
-      <a href="network.html" class="tile">
+      <a href="network.html" class="tile" id="networkTile" style="display:none;">
         <div class="tile-preview">
           <svg class="tile-chart-icon" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="60" cy="40" r="8" fill="rgba(212,168,75,0.6)" stroke="rgba(212,168,75,0.4)" stroke-width="0.5"/>
@@ -628,9 +639,10 @@
       // Show the page
       document.body.classList.remove('auth-loading');
 
-      // If admin, show user management
+      // If admin, show admin-only sections
       if (profile.role === 'admin') {
         document.getElementById('adminSection').style.display = 'block';
+        document.getElementById('networkTile').style.display = '';
         loadUsers(user.uid);
       }
     })();
@@ -653,10 +665,26 @@
 
         const isCurrentUser = u.uid === adminUid;
 
+        // Format login activity for non-admin users
+        let activityHtml = '';
+        if (!isCurrentUser) {
+          const count = u.loginCount || 0;
+          let lastLogin = 'Never';
+          if (u.lastLoginAt) {
+            const d = u.lastLoginAt.toDate ? u.lastLoginAt.toDate() : new Date(u.lastLoginAt);
+            lastLogin = formatRelativeTime(d);
+          }
+          activityHtml = '<div class="user-activity">' +
+            '<span class="login-count">' + count + '</span> login' + (count !== 1 ? 's' : '') +
+            ' &middot; Last: ' + lastLogin +
+          '</div>';
+        }
+
         row.innerHTML =
           '<div class="user-info">' +
             '<div class="user-email">' + escapeHtml(u.email) + '</div>' +
             '<div class="user-role ' + u.role + '">' + u.role + (isCurrentUser ? ' (you)' : '') + '</div>' +
+            activityHtml +
           '</div>' +
           (isCurrentUser ? '' :
             '<button class="user-remove" data-uid="' + u.uid + '">Remove</button>');
@@ -710,6 +738,20 @@
       btn.disabled = false;
       btn.textContent = 'Add User';
     });
+
+    function formatRelativeTime(date) {
+      const now = new Date();
+      const diffMs = now - date;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHours = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+
+      if (diffMins < 1) return 'Just now';
+      if (diffMins < 60) return diffMins + 'm ago';
+      if (diffHours < 24) return diffHours + 'h ago';
+      if (diffDays < 7) return diffDays + 'd ago';
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: diffDays > 365 ? 'numeric' : undefined });
+    }
 
     function escapeHtml(str) {
       const d = document.createElement('div');

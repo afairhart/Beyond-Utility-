@@ -1,0 +1,18 @@
+# Dependencies
+functions/node_modules/
+
+# LinkedIn data (sensitive - never commit)
+linkedin-data/
+*.linkedin.csv
+Connections.csv
+connections.csv
+LinkedIn_*.csv
+linkedin_*.csv
+linkedin-data.*
+
+# Firebase
+.firebase/
+
+# Environment/secrets
+.env
+.env.local

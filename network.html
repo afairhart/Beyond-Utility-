@@ -688,6 +688,287 @@
     .settings-msg.success { color: var(--green); }
     .settings-msg.error { color: var(--red); }
 
+    /* ── MESSAGES TAB ── */
+    .messages-layout {
+      flex: 1;
+      display: flex;
+      overflow: hidden;
+    }
+    .msg-list-pane {
+      width: 320px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .msg-list-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .msg-search-input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      padding: 9px 12px;
+      outline: none;
+    }
+    .msg-search-input:focus { border-color: var(--blue); }
+    .msg-search-input::placeholder { color: var(--text-muted); }
+    .msg-thread-list {
+      flex: 1;
+      overflow-y: auto;
+    }
+    .msg-thread-item {
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .msg-thread-item:hover { background: rgba(255,255,255,0.03); }
+    .msg-thread-item.active { background: rgba(75,123,245,0.08); border-left: 2px solid var(--blue); }
+    .msg-thread-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .msg-thread-preview {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .msg-thread-date {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .msg-thread-badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 8px;
+      padding: 1px 6px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .msg-detail-pane {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .msg-detail-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .msg-detail-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .msg-detail-role {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+    .msg-detail-link {
+      margin-left: auto;
+      font-size: 0.72rem;
+      color: var(--blue-light);
+      text-decoration: none;
+      padding: 5px 12px;
+      border: 1px solid rgba(75,123,245,0.25);
+      border-radius: 5px;
+      transition: all 0.15s;
+    }
+    .msg-detail-link:hover { border-color: var(--blue); background: rgba(75,123,245,0.08); }
+    .msg-thread-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .msg-bubble {
+      max-width: 75%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+    .msg-bubble.sent {
+      align-self: flex-end;
+      background: rgba(75,123,245,0.18);
+      border: 1px solid rgba(75,123,245,0.25);
+      color: var(--text);
+    }
+    .msg-bubble.received {
+      align-self: flex-start;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .msg-bubble-time {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .msg-empty {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      gap: 8px;
+    }
+    .msg-empty h3 { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 500; }
+    .msg-empty p { font-size: 0.8rem; max-width: 300px; text-align: center; line-height: 1.5; }
+    .msg-list-stats {
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 16px;
+    }
+
+    /* ── ENRICHED SIDEBAR ── */
+    .sidebar-enriched { display: none; }
+    .sidebar-enriched.visible { display: block; }
+    .enriched-stat-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .enriched-chip {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 5px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--text-dim);
+    }
+    .enriched-chip .chip-val { color: var(--blue-light); }
+    .enriched-last-msg {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 4px;
+    }
+    .enriched-invitation {
+      font-size: 0.72rem;
+      padding: 6px 10px;
+      border-radius: 5px;
+      margin-top: 8px;
+    }
+    .enriched-invitation.outgoing { background: rgba(75,123,245,0.1); color: var(--blue-light); }
+    .enriched-invitation.incoming { background: rgba(52,211,153,0.1); color: var(--green); }
+    .sidebar-msg-preview {
+      margin-top: 10px;
+      border-top: 1px solid var(--border);
+      padding-top: 10px;
+    }
+    .sidebar-msg-preview-title {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .sidebar-msg-item {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      padding: 4px 0;
+      line-height: 1.45;
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+    }
+    .sidebar-msg-item .msg-sender { color: var(--text); font-weight: 500; }
+    .sidebar-view-all-btn {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--blue-light);
+      background: none;
+      border: 1px solid rgba(75,123,245,0.25);
+      border-radius: 5px;
+      padding: 5px 12px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: all 0.15s;
+    }
+    .sidebar-view-all-btn:hover { background: rgba(75,123,245,0.08); }
+
+    /* ── COMPANY FOLLOWS ── */
+    .follows-section {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: none;
+    }
+    .follows-section.visible { display: block; }
+    .follows-list { display: flex; flex-direction: column; gap: 4px; max-height: 160px; overflow-y: auto; }
+    .follows-item {
+      font-size: 0.78rem;
+      color: var(--text);
+      padding: 6px 8px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.12s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .follows-item:hover { background: rgba(255,255,255,0.04); }
+    .follows-date { font-size: 0.65rem; color: var(--text-muted); }
+
+    /* ── MULTI-FILE IMPORT ── */
+    .import-file-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .import-file-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .import-file-card.loaded { border-color: rgba(52,211,153,0.3); }
+    .import-file-icon { font-size: 1.1rem; opacity: 0.5; }
+    .import-file-card.loaded .import-file-icon { opacity: 1; }
+    .import-file-info { flex: 1; }
+    .import-file-name { font-size: 0.8rem; font-weight: 500; color: var(--text); }
+    .import-file-status { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+    .import-file-card.loaded .import-file-status { color: var(--green); }
+    .import-file-count {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+    .import-file-card.loaded .import-file-count { color: var(--green); }
+
     /* ── FOOTER ── */
     footer {
       padding: 24px 40px;
@@ -705,7 +986,9 @@
       .stats-bar { padding: 12px 16px; gap: 20px; overflow-x: auto; }
       .tab-nav { padding: 10px 16px; overflow-x: auto; }
       .graph-sidebar { display: none; }
+      .msg-list-pane { width: 240px; }
       .search-layout, .import-layout, .settings-layout { padding: 24px 16px 40px; }
+      .import-file-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -735,6 +1018,14 @@
       <span class="stat-value" id="statVC">–</span>
       <span class="stat-label">Venture Capital</span>
     </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statMessages">–</span>
+      <span class="stat-label">Messages</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statCompanies">–</span>
+      <span class="stat-label">Companies</span>
+    </div>
     <div class="stats-bar-right" id="importBtn" style="cursor:pointer">
       <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:8px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:5px;color:var(--text-dim);transition:all 0.2s;"
         onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.color='#fff'"
@@ -746,6 +1037,7 @@
 
   <div class="tab-nav">
     <button class="tab-btn active" onclick="switchTab('map')">Network Map</button>
+    <button class="tab-btn" onclick="switchTab('messages')">Messages</button>
     <button class="tab-btn" onclick="switchTab('search')">AI Search</button>
     <button class="tab-btn" onclick="switchTab('import')">Import Data</button>
     <button class="tab-btn" id="settingsTabBtn" style="display:none" onclick="switchTab('settings')">Settings</button>
@@ -785,12 +1077,55 @@
               <div class="selected-pos" id="selPos"></div>
               <div class="selected-company" id="selCompany"></div>
               <div class="selected-cat" id="selCat"></div>
+              <div class="sidebar-enriched" id="enrichedSection">
+                <div class="enriched-stat-row" id="enrichedStats"></div>
+                <div id="enrichedInvitation"></div>
+                <div class="sidebar-msg-preview" id="sidebarMsgPreview" style="display:none">
+                  <div class="sidebar-msg-preview-title">Recent Messages</div>
+                  <div id="sidebarMsgList"></div>
+                  <button class="sidebar-view-all-btn" onclick="viewAllMessages()">View All Messages</button>
+                </div>
+              </div>
               <div class="selected-notes-area">
                 <label>Notes</label>
                 <textarea class="notes-input" id="notesInput" placeholder="Add private notes about this connection…"></textarea>
                 <button class="notes-save-btn" onclick="saveNotes()">Save Notes</button>
               </div>
             </div>
+          </div>
+          <div class="follows-section" id="followsSection">
+            <div class="sidebar-label">Tracked Companies</div>
+            <div class="follows-list" id="followsList"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MESSAGES ── -->
+    <div class="tab-panel" id="tab-messages">
+      <div class="messages-layout">
+        <div class="msg-list-pane">
+          <div class="msg-list-header">
+            <input class="msg-search-input" id="msgSearchInput" type="text" placeholder="Search conversations…" oninput="filterThreads()">
+          </div>
+          <div class="msg-list-stats" id="msgListStats"></div>
+          <div class="msg-thread-list" id="msgThreadList"></div>
+        </div>
+        <div class="msg-detail-pane">
+          <div class="msg-empty" id="msgEmpty">
+            <div style="font-size:2rem;opacity:0.3">💬</div>
+            <h3>Select a conversation</h3>
+            <p>Choose a thread from the left to view the full message history.</p>
+          </div>
+          <div id="msgDetailView" style="display:none;flex-direction:column;overflow:hidden;flex:1"
+            <div class="msg-detail-header">
+              <div>
+                <div class="msg-detail-name" id="msgDetailName"></div>
+                <div class="msg-detail-role" id="msgDetailRole"></div>
+              </div>
+              <a class="msg-detail-link" id="msgDetailLink" href="#" target="_blank">LinkedIn Profile</a>
+            </div>
+            <div class="msg-thread-body" id="msgThreadBody"></div>
           </div>
         </div>
       </div>
@@ -823,27 +1158,28 @@
     <div class="tab-panel" id="tab-import">
       <div class="import-layout">
         <div class="import-header">
-          <h2>Import LinkedIn Connections</h2>
-          <p>Export your LinkedIn data and upload the Connections CSV to build your network visualization. Your data is stored privately in the fund's database.</p>
+          <h2>Import LinkedIn Data</h2>
+          <p>Upload your full LinkedIn data export. Select all CSV files at once — connections, messages, invitations, and company follows will all be imported and linked together.</p>
         </div>
         <div class="import-steps">
           <h3>How to export from LinkedIn</h3>
           <div class="step-list">
             <div class="step-item"><div class="step-num">1</div><div class="step-text">Go to <strong>LinkedIn → Settings &amp; Privacy → Data Privacy</strong></div></div>
-            <div class="step-item"><div class="step-num">2</div><div class="step-text">Click <strong>Get a copy of your data</strong> → select <strong>Connections</strong></div></div>
-            <div class="step-item"><div class="step-num">3</div><div class="step-text">Request the download and wait for the email (usually a few minutes)</div></div>
-            <div class="step-item"><div class="step-num">4</div><div class="step-text">Download the zip, extract it, and upload <strong>Connections.csv</strong> below</div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="step-text">Click <strong>Get a copy of your data</strong> → select <strong>All available data</strong></div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="step-text">Download the zip and extract it</div></div>
+            <div class="step-item"><div class="step-num">4</div><div class="step-text">Select <strong>all CSV files</strong> below (Connections, messages, Invitations, etc.)</div></div>
           </div>
         </div>
         <div class="import-dropzone" id="dropzone"
           ondragover="event.preventDefault();this.classList.add('drag-over')"
           ondragleave="this.classList.remove('drag-over')"
           ondrop="handleDrop(event)">
-          <input type="file" accept=".csv" id="csvFileInput" onchange="handleFileInput(event)">
+          <input type="file" accept=".csv" id="csvFileInput" multiple onchange="handleFileInput(event)">
           <div class="dropzone-icon">📂</div>
           <div class="dropzone-text"><strong>Click to upload</strong> or drag and drop</div>
-          <div class="dropzone-hint">Connections.csv from LinkedIn data export</div>
+          <div class="dropzone-hint">Select all CSV files from your LinkedIn data export</div>
         </div>
+        <div class="import-file-grid" id="importFileGrid" style="display:none"></div>
         <div class="import-progress" id="importProgress">
           <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
           <div class="progress-text" id="progressText">Preparing…</div>
@@ -876,9 +1212,9 @@
           <div class="settings-msg" id="apiKeyMsg"></div>
         </div>
         <div class="settings-card">
-          <h3>Clear Network Data</h3>
-          <p>Remove all imported connections from the database. This cannot be undone.</p>
-          <button class="btn-danger" onclick="confirmClear()">Clear All Connections</button>
+          <h3>Clear All Data</h3>
+          <p>Remove all imported data (connections, messages, invitations, company follows) from the database. This cannot be undone.</p>
+          <button class="btn-danger" onclick="confirmClear()">Clear All Data</button>
           <div class="settings-msg" id="clearMsg"></div>
         </div>
       </div>
@@ -955,7 +1291,14 @@
 
     // ── STATE ────────────────────────────────────────────────────────────────
     let allConnections = [];
+    let allMessages = [];        // raw messages from Firestore
+    let allThreads = [];         // grouped by conversation
+    let allInvitations = [];     // invitation records
+    let allCompanyFollows = [];  // company follow records
+    let messagesByPerson = {};   // name → messages[]
+    let invitationsByPerson = {}; // name → invitation
     let selectedConnection = null;
+    let selectedThread = null;
     let currentProfile = null;
     let activeCategory = null;
     let searchContext = 'general';
@@ -983,7 +1326,8 @@
 
       document.getElementById('importBtn').onclick = () => switchTab('import');
 
-      await loadConnections();
+      await Promise.all([loadConnections(), loadMessages(), loadInvitations(), loadCompanyFollows()]);
+      buildEnrichedIndexes();
     })();
 
     // ── TAB SWITCHING ─────────────────────────────────────────────────────────
@@ -995,6 +1339,7 @@
         if (b.getAttribute('onclick')?.includes(`'${id}'`)) b.classList.add('active');
       });
       if (id === 'map') rebuildGraph();
+      if (id === 'messages') renderThreadList(getFilteredThreads());
     }
 
     // ── FIRESTORE ─────────────────────────────────────────────────────────────
@@ -1043,6 +1388,114 @@
       }
     }
 
+    // ── MESSAGES FIRESTORE ────────────────────────────────────────────────
+    async function loadMessages() {
+      const db = firebase.firestore();
+      try {
+        const snap = await db.collection('linkedinMessages').orderBy('date', 'desc').get();
+        allMessages = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        buildThreads();
+      } catch (e) { console.error('Load messages error:', e); }
+    }
+
+    async function saveMessagesBatch(messages) {
+      const db = firebase.firestore();
+      const CHUNK = 400;
+      let saved = 0;
+      for (let i = 0; i < messages.length; i += CHUNK) {
+        const batch = db.batch();
+        const chunk = messages.slice(i, i + CHUNK);
+        for (const m of chunk) {
+          batch.set(db.collection('linkedinMessages').doc(), m);
+        }
+        await batch.commit();
+        saved += chunk.length;
+        setProgress(Math.round(30 + (saved / messages.length) * 30), `Saving ${saved} of ${messages.length} messages…`);
+      }
+    }
+
+    async function loadInvitations() {
+      const db = firebase.firestore();
+      try {
+        const snap = await db.collection('linkedinInvitations').orderBy('sentAt', 'desc').get();
+        allInvitations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (e) { console.error('Load invitations error:', e); }
+    }
+
+    async function saveInvitationsBatch(invitations) {
+      const db = firebase.firestore();
+      const CHUNK = 400;
+      let saved = 0;
+      for (let i = 0; i < invitations.length; i += CHUNK) {
+        const batch = db.batch();
+        const chunk = invitations.slice(i, i + CHUNK);
+        for (const inv of chunk) {
+          batch.set(db.collection('linkedinInvitations').doc(), inv);
+        }
+        await batch.commit();
+        saved += chunk.length;
+      }
+    }
+
+    async function loadCompanyFollows() {
+      const db = firebase.firestore();
+      try {
+        const snap = await db.collection('linkedinCompanyFollows').get();
+        allCompanyFollows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch (e) { console.error('Load company follows error:', e); }
+    }
+
+    async function saveCompanyFollowsBatch(follows) {
+      const db = firebase.firestore();
+      const batch = db.batch();
+      for (const f of follows) {
+        batch.set(db.collection('linkedinCompanyFollows').doc(), f);
+      }
+      await batch.commit();
+    }
+
+    // ── ENRICHMENT INDEXES ──────────────────────────────────────────────────
+    function buildEnrichedIndexes() {
+      const myName = 'Alexander Fairhart';
+      messagesByPerson = {};
+      for (const m of allMessages) {
+        const otherName = m.from === myName ? m.to : m.from;
+        if (!otherName) continue;
+        if (!messagesByPerson[otherName]) messagesByPerson[otherName] = [];
+        messagesByPerson[otherName].push(m);
+      }
+      invitationsByPerson = {};
+      for (const inv of allInvitations) {
+        const other = inv.from === myName ? inv.to : inv.from;
+        if (!invitationsByPerson[other]) invitationsByPerson[other] = inv;
+      }
+      buildFollowsSidebar();
+      updateStats();
+    }
+
+    // ── THREADS ──────────────────────────────────────────────────────────────
+    function buildThreads() {
+      const threadMap = {};
+      const myName = 'Alexander Fairhart';
+      for (const m of allMessages) {
+        const key = m.conversationId || `${m.from}-${m.to}`;
+        if (!threadMap[key]) {
+          const otherName = m.from === myName ? m.to : m.from;
+          const otherUrl = m.from === myName ? m.recipientUrls : m.senderUrl;
+          threadMap[key] = { id: key, name: otherName || 'Unknown', url: otherUrl || '', messages: [] };
+        }
+        threadMap[key].messages.push(m);
+      }
+      allThreads = Object.values(threadMap);
+      for (const t of allThreads) {
+        t.messages.sort((a, b) => new Date(a.date) - new Date(b.date));
+        t.lastDate = t.messages[t.messages.length - 1]?.date || '';
+        t.lastMsg = t.messages[t.messages.length - 1]?.content || '';
+        t.msgCount = t.messages.length;
+      }
+      allThreads.sort((a, b) => new Date(b.lastDate) - new Date(a.lastDate));
+    }
+
     // ── STATS ─────────────────────────────────────────────────────────────────
     function updateStats() {
       const cats = new Set(allConnections.map(c => c.category));
@@ -1050,6 +1503,8 @@
       document.getElementById('statCategories').textContent = cats.size;
       document.getElementById('statWater').textContent = allConnections.filter(c => c.category === 'Water').length;
       document.getElementById('statVC').textContent = allConnections.filter(c => c.category === 'Venture Capital').length;
+      document.getElementById('statMessages').textContent = allMessages.length || '–';
+      document.getElementById('statCompanies').textContent = allCompanyFollows.length || '–';
     }
 
     // ── GRAPH ─────────────────────────────────────────────────────────────────
@@ -1338,6 +1793,72 @@
       catEl.style.background = catBg(conn.category);
       catEl.style.color = catColor(conn.category);
       document.getElementById('notesInput').value = conn.notes || '';
+
+      // Enriched data
+      const enrichedSection = document.getElementById('enrichedSection');
+      const enrichedStats = document.getElementById('enrichedStats');
+      const enrichedInv = document.getElementById('enrichedInvitation');
+      const msgPreview = document.getElementById('sidebarMsgPreview');
+      const msgList = document.getElementById('sidebarMsgList');
+
+      const personMsgs = messagesByPerson[conn.name] || [];
+      const inv = invitationsByPerson[conn.name];
+
+      let chips = '';
+      if (personMsgs.length > 0) {
+        chips += `<div class="enriched-chip"><span class="chip-val">${personMsgs.length}</span> messages</div>`;
+        const lastDate = personMsgs.reduce((latest, m) => {
+          const d = new Date(m.date);
+          return d > latest ? d : latest;
+        }, new Date(0));
+        chips += `<div class="enriched-chip">Last: <span class="chip-val">${lastDate.toLocaleDateString()}</span></div>`;
+      }
+      if (conn.connectedOn) {
+        chips += `<div class="enriched-chip">Connected: <span class="chip-val">${conn.connectedOn}</span></div>`;
+      }
+      if (conn.email) {
+        chips += `<div class="enriched-chip"><span class="chip-val">${conn.email}</span></div>`;
+      }
+      enrichedStats.innerHTML = chips;
+
+      if (inv) {
+        const dir = inv.direction === 'OUTGOING' ? 'outgoing' : 'incoming';
+        const label = inv.direction === 'OUTGOING' ? 'You reached out' : 'They reached out';
+        enrichedInv.innerHTML = `<div class="enriched-invitation ${dir}">${label} · ${inv.sentAt}</div>`;
+      } else {
+        enrichedInv.innerHTML = '';
+      }
+
+      if (personMsgs.length > 0) {
+        msgPreview.style.display = 'block';
+        const recent = [...personMsgs].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+        const myName = 'Alexander Fairhart';
+        msgList.innerHTML = recent.map(m => {
+          const sender = m.from === myName ? 'You' : (m.from?.split(' ')[0] || '');
+          const preview = (m.content || '').slice(0, 80) + ((m.content?.length || 0) > 80 ? '…' : '');
+          return `<div class="sidebar-msg-item"><span class="msg-sender">${escHtml(sender)}:</span> ${escHtml(preview)}</div>`;
+        }).join('');
+      } else {
+        msgPreview.style.display = 'none';
+        msgList.innerHTML = '';
+      }
+
+      enrichedSection.classList.add('visible');
+    }
+
+    function viewAllMessages() {
+      if (!selectedConnection) return;
+      const thread = allThreads.find(t => t.name === selectedConnection.name);
+      if (thread) {
+        switchTab('messages');
+        setTimeout(() => selectThread(thread), 100);
+      }
+    }
+
+    function escHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
     }
 
     async function saveNotes() {
@@ -1350,56 +1871,7 @@
       if (idx >= 0) allConnections[idx].notes = notes;
     }
 
-    // ── CSV IMPORT ────────────────────────────────────────────────────────────
-    function handleDrop(event) {
-      event.preventDefault();
-      document.getElementById('dropzone').classList.remove('drag-over');
-      const file = event.dataTransfer.files[0];
-      if (file) processCSV(file);
-    }
-    function handleFileInput(event) {
-      const file = event.target.files[0];
-      if (file) processCSV(file);
-    }
-
-    async function processCSV(file) {
-      showImportMsg('', '');
-      document.getElementById('importPreview').classList.remove('visible');
-      setProgress(0, 'Reading file…');
-      document.getElementById('importProgress').classList.add('visible');
-
-      const text = await file.text();
-      let connections;
-      try {
-        connections = parseLinkedInCSV(text);
-      } catch (e) {
-        setProgress(0, '');
-        document.getElementById('importProgress').classList.remove('visible');
-        showImportMsg('error', 'Could not parse CSV. Make sure this is a LinkedIn Connections export.');
-        return;
-      }
-
-      if (!connections.length) {
-        document.getElementById('importProgress').classList.remove('visible');
-        showImportMsg('error', 'No connections found in this file.');
-        return;
-      }
-
-      // Preview
-      showPreview(connections.slice(0, 10));
-
-      setProgress(10, `Parsed ${connections.length} connections. Saving to database…`);
-      try {
-        await saveBatch(connections);
-        setProgress(100, 'Done!');
-        setTimeout(() => document.getElementById('importProgress').classList.remove('visible'), 1500);
-        showImportMsg('success', `Successfully imported ${connections.length} connections. Go to the Network Map to explore.`);
-        await loadConnections();
-      } catch (e) {
-        document.getElementById('importProgress').classList.remove('visible');
-        showImportMsg('error', 'Error saving to database: ' + e.message);
-      }
-    }
+    // ── CSV IMPORT (handled by multi-file import below) ─────────────────────
 
     function parseLinkedInCSV(text) {
       // Skip LinkedIn header lines until we find the column header row
@@ -1548,16 +2020,24 @@
       }
     }
 
-    // Score connections by keyword relevance to the query
+    // Score connections by keyword relevance to the query (includes message context)
     function scoreAndFilter(query, connections, limit) {
       const words = query.toLowerCase().split(/\W+/).filter(w => w.length > 2);
       const scored = connections.map(c => {
-        const text = `${c.name} ${c.company} ${c.position} ${c.category} ${c.notes}`.toLowerCase();
+        // Include recent message snippets for richer context
+        const msgs = messagesByPerson[c.name] || [];
+        const msgSnippets = msgs.slice(0, 5).map(m => m.content || '').join(' ');
+        const inv = invitationsByPerson[c.name];
+        const invInfo = inv ? `${inv.direction} invitation ${inv.sentAt}` : '';
+        const text = `${c.name} ${c.company} ${c.position} ${c.category} ${c.notes} ${msgSnippets} ${invInfo}`.toLowerCase();
         const score = words.filter(w => text.includes(w)).length;
-        return { ...c, _score: score };
+        // Enrich with message count and last interaction for the AI
+        const enriched = { ...c };
+        if (msgs.length) enriched.messageCount = msgs.length;
+        if (inv) enriched.invitationDirection = inv.direction;
+        return { ...enriched, _score: score };
       });
       scored.sort((a, b) => b._score - a._score);
-      // Always include top by keyword match, then pad with diverse category sampling
       const top = scored.slice(0, limit);
       return top.map(({ _score, ...rest }) => rest);
     }
@@ -1587,16 +2067,39 @@
       }
     }
 
+    async function clearCollection(name) {
+      const db = firebase.firestore();
+      const snap = await db.collection(name).get();
+      const CHUNK = 400;
+      for (let i = 0; i < snap.docs.length; i += CHUNK) {
+        const batch = db.batch();
+        snap.docs.slice(i, i + CHUNK).forEach(d => batch.delete(d.ref));
+        await batch.commit();
+      }
+    }
+
     async function confirmClear() {
-      if (!confirm('Are you sure you want to delete all imported connections? This cannot be undone.')) return;
+      if (!confirm('Are you sure you want to delete ALL imported data (connections, messages, invitations, company follows)? This cannot be undone.')) return;
       try {
-        await clearAllData();
+        await Promise.all([
+          clearAllData(),
+          clearCollection('linkedinMessages'),
+          clearCollection('linkedinInvitations'),
+          clearCollection('linkedinCompanyFollows'),
+        ]);
         allConnections = [];
+        allMessages = [];
+        allThreads = [];
+        allInvitations = [];
+        allCompanyFollows = [];
+        messagesByPerson = {};
+        invitationsByPerson = {};
         updateStats();
         buildLegend();
+        buildFollowsSidebar();
         d3.select('#network-graph').selectAll('*').remove();
         document.getElementById('graphEmpty').style.display = 'flex';
-        showSettingsMsg('clearMsg', 'success', 'All connections deleted.');
+        showSettingsMsg('clearMsg', 'success', 'All data deleted.');
       } catch (e) {
         showSettingsMsg('clearMsg', 'error', 'Error: ' + e.message);
       }
@@ -1607,6 +2110,328 @@
       el.className = 'settings-msg ' + type;
       el.textContent = text;
       setTimeout(() => { el.textContent = ''; el.className = 'settings-msg'; }, 4000);
+    }
+
+    // ── MESSAGES TAB ──────────────────────────────────────────────────────────
+    function renderThreadList(threads) {
+      const list = document.getElementById('msgThreadList');
+      if (!threads.length) {
+        list.innerHTML = '<div style="padding:20px;text-align:center;font-size:0.8rem;color:var(--text-muted)">No conversations found. Import messages.csv to see your threads.</div>';
+        document.getElementById('msgListStats').textContent = '';
+        return;
+      }
+      document.getElementById('msgListStats').innerHTML = `<span>${threads.length} conversations</span><span>${allMessages.length} total messages</span>`;
+      list.innerHTML = threads.map(t => {
+        const preview = (t.lastMsg || '').slice(0, 50) + ((t.lastMsg?.length || 0) > 50 ? '…' : '');
+        const dateStr = t.lastDate ? new Date(t.lastDate).toLocaleDateString() : '';
+        return `<div class="msg-thread-item${selectedThread?.id === t.id ? ' active' : ''}" onclick="selectThread(allThreads.find(x=>x.id==='${t.id.replace(/'/g, "\\'")}'))">
+          <div class="msg-thread-name">${escHtml(t.name)}<span class="msg-thread-badge">${t.msgCount}</span></div>
+          <div class="msg-thread-preview">${escHtml(preview)}</div>
+          <div class="msg-thread-date">${dateStr}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function selectThread(thread) {
+      if (!thread) return;
+      selectedThread = thread;
+      renderThreadList(getFilteredThreads());
+      document.getElementById('msgEmpty').style.display = 'none';
+      const detail = document.getElementById('msgDetailView');
+      detail.style.display = 'flex';
+      document.getElementById('msgDetailName').textContent = thread.name;
+
+      // Find connection info
+      const conn = allConnections.find(c => c.name === thread.name);
+      document.getElementById('msgDetailRole').textContent = conn
+        ? `${conn.position || ''}${conn.company ? ' · ' + conn.company : ''}`
+        : '';
+      const link = document.getElementById('msgDetailLink');
+      if (thread.url) { link.href = thread.url; link.style.display = ''; }
+      else { link.style.display = 'none'; }
+
+      // Render messages
+      const body = document.getElementById('msgThreadBody');
+      const myName = 'Alexander Fairhart';
+      body.innerHTML = thread.messages.map(m => {
+        const isSent = m.from === myName;
+        const timeStr = m.date ? new Date(m.date).toLocaleString() : '';
+        return `<div class="msg-bubble ${isSent ? 'sent' : 'received'}">
+          ${escHtml(m.content || '')}
+          <div class="msg-bubble-time">${escHtml(m.from?.split(' ')[0] || '')} · ${timeStr}</div>
+        </div>`;
+      }).join('');
+      body.scrollTop = body.scrollHeight;
+    }
+
+    function getFilteredThreads() {
+      const q = (document.getElementById('msgSearchInput')?.value || '').toLowerCase().trim();
+      if (!q) return allThreads;
+      return allThreads.filter(t =>
+        t.name.toLowerCase().includes(q) ||
+        t.messages.some(m => (m.content || '').toLowerCase().includes(q))
+      );
+    }
+
+    function filterThreads() {
+      renderThreadList(getFilteredThreads());
+    }
+
+    // ── COMPANY FOLLOWS SIDEBAR ─────────────────────────────────────────────
+    function buildFollowsSidebar() {
+      const section = document.getElementById('followsSection');
+      const list = document.getElementById('followsList');
+      if (!allCompanyFollows.length) {
+        section.classList.remove('visible');
+        return;
+      }
+      section.classList.add('visible');
+      const sorted = [...allCompanyFollows].sort((a, b) => new Date(b.followedOn) - new Date(a.followedOn));
+      list.innerHTML = sorted.map(f => {
+        const dateStr = f.followedOn ? new Date(f.followedOn).toLocaleDateString() : '';
+        return `<div class="follows-item" onclick="filterByCompany('${escHtml(f.organization)}')">
+          <span>${escHtml(f.organization)}</span>
+          <span class="follows-date">${dateStr}</span>
+        </div>`;
+      }).join('');
+    }
+
+    function filterByCompany(company) {
+      const input = document.getElementById('searchInput');
+      input.value = `Who works at ${company}?`;
+      switchTab('search');
+    }
+
+    // ── MULTI-FILE IMPORT ───────────────────────────────────────────────────
+    function handleDrop(event) {
+      event.preventDefault();
+      document.getElementById('dropzone').classList.remove('drag-over');
+      const files = Array.from(event.dataTransfer.files).filter(f => f.name.endsWith('.csv'));
+      if (files.length) processMultipleCSVs(files);
+    }
+    function handleFileInput(event) {
+      const files = Array.from(event.target.files).filter(f => f.name.endsWith('.csv'));
+      if (files.length) processMultipleCSVs(files);
+    }
+
+    async function processMultipleCSVs(files) {
+      showImportMsg('', '');
+      document.getElementById('importPreview').classList.remove('visible');
+      setProgress(0, 'Reading files…');
+      document.getElementById('importProgress').classList.add('visible');
+
+      const fileMap = {};
+      for (const f of files) {
+        fileMap[f.name.toLowerCase()] = await f.text();
+      }
+
+      // Show file grid
+      const grid = document.getElementById('importFileGrid');
+      const fileTypes = [
+        { key: 'connections.csv', label: 'Connections', icon: '👥' },
+        { key: 'messages.csv', label: 'Messages', icon: '💬' },
+        { key: 'invitations.csv', label: 'Invitations', icon: '📨' },
+        { key: 'company follows.csv', label: 'Company Follows', icon: '🏢' },
+      ];
+      grid.innerHTML = fileTypes.map(ft => {
+        const found = fileMap[ft.key];
+        return `<div class="import-file-card${found ? ' loaded' : ''}" id="file-${ft.key.replace(/[^a-z]/g, '')}">
+          <div class="import-file-icon">${ft.icon}</div>
+          <div class="import-file-info">
+            <div class="import-file-name">${ft.label}</div>
+            <div class="import-file-status">${found ? 'Found' : 'Not included'}</div>
+          </div>
+          <div class="import-file-count">–</div>
+        </div>`;
+      }).join('');
+      grid.style.display = 'grid';
+
+      let totalItems = 0;
+
+      try {
+        // 1. Connections
+        if (fileMap['connections.csv']) {
+          setProgress(5, 'Parsing connections…');
+          const connections = parseLinkedInCSV(fileMap['connections.csv']);
+          if (connections.length) {
+            updateFileCard('connectionscsv', connections.length);
+            showPreview(connections.slice(0, 10));
+            setProgress(10, `Saving ${connections.length} connections…`);
+            await saveBatch(connections);
+            totalItems += connections.length;
+          }
+        }
+
+        // 2. Messages
+        if (fileMap['messages.csv']) {
+          setProgress(30, 'Parsing messages…');
+          const messages = parseMessagesCSV(fileMap['messages.csv']);
+          if (messages.length) {
+            updateFileCard('messagescsv', messages.length);
+            setProgress(35, `Saving ${messages.length} messages…`);
+            await saveMessagesBatch(messages);
+            totalItems += messages.length;
+          }
+        }
+
+        // 3. Invitations
+        if (fileMap['invitations.csv']) {
+          setProgress(65, 'Parsing invitations…');
+          const invitations = parseInvitationsCSV(fileMap['invitations.csv']);
+          if (invitations.length) {
+            updateFileCard('invitationscsv', invitations.length);
+            setProgress(70, `Saving ${invitations.length} invitations…`);
+            await saveInvitationsBatch(invitations);
+            totalItems += invitations.length;
+          }
+        }
+
+        // 4. Company Follows
+        if (fileMap['company follows.csv']) {
+          setProgress(80, 'Parsing company follows…');
+          const follows = parseCompanyFollowsCSV(fileMap['company follows.csv']);
+          if (follows.length) {
+            updateFileCard('companyfollowscsv', follows.length);
+            setProgress(85, `Saving ${follows.length} company follows…`);
+            await saveCompanyFollowsBatch(follows);
+            totalItems += follows.length;
+          }
+        }
+
+        setProgress(100, 'Done!');
+        setTimeout(() => document.getElementById('importProgress').classList.remove('visible'), 1500);
+        showImportMsg('success', `Successfully imported ${totalItems.toLocaleString()} records. Go to Network Map or Messages to explore.`);
+        await Promise.all([loadConnections(), loadMessages(), loadInvitations(), loadCompanyFollows()]);
+        buildEnrichedIndexes();
+
+      } catch (e) {
+        document.getElementById('importProgress').classList.remove('visible');
+        showImportMsg('error', 'Error during import: ' + e.message);
+      }
+    }
+
+    function updateFileCard(id, count) {
+      const card = document.getElementById('file-' + id);
+      if (!card) return;
+      card.classList.add('loaded');
+      card.querySelector('.import-file-status').textContent = 'Imported';
+      card.querySelector('.import-file-count').textContent = count.toLocaleString();
+    }
+
+    // ── CSV PARSERS ──────────────────────────────────────────────────────────
+    function parseMessagesCSV(text) {
+      const lines = text.split(/\r?\n/);
+      let headerIdx = -1;
+      for (let i = 0; i < Math.min(5, lines.length); i++) {
+        if (lines[i].toLowerCase().includes('conversation id') || lines[i].toLowerCase().includes('from')) {
+          headerIdx = i; break;
+        }
+      }
+      if (headerIdx === -1) return [];
+      const headers = parseCSVRow(lines[headerIdx]).map(h => h.toLowerCase().trim().replace(/"/g, ''));
+
+      function col(row, ...names) {
+        for (const n of names) {
+          const idx = headers.indexOf(n);
+          if (idx >= 0 && row[idx]) return row[idx].trim();
+        }
+        return '';
+      }
+
+      const results = [];
+      for (let i = headerIdx + 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const row = parseCSVRow(lines[i]);
+        const content = col(row, 'content');
+        if (!content) continue;
+        results.push({
+          conversationId: col(row, 'conversation id'),
+          conversationTitle: col(row, 'conversation title'),
+          from: col(row, 'from'),
+          senderUrl: col(row, 'sender profile url'),
+          to: col(row, 'to'),
+          recipientUrls: col(row, 'recipient profile urls'),
+          date: col(row, 'date'),
+          subject: col(row, 'subject'),
+          content,
+          folder: col(row, 'folder'),
+          importedAt: new Date().toISOString()
+        });
+      }
+      return results;
+    }
+
+    function parseInvitationsCSV(text) {
+      const lines = text.split(/\r?\n/);
+      let headerIdx = -1;
+      for (let i = 0; i < Math.min(5, lines.length); i++) {
+        if (lines[i].toLowerCase().includes('from') && lines[i].toLowerCase().includes('direction')) {
+          headerIdx = i; break;
+        }
+      }
+      if (headerIdx === -1) return [];
+      const headers = parseCSVRow(lines[headerIdx]).map(h => h.toLowerCase().trim().replace(/"/g, ''));
+
+      function col(row, ...names) {
+        for (const n of names) {
+          const idx = headers.indexOf(n);
+          if (idx >= 0 && row[idx]) return row[idx].trim();
+        }
+        return '';
+      }
+
+      const results = [];
+      for (let i = headerIdx + 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const row = parseCSVRow(lines[i]);
+        const from = col(row, 'from');
+        const to = col(row, 'to');
+        if (!from && !to) continue;
+        results.push({
+          from, to,
+          sentAt: col(row, 'sent at'),
+          message: col(row, 'message'),
+          direction: col(row, 'direction'),
+          inviterUrl: col(row, 'inviterprofileurl'),
+          inviteeUrl: col(row, 'inviteeprofileurl'),
+          importedAt: new Date().toISOString()
+        });
+      }
+      return results;
+    }
+
+    function parseCompanyFollowsCSV(text) {
+      const lines = text.split(/\r?\n/);
+      let headerIdx = -1;
+      for (let i = 0; i < Math.min(5, lines.length); i++) {
+        if (lines[i].toLowerCase().includes('organization') || lines[i].toLowerCase().includes('followed')) {
+          headerIdx = i; break;
+        }
+      }
+      if (headerIdx === -1) return [];
+      const headers = parseCSVRow(lines[headerIdx]).map(h => h.toLowerCase().trim().replace(/"/g, ''));
+
+      function col(row, ...names) {
+        for (const n of names) {
+          const idx = headers.indexOf(n);
+          if (idx >= 0 && row[idx]) return row[idx].trim();
+        }
+        return '';
+      }
+
+      const results = [];
+      for (let i = headerIdx + 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const row = parseCSVRow(lines[i]);
+        const org = col(row, 'organization');
+        if (!org) continue;
+        results.push({
+          organization: org,
+          followedOn: col(row, 'followed on'),
+          importedAt: new Date().toISOString()
+        });
+      }
+      return results;
     }
 
     // ── RESIZE HANDLER ────────────────────────────────────────────────────────

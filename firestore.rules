@@ -36,5 +36,12 @@ service cloud.firestore {
       allow read, write: if request.auth != null &&
         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
     }
+
+    // Usage tracking — read-only for admins, writes only from server (functions)
+    match /usage/{docId} {
+      allow read: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
+      allow write: if false; // only Cloud Functions (admin SDK) can write
+    }
   }
 }

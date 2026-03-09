@@ -1,7 +1,67 @@
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
+const { onSchedule } = require("firebase-functions/v2/scheduler");
 const admin = require("firebase-admin");
 
 admin.initializeApp();
+
+// --- Usage tracking & auto-block ---
+// Free tier: 2M invocations/month. Block at 95% (1,900,000).
+const FREE_TIER_LIMIT = 2000000;
+const BLOCK_THRESHOLD = Math.floor(FREE_TIER_LIMIT * 0.95); // 1,900,000
+
+/**
+ * Increments the monthly invocation counter and blocks if over 95% of free tier.
+ * Stores counts in Firestore at usage/functions-{YYYY-MM}.
+ * Returns the updated count.
+ */
+async function checkAndIncrementUsage() {
+  const now = new Date();
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const docRef = admin.firestore().collection("usage").doc(`functions-${monthKey}`);
+
+  const result = await admin.firestore().runTransaction(async (tx) => {
+    const doc = await tx.get(docRef);
+    const data = doc.exists ? doc.data() : { invocations: 0, alertSent: false };
+    const newCount = (data.invocations || 0) + 1;
+
+    if (newCount >= BLOCK_THRESHOLD) {
+      tx.set(docRef, { invocations: newCount, alertSent: true, blockedAt: newCount }, { merge: true });
+      return { blocked: true, count: newCount, alertSent: data.alertSent };
+    }
+
+    tx.set(docRef, { invocations: newCount }, { merge: true });
+    return { blocked: false, count: newCount, alertSent: data.alertSent };
+  });
+
+  return result;
+}
+
+/**
+ * Guard that runs at the top of each function.
+ * Throws if usage has hit 95% of the free tier.
+ */
+async function usageGate() {
+  const { blocked, count } = await checkAndIncrementUsage();
+  if (blocked) {
+    throw new HttpsError(
+      "resource-exhausted",
+      `Monthly invocation limit reached (${count.toLocaleString()}/${FREE_TIER_LIMIT.toLocaleString()}). ` +
+      `Functions are paused to stay within the free tier. Resets next month.`
+    );
+  }
+}
+
+/**
+ * Scheduled function: resets the usage counter on the 1st of each month.
+ */
+exports.resetMonthlyUsage = onSchedule("0 0 1 * *", async () => {
+  const now = new Date();
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  await admin.firestore().collection("usage").doc(`functions-${monthKey}`).set({
+    invocations: 0,
+    alertSent: false,
+  });
+});
 
 /**
  * Callable function: networkSearch
@@ -9,6 +69,8 @@ admin.initializeApp();
  * Reads the Claude API key from Firestore settings/apiKeys.
  */
 exports.networkSearch = onCall({ timeoutSeconds: 120 }, async (request) => {
+  await usageGate();
+
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "Must be signed in.");
   }
@@ -102,6 +164,8 @@ Sort by score descending. Return ONLY the JSON object, no other text.`;
  * Only admins can call this.
  */
 exports.deleteUser = onCall(async (request) => {
+  await usageGate();
+
   // Must be authenticated
   if (!request.auth) {
     throw new HttpsError("unauthenticated", "Must be signed in.");

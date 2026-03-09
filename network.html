@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Network Intelligence — Beyond Utility Water Ventures</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #080E1A;
+      --bg-card: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.06);
+      --border-hover: rgba(255,255,255,0.14);
+      --blue: #4B7BF5;
+      --blue-light: #7BA1F7;
+      --blue-dim: rgba(75,123,245,0.15);
+      --gold: #D4A84B;
+      --gold-dark: #B8903D;
+      --text: rgba(255,255,255,0.88);
+      --text-dim: rgba(255,255,255,0.45);
+      --text-muted: rgba(255,255,255,0.25);
+      --green: #34d399;
+      --red: #f87171;
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-loading main, .auth-loading footer, .auth-loading .stats-bar, .auth-loading .tab-nav { display: none; }
+
+    /* ── NAV ── */
+    .nav {
+      padding: 20px 40px;
+      padding-top: calc(20px + env(safe-area-inset-top));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .nav-left { display: flex; align-items: center; gap: 20px; }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-back {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 5px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .nav-back:hover { border-color: rgba(255,255,255,0.3); color: #fff; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      padding: 14px 40px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.015);
+      flex-shrink: 0;
+    }
+    .stat-item { display: flex; align-items: baseline; gap: 8px; }
+    .stat-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--blue);
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+    .stats-bar-right { margin-left: auto; }
+
+    /* ── TAB NAV ── */
+    .tab-nav {
+      display: flex;
+      gap: 4px;
+      padding: 12px 40px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .tab-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-dim);
+      background: none;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 7px 16px;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .tab-btn:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .tab-btn.active {
+      color: #fff;
+      background: rgba(75,123,245,0.12);
+      border-color: rgba(75,123,245,0.3);
+    }
+
+    /* ── MAIN LAYOUT ── */
+    main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .tab-panel { display: none; flex: 1; overflow: hidden; }
+    .tab-panel.active { display: flex; flex-direction: column; }
+
+    /* ── NETWORK MAP TAB ── */
+    .map-layout {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+    .graph-area {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    #network-graph {
+      width: 100%;
+      height: 100%;
+    }
+    .graph-controls {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      gap: 8px;
+    }
+    .graph-btn {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      font-size: 1rem;
+      width: 34px;
+      height: 34px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+    }
+    .graph-btn:hover { background: rgba(255,255,255,0.1); color: #fff; border-color: var(--border-hover); }
+    .graph-empty {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+    .graph-empty h3 { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 500; }
+    .graph-empty p { font-size: 0.82rem; line-height: 1.55; max-width: 280px; text-align: center; }
+
+    /* ── GRAPH SIDEBAR ── */
+    .graph-sidebar {
+      width: 300px;
+      flex-shrink: 0;
+      border-left: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .sidebar-section {
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sidebar-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+    .legend-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .legend-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .legend-row:hover { background: rgba(255,255,255,0.04); border-color: var(--border); }
+    .legend-row.active { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .legend-name { font-size: 0.82rem; color: var(--text); flex: 1; }
+    .legend-count {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      min-width: 20px;
+      text-align: right;
+    }
+    .selected-card { display: none; }
+    .selected-card.visible { display: block; }
+    .selected-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .selected-pos {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 2px;
+    }
+    .selected-company {
+      font-size: 0.82rem;
+      color: var(--blue-light);
+    }
+    .selected-cat {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    .selected-notes-area { margin-top: 14px; }
+    .selected-notes-area label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 6px;
+    }
+    .notes-input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      padding: 8px 10px;
+      resize: vertical;
+      min-height: 70px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .notes-input:focus { border-color: var(--blue); }
+    .notes-input::placeholder { color: var(--text-muted); }
+    .notes-save-btn {
+      margin-top: 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 7px 14px;
+      background: rgba(75,123,245,0.15);
+      border: 1px solid rgba(75,123,245,0.3);
+      border-radius: 5px;
+      color: var(--blue-light);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .notes-save-btn:hover { background: rgba(75,123,245,0.25); }
+
+    /* ── GRAPH TOOLTIP ── */
+    .graph-tooltip {
+      position: fixed;
+      pointer-events: none;
+      background: rgba(8,14,26,0.95);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      line-height: 1.5;
+      max-width: 220px;
+      z-index: 1000;
+      display: none;
+    }
+    .tooltip-name { font-weight: 600; color: #fff; }
+    .tooltip-pos { color: var(--text-dim); font-size: 0.75rem; }
+    .tooltip-co { color: var(--blue-light); font-size: 0.75rem; }
+
+    /* ── SEARCH TAB ── */
+    .search-layout {
+      flex: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 36px 40px 60px;
+      width: 100%;
+    }
+    .search-header { margin-bottom: 28px; }
+    .search-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .search-header p { color: var(--text-dim); font-size: 0.88rem; }
+    .search-context-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .context-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 500;
+      padding: 8px 18px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .context-btn:hover { color: var(--text); border-color: var(--border-hover); }
+    .context-btn.active {
+      color: #fff;
+      background: rgba(75,123,245,0.14);
+      border-color: rgba(75,123,245,0.35);
+    }
+    .search-input-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+    .search-input {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      padding: 14px 18px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-input:focus { border-color: var(--blue); }
+    .search-input::placeholder { color: var(--text-dim); }
+    .search-go-btn {
+      padding: 14px 28px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--blue);
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .search-go-btn:hover { background: var(--blue-light); }
+    .search-go-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .search-status {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+      min-height: 1.2em;
+    }
+    .search-results { display: flex; flex-direction: column; gap: 12px; }
+    .result-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+    .result-card:hover { border-color: rgba(75,123,245,0.3); }
+    .result-rank {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      min-width: 28px;
+      text-align: center;
+      line-height: 1;
+      padding-top: 2px;
+    }
+    .result-body { flex: 1; }
+    .result-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .result-role {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+    .result-reason {
+      font-size: 0.82rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .result-score {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .score-bar {
+      flex: 1;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .score-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      border-radius: 2px;
+    }
+    .score-label { font-size: 0.72rem; color: var(--text-dim); }
+
+    /* ── IMPORT TAB ── */
+    .import-layout {
+      flex: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 40px 60px;
+      width: 100%;
+    }
+    .import-header { margin-bottom: 28px; }
+    .import-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .import-header p { color: var(--text-dim); font-size: 0.88rem; line-height: 1.55; }
+    .import-steps {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 24px;
+    }
+    .import-steps h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      color: var(--gold);
+    }
+    .step-list { display: flex; flex-direction: column; gap: 8px; }
+    .step-item { display: flex; gap: 12px; align-items: flex-start; }
+    .step-num {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(75,123,245,0.2);
+      border: 1px solid rgba(75,123,245,0.3);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-text { font-size: 0.82rem; color: var(--text-dim); line-height: 1.5; }
+    .step-text strong { color: var(--text); }
+    .import-dropzone {
+      border: 2px dashed rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 40px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    .import-dropzone:hover, .import-dropzone.drag-over {
+      border-color: rgba(75,123,245,0.45);
+      background: rgba(75,123,245,0.05);
+    }
+    .import-dropzone input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .dropzone-icon { font-size: 2.5rem; margin-bottom: 12px; opacity: 0.5; }
+    .dropzone-text { font-size: 0.9rem; color: var(--text-dim); margin-bottom: 4px; }
+    .dropzone-text strong { color: var(--blue-light); }
+    .dropzone-hint { font-size: 0.75rem; color: var(--text-muted); }
+    .import-progress { display: none; margin-bottom: 20px; }
+    .import-progress.visible { display: block; }
+    .progress-bar-wrap {
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      border-radius: 2px;
+      transition: width 0.3s;
+    }
+    .progress-text { font-size: 0.8rem; color: var(--text-dim); }
+    .import-msg {
+      font-size: 0.85rem;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .import-msg.visible { display: block; }
+    .import-msg.success { background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.2); color: var(--green); }
+    .import-msg.error { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); color: var(--red); }
+    .import-preview { display: none; }
+    .import-preview.visible { display: block; }
+    .preview-table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+    .preview-table th {
+      background: rgba(255,255,255,0.04);
+      color: var(--text-dim);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 160px;
+    }
+    .preview-table tr:last-child td { border-bottom: none; }
+    .cat-chip {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 3px;
+    }
+
+    /* ── SETTINGS TAB ── */
+    .settings-layout {
+      flex: 1;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 40px 40px 60px;
+      width: 100%;
+    }
+    .settings-header { margin-bottom: 32px; }
+    .settings-header h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+    .settings-header p { color: var(--text-dim); font-size: 0.88rem; }
+    .settings-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .settings-card h3 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .settings-card p {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .settings-input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 12px;
+    }
+    .settings-input:focus { border-color: var(--blue); }
+    .settings-input::placeholder { color: var(--text-dim); }
+    .btn-primary {
+      padding: 11px 24px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      background: var(--blue);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--blue-light); }
+    .btn-danger {
+      padding: 11px 24px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--red);
+      background: rgba(248,113,113,0.08);
+      border: 1px solid rgba(248,113,113,0.2);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-danger:hover { background: rgba(248,113,113,0.15); border-color: var(--red); }
+    .settings-msg {
+      font-size: 0.8rem;
+      margin-top: 10px;
+      min-height: 1.2em;
+    }
+    .settings-msg.success { color: var(--green); }
+    .settings-msg.error { color: var(--red); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 24px 40px;
+      display: flex;
+      justify-content: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      .nav { padding: 14px 16px; padding-top: calc(14px + env(safe-area-inset-top)); }
+      .stats-bar { padding: 12px 16px; gap: 20px; overflow-x: auto; }
+      .tab-nav { padding: 10px 16px; overflow-x: auto; }
+      .graph-sidebar { display: none; }
+      .search-layout, .import-layout, .settings-layout { padding: 24px 16px 40px; }
+    }
+  </style>
+</head>
+<body class="auth-loading">
+
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo"><img src="icon-nav.png" alt="" width="22" height="22" style="vertical-align:middle;margin-right:8px;">Beyond Utility <span>Water Ventures</span></a>
+      <a href="dashboard.html" class="nav-back">← Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="stats-bar">
+    <div class="stat-item">
+      <span class="stat-value" id="statTotal">–</span>
+      <span class="stat-label">Connections</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statCategories">–</span>
+      <span class="stat-label">Categories</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statWater">–</span>
+      <span class="stat-label">Water / Utilities</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statVC">–</span>
+      <span class="stat-label">Venture Capital</span>
+    </div>
+    <div class="stats-bar-right" id="importBtn" style="cursor:pointer">
+      <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;padding:8px 18px;border:1px solid rgba(255,255,255,0.12);border-radius:5px;color:var(--text-dim);transition:all 0.2s;"
+        onmouseover="this.style.borderColor='rgba(255,255,255,0.3)';this.style.color='#fff'"
+        onmouseout="this.style.borderColor='rgba(255,255,255,0.12)';this.style.color='var(--text-dim)'">
+        Import CSV
+      </span>
+    </div>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('map')">Network Map</button>
+    <button class="tab-btn" onclick="switchTab('search')">AI Search</button>
+    <button class="tab-btn" onclick="switchTab('import')">Import Data</button>
+    <button class="tab-btn" id="settingsTabBtn" style="display:none" onclick="switchTab('settings')">Settings</button>
+  </div>
+
+  <main>
+
+    <!-- ── NETWORK MAP ── -->
+    <div class="tab-panel active" id="tab-map">
+      <div class="map-layout">
+        <div class="graph-area">
+          <svg id="network-graph"></svg>
+          <div class="graph-empty" id="graphEmpty">
+            <div style="font-size:2.5rem;opacity:0.3">◉</div>
+            <h3>No network data yet</h3>
+            <p>Import your LinkedIn connections CSV to build your network visualization.</p>
+          </div>
+          <div class="graph-controls">
+            <button class="graph-btn" title="Zoom in" onclick="graphZoom(1.3)">+</button>
+            <button class="graph-btn" title="Zoom out" onclick="graphZoom(0.77)">−</button>
+            <button class="graph-btn" title="Reset view" onclick="graphReset()" style="font-size:0.7rem;font-weight:700">⌖</button>
+          </div>
+          <div class="graph-tooltip" id="graphTooltip"></div>
+        </div>
+        <div class="graph-sidebar">
+          <div class="sidebar-section">
+            <div class="sidebar-label">Categories</div>
+            <div class="legend-grid" id="legendGrid">
+              <div style="font-size:0.8rem;color:var(--text-muted)">Import data to see categories</div>
+            </div>
+          </div>
+          <div class="sidebar-section">
+            <div class="sidebar-label">Selected Connection</div>
+            <div id="selectedPlaceholder" style="font-size:0.8rem;color:var(--text-muted)">Click a node on the graph to see connection details here.</div>
+            <div class="selected-card" id="selectedCard">
+              <div class="selected-name" id="selName"></div>
+              <div class="selected-pos" id="selPos"></div>
+              <div class="selected-company" id="selCompany"></div>
+              <div class="selected-cat" id="selCat"></div>
+              <div class="selected-notes-area">
+                <label>Notes</label>
+                <textarea class="notes-input" id="notesInput" placeholder="Add private notes about this connection…"></textarea>
+                <button class="notes-save-btn" onclick="saveNotes()">Save Notes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI SEARCH ── -->
+    <div class="tab-panel" id="tab-search">
+      <div class="search-layout">
+        <div class="search-header">
+          <h2>AI Network Search</h2>
+          <p>Describe what you're looking for in plain language. Claude will surface the most relevant connections and explain why they're a fit.</p>
+        </div>
+        <div class="search-context-row">
+          <button class="context-btn active" data-ctx="general" onclick="setContext(this)">All</button>
+          <button class="context-btn" data-ctx="water" onclick="setContext(this)">Water Consulting</button>
+          <button class="context-btn" data-ctx="vc" onclick="setContext(this)">Venture Fund</button>
+        </div>
+        <div class="search-input-row">
+          <input class="search-input" id="searchInput" type="text"
+            placeholder="e.g. Who do I know in municipal water utilities on the West Coast?"
+            onkeydown="if(event.key==='Enter')doSearch()">
+          <button class="search-go-btn" id="searchBtn" onclick="doSearch()">Search</button>
+        </div>
+        <div class="search-status" id="searchStatus"></div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+    </div>
+
+    <!-- ── IMPORT ── -->
+    <div class="tab-panel" id="tab-import">
+      <div class="import-layout">
+        <div class="import-header">
+          <h2>Import LinkedIn Connections</h2>
+          <p>Export your LinkedIn data and upload the Connections CSV to build your network visualization. Your data is stored privately in the fund's database.</p>
+        </div>
+        <div class="import-steps">
+          <h3>How to export from LinkedIn</h3>
+          <div class="step-list">
+            <div class="step-item"><div class="step-num">1</div><div class="step-text">Go to <strong>LinkedIn → Settings &amp; Privacy → Data Privacy</strong></div></div>
+            <div class="step-item"><div class="step-num">2</div><div class="step-text">Click <strong>Get a copy of your data</strong> → select <strong>Connections</strong></div></div>
+            <div class="step-item"><div class="step-num">3</div><div class="step-text">Request the download and wait for the email (usually a few minutes)</div></div>
+            <div class="step-item"><div class="step-num">4</div><div class="step-text">Download the zip, extract it, and upload <strong>Connections.csv</strong> below</div></div>
+          </div>
+        </div>
+        <div class="import-dropzone" id="dropzone"
+          ondragover="event.preventDefault();this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="handleDrop(event)">
+          <input type="file" accept=".csv" id="csvFileInput" onchange="handleFileInput(event)">
+          <div class="dropzone-icon">📂</div>
+          <div class="dropzone-text"><strong>Click to upload</strong> or drag and drop</div>
+          <div class="dropzone-hint">Connections.csv from LinkedIn data export</div>
+        </div>
+        <div class="import-progress" id="importProgress">
+          <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+          <div class="progress-text" id="progressText">Preparing…</div>
+        </div>
+        <div class="import-msg" id="importMsg"></div>
+        <div class="import-preview" id="importPreview">
+          <div class="sidebar-label" style="margin-bottom:12px">Preview (first 10 rows)</div>
+          <div class="preview-table-wrap">
+            <table class="preview-table" id="previewTable">
+              <thead><tr><th>Name</th><th>Company</th><th>Position</th><th>Category</th><th>Date</th></tr></thead>
+              <tbody id="previewBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SETTINGS ── -->
+    <div class="tab-panel" id="tab-settings">
+      <div class="settings-layout">
+        <div class="settings-header">
+          <h2>Settings</h2>
+          <p>Configure the Claude API key for AI-powered network search.</p>
+        </div>
+        <div class="settings-card">
+          <h3>Claude API Key</h3>
+          <p>Enter your Anthropic API key to enable AI search. The key is stored securely in the fund's database and never exposed to the browser.</p>
+          <input class="settings-input" type="password" id="apiKeyInput" placeholder="sk-ant-…">
+          <button class="btn-primary" onclick="saveApiKey()">Save Key</button>
+          <div class="settings-msg" id="apiKeyMsg"></div>
+        </div>
+        <div class="settings-card">
+          <h3>Clear Network Data</h3>
+          <p>Remove all imported connections from the database. This cannot be undone.</p>
+          <button class="btn-danger" onclick="confirmClear()">Clear All Connections</button>
+          <div class="settings-msg" id="clearMsg"></div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <span>&copy; 2026 Beyond Utility Water Ventures</span>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-functions-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <!-- D3.js v7 -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+
+  <script>
+    // ── CATEGORY DEFINITIONS ──────────────────────────────────────────────────
+    const CATEGORIES = {
+      'Water': {
+        color: '#4B7BF5', bg: 'rgba(75,123,245,0.15)',
+        keywords: ['water','wastewater','utility','utilities','municipal','treatment','desalination','irrigation','aquifer','groundwater','stormwater','sanitation','hydro','awwa','potable','sewer','watershed']
+      },
+      'Venture Capital': {
+        color: '#D4A84B', bg: 'rgba(212,168,75,0.15)',
+        keywords: ['venture','capital','investor','fund','vc ','seed','series a','series b','angel','equity','portfolio','gp','limited partner','lp ','general partner','exits','startup fund']
+      },
+      'Government': {
+        color: '#60a5fa', bg: 'rgba(96,165,250,0.15)',
+        keywords: ['government','city of','county','state ','federal','epa','department','agency','bureau','district','authority','public works','municipality','mayor','commissioner','senator','representative','policy']
+      },
+      'Consulting': {
+        color: '#34d399', bg: 'rgba(52,211,153,0.15)',
+        keywords: ['consult','advisor','advisory','strategy','principal','mckinsey','bain','bcg','deloitte','kpmg','pwc','accenture','jacobs','aecom','stantec','arcadis','black & veatch','hazen']
+      },
+      'Technology': {
+        color: '#a78bfa', bg: 'rgba(167,139,250,0.15)',
+        keywords: ['software','tech','saas','digital','platform','ai ','data','iot','cloud','developer','cto','engineering','startup','app','sensor','analytics']
+      },
+      'Finance': {
+        color: '#f59e0b', bg: 'rgba(245,158,11,0.15)',
+        keywords: ['bank','financial','finance','private equity','credit','debt','asset','wealth','cfo','treasurer','accounting','audit','tax','lending','impact investing','infrastructure finance']
+      },
+      'Environment': {
+        color: '#10b981', bg: 'rgba(16,185,129,0.15)',
+        keywords: ['environment','sustainability','esg','climate','clean','green','renewable','carbon','ecology','conservation','circular economy','impact','nature-based','resilience']
+      },
+      'Academia': {
+        color: '#e879f9', bg: 'rgba(232,121,249,0.15)',
+        keywords: ['university','research','professor','phd','institute','lab','scientist','academic','postdoc','faculty','scholar','national lab','fellow','graduate']
+      },
+    };
+    const CAT_NAMES = Object.keys(CATEGORIES);
+    const OTHER_COLOR = '#64748b';
+
+    function categorize(company, position) {
+      const text = `${company} ${position}`.toLowerCase();
+      for (const [cat, def] of Object.entries(CATEGORIES)) {
+        if (def.keywords.some(kw => text.includes(kw))) return cat;
+      }
+      return 'Other';
+    }
+
+    function catColor(cat) {
+      return CATEGORIES[cat]?.color ?? OTHER_COLOR;
+    }
+    function catBg(cat) {
+      return CATEGORIES[cat]?.bg ?? 'rgba(100,116,139,0.15)';
+    }
+
+    // ── STATE ────────────────────────────────────────────────────────────────
+    let allConnections = [];
+    let selectedConnection = null;
+    let currentProfile = null;
+    let activeCategory = null;
+    let searchContext = 'general';
+    let svgEl, zoomG, simulation, zoomBehavior;
+
+    // ── AUTH INIT ─────────────────────────────────────────────────────────────
+    (async function init() {
+      const result = await BUAuth.guard();
+      if (!result) return;
+      const { user, profile } = result;
+      currentProfile = profile;
+
+      document.body.classList.remove('auth-loading');
+
+      if (profile.role === 'admin') {
+        document.getElementById('settingsTabBtn').style.display = '';
+        loadApiKeyDisplay();
+      }
+
+      document.getElementById('importBtn').onclick = () => switchTab('import');
+
+      await loadConnections();
+    })();
+
+    // ── TAB SWITCHING ─────────────────────────────────────────────────────────
+    function switchTab(id) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('tab-' + id).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        if (b.getAttribute('onclick')?.includes(`'${id}'`)) b.classList.add('active');
+      });
+      if (id === 'map') rebuildGraph();
+    }
+
+    // ── FIRESTORE ─────────────────────────────────────────────────────────────
+    async function loadConnections() {
+      const db = firebase.firestore();
+      try {
+        const snap = await db.collection('linkedinConnections').orderBy('name').get();
+        allConnections = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        updateStats();
+        buildLegend();
+        if (document.getElementById('tab-map').classList.contains('active')) rebuildGraph();
+      } catch (e) {
+        console.error('Load connections error:', e);
+      }
+    }
+
+    async function saveBatch(connections) {
+      const db = firebase.firestore();
+      const CHUNK = 400;
+      let saved = 0;
+      for (let i = 0; i < connections.length; i += CHUNK) {
+        const batch = db.batch();
+        const chunk = connections.slice(i, i + CHUNK);
+        for (const c of chunk) {
+          const ref = db.collection('linkedinConnections').doc();
+          batch.set(ref, c);
+        }
+        await batch.commit();
+        saved += chunk.length;
+        setProgress(Math.round((saved / connections.length) * 100), `Saving ${saved} of ${connections.length} connections…`);
+      }
+    }
+
+    async function updateNote(id, notes) {
+      await firebase.firestore().collection('linkedinConnections').doc(id).update({ notes });
+    }
+
+    async function clearAllData() {
+      const db = firebase.firestore();
+      const snap = await db.collection('linkedinConnections').get();
+      const CHUNK = 400;
+      for (let i = 0; i < snap.docs.length; i += CHUNK) {
+        const batch = db.batch();
+        snap.docs.slice(i, i + CHUNK).forEach(d => batch.delete(d.ref));
+        await batch.commit();
+      }
+    }
+
+    // ── STATS ─────────────────────────────────────────────────────────────────
+    function updateStats() {
+      const cats = new Set(allConnections.map(c => c.category));
+      document.getElementById('statTotal').textContent = allConnections.length;
+      document.getElementById('statCategories').textContent = cats.size;
+      document.getElementById('statWater').textContent = allConnections.filter(c => c.category === 'Water').length;
+      document.getElementById('statVC').textContent = allConnections.filter(c => c.category === 'Venture Capital').length;
+    }
+
+    // ── GRAPH ─────────────────────────────────────────────────────────────────
+    let currentZoomTransform = null;
+
+    function rebuildGraph() {
+      const container = document.getElementById('network-graph');
+      const W = container.clientWidth || 800;
+      const H = container.clientHeight || 600;
+
+      document.getElementById('graphEmpty').style.display = allConnections.length ? 'none' : 'flex';
+      if (!allConnections.length) return;
+
+      // Remove old svg content
+      d3.select('#network-graph').selectAll('*').remove();
+
+      // Group connections by category
+      const byCat = {};
+      for (const cat of [...CAT_NAMES, 'Other']) byCat[cat] = [];
+      for (const c of allConnections) {
+        const cat = c.category || 'Other';
+        (byCat[cat] || (byCat['Other'])).push(c);
+      }
+
+      // Filter to active connections (by category filter or all)
+      const displayConns = activeCategory
+        ? allConnections.filter(c => c.category === activeCategory)
+        : allConnections;
+
+      // Cap at 500 nodes for performance
+      const connsToShow = displayConns.length > 500
+        ? displayConns.slice(0, 500)
+        : displayConns;
+
+      // Build nodes
+      const hubNode = { id: '__hub__', type: 'hub', x: W / 2, y: H / 2, fx: W / 2, fy: H / 2 };
+
+      const activeCats = [...CAT_NAMES, 'Other'].filter(cat => byCat[cat].length > 0);
+      const catNodes = activeCats.map((cat, i) => ({
+        id: '__cat__' + cat,
+        type: 'category',
+        label: cat,
+        count: byCat[cat].length,
+        color: catColor(cat),
+        angle: (2 * Math.PI * i) / activeCats.length,
+      }));
+
+      const connNodes = connsToShow.map(c => ({
+        id: c.id,
+        type: 'connection',
+        data: c,
+        category: c.category || 'Other',
+        color: catColor(c.category || 'Other'),
+      }));
+
+      const nodes = [hubNode, ...catNodes, ...connNodes];
+
+      // Build links
+      const links = [];
+      for (const cn of catNodes) {
+        links.push({ source: '__hub__', target: cn.id, type: 'hub-cat' });
+      }
+      for (const conn of connNodes) {
+        links.push({ source: '__cat__' + (conn.category || 'Other'), target: conn.id, type: 'cat-conn' });
+      }
+
+      // Position category nodes in a circle initially
+      const r0 = Math.min(W, H) * 0.28;
+      for (const cn of catNodes) {
+        cn.x = W / 2 + r0 * Math.cos(cn.angle);
+        cn.y = H / 2 + r0 * Math.sin(cn.angle);
+      }
+
+      // SVG setup
+      svgEl = d3.select('#network-graph')
+        .attr('width', W)
+        .attr('height', H);
+
+      zoomG = svgEl.append('g');
+
+      // Restore zoom if exists
+      zoomBehavior = d3.zoom()
+        .scaleExtent([0.05, 8])
+        .on('zoom', (e) => {
+          zoomG.attr('transform', e.transform);
+          currentZoomTransform = e.transform;
+        });
+      svgEl.call(zoomBehavior);
+      if (currentZoomTransform) {
+        svgEl.call(zoomBehavior.transform, currentZoomTransform);
+      }
+
+      // Force simulation
+      if (simulation) simulation.stop();
+      simulation = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id)
+          .distance(d => d.type === 'hub-cat' ? r0 : 55)
+          .strength(d => d.type === 'hub-cat' ? 1 : 0.35))
+        .force('charge', d3.forceManyBody()
+          .strength(d => d.type === 'hub' ? -800 : d.type === 'category' ? -400 : -18))
+        .force('collide', d3.forceCollide()
+          .radius(d => d.type === 'hub' ? 30 : d.type === 'category' ? 20 : 7))
+        .force('cluster', forceCluster(catNodes))
+        .alphaDecay(0.028)
+        .velocityDecay(0.4);
+
+      // Links
+      const linkG = zoomG.append('g').attr('class', 'links');
+      const link = linkG.selectAll('line')
+        .data(links).enter().append('line')
+        .attr('stroke', d => d.type === 'hub-cat' ? 'rgba(255,255,255,0.12)' : 'rgba(255,255,255,0.04)')
+        .attr('stroke-width', d => d.type === 'hub-cat' ? 1.5 : 0.5);
+
+      // Nodes
+      const nodeG = zoomG.append('g').attr('class', 'nodes');
+      const node = nodeG.selectAll('g')
+        .data(nodes).enter().append('g')
+        .attr('class', 'node')
+        .style('cursor', d => d.type === 'hub' ? 'default' : 'pointer')
+        .call(d3.drag()
+          .on('start', dragStart)
+          .on('drag', dragging)
+          .on('end', dragEnd));
+
+      // Hub
+      node.filter(d => d.type === 'hub').append('circle')
+        .attr('r', 20)
+        .attr('fill', 'rgba(212,168,75,0.25)')
+        .attr('stroke', '#D4A84B')
+        .attr('stroke-width', 2);
+      node.filter(d => d.type === 'hub').append('text')
+        .attr('text-anchor', 'middle').attr('dy', '0.35em')
+        .attr('font-size', '10px').attr('font-weight', '600')
+        .attr('fill', '#D4A84B').text('YOU');
+
+      // Category nodes
+      const catNode = node.filter(d => d.type === 'category');
+      catNode.append('circle')
+        .attr('r', 14)
+        .attr('fill', d => catBg(d.label))
+        .attr('stroke', d => d.color)
+        .attr('stroke-width', 1.5);
+      catNode.append('text')
+        .attr('text-anchor', 'middle').attr('dy', '-1.6em')
+        .attr('font-size', '9px').attr('font-weight', '500')
+        .attr('fill', d => d.color)
+        .text(d => d.label.length > 11 ? d.label.slice(0, 10) + '…' : d.label);
+      catNode.append('text')
+        .attr('text-anchor', 'middle').attr('dy', '0.35em')
+        .attr('font-size', '9px').attr('font-weight', '700')
+        .attr('fill', d => d.color)
+        .text(d => d.count);
+
+      // Connection nodes
+      const connNode = node.filter(d => d.type === 'connection');
+      connNode.append('circle')
+        .attr('r', 5)
+        .attr('fill', d => d.color)
+        .attr('fill-opacity', 0.7)
+        .attr('stroke', d => d.color)
+        .attr('stroke-width', 0.5)
+        .attr('stroke-opacity', 0.4);
+
+      // Hover tooltip
+      const tooltip = document.getElementById('graphTooltip');
+      connNode
+        .on('mouseover', function(event, d) {
+          tooltip.style.display = 'block';
+          tooltip.innerHTML = `
+            <div class="tooltip-name">${d.data.name}</div>
+            <div class="tooltip-pos">${d.data.position || ''}</div>
+            <div class="tooltip-co">${d.data.company || ''}</div>`;
+          d3.select(this).select('circle').attr('r', 8);
+        })
+        .on('mousemove', function(event) {
+          tooltip.style.left = (event.clientX + 14) + 'px';
+          tooltip.style.top = (event.clientY - 8) + 'px';
+        })
+        .on('mouseout', function() {
+          tooltip.style.display = 'none';
+          d3.select(this).select('circle').attr('r', 5);
+        });
+
+      // Click: show detail
+      connNode.on('click', function(event, d) {
+        event.stopPropagation();
+        showDetail(d.data);
+      });
+
+      // Category click: filter
+      catNode.on('click', function(event, d) {
+        event.stopPropagation();
+        if (activeCategory === d.label) {
+          activeCategory = null;
+        } else {
+          activeCategory = d.label;
+        }
+        buildLegend();
+        rebuildGraph();
+      });
+
+      // Simulation tick
+      simulation.on('tick', () => {
+        link
+          .attr('x1', d => d.source.x)
+          .attr('y1', d => d.source.y)
+          .attr('x2', d => d.target.x)
+          .attr('y2', d => d.target.y);
+        node.attr('transform', d => `translate(${d.x},${d.y})`);
+      });
+    }
+
+    // Custom cluster force: pull connection nodes toward their category node
+    function forceCluster(catNodes) {
+      const catMap = {};
+      for (const cn of catNodes) catMap[cn.label] = cn;
+      return function(alpha) {
+        for (const node of simulation?.nodes() ?? []) {
+          if (node.type !== 'connection') continue;
+          const target = catMap[node.category];
+          if (!target) continue;
+          node.vx += (target.x - node.x) * alpha * 0.15;
+          node.vy += (target.y - node.y) * alpha * 0.15;
+        }
+      };
+    }
+
+    function dragStart(event, d) {
+      if (!event.active) simulation?.alphaTarget(0.3).restart();
+      d.fx = d.x; d.fy = d.y;
+    }
+    function dragging(event, d) {
+      d.fx = event.x; d.fy = event.y;
+    }
+    function dragEnd(event, d) {
+      if (!event.active) simulation?.alphaTarget(0);
+      if (d.type !== 'hub') { d.fx = null; d.fy = null; }
+    }
+
+    function graphZoom(factor) {
+      if (!svgEl || !zoomBehavior) return;
+      svgEl.transition().duration(300).call(zoomBehavior.scaleBy, factor);
+    }
+    function graphReset() {
+      activeCategory = null;
+      currentZoomTransform = null;
+      buildLegend();
+      rebuildGraph();
+    }
+
+    // ── LEGEND ────────────────────────────────────────────────────────────────
+    function buildLegend() {
+      const grid = document.getElementById('legendGrid');
+      if (!allConnections.length) {
+        grid.innerHTML = '<div style="font-size:0.8rem;color:var(--text-muted)">Import data to see categories</div>';
+        return;
+      }
+      const counts = {};
+      for (const c of allConnections) counts[c.category || 'Other'] = (counts[c.category || 'Other'] || 0) + 1;
+      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      grid.innerHTML = sorted.map(([cat, count]) => `
+        <div class="legend-row${activeCategory === cat ? ' active' : ''}" onclick="filterCategory('${cat}')">
+          <div class="legend-dot" style="background:${catColor(cat)}"></div>
+          <div class="legend-name">${cat}</div>
+          <div class="legend-count">${count}</div>
+        </div>`).join('');
+    }
+
+    function filterCategory(cat) {
+      activeCategory = activeCategory === cat ? null : cat;
+      buildLegend();
+      rebuildGraph();
+    }
+
+    // ── CONNECTION DETAIL ─────────────────────────────────────────────────────
+    function showDetail(conn) {
+      selectedConnection = conn;
+      document.getElementById('selectedPlaceholder').style.display = 'none';
+      const card = document.getElementById('selectedCard');
+      card.classList.add('visible');
+      document.getElementById('selName').textContent = conn.name;
+      document.getElementById('selPos').textContent = conn.position || '';
+      document.getElementById('selCompany').textContent = conn.company || '';
+      const catEl = document.getElementById('selCat');
+      catEl.textContent = conn.category || 'Other';
+      catEl.style.background = catBg(conn.category);
+      catEl.style.color = catColor(conn.category);
+      document.getElementById('notesInput').value = conn.notes || '';
+    }
+
+    async function saveNotes() {
+      if (!selectedConnection) return;
+      const notes = document.getElementById('notesInput').value.trim();
+      await updateNote(selectedConnection.id, notes);
+      selectedConnection.notes = notes;
+      // Update in allConnections
+      const idx = allConnections.findIndex(c => c.id === selectedConnection.id);
+      if (idx >= 0) allConnections[idx].notes = notes;
+    }
+
+    // ── CSV IMPORT ────────────────────────────────────────────────────────────
+    function handleDrop(event) {
+      event.preventDefault();
+      document.getElementById('dropzone').classList.remove('drag-over');
+      const file = event.dataTransfer.files[0];
+      if (file) processCSV(file);
+    }
+    function handleFileInput(event) {
+      const file = event.target.files[0];
+      if (file) processCSV(file);
+    }
+
+    async function processCSV(file) {
+      showImportMsg('', '');
+      document.getElementById('importPreview').classList.remove('visible');
+      setProgress(0, 'Reading file…');
+      document.getElementById('importProgress').classList.add('visible');
+
+      const text = await file.text();
+      let connections;
+      try {
+        connections = parseLinkedInCSV(text);
+      } catch (e) {
+        setProgress(0, '');
+        document.getElementById('importProgress').classList.remove('visible');
+        showImportMsg('error', 'Could not parse CSV. Make sure this is a LinkedIn Connections export.');
+        return;
+      }
+
+      if (!connections.length) {
+        document.getElementById('importProgress').classList.remove('visible');
+        showImportMsg('error', 'No connections found in this file.');
+        return;
+      }
+
+      // Preview
+      showPreview(connections.slice(0, 10));
+
+      setProgress(10, `Parsed ${connections.length} connections. Saving to database…`);
+      try {
+        await saveBatch(connections);
+        setProgress(100, 'Done!');
+        setTimeout(() => document.getElementById('importProgress').classList.remove('visible'), 1500);
+        showImportMsg('success', `Successfully imported ${connections.length} connections. Go to the Network Map to explore.`);
+        await loadConnections();
+      } catch (e) {
+        document.getElementById('importProgress').classList.remove('visible');
+        showImportMsg('error', 'Error saving to database: ' + e.message);
+      }
+    }
+
+    function parseLinkedInCSV(text) {
+      // Skip LinkedIn header lines until we find the column header row
+      const lines = text.split(/\r?\n/);
+      let headerIdx = -1;
+      for (let i = 0; i < Math.min(10, lines.length); i++) {
+        const l = lines[i].toLowerCase();
+        if (l.includes('first name') || l.includes('firstname') || l.includes('name')) {
+          headerIdx = i;
+          break;
+        }
+      }
+      if (headerIdx === -1) throw new Error('No header row found');
+
+      const headers = parseCSVRow(lines[headerIdx]).map(h => h.toLowerCase().trim().replace(/"/g, ''));
+
+      function col(row, ...names) {
+        for (const n of names) {
+          const idx = headers.indexOf(n);
+          if (idx >= 0 && row[idx]) return row[idx].trim();
+        }
+        return '';
+      }
+
+      const results = [];
+      for (let i = headerIdx + 1; i < lines.length; i++) {
+        if (!lines[i].trim()) continue;
+        const row = parseCSVRow(lines[i]);
+        const firstName = col(row, 'first name', 'firstname');
+        const lastName = col(row, 'last name', 'lastname');
+        const name = firstName || lastName ? `${firstName} ${lastName}`.trim() : col(row, 'name', 'full name');
+        if (!name) continue;
+        const company = col(row, 'company', 'organization', 'employer');
+        const position = col(row, 'position', 'title', 'job title', 'role');
+        const email = col(row, 'email address', 'email');
+        const url = col(row, 'url', 'linkedin url', 'profile url');
+        const connectedOn = col(row, 'connected on', 'connection date', 'date connected');
+        const category = categorize(company, position);
+        results.push({ name, firstName, lastName, company, position, email, url, connectedOn, category, notes: '', importedAt: new Date().toISOString() });
+      }
+      return results;
+    }
+
+    function parseCSVRow(line) {
+      const result = [];
+      let current = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
+          else inQuotes = !inQuotes;
+        } else if (ch === ',' && !inQuotes) {
+          result.push(current);
+          current = '';
+        } else {
+          current += ch;
+        }
+      }
+      result.push(current);
+      return result;
+    }
+
+    function showPreview(rows) {
+      const tbody = document.getElementById('previewBody');
+      tbody.innerHTML = rows.map(r => `
+        <tr>
+          <td>${r.name}</td>
+          <td>${r.company}</td>
+          <td>${r.position}</td>
+          <td><span class="cat-chip" style="background:${catBg(r.category)};color:${catColor(r.category)}">${r.category}</span></td>
+          <td>${r.connectedOn}</td>
+        </tr>`).join('');
+      document.getElementById('importPreview').classList.add('visible');
+    }
+
+    function setProgress(pct, text) {
+      document.getElementById('progressBar').style.width = pct + '%';
+      document.getElementById('progressText').textContent = text;
+    }
+
+    function showImportMsg(type, text) {
+      const el = document.getElementById('importMsg');
+      el.className = 'import-msg' + (type ? ' visible ' + type : '');
+      el.textContent = text;
+    }
+
+    // ── AI SEARCH ─────────────────────────────────────────────────────────────
+    function setContext(btn) {
+      document.querySelectorAll('.context-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      searchContext = btn.dataset.ctx;
+    }
+
+    async function doSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+      if (!allConnections.length) {
+        document.getElementById('searchStatus').textContent = 'Import your connections first.';
+        return;
+      }
+
+      const btn = document.getElementById('searchBtn');
+      btn.disabled = true;
+      document.getElementById('searchStatus').textContent = 'Thinking…';
+      document.getElementById('searchResults').innerHTML = '';
+
+      try {
+        const functions = firebase.functions();
+        const networkSearch = functions.httpsCallable('networkSearch');
+
+        // Pre-filter: send at most 200 connections (keyword-scored) to keep tokens manageable
+        const candidates = scoreAndFilter(query, allConnections, 200);
+
+        const result = await networkSearch({ query, context: searchContext, connections: candidates });
+        const { results, error } = result.data;
+
+        if (error) {
+          document.getElementById('searchStatus').textContent = 'Error: ' + error;
+          return;
+        }
+
+        document.getElementById('searchStatus').textContent = `Found ${results.length} relevant connections`;
+        document.getElementById('searchResults').innerHTML = results.map((r, i) => `
+          <div class="result-card">
+            <div class="result-rank">${i + 1}</div>
+            <div class="result-body">
+              <div class="result-name">${r.name}</div>
+              <div class="result-role">${r.position || ''}${r.company ? ' · ' + r.company : ''}</div>
+              <div class="result-reason">${r.reason}</div>
+              <div class="result-score">
+                <div class="score-bar"><div class="score-fill" style="width:${(r.score / 10) * 100}%"></div></div>
+                <div class="score-label">${r.score}/10</div>
+              </div>
+            </div>
+          </div>`).join('');
+      } catch (e) {
+        const msg = e.message?.includes('api key not configured')
+          ? 'Claude API key not configured. Set it in the Settings tab.'
+          : e.message?.includes('unauthenticated')
+          ? 'You must be signed in to use AI search.'
+          : 'Search error: ' + e.message;
+        document.getElementById('searchStatus').textContent = msg;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // Score connections by keyword relevance to the query
+    function scoreAndFilter(query, connections, limit) {
+      const words = query.toLowerCase().split(/\W+/).filter(w => w.length > 2);
+      const scored = connections.map(c => {
+        const text = `${c.name} ${c.company} ${c.position} ${c.category} ${c.notes}`.toLowerCase();
+        const score = words.filter(w => text.includes(w)).length;
+        return { ...c, _score: score };
+      });
+      scored.sort((a, b) => b._score - a._score);
+      // Always include top by keyword match, then pad with diverse category sampling
+      const top = scored.slice(0, limit);
+      return top.map(({ _score, ...rest }) => rest);
+    }
+
+    // ── SETTINGS ──────────────────────────────────────────────────────────────
+    async function loadApiKeyDisplay() {
+      const db = firebase.firestore();
+      try {
+        const doc = await db.collection('settings').doc('apiKeys').get();
+        if (doc.exists && doc.data().claude) {
+          document.getElementById('apiKeyInput').placeholder = '●●●● (key saved)';
+        }
+      } catch (e) { /* silent */ }
+    }
+
+    async function saveApiKey() {
+      const key = document.getElementById('apiKeyInput').value.trim();
+      const msg = document.getElementById('apiKeyMsg');
+      if (!key) { showSettingsMsg('apiKeyMsg', 'error', 'Enter an API key.'); return; }
+      try {
+        await firebase.firestore().collection('settings').doc('apiKeys').set({ claude: key }, { merge: true });
+        document.getElementById('apiKeyInput').value = '';
+        document.getElementById('apiKeyInput').placeholder = '●●●● (key saved)';
+        showSettingsMsg('apiKeyMsg', 'success', 'API key saved.');
+      } catch (e) {
+        showSettingsMsg('apiKeyMsg', 'error', 'Error saving key: ' + e.message);
+      }
+    }
+
+    async function confirmClear() {
+      if (!confirm('Are you sure you want to delete all imported connections? This cannot be undone.')) return;
+      try {
+        await clearAllData();
+        allConnections = [];
+        updateStats();
+        buildLegend();
+        d3.select('#network-graph').selectAll('*').remove();
+        document.getElementById('graphEmpty').style.display = 'flex';
+        showSettingsMsg('clearMsg', 'success', 'All connections deleted.');
+      } catch (e) {
+        showSettingsMsg('clearMsg', 'error', 'Error: ' + e.message);
+      }
+    }
+
+    function showSettingsMsg(id, type, text) {
+      const el = document.getElementById(id);
+      el.className = 'settings-msg ' + type;
+      el.textContent = text;
+      setTimeout(() => { el.textContent = ''; el.className = 'settings-msg'; }, 4000);
+    }
+
+    // ── RESIZE HANDLER ────────────────────────────────────────────────────────
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        if (document.getElementById('tab-map').classList.contains('active')) rebuildGraph();
+      }, 300);
+    });
+  </script>
+</body>
+</html>

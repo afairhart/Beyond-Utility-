@@ -4,11 +4,39 @@ functions/node_modules/
 # LinkedIn data (sensitive - never commit)
 linkedin-data/
 *.linkedin.csv
-Connections.csv
-connections.csv
 LinkedIn_*.csv
 linkedin_*.csv
 linkedin-data.*
+Ad_Targeting.csv
+Causes You Care About.csv
+Company Follows.csv
+Connections.csv
+connections.csv
+Education.csv
+Email Addresses.csv
+Endorsement_Received_Info.csv
+Events.csv
+Honors.csv
+Invitations.csv
+Languages.csv
+Learning.csv
+Organizations.csv
+Patents.csv
+PhoneNumbers.csv
+Positions.csv
+Profile Summary.csv
+Profile.csv
+Projects.csv
+Receipts_v2.csv
+Registration.csv
+Rich_Media.csv
+SavedJobAlerts.csv
+Skills.csv
+Volunteering.csv
+guide_messages.csv
+learning_coach_messages.csv
+learning_role_play_messages.csv
+messages.csv
 
 # Firebase
 .firebase/

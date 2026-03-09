@@ -269,6 +269,12 @@
           }
         }
 
+        // Record login activity
+        await db.collection('users').doc(cred.user.uid).update({
+          lastLoginAt: firebase.firestore.FieldValue.serverTimestamp(),
+          loginCount: firebase.firestore.FieldValue.increment(1)
+        }).catch(() => {});
+
         window.location.href = 'dashboard.html';
       } catch (err) {
         errorEl.textContent = err.code === 'auth/invalid-credential'

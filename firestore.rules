@@ -13,6 +13,10 @@ service cloud.firestore {
       // (used for first-user bootstrap and admin-created accounts)
       allow create: if request.auth != null && request.auth.uid == userId
         && request.resource.data.role in ['admin', 'partner'];
+
+      // Allow users to update their own login activity fields
+      allow update: if request.auth != null && request.auth.uid == userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastLoginAt', 'loginCount']);
     }
 
     // Allow authenticated users to list the users collection

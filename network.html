@@ -1012,7 +1012,11 @@
     </div>
     <div class="stat-item">
       <span class="stat-value" id="statWater">–</span>
-      <span class="stat-label">Water / Utilities</span>
+      <span class="stat-label">Water Sector</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value" id="statWaterSubs">–</span>
+      <span class="stat-label">Water Sub-sectors</span>
     </div>
     <div class="stat-item">
       <span class="stat-value" id="statVC">–</span>
@@ -1238,10 +1242,37 @@
   <script>
     // ── CATEGORY DEFINITIONS ──────────────────────────────────────────────────
     const CATEGORIES = {
-      'Water': {
+      // ── Water sub-sectors (checked first — most specific) ──
+      'Water Utilities': {
         color: '#4B7BF5', bg: 'rgba(75,123,245,0.15)',
-        keywords: ['water','wastewater','utility','utilities','municipal','treatment','desalination','irrigation','aquifer','groundwater','stormwater','sanitation','hydro','awwa','potable','sewer','watershed']
+        keywords: ['water utility','water district','water authority','municipal water','public water','water department','utilities commission','water service','water agency','awwa','potable','drinking water','water board']
       },
+      'Wastewater': {
+        color: '#3B82F6', bg: 'rgba(59,130,246,0.15)',
+        keywords: ['wastewater','sewer','sanitation','biosolids','effluent','clean water','water reclamation','water reuse','resource recovery','wrf','water pollution','water quality']
+      },
+      'Water Treatment': {
+        color: '#06b6d4', bg: 'rgba(6,182,212,0.15)',
+        keywords: ['treatment','desalination','membrane','filtration','reverse osmosis','uv disinfection','purification','pfas','contaminant','ozone','advanced oxidation','desal']
+      },
+      'Water Infrastructure': {
+        color: '#2563eb', bg: 'rgba(37,99,235,0.15)',
+        keywords: ['water infrastructure','pipeline','pipe','distribution','stormwater','flood','dam','reservoir','conveyance','main break','asset management','leak detection','water loss']
+      },
+      'Water Tech': {
+        color: '#818cf8', bg: 'rgba(129,140,248,0.15)',
+        keywords: ['smart water','water meter','ami','metering','digital water','water analytics','water data','water sensor','water monitoring','scada','water iot','hydraulic model']
+      },
+      'Ag & Irrigation': {
+        color: '#22d3ee', bg: 'rgba(34,211,238,0.15)',
+        keywords: ['irrigation','agricultural water','ag water','precision ag','drip','groundwater','aquifer','water rights','water market','pivot','fertigation','crop water']
+      },
+      // ── Catch-all water (anything water-related not caught above) ──
+      'Water - Other': {
+        color: '#7dd3fc', bg: 'rgba(125,211,252,0.15)',
+        keywords: ['water','hydro','watershed','hydrology']
+      },
+      // ── Non-water categories ──
       'Venture Capital': {
         color: '#D4A84B', bg: 'rgba(212,168,75,0.15)',
         keywords: ['venture','capital','investor','fund','vc ','seed','series a','series b','angel','equity','portfolio','gp','limited partner','lp ','general partner','exits','startup fund']
@@ -1348,6 +1379,14 @@
       try {
         const snap = await db.collection('linkedinConnections').orderBy('name').get();
         allConnections = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+        // Re-categorize connections that still have the old broad "Water" category
+        for (const c of allConnections) {
+          if (c.category === 'Water' || !CATEGORIES[c.category]) {
+            c.category = categorize(c.company || '', c.position || '');
+          }
+        }
+
         updateStats();
         buildLegend();
         if (document.getElementById('tab-map').classList.contains('active')) rebuildGraph();
@@ -1497,11 +1536,16 @@
     }
 
     // ── STATS ─────────────────────────────────────────────────────────────────
+    const WATER_CATS = ['Water Utilities', 'Wastewater', 'Water Treatment', 'Water Infrastructure', 'Water Tech', 'Ag & Irrigation', 'Water - Other'];
+
     function updateStats() {
       const cats = new Set(allConnections.map(c => c.category));
       document.getElementById('statTotal').textContent = allConnections.length;
       document.getElementById('statCategories').textContent = cats.size;
-      document.getElementById('statWater').textContent = allConnections.filter(c => c.category === 'Water').length;
+      const waterConns = allConnections.filter(c => WATER_CATS.includes(c.category));
+      document.getElementById('statWater').textContent = waterConns.length;
+      const activeWaterSubs = new Set(waterConns.map(c => c.category));
+      document.getElementById('statWaterSubs').textContent = activeWaterSubs.size;
       document.getElementById('statVC').textContent = allConnections.filter(c => c.category === 'Venture Capital').length;
       document.getElementById('statMessages').textContent = allMessages.length || '–';
       document.getElementById('statCompanies').textContent = allCompanyFollows.length || '–';

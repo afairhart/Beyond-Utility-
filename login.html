@@ -188,6 +188,10 @@
     @media (prefers-reduced-motion: reduce) {
       .login-btn { transition: none; }
     }
+
+    /* Hide login form until auth state is known */
+    .login-wrapper { opacity: 0; transition: opacity 0.15s ease; }
+    .login-wrapper.ready { opacity: 1; }
   </style>
 </head>
 <body>
@@ -229,13 +233,17 @@
   <script>
     // If already logged in and has a profile, go straight to dashboard
     BUAuth.currentUser().then(async user => {
-      if (!user) return;
+      if (!user) {
+        document.querySelector('.login-wrapper').classList.add('ready');
+        return;
+      }
       const profile = await BUAuth.getProfile(user.uid);
       if (profile) {
         window.location.href = 'dashboard.html';
       } else {
         // Auth account exists but profile was removed — sign them out
         await BUAuth.logout();
+        document.querySelector('.login-wrapper').classList.add('ready');
       }
     });
 

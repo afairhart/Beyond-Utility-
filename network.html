@@ -1359,6 +1359,19 @@
 
       await Promise.all([loadConnections(), loadMessages(), loadInvitations(), loadCompanyFollows()]);
       buildEnrichedIndexes();
+
+      // Show diagnostic if key collections are empty
+      const empty = [];
+      if (!allConnections.length) empty.push('connections');
+      if (!allMessages.length) empty.push('messages');
+      if (!allInvitations.length) empty.push('invitations');
+      if (!allCompanyFollows.length) empty.push('company follows');
+      if (empty.length && !document.getElementById('loadErrorBanner')) {
+        const note = document.createElement('div');
+        note.style.cssText = 'background:rgba(75,123,245,0.1);border:1px solid rgba(75,123,245,0.25);color:var(--blue-light);padding:12px 20px;margin:12px 40px;border-radius:8px;font-size:0.82rem;';
+        note.textContent = `No data found for: ${empty.join(', ')}. Go to Import Data to upload your LinkedIn CSV exports.`;
+        document.querySelector('.stats-bar')?.after(note);
+      }
     })();
 
     // ── TAB SWITCHING ─────────────────────────────────────────────────────────
@@ -1371,6 +1384,22 @@
       });
       if (id === 'map') rebuildGraph();
       if (id === 'messages') renderThreadList(getFilteredThreads());
+    }
+
+    // ── LOAD ERROR REPORTING ────────────────────────────────────────────────
+    function showLoadError(collection, error) {
+      const isPermission = error.code === 'permission-denied';
+      const msg = isPermission
+        ? `Permission denied loading ${collection}. Make sure Firestore rules are deployed (firebase deploy --only firestore:rules) and your account has admin role.`
+        : `Error loading ${collection}: ${error.message}`;
+      let banner = document.getElementById('loadErrorBanner');
+      if (!banner) {
+        banner = document.createElement('div');
+        banner.id = 'loadErrorBanner';
+        banner.style.cssText = 'background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);color:#f87171;padding:12px 20px;margin:12px 40px;border-radius:8px;font-size:0.82rem;line-height:1.5;';
+        document.querySelector('.stats-bar')?.after(banner);
+      }
+      banner.innerHTML += (banner.innerHTML ? '<br>' : '') + msg;
     }
 
     // ── FIRESTORE ─────────────────────────────────────────────────────────────
@@ -1392,6 +1421,7 @@
         if (document.getElementById('tab-map').classList.contains('active')) rebuildGraph();
       } catch (e) {
         console.error('Load connections error:', e);
+        showLoadError('connections', e);
       }
     }
 
@@ -1434,7 +1464,11 @@
         const snap = await db.collection('linkedinMessages').orderBy('date', 'desc').get();
         allMessages = snap.docs.map(d => ({ id: d.id, ...d.data() }));
         buildThreads();
-      } catch (e) { console.error('Load messages error:', e); }
+        console.log('Loaded messages:', allMessages.length);
+      } catch (e) {
+        console.error('Load messages error:', e);
+        showLoadError('messages', e);
+      }
     }
 
     async function saveMessagesBatch(messages) {
@@ -1458,7 +1492,11 @@
       try {
         const snap = await db.collection('linkedinInvitations').orderBy('sentAt', 'desc').get();
         allInvitations = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      } catch (e) { console.error('Load invitations error:', e); }
+        console.log('Loaded invitations:', allInvitations.length);
+      } catch (e) {
+        console.error('Load invitations error:', e);
+        showLoadError('invitations', e);
+      }
     }
 
     async function saveInvitationsBatch(invitations) {
@@ -1481,7 +1519,11 @@
       try {
         const snap = await db.collection('linkedinCompanyFollows').get();
         allCompanyFollows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      } catch (e) { console.error('Load company follows error:', e); }
+        console.log('Loaded company follows:', allCompanyFollows.length);
+      } catch (e) {
+        console.error('Load company follows error:', e);
+        showLoadError('company follows', e);
+      }
     }
 
     async function saveCompanyFollowsBatch(follows) {

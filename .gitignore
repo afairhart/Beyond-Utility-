@@ -44,3 +44,7 @@ messages.csv
 # Environment/secrets
 .env
 .env.local
+
+# Service account keys (never commit)
+*-firebase-adminsdk-*.json
+serviceAccountKey*.json

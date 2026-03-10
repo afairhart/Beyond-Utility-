@@ -10,8 +10,16 @@ const admin = require("firebase-admin");
 const fs = require("fs");
 const path = require("path");
 
-// Initialize with default credentials (uses GOOGLE_APPLICATION_CREDENTIALS or ADC)
-admin.initializeApp();
+// Initialize — supports GOOGLE_APPLICATION_CREDENTIALS file or
+// FIREBASE_SERVICE_ACCOUNT_BASE64 env var (for CI)
+if (process.env.FIREBASE_SERVICE_ACCOUNT_BASE64) {
+  const serviceAccount = JSON.parse(
+    Buffer.from(process.env.FIREBASE_SERVICE_ACCOUNT_BASE64, 'base64').toString('utf8')
+  );
+  admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+} else {
+  admin.initializeApp();
+}
 const db = admin.firestore();
 
 // ── Category definitions (matches network.html) ────────────────────────────

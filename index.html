@@ -468,6 +468,12 @@
       'Utility Partnerships',
       'Distributed Storage',
     ];
+    // Shuffle so each visit shows a different order
+    for (let i = categories.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [categories[i], categories[j]] = [categories[j], categories[i]];
+    }
+
     const typeSpeed = 70;
     const deleteSpeed = 40;
     const holdTime = 2000;

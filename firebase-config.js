@@ -75,7 +75,7 @@ const BUAuth = {
 
     // Check if any users exist — first user becomes admin
     const snapshot = await db.collection('users').limit(1).get();
-    const role = snapshot.empty ? 'admin' : 'partner';
+    const role = snapshot.empty ? 'admin' : 'lp';
 
     const profile = {
       email: user.email,
@@ -90,7 +90,10 @@ const BUAuth = {
    * Create a new user (admin only).
    * Uses a secondary Firebase app so the admin stays logged in.
    */
-  async createUser(email, password) {
+  async createUser(email, password, role) {
+    const validRoles = ['admin', 'lp', 'prospect'];
+    if (!role || validRoles.indexOf(role) === -1) role = 'lp';
+
     const secondaryApp = firebase.apps.find(a => a.name === 'Secondary')
       || firebase.initializeApp(firebaseConfig, 'Secondary');
     const secondaryAuth = secondaryApp.auth();
@@ -101,12 +104,19 @@ const BUAuth = {
     // Write profile to Firestore
     await db.collection('users').doc(uid).set({
       email: email,
-      role: 'partner',
+      role: role,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     });
 
     await secondaryAuth.signOut();
     return uid;
+  },
+
+  /** Update a user's role (admin only) */
+  async updateUserRole(uid, newRole) {
+    const validRoles = ['admin', 'lp', 'prospect'];
+    if (validRoles.indexOf(newRole) === -1) throw new Error('Invalid role');
+    await db.collection('users').doc(uid).update({ role: newRole });
   },
 
   /** List all users (admin only) */

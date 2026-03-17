@@ -24,3 +24,19 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git merge --ff-only origin/${{ github.ref_name }} || git merge -X theirs origin/${{ github.ref_name }}
           git push origin master
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Install Functions dependencies
+        run: cd functions && npm install
+
+      - name: Deploy to Firebase
+        run: firebase deploy --only hosting,functions,firestore:rules --force
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

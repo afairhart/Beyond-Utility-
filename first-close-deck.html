@@ -11,17 +11,17 @@
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #080E1A;
-      --gold: #D4A84B;
-      --gold-light: #E4C06B;
-      --blue: #4B7BF5;
-      --blue-light: #7BA1F7;
-      --blue-dim: rgba(75, 123, 245, 0.12);
-      --text: rgba(255, 255, 255, 0.92);
-      --text-dim: rgba(255, 255, 255, 0.50);
-      --text-muted: rgba(255, 255, 255, 0.28);
-      --border: rgba(255, 255, 255, 0.08);
-      --card-bg: rgba(255, 255, 255, 0.035);
+      --bg: #FAFBFD;
+      --gold: #B8873D;
+      --gold-light: #D4A84B;
+      --blue: #3B6BE0;
+      --blue-light: #4B7BF5;
+      --blue-dim: rgba(59, 107, 224, 0.08);
+      --text: rgba(10, 20, 40, 0.90);
+      --text-dim: rgba(10, 20, 40, 0.52);
+      --text-muted: rgba(10, 20, 40, 0.38);
+      --border: rgba(10, 20, 40, 0.10);
+      --card-bg: rgba(10, 20, 40, 0.03);
     }
 
     html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
@@ -93,7 +93,7 @@
       font-weight: 800;
       letter-spacing: -0.04em;
       line-height: 1.08;
-      color: #fff;
+      color: var(--text);
     }
 
     .headline .gold { color: var(--gold); }
@@ -129,7 +129,7 @@
       font-family: 'Outfit', sans-serif;
       font-size: 2rem;
       font-weight: 700;
-      color: #fff;
+      color: var(--text);
       letter-spacing: -0.02em;
     }
 
@@ -168,7 +168,7 @@
       font-size: 0.88rem;
       font-weight: 700;
       margin-bottom: 8px;
-      color: #fff;
+      color: var(--text);
     }
 
     .card p {
@@ -322,6 +322,9 @@
       opacity: 0.4;
     }
 
+    /* ── FOOTER ICON (invert for light bg) ── */
+    .slide-footer img[src="icon-nav.png"] { filter: invert(1) brightness(0.4); opacity: 1 !important; }
+
     /* ── PRINT ── */
     @media print {
       body { background: var(--bg); }
@@ -413,11 +416,7 @@
       <div class="col">
         <div class="bullet">
           <div class="bullet-dot"></div>
-          <div class="bullet-text"><strong>GP — Angel Investor &amp; Operator</strong><br><span class="dim">~10 years investing directly in technology startups, with hands-on experience building and running businesses in the sector.</span></div>
-        </div>
-        <div class="bullet">
-          <div class="bullet-dot"></div>
-          <div class="bullet-text"><strong>GP — Scientist &amp; Researcher</strong><br><span class="dim">Deep technical background in water treatment and infrastructure systems.</span></div>
+          <div class="bullet-text"><strong>GP — Investor, Operator &amp; Scientist</strong><br><span class="dim">~10 years investing directly in water technology startups, with hands-on experience building and running businesses in the sector, and a deep technical background in water treatment and infrastructure systems.</span></div>
         </div>
         <div class="bullet">
           <div class="bullet-dot"></div>

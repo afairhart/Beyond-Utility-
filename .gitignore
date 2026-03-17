@@ -45,6 +45,9 @@ messages.csv
 .env
 .env.local
 
+# Claude Code context (private - never commit)
+CLAUDE.md
+
 # Service account keys (never commit)
 *-firebase-adminsdk-*.json
 serviceAccountKey*.json

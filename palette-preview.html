@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palette Preview</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #E8EBF0; font-family: 'Inter', sans-serif; padding: 40px 32px; }
+    h1 { font-family: 'Outfit', sans-serif; font-size: 1.1rem; color: #333; margin-bottom: 32px; letter-spacing: 0.05em; text-transform: uppercase; }
+    .row { display: flex; gap: 32px; margin-bottom: 48px; }
+    .scheme-label { font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+
+    /* ── MOCK SLIDE ── */
+    .mock {
+      width: 640px;
+      height: 360px;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      flex-shrink: 0;
+    }
+    .mock-inner { padding: 36px 44px; height: 100%; display: flex; flex-direction: column; }
+    .mock-tag { font-family: 'Outfit', sans-serif; font-size: 0.52rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 10px; }
+    .mock-title { font-family: 'Outfit', sans-serif; font-size: 1.6rem; font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .mock-sub { font-size: 0.65rem; line-height: 1.6; max-width: 320px; margin-bottom: 20px; }
+    .mock-cards { display: flex; gap: 12px; flex: 1; }
+    .mock-card { flex: 1; border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 6px; }
+    .mock-card-label { font-size: 0.5rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+    .mock-card-num { font-family: 'Outfit', sans-serif; font-size: 1.4rem; font-weight: 800; letter-spacing: -0.03em; }
+    .mock-card-desc { font-size: 0.5rem; line-height: 1.4; }
+    .mock-chip-row { display: flex; gap: 8px; margin-top: auto; padding-top: 16px; }
+    .mock-chip { border-radius: 6px; padding: 5px 10px; font-size: 0.5rem; font-weight: 600; border: 1px solid; }
+
+    /* Swatches */
+    .swatches { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .swatch { width: 36px; height: 36px; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); position: relative; }
+    .swatch-row { display: flex; align-items: center; gap: 10px; margin-top: 6px; }
+    .swatch-sm { width: 24px; height: 24px; border-radius: 4px; flex-shrink: 0; }
+    .swatch-name { font-size: 0.62rem; color: #666; }
+
+    /* ──────────────────────────────────────────
+       OPTION A: Ocean Light
+    ────────────────────────────────────────── */
+    .mock-a {
+      background: #F4F8FC;
+    }
+    .mock-a .bg-glow {
+      position: absolute; width: 300px; height: 300px; border-radius: 50%;
+      pointer-events: none; filter: blur(80px);
+    }
+    .mock-a .glow1 { background: #1A6FAF; opacity: 0.07; top: -120px; right: -80px; }
+    .mock-a .glow2 { background: #C8923A; opacity: 0.07; bottom: -100px; left: -60px; }
+    .mock-a .mock-tag { color: #1A6FAF; }
+    .mock-a .mock-title { color: #0D2E52; }
+    .mock-a .mock-title span { color: #1A6FAF; }
+    .mock-a .mock-sub { color: #4A6580; }
+    .mock-a .mock-card { background: white; border: 1px solid rgba(26,111,175,0.15); }
+    .mock-a .mock-card-label { color: #1A6FAF; }
+    .mock-a .mock-card-num.blue { color: #1A6FAF; }
+    .mock-a .mock-card-num.gold { color: #C8923A; }
+    .mock-a .mock-card-desc { color: #4A6580; }
+    .mock-a .mock-chip { background: rgba(26,111,175,0.08); border-color: rgba(26,111,175,0.2); color: #0D2E52; }
+
+    /* ──────────────────────────────────────────
+       OPTION B: Teal + Slate
+    ────────────────────────────────────────── */
+    .mock-b {
+      background: #FFFFFF;
+    }
+    .mock-b .bg-glow {
+      position: absolute; width: 300px; height: 300px; border-radius: 50%;
+      pointer-events: none; filter: blur(80px);
+    }
+    .mock-b .glow1 { background: #0B7A75; opacity: 0.08; top: -120px; right: -80px; }
+    .mock-b .glow2 { background: #D4A84B; opacity: 0.07; bottom: -100px; left: -60px; }
+    .mock-b .mock-tag { color: #0B7A75; }
+    .mock-b .mock-title { color: #1C3144; }
+    .mock-b .mock-title span { color: #0B7A75; }
+    .mock-b .mock-sub { color: #4A6070; }
+    .mock-b .mock-card { background: #F6FAFB; border: 1px solid rgba(11,122,117,0.15); }
+    .mock-b .mock-card-label { color: #0B7A75; }
+    .mock-b .mock-card-num.blue { color: #0B7A75; }
+    .mock-b .mock-card-num.gold { color: #D4A84B; }
+    .mock-b .mock-card-desc { color: #4A6070; }
+    .mock-b .mock-chip { background: rgba(11,122,117,0.07); border-color: rgba(11,122,117,0.18); color: #1C3144; }
+
+    /* ──────────────────────────────────────────
+       OPTION C: Hybrid (dark cards on white)
+    ────────────────────────────────────────── */
+    .mock-c {
+      background: #FFFFFF;
+    }
+    .mock-c .bg-glow {
+      position: absolute; width: 300px; height: 300px; border-radius: 50%;
+      pointer-events: none; filter: blur(80px);
+    }
+    .mock-c .glow1 { background: #4B7BF5; opacity: 0.05; top: -120px; right: -80px; }
+    .mock-c .glow2 { background: #D4A84B; opacity: 0.05; bottom: -100px; left: -60px; }
+    .mock-c .mock-tag { color: #1A6FAF; }
+    .mock-c .mock-title { color: #111827; }
+    .mock-c .mock-title span { color: #D4A84B; }
+    .mock-c .mock-sub { color: #4B5563; }
+    .mock-c .mock-card { background: #0D1F35; border: 1px solid rgba(75,123,245,0.2); }
+    .mock-c .mock-card-label { color: rgba(255,255,255,0.5); }
+    .mock-c .mock-card-num.blue { color: #7BA1F7; }
+    .mock-c .mock-card-num.gold { color: #D4A84B; }
+    .mock-c .mock-card-desc { color: rgba(255,255,255,0.55); }
+    .mock-c .mock-chip { background: rgba(75,123,245,0.08); border-color: rgba(75,123,245,0.2); color: #111827; }
+  </style>
+</head>
+<body>
+
+<h1>Color Palette Options — White Background</h1>
+
+<!-- ── OPTION A ── -->
+<div class="scheme-label">A — Ocean Light &nbsp;·&nbsp; Blue-tinted background, deep navy, ocean blue accents</div>
+<div class="row">
+  <div class="mock mock-a">
+    <div class="bg-glow glow1"></div>
+    <div class="bg-glow glow2"></div>
+    <div class="mock-inner">
+      <div class="mock-tag">Market Opportunity</div>
+      <div class="mock-title">The $1T water market<br><span>is underinvested.</span></div>
+      <div class="mock-sub">Only 2% of climate tech funding reaches water. Infrastructure age, scarcity, and regulation are converging.</div>
+      <div class="mock-cards">
+        <div class="mock-card">
+          <div class="mock-card-label">Market Size</div>
+          <div class="mock-card-num blue">$1T+</div>
+          <div class="mock-card-desc">Global water services market by 2030</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">VC Gap</div>
+          <div class="mock-card-num gold">2%</div>
+          <div class="mock-card-desc">Of climate VC goes to water</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">Utilities</div>
+          <div class="mock-card-num blue">50K+</div>
+          <div class="mock-card-desc">US utilities, 80% need upgrades</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="swatches">
+      <div class="swatch" style="background:#F4F8FC; box-shadow:0 2px 6px rgba(0,0,0,0.1); border:1px solid #dde6f0;" title="Background"></div>
+      <div class="swatch" style="background:#0D2E52;" title="Navy text"></div>
+      <div class="swatch" style="background:#1A6FAF;" title="Ocean blue"></div>
+      <div class="swatch" style="background:#4B9FD6;" title="Sky blue"></div>
+      <div class="swatch" style="background:#C8923A;" title="Amber sand"></div>
+      <div class="swatch" style="background:#FFFFFF; border:1px solid #dde6f0;" title="Card white"></div>
+    </div>
+    <div style="margin-top:14px; font-size:0.7rem; color:#555; line-height:1.8;">
+      <strong style="color:#333;">Feel:</strong> Clear morning water, professional, trustworthy<br>
+      <strong style="color:#333;">Blue use:</strong> Ocean blue for all accents and tags<br>
+      <strong style="color:#333;">Gold use:</strong> Deepened to amber-sand, less harsh on white<br>
+      <strong style="color:#333;">Background:</strong> #F4F8FC — pale blue-white, not pure white
+    </div>
+  </div>
+</div>
+
+<!-- ── OPTION B ── -->
+<div class="scheme-label">B — Teal + Slate &nbsp;·&nbsp; Pure white, teal water accents, slate text</div>
+<div class="row">
+  <div class="mock mock-b">
+    <div class="bg-glow glow1"></div>
+    <div class="bg-glow glow2"></div>
+    <div class="mock-inner">
+      <div class="mock-tag">Market Opportunity</div>
+      <div class="mock-title">The $1T water market<br><span>is underinvested.</span></div>
+      <div class="mock-sub">Only 2% of climate tech funding reaches water. Infrastructure age, scarcity, and regulation are converging.</div>
+      <div class="mock-cards">
+        <div class="mock-card">
+          <div class="mock-card-label">Market Size</div>
+          <div class="mock-card-num blue">$1T+</div>
+          <div class="mock-card-desc">Global water services market by 2030</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">VC Gap</div>
+          <div class="mock-card-num gold">2%</div>
+          <div class="mock-card-desc">Of climate VC goes to water</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">Utilities</div>
+          <div class="mock-card-num blue">50K+</div>
+          <div class="mock-card-desc">US utilities, 80% need upgrades</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="swatches">
+      <div class="swatch" style="background:#FFFFFF; border:1px solid #e0e0e0;" title="White bg"></div>
+      <div class="swatch" style="background:#1C3144;" title="Dark slate"></div>
+      <div class="swatch" style="background:#0B7A75;" title="Deep teal"></div>
+      <div class="swatch" style="background:#3BBFB8;" title="Aqua highlight"></div>
+      <div class="swatch" style="background:#D4A84B;" title="Gold unchanged"></div>
+      <div class="swatch" style="background:#F6FAFB; border:1px solid #e0eef0;" title="Card bg"></div>
+    </div>
+    <div style="margin-top:14px; font-size:0.7rem; color:#555; line-height:1.8;">
+      <strong style="color:#333;">Feel:</strong> Tropical water, modern, sustainable<br>
+      <strong style="color:#333;">Blue use:</strong> Replaced with teal — stronger water reference<br>
+      <strong style="color:#333;">Gold use:</strong> Unchanged — pops well against teal<br>
+      <strong style="color:#333;">Background:</strong> Pure white, cards get a very light aqua tint
+    </div>
+  </div>
+</div>
+
+<!-- ── OPTION C ── -->
+<div class="scheme-label">C — Hybrid &nbsp;·&nbsp; White slides, dark navy cards (original feel preserved in content blocks)</div>
+<div class="row">
+  <div class="mock mock-c">
+    <div class="bg-glow glow1"></div>
+    <div class="bg-glow glow2"></div>
+    <div class="mock-inner">
+      <div class="mock-tag">Market Opportunity</div>
+      <div class="mock-title">The $1T water market<br><span>is underinvested.</span></div>
+      <div class="mock-sub">Only 2% of climate tech funding reaches water. Infrastructure age, scarcity, and regulation are converging.</div>
+      <div class="mock-cards">
+        <div class="mock-card">
+          <div class="mock-card-label">Market Size</div>
+          <div class="mock-card-num blue">$1T+</div>
+          <div class="mock-card-desc">Global water services market by 2030</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">VC Gap</div>
+          <div class="mock-card-num gold">2%</div>
+          <div class="mock-card-desc">Of climate VC goes to water</div>
+        </div>
+        <div class="mock-card">
+          <div class="mock-card-label">Utilities</div>
+          <div class="mock-card-num blue">50K+</div>
+          <div class="mock-card-desc">US utilities, 80% need upgrades</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div class="swatches">
+      <div class="swatch" style="background:#FFFFFF; border:1px solid #e0e0e0;" title="White bg"></div>
+      <div class="swatch" style="background:#111827;" title="Near-black text"></div>
+      <div class="swatch" style="background:#1A6FAF;" title="Blue accents"></div>
+      <div class="swatch" style="background:#0D1F35;" title="Dark card bg"></div>
+      <div class="swatch" style="background:#D4A84B;" title="Gold unchanged"></div>
+      <div class="swatch" style="background:#7BA1F7;" title="Blue-light on dark cards"></div>
+    </div>
+    <div style="margin-top:14px; font-size:0.7rem; color:#555; line-height:1.8;">
+      <strong style="color:#333;">Feel:</strong> Bold contrast, high-impact, familiar<br>
+      <strong style="color:#333;">Blue use:</strong> Unchanged — still shows in cards and accents<br>
+      <strong style="color:#333;">Gold use:</strong> Unchanged — pops on both white and dark<br>
+      <strong style="color:#333;">Background:</strong> White slides but cards stay deep navy
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

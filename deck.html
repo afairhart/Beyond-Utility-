@@ -398,8 +398,87 @@
       border-color: rgba(75, 123, 245, 0.25);
     }
 
+    /* ══════════════════════════════════════════
+       OCEAN LIGHT THEME
+    ══════════════════════════════════════════ */
+    [data-theme="light"] {
+      --bg: #F4F8FC;
+      --bg-light: #EAF1F9;
+      --gold: #C8923A;
+      --gold-light: #DBA84E;
+      --blue: #1A6FAF;
+      --blue-light: #4B9FD6;
+      --blue-dim: rgba(26, 111, 175, 0.12);
+      --text: #0D2E52;
+      --text-dim: #4A6580;
+      --text-muted: #8BA3B8;
+      --border: rgba(13, 46, 82, 0.12);
+    }
+    [data-theme="light"] .section-tag { color: var(--blue); }
+    [data-theme="light"] .glow { opacity: 0.12; }
+
+    /* ══════════════════════════════════════════
+       THEME TOOLBAR (hidden on print)
+    ══════════════════════════════════════════ */
+    #theme-toolbar {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      z-index: 9999;
+      font-family: 'Inter', sans-serif;
+    }
+    .toolbar-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s, transform 0.15s;
+      letter-spacing: 0.01em;
+    }
+    .toolbar-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+    .toolbar-btn:active { transform: translateY(0); }
+    #theme-toggle { background: #1A6FAF; color: white; box-shadow: 0 4px 16px rgba(26,111,175,0.35); }
+    [data-theme="light"] #theme-toggle { background: #080E1A; box-shadow: 0 4px 16px rgba(0,0,0,0.35); }
+    #download-btn { background: #C8923A; color: white; box-shadow: 0 4px 16px rgba(200,146,58,0.35); }
+
+    /* ── DOWNLOAD MODAL ── */
+    #download-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99999;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+    }
+    #download-modal.open { display: flex; }
+    .modal-box { background: white; border-radius: 16px; padding: 40px; width: 480px; box-shadow: 0 24px 64px rgba(0,0,0,0.25); }
+    .modal-box h3 { font-family: 'Outfit', sans-serif; font-size: 1.3rem; font-weight: 700; color: #0D2E52; margin-bottom: 8px; }
+    .modal-box p { font-size: 0.8rem; color: #6B7280; margin-bottom: 28px; line-height: 1.5; }
+    .modal-options { display: flex; gap: 14px; margin-bottom: 20px; }
+    .modal-option { flex: 1; border-radius: 12px; padding: 20px; cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s; text-align: center; }
+    .modal-option:hover { border-color: #1A6FAF; }
+    .modal-option .swatch-preview { width: 100%; height: 72px; border-radius: 8px; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .modal-option .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .modal-option strong { display: block; font-size: 0.82rem; font-weight: 600; color: #111827; margin-bottom: 4px; }
+    .modal-option span { font-size: 0.72rem; color: #6B7280; }
+    .modal-option.dark-opt .swatch-preview { background: #080E1A; }
+    .modal-option.light-opt .swatch-preview { background: #F4F8FC; border: 1px solid #dde6ef; }
+    .modal-cancel { width: 100%; padding: 10px; background: none; border: none; font-size: 0.78rem; color: #9CA3AF; cursor: pointer; font-family: 'Inter', sans-serif; }
+    .modal-cancel:hover { color: #6B7280; }
+
     /* ── PRINT ── */
     @media print {
+      #theme-toolbar, #download-modal { display: none !important; }
       body { background: var(--bg); }
       .slide {
         margin: 0;
@@ -1027,6 +1106,72 @@
     <span>Confidential</span>
   </div>
 </div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     THEME TOOLBAR
+     ═══════════════════════════════════════════════════════════════ -->
+<div id="theme-toolbar">
+  <button class="toolbar-btn" id="theme-toggle">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    <span id="theme-label">Light Mode</span>
+  </button>
+  <button class="toolbar-btn" id="download-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Download
+  </button>
+</div>
+
+<div id="download-modal">
+  <div class="modal-box">
+    <h3>Download Deck</h3>
+    <p>Choose which color version to save as PDF. Your browser's print dialog will open — select "Save as PDF".</p>
+    <div class="modal-options">
+      <div class="modal-option dark-opt" id="dl-dark">
+        <div class="swatch-preview"><div class="dot" style="background:#4B7BF5;"></div><div class="dot" style="background:#D4A84B;"></div><div class="dot" style="background:rgba(255,255,255,0.3);"></div></div>
+        <strong>Dark</strong><span>Deep navy &amp; gold</span>
+      </div>
+      <div class="modal-option light-opt" id="dl-light">
+        <div class="swatch-preview"><div class="dot" style="background:#1A6FAF;"></div><div class="dot" style="background:#C8923A;"></div><div class="dot" style="background:#0D2E52;"></div></div>
+        <strong>Ocean Light</strong><span>Blue-white &amp; amber</span>
+      </div>
+    </div>
+    <button class="modal-cancel" id="modal-cancel">Cancel</button>
+  </div>
+</div>
+
+<script>
+  const html = document.documentElement;
+  const toggle = document.getElementById('theme-toggle');
+  const label = document.getElementById('theme-label');
+  const moonSVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`;
+  const sunSVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`;
+
+  toggle.addEventListener('click', () => {
+    const isLight = html.dataset.theme === 'light';
+    if (isLight) {
+      delete html.dataset.theme;
+      toggle.querySelector('svg').outerHTML; toggle.innerHTML = sunSVG + '<span id="theme-label">Light Mode</span>';
+    } else {
+      html.dataset.theme = 'light';
+      toggle.innerHTML = moonSVG + '<span id="theme-label">Dark Mode</span>';
+    }
+  });
+
+  const modal = document.getElementById('download-modal');
+  document.getElementById('download-btn').addEventListener('click', () => modal.classList.add('open'));
+  document.getElementById('modal-cancel').addEventListener('click', () => modal.classList.remove('open'));
+  modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+
+  function printWithTheme(theme) {
+    const prev = html.dataset.theme;
+    if (theme === 'light') html.dataset.theme = 'light'; else delete html.dataset.theme;
+    modal.classList.remove('open');
+    setTimeout(() => { window.print(); setTimeout(() => { if (prev) html.dataset.theme = prev; else delete html.dataset.theme; }, 1000); }, 150);
+  }
+
+  document.getElementById('dl-dark').addEventListener('click', () => printWithTheme('dark'));
+  document.getElementById('dl-light').addEventListener('click', () => printWithTheme('light'));
+</script>
 
 </body>
 </html>

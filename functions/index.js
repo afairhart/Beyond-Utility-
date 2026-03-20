@@ -1,4 +1,4 @@
-const { onCall, onRequest, HttpsError } = require("firebase-functions/v2/https");
+const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { onSchedule } = require("firebase-functions/v2/scheduler");
 const admin = require("firebase-admin");
 
@@ -201,58 +201,4 @@ exports.deleteUser = onCall(async (request) => {
   }
 
   return { success: true };
-});
-
-// ── Calendar URLs (server-side only) ──
-const CALENDAR_URL_1 = "https://calendar.google.com/calendar/ical/afairhart%40gmail.com/private-943700855df32a888cd071a97b8fa556/basic.ics";
-const CALENDAR_URL_2 = "https://calendar.google.com/calendar/ical/alex%40beyondutilitywaterventures.com/public/basic.ics";
-
-/**
- * Extracts all VEVENT blocks from a raw ICS string.
- */
-function extractEvents(ics) {
-  const events = [];
-  const regex = /BEGIN:VEVENT[\s\S]*?END:VEVENT/g;
-  let match;
-  while ((match = regex.exec(ics)) !== null) {
-    events.push(match[0]);
-  }
-  return events;
-}
-
-/**
- * Merges two ICS feeds into a single VCALENDAR string.
- */
-function mergeICS(ics1, ics2) {
-  const events = [...extractEvents(ics1), ...extractEvents(ics2)];
-  return [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Beyond Utility Water Ventures//Unified Calendar//EN",
-    "X-WR-CALNAME:Beyond Utility Water Ventures",
-    "X-WR-CALDESC:Unified calendar for Beyond Utility Water Ventures",
-    "CALSCALE:GREGORIAN",
-    "METHOD:PUBLISH",
-    ...events,
-    "END:VCALENDAR",
-  ].join("\r\n");
-}
-
-/**
- * HTTP function: calendarFeed
- * Returns a merged ICS feed from both calendars.
- * Suitable for direct calendar app subscription (webcal://).
- */
-exports.calendarFeed = onRequest({ cors: true }, async (req, res) => {
-  try {
-    const [r1, r2] = await Promise.all([fetch(CALENDAR_URL_1), fetch(CALENDAR_URL_2)]);
-    const [ics1, ics2] = await Promise.all([r1.text(), r2.text()]);
-    const merged = mergeICS(ics1, ics2);
-    res.set("Content-Type", "text/calendar; charset=utf-8");
-    res.set("Content-Disposition", 'attachment; filename="beyond-utility.ics"');
-    res.send(merged);
-  } catch (err) {
-    console.error("calendarFeed error:", err);
-    res.status(500).send("Failed to fetch calendar feeds.");
-  }
 });

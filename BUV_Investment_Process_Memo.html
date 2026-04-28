@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Beyond Utility Water Ventures — Investment Process Memorandum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0E2D4E;
+  --navy-dim: #1A3A5C;
+  --gold: #C88A2C;
+  --gold-soft: #E5B05A;
+  --bg: #F4F7FA;
+  --bg-card: #FFFFFF;
+  --text: #1A2332;
+  --text-muted: #64748B;
+  --text-dim: #94A3B8;
+  --border: #E2E8F0;
+  --border-strong: #CBD5E1;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+  font-size: 11pt;
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  max-width: 8.5in;
+  min-height: 11in;
+  margin: 0 auto;
+  padding: 0.85in 0.9in;
+  background: var(--bg-card);
+  position: relative;
+}
+
+.page + .page { margin-top: 0.4in; box-shadow: 0 1px 3px rgba(14,45,78,0.08); }
+
+/* ---------- COVER ---------- */
+.cover {
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 11in;
+  padding: 1.1in 0.9in;
+}
+
+.cover-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-family: 'Archivo', sans-serif;
+  font-size: 9.5pt;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--navy);
+}
+
+.logo-mark {
+  width: 28px; height: 28px;
+  background: var(--navy);
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  position: relative;
+}
+.logo-mark::after {
+  content: '';
+  position: absolute;
+  inset: 38%;
+  background: var(--bg);
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+}
+
+.cover-title {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  font-size: 64pt;
+  color: var(--navy);
+  margin-top: 1.2in;
+}
+
+.cover-title .gold { color: var(--gold); }
+
+.cover-subtitle {
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 16pt;
+  font-weight: 400;
+  color: var(--navy-dim);
+  margin-top: 32px;
+  max-width: 500px;
+  line-height: 1.4;
+}
+
+.cover-meta {
+  display: flex;
+  gap: 48px;
+  margin-top: 0.6in;
+  padding-top: 28px;
+  border-top: 1px solid var(--border-strong);
+}
+
+.cover-meta-item {
+  font-family: 'Archivo', sans-serif;
+}
+
+.cover-meta-label {
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.cover-meta-value {
+  font-size: 13pt;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.cover-footer {
+  font-family: 'Archivo', sans-serif;
+  font-size: 9pt;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ---------- BODY PAGES ---------- */
+
+.section-num {
+  font-family: 'Archivo', sans-serif;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+h1 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 1.05;
+  font-size: 30pt;
+  color: var(--navy);
+  margin-bottom: 28px;
+  margin-top: 0;
+}
+
+h1.with-rule::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 4px;
+  background: var(--gold);
+  margin-top: 18px;
+}
+
+h2 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  font-size: 17pt;
+  color: var(--navy);
+  margin-top: 32px;
+  margin-bottom: 14px;
+  page-break-after: avoid;
+}
+
+h3 {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 12.5pt;
+  color: var(--navy);
+  margin-top: 22px;
+  margin-bottom: 10px;
+  page-break-after: avoid;
+}
+
+p {
+  margin-bottom: 12px;
+  text-align: left;
+  hyphens: auto;
+}
+
+p + h2, p + h3 { margin-top: 28px; }
+
+strong { font-weight: 600; color: var(--navy); }
+
+em { font-style: italic; color: var(--text-muted); }
+
+ul, ol {
+  margin-left: 24px;
+  margin-bottom: 14px;
+}
+
+li { margin-bottom: 6px; }
+
+/* ---------- COMPONENTS ---------- */
+
+.criterion {
+  background: var(--bg);
+  border-left: 4px solid var(--gold);
+  padding: 18px 22px;
+  margin: 16px 0;
+  page-break-inside: avoid;
+}
+
+.criterion-num {
+  font-family: 'Archivo', sans-serif;
+  font-size: 9pt;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.criterion-title {
+  font-family: 'Archivo', sans-serif;
+  font-size: 14pt;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.criterion p { margin-bottom: 8px; }
+.criterion p:last-child { margin-bottom: 0; }
+
+.stage {
+  background: var(--bg);
+  padding: 18px 22px;
+  margin: 14px 0;
+  border-radius: 2px;
+  page-break-inside: avoid;
+}
+
+.stage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.stage-name {
+  font-family: 'Archivo', sans-serif;
+  font-size: 13pt;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.stage-name .num { color: var(--gold); }
+
+.stage-duration {
+  font-family: 'Archivo', sans-serif;
+  font-size: 9pt;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 32px;
+  margin: 18px 0;
+  padding: 22px;
+  background: var(--bg);
+}
+
+.stat-grid.three-col {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.stat-item {
+  font-family: 'Archivo', sans-serif;
+}
+
+.stat-label {
+  font-size: 8.5pt;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 14pt;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.stat-value .gold { color: var(--gold); }
+
+.callout {
+  background: var(--navy);
+  color: #FFFFFF;
+  padding: 26px 28px;
+  margin: 22px 0;
+  page-break-inside: avoid;
+}
+
+.callout p { color: #E2E8F0; margin-bottom: 8px; }
+.callout p:last-child { margin-bottom: 0; }
+.callout strong { color: var(--gold-soft); }
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--border-strong);
+  margin: 32px 0;
+}
+
+.divider-rule {
+  border: none;
+  height: 3px;
+  background: var(--gold);
+  width: 56px;
+  margin: 24px 0;
+}
+
+/* ---------- FOOTER ---------- */
+
+.page-footer {
+  margin-top: 0.5in;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Archivo', sans-serif;
+  font-size: 8.5pt;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ---------- PRINT ---------- */
+
+@page {
+  size: 8.5in 11in;
+  margin: 0;
+}
+
+@media print {
+  html, body { background: white; }
+  .page { box-shadow: none; margin: 0; page-break-after: always; }
+  .cover { page-break-after: always; }
+  h1, h2, h3 { page-break-after: avoid; }
+  .criterion, .stage, .callout, .stat-grid { page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============== COVER ============== -->
+<section class="cover">
+  <div class="cover-header">
+    <div class="logo-mark"></div>
+    <span>Beyond Utility Water Ventures</span>
+  </div>
+
+  <div>
+    <h1 class="cover-title">
+      Investment<br>
+      <span class="gold">Process</span><br>
+      Memorandum
+    </h1>
+    <p class="cover-subtitle">How we evaluate, underwrite, and support water technology investments at Beyond Utility Water Ventures Fund I.</p>
+
+    <div class="cover-meta">
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Fund</div>
+        <div class="cover-meta-value">BUV Fund I</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">First Close</div>
+        <div class="cover-meta-value">2026</div>
+      </div>
+      <div class="cover-meta-item">
+        <div class="cover-meta-label">Prepared For</div>
+        <div class="cover-meta-value">Limited Partners</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <span>Confidential</span>
+    <span>Beyond Utility Water Ventures · Seattle, WA</span>
+  </div>
+</section>
+
+<!-- ============== 1. EXECUTIVE SUMMARY ============== -->
+<section class="page">
+  <div class="section-num">Section 01</div>
+  <h1 class="with-rule">Executive Summary</h1>
+
+  <p>Beyond Utility Water Ventures (BUV) is a $12.5M pre-seed and seed fund investing in the next generation of water technology. This memorandum describes how BUV moves capital from thesis to wire transfer: the framework used to evaluate companies, the pipeline stages a deal traverses, the governance mechanisms that discipline each decision, and the support BUV provides to portfolio companies after investment.</p>
+
+  <p>Three commitments underpin the process.</p>
+
+  <p><strong>First</strong>, every opportunity is evaluated against a consistent six-criterion framework — the BUV Six — that reflects the structural realities of water as a sector. The framework is designed to capture what separates companies that reach commercial inflection and exit from those that stall at pilot stage.</p>
+
+  <p><strong>Second</strong>, every investment decision is subject to mandatory advisor review before capital is committed. As a solo-GP fund, BUV treats external review not as optional validation but as a core governance gate.</p>
+
+  <p><strong>Third</strong>, the process is documented. Every deal — whether declined, deferred, or funded — produces a written record. Over time this record becomes the foundation for both track-record attribution and continuous improvement of the underwriting approach.</p>
+
+  <p>The remainder of this document describes each of these commitments in detail.</p>
+
+  <div class="page-footer">
+    <span>BUV Fund I · Investment Process</span>
+    <span>01</span>
+  </div>
+</section>
+
+<!-- ============== 2. THESIS ============== -->
+<section class="page">
+  <div class="section-num">Section 02</div>
+  <h1 class="with-rule">Thesis &amp; Sector Focus</h1>
+
+  <p>Water is the largest underfunded opportunity in climate technology. The United States alone requires more than $1 trillion in water infrastructure investment over the coming 25 years against less than 2% of climate venture capital flowing to the sector. Regulatory forcing functions — EPA standards on PFAS and lead service lines, state-level emerging-contaminant rules, industrial discharge tightening — are converting deferred maintenance into compulsory capital deployment. This gap between mandated spend and available venture capital is where BUV invests.</p>
+
+  <p>BUV deploys across four sub-sectors of water technology, with three investments targeted in each over the fund's two-year investment period:</p>
+
+  <div class="stat-grid">
+    <div class="stat-item">
+      <div class="stat-label">Treatment Technology</div>
+      <div class="stat-value">Industrial process water, contaminant destruction, modular &amp; decentralized systems.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Digital &amp; Software</div>
+      <div class="stat-value">Industrial water intelligence, precision-ag management, compliance platforms.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Non-Treatment Hardware</div>
+      <div class="stat-value">Sensors &amp; monitoring, water-efficient buildings, irrigation &amp; ag hardware.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Other &amp; Emerging</div>
+      <div class="stat-value">Water-as-a-service, industrial reuse, water markets &amp; risk infrastructure.</div>
+    </div>
+  </div>
+
+  <p>BUV deliberately avoids segments dominated by traditional utility procurement. Municipal water procurement, for all its scale, moves on timelines incompatible with a 5–7 year venture return horizon. BUV prioritizes industrial, commercial, residential, and agricultural applications where buyers have both the urgency and the authority to adopt new technology on compressed timelines. This is the structural reason BUV's portfolio construction can target commercial inflection within a venture-appropriate window.</p>
+
+  <p>Geographic focus is primarily North America. The fund is headquartered in Seattle, Washington, and operates against a two-year investment period from first close.</p>
+
+  <div class="page-footer">
+    <span>BUV Fund I · Investment Process</span>
+    <span>02</span>
+  </div>
+</section>
+
+<!-- ============== 3. THE BUV SIX ============== -->
+<section class="page">
+  <div class="section-num">Section 03</div>
+  <h1 class="with-rule">The BUV Six<br>Evaluation Framework</h1>
+
+  <p>Every company BUV evaluates is assessed against six criteria. These criteria reflect the specific dynamics of water as a sector and the specific shape of a pre-seed or seed investment within it. Each criterion is scored in the IC memo on a four-tier scale: <strong>Strong Pass, Pass, Concern, or Fail</strong>.</p>
+
+  <div class="criterion">
+    <div class="criterion-num">Criterion 01</div>
+    <div class="criterion-title">Sector-Earned Credibility</div>
+    <p>The founder carries enough lived experience in water — or in a tightly adjacent process industry such as semiconductor, pharmaceutical, food and beverage, or upstream energy — to navigate regulatory approvals, utility politics, and pilot design without learning by bleeding. Just as important, the founder can stand up in front of a plant engineer or procurement officer and be treated as a peer within the first ten minutes of conversation. Water is a small industry and reputation compounds quickly; founders who already have credibility, or who can build it in under a year, close deals meaningfully faster than outsiders.</p>
+  </div>
+
+  <div class="criterion">
+    <div class="criterion-num">Criterion 02</div>
+    <div class="criterion-title">Mandated or Forced Demand</div>
+    <p>The company sells into a segment where buyers must act, not one where they merely should care. Regulation, cost pain, or operational crisis creates a compulsion to buy within a defined window. Push-based water theses die at first pilot; pull-based theses compound. The forcing function should be specific, datable, and traceable — a regulation with a compliance deadline, an industrial cost curve that has crossed a capex trigger, a siting decision that cannot close without a water solution.</p>
+  </div>
+
+  <div class="criterion">
+    <div class="criterion-num">Criterion 03</div>
+    <div class="criterion-title">Narrow Beachhead, Hard for Incumbents to Serve</div>
+    <p>At pre-seed, the definition of the first customer matters more than total addressable market. BUV underwrites a wedge that incumbents — Xylem, Veolia, SUEZ, Ecolab — either cannot serve or will not prioritize: too small for their sales motion, outside their product catalog, protected by enforceable intellectual property, or dependent on data and software capability they do not have. Beachhead discipline is the difference between a company that reaches $5M in annual revenue and one that stalls with three pilot logos.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>BUV Fund I · The BUV Six</span>
+    <span>03</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="criterion">
+    <div class="criterion-num">Criterion 04</div>
+    <div class="criterion-title">Systems Thinking Around the Product</div>
+    <p>Water is sold as an outcome, not a device. Founders BUV backs treat installation, service, data handoff, field operations, regulatory packaging, and renewal as first-class parts of the product, not afterthoughts. Pricing reflects real procurement cadence. Pilot design is structured to convert to commercial engagement. Integrator, EPC, and channel relationships are explicit in the go-to-market. This is where BUV's commercialization perspective reads deals differently than generalist investors — the wrapper around the technology is what separates patents from businesses.</p>
+  </div>
+
+  <div class="criterion">
+    <div class="criterion-num">Criterion 05</div>
+    <div class="criterion-title">The Buyer Leans In</div>
+    <p>On reference calls with real-world water buyers — plant engineers, utility operators, industrial water leads — do they describe the founder as a peer and the technology as something they would champion internally? This is distinct from presentation polish. What BUV is looking for is the moment where the buyer begins asking about next steps before BUV does. When a skeptical operator wants more time with a founder, that is signal. When polite interest fails to convert to pilot commitments, that is also signal.</p>
+  </div>
+
+  <div class="criterion">
+    <div class="criterion-num">Criterion 06</div>
+    <div class="criterion-title">A Named, Plausible Exit</div>
+    <p>For a $12.5M fund with a 5–7 year horizon in a sector where IPOs are rare, BUV underwrites exit logic at entry. For every investment, BUV can name three or more credible acquirers — Xylem, Veolia, Danaher, industrial conglomerates, building products majors, agricultural equipment leaders — explain why each would care, and point to comparable transactions in the last five years at defensible multiples. In water, strategic exit is not an afterthought; it is the return thesis.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>BUV Fund I · The BUV Six</span>
+    <span>04</span>
+  </div>
+</section>
+
+<!-- ============== 4. PIPELINE ============== -->
+<section class="page">
+  <div class="section-num">Section 04</div>
+  <h1 class="with-rule">The Investment Pipeline</h1>
+
+  <p>BUV runs deals through six defined stages. Each stage has a target duration and a written output. The goal is enough structure to create discipline without enough bureaucracy to slow BUV's speed advantage as a solo-GP fund.</p>
+
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-name"><span class="num">01 ·</span> Sourcing &amp; Thesis-Driven Pipeline Building</div>
+      <div class="stage-duration">Continuous</div>
+    </div>
+    <p>Sourcing is a standing activity rather than a deal-specific stage. BUV's pipeline is fed through five channels: accelerator and program pipelines (Imagine H2O, Elemental, BlueTech, water-adjacent Y Combinator cohorts); co-investor referrals from an active network of water-focused and climate-focused funds; university and research-lab spinouts; operator and industry-referral networks built from a decade in the sector; and thesis-driven outbound, in which BUV selects a sub-segment from the four investment buckets and actively identifies the strongest companies within it.</p>
+    <p>Each channel is tracked in BUV's deal log. This creates both attribution (which channels are generating quality deals) and accountability (which channels are underperforming and why).</p>
+  </div>
+
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-name"><span class="num">02 ·</span> Triage &amp; Initial Screen</div>
+      <div class="stage-duration">Target: 48 hours</div>
+    </div>
+    <p>Every inbound opportunity receives a one-page written screen against six fit questions: thesis alignment, stage and check-size fit, sector bucket, founder-market fit signal, technology readiness, and automatic disqualifiers (competing with an existing portfolio company, governance red flags, no credible beachhead). The outcome is <strong>Pass, Park, or Pursue</strong>, with a one-line rationale logged even on passes. Over time this pass record becomes BUV's anti-portfolio — a valuable diligence tool for later funds and a credible signal to LPs that BUV maintains discipline on the top of the funnel.</p>
+  </div>
+
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-name"><span class="num">03 ·</span> First Meeting &amp; Initial Hypothesis</div>
+      <div class="stage-duration">1–2 weeks</div>
+    </div>
+    <p>A 30–60 minute founder conversation, followed by a written one-page initial hypothesis against the BUV Six. The criteria are not formally scored at this stage; instead, BUV documents an initial read and an explicit list of questions that deep diligence would need to answer. The outcome is <strong>Pass or Pursue to deep diligence</strong>. Most opportunities end here, and the discipline of writing down why protects against falling in love with narrative without evidence.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>BUV Fund I · The Pipeline</span>
+    <span>05</span>
+  </div>
+</section>
+
+<section class="page">
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-name"><span class="num">04 ·</span> Deep Diligence</div>
+      <div class="stage-duration">3–5 weeks · Three workstreams</div>
+    </div>
+    <p>Deep diligence is where BUV's specialist edge becomes concrete. Three workstreams run partially in parallel.</p>
+    <p><strong>Technical diligence</strong> is led directly by the GP. This includes intellectual property and freedom-to-operate review, technology readiness assessment, pilot data review where available, and two to three independent technical references drawn from BUV's network — typically one academic, one operator-adjacent, and one competitor-adjacent. For opportunities that require deep expertise outside the GP's direct background, BUV loops in a named technical advisor for formal review.</p>
+    <p><strong>Commercial diligence</strong> includes five to eight buyer reference calls with utility operators, industrial water leads, or plant engineers as appropriate; bottom-up market sizing of the stated beachhead; competitive mapping that explicitly includes the likely response of named incumbents; and regulatory and permitting pathway review.</p>
+    <p><strong>Founder and team diligence</strong> includes backdoor references beyond those the founder provides, prior-company track record verification, operating references from former managers and peers, and review of the cap table and any prior financing documents for structural red flags.</p>
+    <p>Each workstream produces written notes that feed directly into the IC memo. The total target duration is three to five weeks, with a stop-the-clock mechanism if any workstream surfaces information that materially changes the thesis.</p>
+  </div>
+
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-name"><span class="num">05 ·</span> IC Memo &amp; Decision</div>
+      <div class="stage-duration">1 week</div>
+    </div>
+    <p>The GP writes the full IC memo using BUV's template, scoring the company against the BUV Six on the four-tier scale. Before capital is committed, the memo triggers a <strong>mandatory advisor review</strong>. At least one technical advisor and one operating advisor receive the memo, return written comments, and can veto or flag material concerns that must be resolved before proceeding.</p>
+    <p>This advisor review is BUV's structural answer to the key-person risk inherent in a solo-GP fund. It is not optional and it is not a rubber stamp; it is the BUV equivalent of an investment committee. BUV maintains an informal network of advisors drawn from existing LPs and sector experts, which will be formalized into a standing advisory board as the fund's LP base solidifies.</p>
+    <p>Decision outcomes are <strong>Invest, Pass, or Defer</strong> with a named trigger. Every pass is logged in the deal record with rationale.</p>
+  </div>
+
+  <div class="stage">
+    <div class="stage-header">
+      <div class="stage-name"><span class="num">06 ·</span> Terms, Close &amp; Onboarding</div>
+      <div class="stage-duration">2–4 weeks</div>
+    </div>
+    <p>Term sheet negotiation, legal close, and a structured 30-day onboarding process. Onboarding sets expectations with the founder on reporting cadence, portfolio support engagement, information rights, and follow-on posture. A documented onboarding plan is a small operational commitment that materially improves the founder relationship and demonstrates the same process rigor in the post-investment phase that BUV brings to underwriting.</p>
+  </div>
+
+  <div class="page-footer">
+    <span>BUV Fund I · The Pipeline</span>
+    <span>06</span>
+  </div>
+</section>
+
+<!-- ============== 5. PORTFOLIO SUPPORT ============== -->
+<section class="page">
+  <div class="section-num">Section 05</div>
+  <h1 class="with-rule">Portfolio Support</h1>
+
+  <p>BUV's post-investment engagement is organized around six forms of hands-on support, consistent with the portfolio support framework presented in BUV's first-close deck.</p>
+
+  <div class="stat-grid">
+    <div class="stat-item">
+      <div class="stat-label">Industry Introductions</div>
+      <p style="margin-top:6px; font-family:'IBM Plex Sans',sans-serif; font-size:10pt; font-weight:400; color:var(--text);">Warm connections to industrial buyers, channel partners, and end customers across the water sector, intended to accelerate first revenue.</p>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Regulatory Navigation</div>
+      <p style="margin-top:6px; font-family:'IBM Plex Sans',sans-serif; font-size:10pt; font-weight:400; color:var(--text);">Compliance pathway guidance, permitting timeline planning, and ongoing policy monitoring, helping founders turn regulation into competitive advantage.</p>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Technical Advisory</div>
+      <p style="margin-top:6px; font-family:'IBM Plex Sans',sans-serif; font-size:10pt; font-weight:400; color:var(--text);">R&amp;D guidance, product-market fit validation, and testing strategy, drawing on the GP's technical background and advisor network.</p>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Fundraising Support</div>
+      <p style="margin-top:6px; font-family:'IBM Plex Sans',sans-serif; font-size:10pt; font-weight:400; color:var(--text);">Direct introductions to follow-on investors, Series A positioning, and narrative development, leveraging BUV's co-investor relationships across 18+ venture firms and strategic investors.</p>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Hiring</div>
+      <p style="margin-top:6px; font-family:'IBM Plex Sans',sans-serif; font-size:10pt; font-weight:400; color:var(--text);">Access to water-sector talent networks for hard-to-fill technical roles, drawing on a decade of sector relationships.</p>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Founder Mentorship</div>
+      <p style="margin-top:6px; font-family:'IBM Plex Sans',sans-serif; font-size:10pt; font-weight:400; color:var(--text);">Practical, operator-level guidance from a GP who has built and operated businesses in the water sector.</p>
+    </div>
+  </div>
+
+  <p>Board posture is determined on a deal-by-deal basis, depending on deal size, ownership, lead investor status, and the specific support needs of the company. BUV will take board seats where lead investor status and ownership warrant it; in other cases BUV will serve as board observer or engage through a structured monthly cadence. In all cases, information rights appropriate to the check size are secured at term sheet stage.</p>
+
+  <div class="page-footer">
+    <span>BUV Fund I · Portfolio Support</span>
+    <span>07</span>
+  </div>
+</section>
+
+<!-- ============== 6. PORTFOLIO CONSTRUCTION ============== -->
+<section class="page">
+  <div class="section-num">Section 06</div>
+  <h1 class="with-rule">Portfolio Construction</h1>
+
+  <p>BUV Fund I is structured as a concentrated, specialist vehicle.</p>
+
+  <div class="stat-grid three-col">
+    <div class="stat-item">
+      <div class="stat-label">Target Fund Size</div>
+      <div class="stat-value"><span class="gold">$12.5M</span></div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Target Investments</div>
+      <div class="stat-value">12</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Initial Check</div>
+      <div class="stat-value">$400K</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Target Ownership</div>
+      <div class="stat-value">~7.5%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Follow-on Reserves</div>
+      <div class="stat-value">50%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Investment Period</div>
+      <div class="stat-value">~2 years</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Fund Life</div>
+      <div class="stat-value">10 yrs +</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Mgmt Fee</div>
+      <div class="stat-value">2.0%</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-label">Carry</div>
+      <div class="stat-value">20%</div>
+    </div>
+  </div>
+
+  <p>The four-sub-sector allocation is equal: three investments per sub-sector across Treatment Technology, Digital and Software, Non-Treatment Hardware, and Other and Emerging. This allocation ensures diversified technology and market risk exposure while maintaining concentrated positions for meaningful ownership.</p>
+
+  <p>The 50% follow-on reserve is the most strategically important element of portfolio construction. It enables BUV to exercise pro-rata and meaningfully concentrate additional capital into the top performers at Seed or Series A, improving ownership retention from approximately 51% (pro-rata dilution only) to approximately 64% (with active follow-on participation). This preserves BUV's ability to capture upside in the companies that drive fund-level returns — which in venture, consistent with the power law of returns, will be two or three portfolio companies rather than the broad middle.</p>
+
+  <p>Exit pathways are primarily strategic mergers and acquisitions by named acquirer cohorts: Xylem, Veolia, Danaher, industrial conglomerates, and building products companies, with secondary pathways through follow-on venture rounds into later-stage investor relationships. The IPO pathway is possible but not underwritten as the base case; BUV's return thesis rests on strategic exits at reasonable multiples within the 5–7 year window.</p>
+
+  <div class="page-footer">
+    <span>BUV Fund I · Portfolio Construction</span>
+    <span>08</span>
+  </div>
+</section>
+
+<!-- ============== 7. GOVERNANCE ============== -->
+<section class="page">
+  <div class="section-num">Section 07</div>
+  <h1 class="with-rule">Governance, Conflicts &amp; Risk Management</h1>
+
+  <h2>Solo-GP Governance</h2>
+  <p>BUV is operated by a single General Partner. The governance mechanisms that institutional LPs expect from a multi-partner firm — partnership debate, formal investment committee, principled disagreement as a check on individual enthusiasm — are structurally replaced in BUV through three mechanisms: mandatory advisor review at Stage 5, written deal records at every stage, and the four-tier BUV Six scoring applied consistently across the portfolio.</p>
+
+  <h2>Key-Person Risk</h2>
+  <p>The primary mitigant of key-person risk is the mandatory advisor review process described in Stage 5. Every investment decision is exposed to external scrutiny before capital is committed, from advisors with the standing and expertise to veto if warranted. This creates a functioning governance floor that does not depend on the GP's individual judgment in isolation. Additional standard key-person protections will be codified in the fund's Limited Partnership Agreement.</p>
+
+  <h2>Personal Water Systems Conflict Policy</h2>
+  <p>The GP operates a separate consulting practice, Personal Water Systems (PWS), which provides commercialization advisory services to water-sector companies. PWS and BUV are managed as distinct entities with a formal conflict policy:</p>
+  <ol>
+    <li>PWS client relationships are disclosed to LPs as they arise.</li>
+    <li>Where a PWS client becomes a potential BUV investment opportunity, the overlap is disclosed to the advisory network and the relationship is walled off from the BUV evaluation process until the conflict is resolved, either through termination of the PWS engagement or through formal LP acknowledgment.</li>
+    <li>PWS work is disclosed in quarterly LP reporting, with material overlaps flagged explicitly.</li>
+  </ol>
+
+  <p>This case-by-case approach, rather than a categorical prohibition, reflects the reality that the water sector is small and that PWS work is itself a source of strategic and market intelligence that benefits BUV's investment process. The intent of the policy is to capture that benefit while eliminating any possibility of LP-adverse conflicts.</p>
+
+  <h2>Written Records &amp; Anti-Portfolio Discipline</h2>
+  <p>Every deal BUV sees — invested, passed, or deferred — produces a written record. Pass rationale is logged in one line at minimum. Deferred deals are logged with the specific trigger that would reopen evaluation. Invested deals produce the full IC memo. This discipline serves three purposes: it creates an auditable track record for future LP conversations, it enables continuous improvement of the underwriting approach, and it provides honest attribution when companies BUV passed on succeed or fail.</p>
+
+  <div class="page-footer">
+    <span>BUV Fund I · Governance</span>
+    <span>09</span>
+  </div>
+</section>
+
+<!-- ============== 8. LP REPORTING ============== -->
+<section class="page">
+  <div class="section-num">Section 08</div>
+  <h1 class="with-rule">Limited Partner Reporting</h1>
+
+  <p>BUV commits to the following reporting cadence:</p>
+
+  <div class="callout">
+    <p><strong>Quarterly letters</strong> covering portfolio updates, material developments, pipeline activity, capital deployment, and GP commentary on sector dynamics.</p>
+    <p><strong>Annual LP meeting</strong> with full portfolio review, financial statements, and open discussion.</p>
+    <p><strong>Ad-hoc transparency</strong> on material events — markdowns, down rounds, significant portfolio company developments, key-person matters, and any material changes to the investment approach — communicated promptly rather than reserved for quarterly cycles.</p>
+  </div>
+
+  <p>The specific format of quarterly reporting will evolve in collaboration with the LP base during the first year of the fund. BUV's goal is a reporting rhythm that provides LPs with the information needed to evaluate performance without creating a reporting burden that compromises the GP's time on investment activity.</p>
+
+  <hr class="divider">
+
+  <div class="section-num">Section 09</div>
+  <h1>IC Memo Template</h1>
+
+  <p>BUV's per-investment IC memo template is maintained as a companion document. That template is the working document used at Stage 5 of the pipeline described in Section 4. It is structured as a four- to five-page memo with an appendix, organized around traditional sections (Market, Team, Product, Business Model, Competition, Traction, Terms) with each section closing on a scored reference to the relevant BUV Six criteria. Every memo includes a mandatory "Three Ways This Goes to Zero" pre-mortem section and a consolidated BUV Six scorecard before the recommendation.</p>
+
+  <p>The template is available on request for LPs conducting deeper diligence on BUV's investment process, and a worked example applying the template to an actual portfolio investment can be provided to illustrate how the process operates in practice.</p>
+
+  <div class="page-footer">
+    <span>BUV Fund I · LP Reporting</span>
+    <span>10</span>
+  </div>
+</section>
+
+<!-- ============== CLOSING ============== -->
+<section class="cover" style="justify-content: center; align-items: center; text-align: center;">
+  <div></div>
+  <div>
+    <div class="logo-mark" style="margin: 0 auto 32px; width: 40px; height: 40px;"></div>
+    <h1 class="cover-title" style="font-size: 44pt;">
+      Beyond Utility<br><span class="gold">Water Ventures</span>
+    </h1>
+    <p class="cover-subtitle" style="margin: 32px auto 0; text-align: center;">
+      Alex Fairhart, General Partner<br>
+      Seattle, WA<br>
+      <span style="color: var(--gold);">alex@beyondutilityventures.com</span>
+    </p>
+  </div>
+  <div class="cover-footer" style="text-align: center; justify-content: center;">
+    <span style="font-size:7.5pt; max-width:6in; line-height:1.6; letter-spacing:0.05em; text-transform:none; color:var(--text-dim);">This document is confidential and intended solely for the use of prospective Limited Partners of Beyond Utility Water Ventures Fund I. It is not an offer to sell securities; any such offer will be made solely through the fund's formal offering documents.</span>
+  </div>
+</section>
+
+</body>
+</html>

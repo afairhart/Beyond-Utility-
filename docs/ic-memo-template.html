@@ -2,7 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>BUV — IC Memo Template</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IC Memo Template — Beyond Utility Water Ventures</title>
+<meta name="description" content="BUV Fund I Investment Committee memo template — the standard diligence framework for evaluating water technology investments.">
+<meta property="og:title" content="IC Memo Template — Beyond Utility Water Ventures">
+<meta property="og:description" content="BUV Fund I IC memo template — the standard diligence framework for water tech investments.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://beyondutilityventures.com/docs/ic-memo-template.html">
+<meta property="og:image" content="https://beyondutilityventures.com/icon.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IC Memo Template — Beyond Utility Water Ventures">
+<meta name="twitter:description" content="BUV Fund I IC memo template — the standard diligence framework for water tech investments.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -463,6 +473,27 @@ li { margin-bottom: 5px; }
 [data-theme="dark"] .premortem { background: #0A1020; }
 [data-theme="dark"] img.logo { filter: brightness(2); }
 
+/* ── TABLE OF CONTENTS ── */
+#toc {
+  position: fixed; top: 50%; left: 24px; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 4px;
+  z-index: 8888; font-family: 'IBM Plex Sans', sans-serif;
+}
+.toc-item {
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none; color: #94A3B8;
+  font-size: 8pt; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 4px 0; transition: color 0.15s;
+  white-space: nowrap;
+}
+.toc-item:hover, .toc-item.active { color: var(--gold, #C88A2C); }
+.toc-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; transition: transform 0.15s; }
+.toc-item.active .toc-dot { transform: scale(1.5); }
+.toc-label { opacity: 0; transition: opacity 0.15s; }
+#toc:hover .toc-label { opacity: 1; }
+@media (max-width: 1200px) { #toc { display: none; } }
+@media print { #toc { display: none !important; } }
+
 /* ── TOOLBAR ── */
 #theme-toolbar {
   position: fixed; bottom: 32px; right: 32px;
@@ -560,7 +591,7 @@ li { margin-bottom: 5px; }
 
   <!-- ===== 1. EXECUTIVE SUMMARY ===== -->
   <div class="section-num">Section 01</div>
-  <h1 class="with-rule">Executive Summary &amp; Recommendation</h1>
+  <h1 id="s01" class="with-rule">Executive Summary &amp; Recommendation</h1>
 
   <div class="placeholder-block">
     <strong>One paragraph.</strong> What does the company do, in plain language? What is the investment thesis in one sentence? What is the recommendation and the key reasons for it? If recommending Pass or Defer, state that explicitly. This is the only section an advisor may read in isolation, so it must stand alone.
@@ -588,7 +619,7 @@ li { margin-bottom: 5px; }
 <!-- ============== 2. COMPANY OVERVIEW ============== -->
 <section class="page">
   <div class="section-num">Section 02</div>
-  <h1 class="with-rule">Company Overview</h1>
+  <h1 id="s02" class="with-rule">Company Overview</h1>
 
   <div class="placeholder-block">
     <strong>Two to three paragraphs.</strong> Founding date, location, founding team composition at a high level, stage of development, current capitalization, what the company has built to date. Prior financings if any — amount, investors, structure. This section is factual, not evaluative.
@@ -596,7 +627,7 @@ li { margin-bottom: 5px; }
 
   <!-- ===== 3. MARKET & WHY NOW ===== -->
   <div class="section-num" style="margin-top:32px;">Section 03</div>
-  <h1 class="with-rule">Market &amp; Why Now</h1>
+  <h1 id="s03" class="with-rule">Market &amp; Why Now</h1>
 
   <div class="placeholder-block">
     <strong>Two to three paragraphs.</strong> Describe the specific market this company addresses, the buyer the company sells to first, and the forcing function creating urgency now. Include the regulatory, economic, or operational trigger that compels adoption within a definable window. Size the beachhead bottom-up — not TAM from a market research report, but a grounded estimate of the specific first-customer segment. Name the demand pull explicitly; if the company is selling into push-based dynamics, that is itself the key risk and must be called out.
@@ -613,7 +644,7 @@ li { margin-bottom: 5px; }
 <!-- ============== 4. TEAM ============== -->
 <section class="page">
   <div class="section-num">Section 04</div>
-  <h1 class="with-rule">Team &amp; Founder</h1>
+  <h1 id="s04" class="with-rule">Team &amp; Founder</h1>
 
   <div class="placeholder-block">
     <strong>Two to three paragraphs.</strong> Founders — names, backgrounds, roles, prior operating or research experience, demonstrated domain credibility. How did they come to this problem? What is their unfair insight? Include reference call notes: who did BUV speak to about each founder, what did they say, what stood out. Note specifically whether references spontaneously described founders as "the real deal" or equivalent, versus polite but uncommitted language. Flag any gaps in the team and how the company plans to close them.
@@ -623,7 +654,7 @@ li { margin-bottom: 5px; }
 
   <!-- ===== 5. PRODUCT & TECH ===== -->
   <div class="section-num" style="margin-top:32px;">Section 05</div>
-  <h1 class="with-rule">Product &amp; Technology</h1>
+  <h1 id="s05" class="with-rule">Product &amp; Technology</h1>
 
   <div class="placeholder-block">
     <strong>Three to four paragraphs.</strong> What is the product, technically? What problem does it solve and how? What is the state of development — concept, prototype, pilot, commercial? What is the intellectual property position — patents granted or pending, claims scope, freedom-to-operate analysis, trade secret posture? Who did BUV speak to on technical diligence, and what did they say? For any novel scientific or engineering claim, note whether it has been independently validated, and if not, what validation would be required.<br><br>
@@ -641,7 +672,7 @@ li { margin-bottom: 5px; }
 <!-- ============== 6. BUSINESS MODEL ============== -->
 <section class="page">
   <div class="section-num">Section 06</div>
-  <h1 class="with-rule">Business Model &amp; Unit Economics</h1>
+  <h1 id="s06" class="with-rule">Business Model &amp; Unit Economics</h1>
 
   <div class="placeholder-block">
     <strong>Two to three paragraphs.</strong> How does the company make money — product sale, recurring service, subscription, water-as-a-service, data licensing, other. What are the unit economics at the beachhead customer: price per unit or contract, gross margin, cost of customer acquisition, time from first contact to revenue. Does the pricing reflect realistic water-sector procurement cadence, or does it assume software-style velocity that will not materialize? What is the path from pilot to commercial, and is the pilot structured to convert? Who installs, services, and renews? Use of funds from this round — what milestone does the capital buy, and is that milestone fundable by Series A investors in BUV's network?
@@ -651,7 +682,7 @@ li { margin-bottom: 5px; }
 
   <!-- ===== 7. COMPETITION ===== -->
   <div class="section-num" style="margin-top:32px;">Section 07</div>
-  <h1 class="with-rule">Competition &amp; Defensibility</h1>
+  <h1 id="s07" class="with-rule">Competition &amp; Defensibility</h1>
 
   <div class="placeholder-block">
     <strong>Two to three paragraphs.</strong> Who are the direct competitors? What are the named incumbents — Xylem, Veolia, SUEZ, Ecolab, etc. — and how would they respond to this company's traction? What is this company's structural defensibility at the beachhead: intellectual property with enforceable claims, data or network effects that compound with use, certification or regulatory head start, channel or integrator relationships, switching costs. Be specific about what prevents a well-resourced incumbent from replicating the offering within 18 months. If nothing does, that is the key risk.
@@ -668,7 +699,7 @@ li { margin-bottom: 5px; }
 <!-- ============== 8. TRACTION ============== -->
 <section class="page">
   <div class="section-num">Section 08</div>
-  <h1 class="with-rule">Traction &amp; Diligence Findings</h1>
+  <h1 id="s08" class="with-rule">Traction &amp; Diligence Findings</h1>
 
   <div class="placeholder-block">
     <strong>Two to three paragraphs.</strong> What has the company actually sold or deployed? Pilot customers, letters of intent, signed contracts, revenue — with amounts and customer names where permissible. Consolidated findings from buyer reference calls: what specific buyers said, how they described the founder and the product, whether they intend to deploy commercially after pilot, whether they would champion the technology internally. Include direct quotes from reference calls where the phrasing is distinctive. Flag any dissonance between what the founder claims and what buyers say.
@@ -678,7 +709,7 @@ li { margin-bottom: 5px; }
 
   <!-- ===== 9. DEAL TERMS ===== -->
   <div class="section-num" style="margin-top:32px;">Section 09</div>
-  <h1 class="with-rule">Deal Terms &amp; Syndicate</h1>
+  <h1 id="s09" class="with-rule">Deal Terms &amp; Syndicate</h1>
 
   <div class="placeholder-block">
     <strong>One to two paragraphs.</strong> Round size, pre-money valuation, vehicle (SAFE with cap/discount, priced round, convertible note), post-money, proposed BUV check, resulting BUV ownership, pro-rata rights secured, information rights, board posture (seat, observer, or neither), other key terms. Co-investors in the round — who is leading, who is following, whether any strategic investor is in. Brief assessment of whether the valuation is defensible relative to comparable water-sector seed rounds and the company's stage of development.
@@ -693,7 +724,7 @@ li { margin-bottom: 5px; }
 <!-- ============== 10. PRE-MORTEM ============== -->
 <section class="page">
   <div class="section-num">Section 10</div>
-  <h1 class="with-rule">Three Ways This Goes to Zero<br>Pre-Mortem</h1>
+  <h1 id="s10" class="with-rule">Three Ways This Goes to Zero<br>Pre-Mortem</h1>
 
   <div class="premortem">
     <p style="margin-bottom: 16px; color: #CBD5E1; font-style: italic; font-size: 9.5pt;">Mandatory section. In three short paragraphs, describe the three most plausible scenarios in which this investment returns zero to BUV. Do not include generic venture risks. Be specific to this deal.</p>
@@ -725,7 +756,7 @@ li { margin-bottom: 5px; }
 <!-- ============== 11. SCORECARD ============== -->
 <section class="page">
   <div class="section-num">Section 11</div>
-  <h1 class="with-rule">BUV Six Scorecard</h1>
+  <h1 id="s11" class="with-rule">BUV Six Scorecard</h1>
 
   <table class="scorecard">
     <thead>
@@ -783,7 +814,7 @@ li { margin-bottom: 5px; }
 
   <!-- ===== 12. EXIT SCENARIOS ===== -->
   <div class="section-num" style="margin-top:32px;">Section 12</div>
-  <h1 class="with-rule">Exit Scenarios</h1>
+  <h1 id="s12" class="with-rule">Exit Scenarios</h1>
 
   <div class="placeholder-block">
     <strong>One to two paragraphs.</strong> Named strategic acquirers with rationale for why each would care: what specific strategic gap does this company fill for them, what is their recent M&amp;A pattern, what has been paid for comparable companies in the last five years. BUV requires at least three credible acquirers named at underwriting; if that cannot be done, the deal fails criterion #6 and should not be invested.
@@ -800,7 +831,7 @@ li { margin-bottom: 5px; }
 <!-- ============== 13. RECOMMENDATION ============== -->
 <section class="page">
   <div class="section-num">Section 13</div>
-  <h1 class="with-rule">Recommendation</h1>
+  <h1 id="s13" class="with-rule">Recommendation</h1>
 
   <div class="placeholder-block">
     <strong>One paragraph</strong> restating the recommendation and the specific terms. If Invest: what size check, at what valuation, with what pro-rata posture, and what onboarding priorities for the first 30 days post-close. If Pass: what would need to change for BUV to revisit. If Defer: the named trigger and the timeline.
@@ -808,7 +839,7 @@ li { margin-bottom: 5px; }
 
   <!-- ===== 14. ADVISOR REVIEW ===== -->
   <div class="section-num" style="margin-top:32px;">Section 14</div>
-  <h1 class="with-rule">Advisor Review</h1>
+  <h1 id="s14" class="with-rule">Advisor Review</h1>
 
   <p><em>To be completed after advisor review, before capital commitment.</em></p>
 
@@ -880,6 +911,7 @@ li { margin-bottom: 5px; }
 </section>
 
 <div id="theme-toolbar">
+  <a href="../documents.html" class="toolbar-btn" style="background:#1A3A5C; color:rgba(255,255,255,0.85); text-decoration:none;">&larr; Documents</a>
   <button class="toolbar-btn" id="theme-toggle" onclick="toggleTheme()">&#9790; Dark</button>
   <button class="toolbar-btn" id="download-btn" onclick="openDownload()">&darr; Download PDF</button>
 </div>
@@ -910,11 +942,42 @@ function toggleTheme() {
 }
 function openDownload() { document.getElementById('download-modal').classList.add('open'); }
 function closeDownload() { document.getElementById('download-modal').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDownload(); });
 function downloadVersion(theme) {
   closeDownload();
   document.documentElement.setAttribute('data-theme', theme);
   setTimeout(() => window.print(), 300);
 }
+</script>
+
+<nav id="toc">
+  <a href="#s01" class="toc-item"><span class="toc-dot"></span><span class="toc-label">01 · Exec Summary</span></a>
+  <a href="#s02" class="toc-item"><span class="toc-dot"></span><span class="toc-label">02 · Company Overview</span></a>
+  <a href="#s03" class="toc-item"><span class="toc-dot"></span><span class="toc-label">03 · Market</span></a>
+  <a href="#s04" class="toc-item"><span class="toc-dot"></span><span class="toc-label">04 · Team</span></a>
+  <a href="#s05" class="toc-item"><span class="toc-dot"></span><span class="toc-label">05 · Product</span></a>
+  <a href="#s06" class="toc-item"><span class="toc-dot"></span><span class="toc-label">06 · Business Model</span></a>
+  <a href="#s07" class="toc-item"><span class="toc-dot"></span><span class="toc-label">07 · Competition</span></a>
+  <a href="#s08" class="toc-item"><span class="toc-dot"></span><span class="toc-label">08 · Traction</span></a>
+  <a href="#s09" class="toc-item"><span class="toc-dot"></span><span class="toc-label">09 · Deal Terms</span></a>
+  <a href="#s10" class="toc-item"><span class="toc-dot"></span><span class="toc-label">10 · Pre-Mortem</span></a>
+  <a href="#s11" class="toc-item"><span class="toc-dot"></span><span class="toc-label">11 · Scorecard</span></a>
+  <a href="#s12" class="toc-item"><span class="toc-dot"></span><span class="toc-label">12 · Exit</span></a>
+  <a href="#s13" class="toc-item"><span class="toc-dot"></span><span class="toc-label">13 · Recommendation</span></a>
+  <a href="#s14" class="toc-item"><span class="toc-dot"></span><span class="toc-label">14 · Advisor Review</span></a>
+</nav>
+
+<script>
+const tocItems = document.querySelectorAll('.toc-item');
+const sectionIds = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14'];
+const sections = sectionIds.map(id => document.getElementById(id)).filter(Boolean);
+function updateToc() {
+  let active = sections[0];
+  sections.forEach(s => { if (s.getBoundingClientRect().top <= 120) active = s; });
+  tocItems.forEach(item => item.classList.toggle('active', item.getAttribute('href') === '#' + active.id));
+}
+window.addEventListener('scroll', updateToc, { passive: true });
+updateToc();
 </script>
 </body>
 </html>

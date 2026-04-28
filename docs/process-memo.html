@@ -2,7 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Beyond Utility Water Ventures — Investment Process Memorandum</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investment Process Memorandum — Beyond Utility Water Ventures</title>
+<meta name="description" content="BUV Fund I investment process — sourcing, diligence, IC review, and portfolio support for pre-seed and seed water technology companies.">
+<meta property="og:title" content="Investment Process Memorandum — Beyond Utility Water Ventures">
+<meta property="og:description" content="BUV Fund I investment process — sourcing, diligence, IC review, and portfolio support.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://beyondutilityventures.com/docs/process-memo.html">
+<meta property="og:image" content="https://beyondutilityventures.com/icon.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Investment Process Memorandum — Beyond Utility Water Ventures">
+<meta name="twitter:description" content="BUV Fund I investment process — sourcing, diligence, IC review, and portfolio support.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -391,6 +401,33 @@ li { margin-bottom: 6px; }
 [data-theme="dark"] .callout { background: #162840; }
 [data-theme="dark"] img.logo { filter: brightness(2); }
 
+/* ── TABLE OF CONTENTS ── */
+#toc {
+  position: fixed; top: 50%; left: 24px; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 4px;
+  z-index: 8888; font-family: 'IBM Plex Sans', sans-serif;
+}
+.toc-item {
+  display: flex; align-items: center; gap: 8px;
+  text-decoration: none; color: var(--text-muted, #94A3B8);
+  font-size: 8pt; font-weight: 500; letter-spacing: 0.06em;
+  text-transform: uppercase; padding: 4px 0;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+.toc-item:hover { color: var(--gold, #C88A2C); }
+.toc-item.active { color: var(--gold, #C88A2C); }
+.toc-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+  transition: transform 0.15s;
+}
+.toc-item.active .toc-dot { transform: scale(1.5); }
+.toc-label { opacity: 0; transition: opacity 0.15s; }
+#toc:hover .toc-label { opacity: 1; }
+@media (max-width: 1200px) { #toc { display: none; } }
+@media print { #toc { display: none !important; } }
+
 /* ── TOOLBAR ── */
 #theme-toolbar {
   position: fixed; bottom: 32px; right: 32px;
@@ -472,7 +509,7 @@ li { margin-bottom: 6px; }
 <!-- ============== 1. EXECUTIVE SUMMARY ============== -->
 <section class="page">
   <div class="section-num">Section 01</div>
-  <h1 class="with-rule">Executive Summary</h1>
+  <h1 id="s01" class="with-rule">Executive Summary</h1>
 
   <p>Beyond Utility Water Ventures (BUV) is a $12.5M pre-seed and seed fund investing in the next generation of water technology. This memorandum describes how BUV moves capital from thesis to wire transfer: the framework used to evaluate companies, the pipeline stages a deal traverses, the governance mechanisms that discipline each decision, and the support BUV provides to portfolio companies after investment.</p>
 
@@ -495,7 +532,7 @@ li { margin-bottom: 6px; }
 <!-- ============== 2. THESIS ============== -->
 <section class="page">
   <div class="section-num">Section 02</div>
-  <h1 class="with-rule">Thesis &amp; Sector Focus</h1>
+  <h1 id="s02" class="with-rule">Thesis &amp; Sector Focus</h1>
 
   <p>Water is the largest underfunded opportunity in climate technology. The United States alone requires more than $1 trillion in water infrastructure investment over the coming 25 years against less than 2% of climate venture capital flowing to the sector. Regulatory forcing functions — EPA standards on PFAS and lead service lines, state-level emerging-contaminant rules, industrial discharge tightening — are converting deferred maintenance into compulsory capital deployment. This gap between mandated spend and available venture capital is where BUV invests.</p>
 
@@ -533,7 +570,7 @@ li { margin-bottom: 6px; }
 <!-- ============== 3. THE BUV SIX ============== -->
 <section class="page">
   <div class="section-num">Section 03</div>
-  <h1 class="with-rule">The BUV Six<br>Evaluation Framework</h1>
+  <h1 id="s03" class="with-rule">The BUV Six<br>Evaluation Framework</h1>
 
   <p>Every company BUV evaluates is assessed against six criteria. These criteria reflect the specific dynamics of water as a sector and the specific shape of a pre-seed or seed investment within it. Each criterion is scored in the IC memo on a four-tier scale: <strong>Strong Pass, Pass, Concern, or Fail</strong>.</p>
 
@@ -589,7 +626,7 @@ li { margin-bottom: 6px; }
 <!-- ============== 4. PIPELINE ============== -->
 <section class="page">
   <div class="section-num">Section 04</div>
-  <h1 class="with-rule">The Investment Pipeline</h1>
+  <h1 id="s04" class="with-rule">The Investment Pipeline</h1>
 
   <p>BUV runs deals through six defined stages. Each stage has a target duration and a written output. The goal is enough structure to create discipline without enough bureaucracy to slow BUV's speed advantage as a solo-GP fund.</p>
 
@@ -664,7 +701,7 @@ li { margin-bottom: 6px; }
 <!-- ============== 5. PORTFOLIO SUPPORT ============== -->
 <section class="page">
   <div class="section-num">Section 05</div>
-  <h1 class="with-rule">Portfolio Support</h1>
+  <h1 id="s05" class="with-rule">Portfolio Support</h1>
 
   <p>BUV's post-investment engagement is organized around six forms of hands-on support, consistent with the portfolio support framework presented in BUV's first-close deck.</p>
 
@@ -706,7 +743,7 @@ li { margin-bottom: 6px; }
 <!-- ============== 6. PORTFOLIO CONSTRUCTION ============== -->
 <section class="page">
   <div class="section-num">Section 06</div>
-  <h1 class="with-rule">Portfolio Construction</h1>
+  <h1 id="s06" class="with-rule">Portfolio Construction</h1>
 
   <p>BUV Fund I is structured as a concentrated, specialist vehicle.</p>
 
@@ -764,7 +801,7 @@ li { margin-bottom: 6px; }
 <!-- ============== 7. GOVERNANCE ============== -->
 <section class="page">
   <div class="section-num">Section 07</div>
-  <h1 class="with-rule">Governance, Conflicts &amp; Risk Management</h1>
+  <h1 id="s07" class="with-rule">Governance, Conflicts &amp; Risk Management</h1>
 
   <h2>Solo-GP Governance</h2>
   <p>BUV is operated by a single General Partner. The governance mechanisms that institutional LPs expect from a multi-partner firm — partnership debate, formal investment committee, principled disagreement as a check on individual enthusiasm — are structurally replaced in BUV through three mechanisms: mandatory advisor review at Stage 5, written deal records at every stage, and the four-tier BUV Six scoring applied consistently across the portfolio.</p>
@@ -794,7 +831,7 @@ li { margin-bottom: 6px; }
 <!-- ============== 8. LP REPORTING ============== -->
 <section class="page">
   <div class="section-num">Section 08</div>
-  <h1 class="with-rule">Limited Partner Reporting</h1>
+  <h1 id="s08" class="with-rule">Limited Partner Reporting</h1>
 
   <p>BUV commits to the following reporting cadence:</p>
 
@@ -809,7 +846,7 @@ li { margin-bottom: 6px; }
   <hr class="divider">
 
   <div class="section-num">Section 09</div>
-  <h1>IC Memo Template</h1>
+  <h1 id="s09">IC Memo Template</h1>
 
   <p>BUV's per-investment IC memo template is maintained as a companion document. That template is the working document used at Stage 5 of the pipeline described in Section 4. It is structured as a four- to five-page memo with an appendix, organized around traditional sections (Market, Team, Product, Business Model, Competition, Traction, Terms) with each section closing on a scored reference to the relevant BUV Six criteria. Every memo includes a mandatory "Three Ways This Goes to Zero" pre-mortem section and a consolidated BUV Six scorecard before the recommendation.</p>
 
@@ -841,6 +878,7 @@ li { margin-bottom: 6px; }
 </section>
 
 <div id="theme-toolbar">
+  <a href="../documents.html" class="toolbar-btn" style="background:#1A3A5C; color:rgba(255,255,255,0.85); text-decoration:none;">&larr; Documents</a>
   <button class="toolbar-btn" id="theme-toggle" onclick="toggleTheme()">&#9790; Dark</button>
   <button class="toolbar-btn" id="download-btn" onclick="openDownload()">&darr; Download PDF</button>
 </div>
@@ -871,11 +909,36 @@ function toggleTheme() {
 }
 function openDownload() { document.getElementById('download-modal').classList.add('open'); }
 function closeDownload() { document.getElementById('download-modal').classList.remove('open'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDownload(); });
 function downloadVersion(theme) {
   closeDownload();
   document.documentElement.setAttribute('data-theme', theme);
   setTimeout(() => window.print(), 300);
 }
+</script>
+
+<nav id="toc">
+  <a href="#s01" class="toc-item"><span class="toc-dot"></span><span class="toc-label">01 · Executive Summary</span></a>
+  <a href="#s02" class="toc-item"><span class="toc-dot"></span><span class="toc-label">02 · Thesis</span></a>
+  <a href="#s03" class="toc-item"><span class="toc-dot"></span><span class="toc-label">03 · The BUV Six</span></a>
+  <a href="#s04" class="toc-item"><span class="toc-dot"></span><span class="toc-label">04 · Pipeline</span></a>
+  <a href="#s05" class="toc-item"><span class="toc-dot"></span><span class="toc-label">05 · Portfolio Support</span></a>
+  <a href="#s06" class="toc-item"><span class="toc-dot"></span><span class="toc-label">06 · Construction</span></a>
+  <a href="#s07" class="toc-item"><span class="toc-dot"></span><span class="toc-label">07 · Governance</span></a>
+  <a href="#s08" class="toc-item"><span class="toc-dot"></span><span class="toc-label">08 · LP Reporting</span></a>
+  <a href="#s09" class="toc-item"><span class="toc-dot"></span><span class="toc-label">09 · IC Template</span></a>
+</nav>
+
+<script>
+const tocItems = document.querySelectorAll('.toc-item');
+const sections = ['s01','s02','s03','s04','s05','s06','s07','s08','s09'].map(id => document.getElementById(id)).filter(Boolean);
+function updateToc() {
+  let active = sections[0];
+  sections.forEach(s => { if (s.getBoundingClientRect().top <= 120) active = s; });
+  tocItems.forEach(item => item.classList.toggle('active', item.getAttribute('href') === '#' + active.id));
+}
+window.addEventListener('scroll', updateToc, { passive: true });
+updateToc();
 </script>
 </body>
 </html>

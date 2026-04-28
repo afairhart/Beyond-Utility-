@@ -471,14 +471,27 @@
       <a href="investment-model.html" class="tile" data-min-role="prospect">
         <div class="tile-preview">
           <svg class="tile-chart-icon" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="8" y="50" width="12" height="22" rx="2" fill="rgba(75,123,245,0.5)"/>
-            <rect x="24" y="40" width="12" height="32" rx="2" fill="rgba(75,123,245,0.6)"/>
-            <rect x="40" y="28" width="12" height="44" rx="2" fill="rgba(75,123,245,0.7)"/>
-            <rect x="56" y="35" width="12" height="37" rx="2" fill="rgba(212,168,75,0.6)"/>
-            <rect x="72" y="18" width="12" height="54" rx="2" fill="rgba(75,123,245,0.8)"/>
-            <rect x="88" y="8" width="12" height="64" rx="2" fill="rgba(75,123,245,0.9)"/>
-            <rect x="104" y="22" width="12" height="50" rx="2" fill="rgba(212,168,75,0.7)"/>
-            <line x1="4" y1="72" x2="120" y2="72" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <defs>
+              <linearGradient id="bc-blue" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#8BAFF8"/>
+                <stop offset="100%" stop-color="#3B6AE0" stop-opacity="0.55"/>
+              </linearGradient>
+              <linearGradient id="bc-gold" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#E8C46A"/>
+                <stop offset="100%" stop-color="#C07828" stop-opacity="0.5"/>
+              </linearGradient>
+            </defs>
+            <line x1="4" y1="36" x2="118" y2="36" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" stroke-dasharray="2,3"/>
+            <line x1="4" y1="54" x2="118" y2="54" stroke="rgba(255,255,255,0.05)" stroke-width="0.5" stroke-dasharray="2,3"/>
+            <rect x="8" y="50" width="12" height="22" rx="2" fill="url(#bc-blue)"/>
+            <rect x="24" y="40" width="12" height="32" rx="2" fill="url(#bc-blue)"/>
+            <rect x="40" y="28" width="12" height="44" rx="2" fill="url(#bc-blue)"/>
+            <rect x="56" y="35" width="12" height="37" rx="2" fill="url(#bc-gold)"/>
+            <rect x="72" y="18" width="12" height="54" rx="2" fill="url(#bc-blue)"/>
+            <rect x="88" y="8" width="12" height="64" rx="2" fill="url(#bc-blue)"/>
+            <rect x="104" y="22" width="12" height="50" rx="2" fill="url(#bc-gold)"/>
+            <rect x="88" y="8" width="12" height="2.5" rx="1.25" fill="rgba(190,220,255,0.55)"/>
+            <line x1="4" y1="72" x2="118" y2="72" stroke="rgba(255,255,255,0.18)" stroke-width="0.75"/>
           </svg>
         </div>
         <div class="tile-body">
@@ -492,14 +505,24 @@
       <a href="portfolio-construction.html" class="tile" data-min-role="prospect">
         <div class="tile-preview">
           <svg class="tile-chart-icon" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="6" y="6" width="24" height="24" rx="4" fill="rgba(75,123,245,0.5)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <rect x="36" y="6" width="24" height="24" rx="4" fill="rgba(75,123,245,0.4)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <rect x="66" y="6" width="24" height="24" rx="4" fill="rgba(75,123,245,0.3)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <rect x="96" y="6" width="18" height="24" rx="4" fill="rgba(212,168,75,0.4)" stroke="rgba(212,168,75,0.3)" stroke-width="0.5"/>
-            <rect x="6" y="36" width="24" height="24" rx="4" fill="rgba(75,123,245,0.35)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <rect x="36" y="36" width="24" height="24" rx="4" fill="rgba(212,168,75,0.35)" stroke="rgba(212,168,75,0.3)" stroke-width="0.5"/>
-            <rect x="66" y="36" width="24" height="24" rx="4" fill="rgba(75,123,245,0.25)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <rect x="96" y="36" width="18" height="24" rx="4" fill="rgba(75,123,245,0.2)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
+            <defs>
+              <linearGradient id="pc-blue" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#8AAEF8"/>
+                <stop offset="100%" stop-color="#3B6AE0" stop-opacity="0.65"/>
+              </linearGradient>
+              <linearGradient id="pc-gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#E8C470"/>
+                <stop offset="100%" stop-color="#B07820" stop-opacity="0.65"/>
+              </linearGradient>
+            </defs>
+            <rect x="6" y="8" width="22" height="22" rx="4" fill="url(#pc-blue)" stroke="rgba(140,175,255,0.35)" stroke-width="0.75"/>
+            <rect x="34" y="8" width="22" height="22" rx="4" fill="url(#pc-blue)" stroke="rgba(140,175,255,0.3)" stroke-width="0.75" opacity="0.85"/>
+            <rect x="62" y="8" width="22" height="22" rx="4" fill="url(#pc-blue)" stroke="rgba(140,175,255,0.25)" stroke-width="0.75" opacity="0.7"/>
+            <rect x="90" y="8" width="22" height="22" rx="4" fill="url(#pc-gold)" stroke="rgba(225,180,80,0.4)" stroke-width="0.75"/>
+            <rect x="6" y="38" width="22" height="22" rx="4" fill="url(#pc-blue)" stroke="rgba(140,175,255,0.25)" stroke-width="0.75" opacity="0.65"/>
+            <rect x="34" y="38" width="22" height="22" rx="4" fill="url(#pc-gold)" stroke="rgba(225,180,80,0.35)" stroke-width="0.75" opacity="0.85"/>
+            <rect x="62" y="38" width="22" height="22" rx="4" fill="url(#pc-blue)" stroke="rgba(140,175,255,0.2)" stroke-width="0.75" opacity="0.55"/>
+            <rect x="90" y="38" width="22" height="22" rx="4" fill="url(#pc-blue)" stroke="rgba(140,175,255,0.2)" stroke-width="0.75" opacity="0.45"/>
           </svg>
         </div>
         <div class="tile-body">
@@ -513,19 +536,31 @@
       <a href="dealflow-partnerships.html" class="tile" data-min-role="lp">
         <div class="tile-preview">
           <svg class="tile-chart-icon" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="30" cy="24" r="10" fill="rgba(75,123,245,0.4)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <circle cx="60" cy="24" r="10" fill="rgba(212,168,75,0.4)" stroke="rgba(212,168,75,0.3)" stroke-width="0.5"/>
-            <circle cx="90" cy="24" r="10" fill="rgba(75,123,245,0.35)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <circle cx="30" cy="52" r="10" fill="rgba(212,168,75,0.35)" stroke="rgba(212,168,75,0.3)" stroke-width="0.5"/>
-            <circle cx="60" cy="52" r="10" fill="rgba(75,123,245,0.45)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <circle cx="90" cy="52" r="10" fill="rgba(75,123,245,0.3)" stroke="rgba(75,123,245,0.3)" stroke-width="0.5"/>
-            <line x1="40" y1="24" x2="50" y2="24" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
-            <line x1="70" y1="24" x2="80" y2="24" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
-            <line x1="40" y1="52" x2="50" y2="52" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
-            <line x1="70" y1="52" x2="80" y2="52" stroke="rgba(255,255,255,0.12)" stroke-width="0.8"/>
-            <line x1="30" y1="34" x2="30" y2="42" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
-            <line x1="60" y1="34" x2="60" y2="42" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
-            <line x1="90" y1="34" x2="90" y2="42" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+            <defs>
+              <linearGradient id="dp-blue" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#8AAEF8"/>
+                <stop offset="100%" stop-color="#3050C8" stop-opacity="0.75"/>
+              </linearGradient>
+              <linearGradient id="dp-gold" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#E8C060"/>
+                <stop offset="100%" stop-color="#A06818" stop-opacity="0.7"/>
+              </linearGradient>
+            </defs>
+            <circle cx="60" cy="24" r="14" fill="none" stroke="rgba(212,168,75,0.12)" stroke-width="1.5"/>
+            <circle cx="30" cy="52" r="14" fill="none" stroke="rgba(212,168,75,0.1)" stroke-width="1.5"/>
+            <line x1="40" y1="24" x2="49" y2="24" stroke="rgba(140,175,255,0.4)" stroke-width="1.25"/>
+            <line x1="71" y1="24" x2="80" y2="24" stroke="rgba(140,175,255,0.3)" stroke-width="1.25"/>
+            <line x1="40" y1="52" x2="49" y2="52" stroke="rgba(140,175,255,0.35)" stroke-width="1.25"/>
+            <line x1="71" y1="52" x2="80" y2="52" stroke="rgba(140,175,255,0.35)" stroke-width="1.25"/>
+            <line x1="30" y1="34" x2="30" y2="42" stroke="rgba(225,180,70,0.32)" stroke-width="1.25"/>
+            <line x1="60" y1="34" x2="60" y2="42" stroke="rgba(140,175,255,0.32)" stroke-width="1.25"/>
+            <line x1="90" y1="34" x2="90" y2="42" stroke="rgba(140,175,255,0.28)" stroke-width="1.25"/>
+            <circle cx="30" cy="24" r="10" fill="url(#dp-blue)" stroke="rgba(140,175,255,0.45)" stroke-width="0.75"/>
+            <circle cx="60" cy="24" r="11" fill="url(#dp-gold)" stroke="rgba(225,185,80,0.5)" stroke-width="0.75"/>
+            <circle cx="90" cy="24" r="10" fill="url(#dp-blue)" stroke="rgba(140,175,255,0.38)" stroke-width="0.75" opacity="0.8"/>
+            <circle cx="30" cy="52" r="11" fill="url(#dp-gold)" stroke="rgba(225,185,80,0.45)" stroke-width="0.75" opacity="0.85"/>
+            <circle cx="60" cy="52" r="10" fill="url(#dp-blue)" stroke="rgba(140,175,255,0.45)" stroke-width="0.75"/>
+            <circle cx="90" cy="52" r="10" fill="url(#dp-blue)" stroke="rgba(140,175,255,0.3)" stroke-width="0.75" opacity="0.7"/>
           </svg>
         </div>
         <div class="tile-body">

@@ -476,9 +476,45 @@
     }
     .modal-cancel:hover { color: #6B7280; }
 
+    /* ── SLIDE TOC ── */
+    #slide-toc {
+      position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 12px; z-index: 100;
+    }
+    .stoc-item { display: flex; align-items: center; gap: 9px; text-decoration: none; }
+    .stoc-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: rgba(255,255,255,0.2); flex-shrink: 0;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .stoc-label {
+      font-family: 'Inter', sans-serif; font-size: 0.62rem; font-weight: 600;
+      letter-spacing: 0.09em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); white-space: nowrap;
+      opacity: 0; transition: opacity 0.2s, color 0.2s;
+    }
+    #slide-toc:hover .stoc-label { opacity: 1; }
+    .stoc-item.active .stoc-dot { background: var(--gold); transform: scale(1.45); }
+    .stoc-item.active .stoc-label { color: var(--gold); opacity: 1; }
+    [data-theme="light"] .stoc-dot { background: rgba(0,0,0,0.2); }
+    [data-theme="light"] .stoc-label { color: rgba(0,0,0,0.4); }
+    [data-theme="light"] .stoc-item.active .stoc-dot { background: var(--gold); }
+    [data-theme="light"] .stoc-item.active .stoc-label { color: var(--gold); }
+    /* ── BACK BUTTON ── */
+    #back-btn {
+      display: flex; align-items: center; gap: 8px; padding: 10px 18px;
+      border-radius: 10px; font-size: 0.78rem; font-weight: 600; border: none;
+      background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.55);
+      text-decoration: none; font-family: 'Inter', sans-serif; letter-spacing: 0.01em;
+      transition: opacity 0.15s, transform 0.15s, color 0.15s;
+    }
+    #back-btn:hover { opacity: 0.9; transform: translateY(-1px); color: rgba(255,255,255,0.85); }
+    [data-theme="light"] #back-btn { background: rgba(0,0,0,0.07); color: rgba(0,0,0,0.5); }
+    [data-theme="light"] #back-btn:hover { color: rgba(0,0,0,0.75); }
+
     /* ── PRINT ── */
     @media print {
-      #theme-toolbar, #download-modal { display: none !important; }
+      #theme-toolbar, #download-modal, #slide-toc { display: none !important; }
       body { background: var(--bg); }
       .slide {
         margin: 0;
@@ -492,10 +528,23 @@
 </head>
 <body>
 
+<nav id="slide-toc">
+  <a href="#slide-01" class="stoc-item active"><span class="stoc-dot"></span><span class="stoc-label">Cover</span></a>
+  <a href="#slide-02" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Opportunity</span></a>
+  <a href="#slide-03" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">The Team</span></a>
+  <a href="#slide-04" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Our Edge</span></a>
+  <a href="#slide-05" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Network</span></a>
+  <a href="#slide-06" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Value-Add</span></a>
+  <a href="#slide-07" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Portfolio</span></a>
+  <a href="#slide-08" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Allocation</span></a>
+  <a href="#slide-09" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Key Terms</span></a>
+  <a href="#slide-10" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Close</span></a>
+</nav>
+
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 1 — TITLE
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-01">
   <div class="glow glow-blue"></div>
   <div class="glow glow-gold"></div>
   <div class="slide-inner" style="justify-content: center;">
@@ -529,7 +578,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 2 — UNIQUE VERTICAL
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-02">
   <div class="glow glow-gold"></div>
   <div class="slide-inner">
     <div class="section-tag">The Opportunity</div>
@@ -558,7 +607,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 3 — UNIQUE GP
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-03">
   <div class="glow glow-blue"></div>
   <div class="slide-inner">
     <div class="section-tag">Why Us</div>
@@ -596,7 +645,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 4 — HOW YOU WIN
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-04">
   <div class="glow glow-gold"></div>
   <div class="slide-inner">
     <div class="section-tag">Competitive Edge</div>
@@ -635,7 +684,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 5 — NETWORK
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-05">
   <div class="glow glow-blue"></div>
   <div class="slide-inner">
     <div class="section-tag">Ecosystem</div>
@@ -684,7 +733,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 6 — VALUE ADD
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-06">
   <div class="glow glow-gold"></div>
   <div class="slide-inner">
     <div class="section-tag">Portfolio Support</div>
@@ -728,7 +777,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 7 — PORTFOLIO CONSTRUCTION
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-07">
   <div class="glow glow-blue"></div>
   <div class="slide-inner">
     <div class="section-tag">Portfolio Construction</div>
@@ -785,7 +834,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 8 — SECTOR ALLOCATION
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-08">
   <div class="glow glow-gold"></div>
   <div class="slide-inner">
     <div class="section-tag">Sector Allocation</div>
@@ -825,7 +874,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 9 — FUND TERMS
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-09">
   <div class="glow glow-blue"></div>
   <div class="slide-inner">
     <div class="section-tag">Fund Terms</div>
@@ -866,7 +915,7 @@
 <!-- ═══════════════════════════════════════════════════════════════
      SLIDE 10 — CLOSE
      ═══════════════════════════════════════════════════════════════ -->
-<div class="slide">
+<div class="slide" id="slide-10">
   <div class="glow glow-blue"></div>
   <div class="glow glow-gold"></div>
   <div class="slide-inner" style="justify-content:center; align-items:center; text-align:center;">
@@ -891,6 +940,10 @@
      THEME TOOLBAR
      ═══════════════════════════════════════════════════════════════ -->
 <div id="theme-toolbar">
+  <a href="documents.html" id="back-btn">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Documents
+  </a>
   <button class="toolbar-btn" id="theme-toggle">
     <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
@@ -981,6 +1034,18 @@
 
   document.getElementById('dl-dark').addEventListener('click', () => printWithTheme('dark'));
   document.getElementById('dl-light').addEventListener('click', () => printWithTheme('light'));
+
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') modal.classList.remove('open'); });
+
+  const slides = document.querySelectorAll('.slide[id]');
+  const stocItems = document.querySelectorAll('.stoc-item');
+  function updateSlideToc() {
+    let active = slides[0];
+    slides.forEach(s => { if (s.getBoundingClientRect().top <= 200) active = s; });
+    stocItems.forEach(item => item.classList.toggle('active', item.getAttribute('href') === '#' + active.id));
+  }
+  window.addEventListener('scroll', updateSlideToc, { passive: true });
+  updateSlideToc();
 </script>
 
 </body>

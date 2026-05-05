@@ -4,18 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Beyond Utility Water Ventures — Fund I</title>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="icon" type="image/png" href="favicon.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="description" content="BUV Fund I investor presentation — pre-seed and seed venture capital for next-generation water technology.">
-<meta property="og:title" content="Beyond Utility Water Ventures — Fund I">
-<meta property="og:description" content="Pre-seed and seed VC for the new water economy. $12.5M Fund I.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://beyondutilityventures.com/icon.png">
-<meta name="twitter:card" content="summary">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="slides/deck-stage.js"></script>
+<script src="deck-stage.js"></script>
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
@@ -144,140 +135,9 @@
   .gg { width:500px;height:500px;background:var(--gold); }
   .tr { top:-200px;right:-150px; }
   .bl2 { bottom:-200px;left:-150px; }
-
-  /* ── FORCE-DARK ─────────────────────────────────────────────────── */
-  html[data-force-dark] {
-    --bg: #080E1A; --bg2: #0D1526;
-    --card: rgba(255,255,255,0.05); --bdr: rgba(255,255,255,0.08);
-    --text: rgba(255,255,255,0.9); --dim: rgba(255,255,255,0.5); --muted: rgba(255,255,255,0.35);
-  }
-  html[data-force-dark] section:not(.dark) { color: rgba(255,255,255,0.9); }
-  html[data-force-dark] section:not(.dark) .hl { color: #fff; }
-  html[data-force-dark] section:not(.dark) .hl .bl { color: #7BA1F7; }
-  html[data-force-dark] section:not(.dark) .hl .go { color: #D4A84B; }
-  html[data-force-dark] section:not(.dark) .tag { color: #D4A84B; }
-  html[data-force-dark] section:not(.dark) .tag.gold { color: #C49A30; }
-  html[data-force-dark] section:not(.dark) .sub { color: rgba(255,255,255,0.55); }
-  html[data-force-dark] section:not(.dark) .card h4 { color: #fff; }
-  html[data-force-dark] section:not(.dark) .card p { color: rgba(255,255,255,0.5); }
-  html[data-force-dark] section:not(.dark) .num:not(.bl):not(.go) { color: rgba(255,255,255,0.92); }
-  html[data-force-dark] section:not(.dark) .sv { color: #fff; }
-  html[data-force-dark] section:not(.dark) .sv .u { color: rgba(255,255,255,0.55); }
-  html[data-force-dark] section:not(.dark) .sl { color: rgba(255,255,255,0.4); }
-  html[data-force-dark] section:not(.dark) .step-title { color: #fff; }
-  html[data-force-dark] section:not(.dark) .step-item { color: rgba(255,255,255,0.65); }
-  html[data-force-dark] section:not(.dark) .co-name { color: #fff; }
-  html[data-force-dark] section:not(.dark) .co-what { color: rgba(255,255,255,0.55); }
-  html[data-force-dark] section:not(.dark) .co-stat { color: #fff; }
-  html[data-force-dark] section:not(.dark) footer { color: rgba(255,255,255,0.28); }
-  html[data-force-dark] section:not(.dark) .tbl tr { border-bottom-color: rgba(255,255,255,0.07); }
-  html[data-force-dark] section:not(.dark) .tbl td:first-child { color: rgba(255,255,255,0.5); }
-  html[data-force-dark] section:not(.dark) .bd { background: #D4A84B; }
-  html[data-force-dark] section:not(.dark) .bt { color: rgba(255,255,255,0.82); }
-  html[data-force-dark] section:not(.dark) .bt strong { color: #fff; }
-  html[data-force-dark] section:not(.dark) .bt .d { color: rgba(255,255,255,0.5); }
-  html[data-force-dark] section:not(.dark) .steps { border-color: rgba(255,255,255,0.07) !important; }
-  html[data-force-dark] section:not(.dark) .step + .step::before { background: rgba(255,255,255,0.08); }
-  html[data-force-dark] section:not(.dark) .rbadge { color: #7BA1F7; border-color: rgba(75,123,245,0.3); background: rgba(75,123,245,0.15); }
-  html[data-force-dark] section:not(.dark) .rt { background: rgba(255,255,255,0.07) !important; border-color: rgba(255,255,255,0.1) !important; }
-
-  /* ── SLIDE TOC ──────────────────────────────────────────────────── */
-  #slide-toc {
-    position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 12px; z-index: 9999;
-  }
-  .stoc-item { display: flex; align-items: center; gap: 9px; text-decoration: none; cursor: pointer; }
-  .stoc-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: rgba(255,255,255,0.28); flex-shrink: 0;
-    transition: background 0.2s, transform 0.2s;
-  }
-  .stoc-label {
-    font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 600;
-    letter-spacing: 0.09em; text-transform: uppercase;
-    color: rgba(255,255,255,0.4); white-space: nowrap;
-    opacity: 0; transition: opacity 0.2s, color 0.2s;
-  }
-  #slide-toc:hover .stoc-label { opacity: 1; }
-  .stoc-item.active .stoc-dot { background: #D4A84B; transform: scale(1.45); }
-  .stoc-item.active .stoc-label { color: #D4A84B; opacity: 1; }
-
-  /* ── TOOLBAR ────────────────────────────────────────────────────── */
-  #deck-toolbar {
-    position: fixed; bottom: 28px; right: 28px;
-    display: flex; gap: 10px; align-items: center;
-    z-index: 9999; font-family: 'DM Sans', sans-serif;
-  }
-  .tbtn {
-    display: flex; align-items: center; gap: 8px; padding: 10px 18px;
-    border-radius: 10px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
-    border: none; transition: opacity 0.15s, transform 0.15s; letter-spacing: 0.01em;
-  }
-  .tbtn:hover { opacity: 0.85; transform: translateY(-1px); }
-  .tbtn:active { transform: translateY(0); }
-  #back-btn {
-    display: flex; align-items: center; gap: 8px; padding: 10px 18px;
-    border-radius: 10px; font-size: 0.78rem; font-weight: 600; border: none;
-    background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.62);
-    text-decoration: none; font-family: 'DM Sans', sans-serif; letter-spacing: 0.01em;
-    transition: opacity 0.15s, transform 0.15s, color 0.15s;
-  }
-  #back-btn:hover { opacity: 0.9; transform: translateY(-1px); color: rgba(255,255,255,0.9); }
-  #theme-btn { background: #1A6FAF; color: #fff; box-shadow: 0 4px 16px rgba(26,111,175,0.3); }
-  #dl-btn { background: #B5851A; color: #fff; box-shadow: 0 4px 16px rgba(181,133,26,0.3); }
-
-  /* ── MODAL ──────────────────────────────────────────────────────── */
-  #dl-modal {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.55); z-index: 99999;
-    align-items: center; justify-content: center;
-  }
-  #dl-modal.open { display: flex; }
-  .mbox {
-    background: #0D1526; border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 16px; padding: 36px; width: 380px;
-    box-shadow: 0 24px 64px rgba(0,0,0,0.65);
-  }
-  .mbox h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-  .mbox p { font-size: 0.8rem; color: rgba(255,255,255,0.48); line-height: 1.6; margin-bottom: 24px; }
-  .mopts { display: flex; gap: 12px; margin-bottom: 20px; }
-  .mopt {
-    flex: 1; border-radius: 10px; padding: 16px; cursor: pointer;
-    border: 1.5px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
-    transition: border-color 0.15s, background 0.15s; text-align: center;
-  }
-  .mopt:hover { border-color: rgba(255,255,255,0.28); background: rgba(255,255,255,0.07); }
-  .mopt strong { display: block; font-size: 0.85rem; font-weight: 600; color: #fff; margin-bottom: 4px; }
-  .mopt span { font-size: 0.72rem; color: rgba(255,255,255,0.42); }
-  .mswatch { display: flex; justify-content: center; gap: 5px; margin-bottom: 10px; }
-  .mswatch .d { width: 10px; height: 10px; border-radius: 50%; }
-  .mcancel {
-    display: block; width: 100%; text-align: center; font-size: 0.78rem;
-    color: rgba(255,255,255,0.38); background: none; border: none; cursor: pointer;
-    font-family: 'DM Sans', sans-serif; padding: 4px; transition: color 0.15s;
-  }
-  .mcancel:hover { color: rgba(255,255,255,0.65); }
-
-  /* ── PRINT ──────────────────────────────────────────────────────── */
-  @media print {
-    #slide-toc, #deck-toolbar, #dl-modal { display: none !important; }
-  }
 </style>
 </head>
 <body>
-<nav id="slide-toc">
-  <a data-goto="0" class="stoc-item active"><span class="stoc-dot"></span><span class="stoc-label">Cover</span></a>
-  <a data-goto="1" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Opportunity</span></a>
-  <a data-goto="2" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Thesis</span></a>
-  <a data-goto="3" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">The GP</span></a>
-  <a data-goto="4" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Process</span></a>
-  <a data-goto="5" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Next TFX</span></a>
-  <a data-goto="6" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Pipeline</span></a>
-  <a data-goto="7" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Construction</span></a>
-  <a data-goto="8" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Terms</span></a>
-  <a data-goto="9" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">The Raise</span></a>
-  <a data-goto="10" class="stoc-item"><span class="stoc-dot"></span><span class="stoc-label">Close</span></a>
-</nav>
 <deck-stage width="1280" height="720">
 
 <!-- ══ 01 COVER ══════════════════════════════════════════════════ -->
@@ -287,7 +147,7 @@
   <div class="inner" style="flex-direction:row;align-items:center;gap:72px;">
     <div style="flex:1;">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
-        <img src="icon-nav.png" width="32" height="32" alt="">
+        <img src="../assets/icon-nav.png" width="32" height="32" alt="">
         <span style="font-family:'Space Grotesk',sans-serif;font-size:0.95rem;font-weight:500;color:rgba(255,255,255,0.6);">Beyond Utility Water Ventures</span>
       </div>
       <div class="tag">Fund I &middot; First Close &middot; 2026</div>
@@ -307,7 +167,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.4;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.4;" alt="">Beyond Utility Water Ventures</div>
     <span>Confidential</span>
   </footer>
 </section>
@@ -338,7 +198,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>2</span>
   </footer>
 </section>
@@ -370,7 +230,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>3</span>
   </footer>
 </section>
@@ -383,7 +243,7 @@
     <div style="display:flex;gap:48px;flex:1;">
       <!-- Left: photo + name -->
       <div style="display:flex;flex-direction:column;gap:16px;width:220px;flex-shrink:0;">
-        <img src="slides/alex.jpeg" alt="Alex Fairhart" style="width:200px;height:220px;border-radius:10px;object-fit:cover;object-position:center top;border:1px solid var(--bdr);">
+        <img src="alex.jpeg" alt="Alex Fairhart" style="width:200px;height:220px;border-radius:10px;object-fit:cover;object-position:center top;border:1px solid var(--bdr);">
         <div>
           <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:var(--navy);">Alex Fairhart</div>
           <div style="font-size:0.75rem;color:var(--blue);font-weight:600;margin-top:2px;">General Partner</div>
@@ -393,11 +253,11 @@
         <div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;">
           <div style="font-size:0.58rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;">Background</div>
           <div style="background:var(--bg2);border:1px solid var(--bdr);border-radius:7px;padding:8px 12px;display:flex;align-items:center;gap:8px;">
-            <img src="slides/pws-logo.png" alt="Personal Water Systems" style="width:22px;height:22px;object-fit:contain;border-radius:3px;">
+            <img src="pws-logo.png" alt="Personal Water Systems" style="width:22px;height:22px;object-fit:contain;border-radius:3px;">
             <span style="font-size:0.65rem;font-weight:600;color:var(--navy);">Personal Water Systems</span>
           </div>
           <div style="background:var(--bg2);border:1px solid var(--bdr);border-radius:7px;padding:8px 12px;display:flex;align-items:center;gap:8px;">
-            <img src="slides/isle-logo.jpg" alt="Isle Utilities" style="width:22px;height:22px;object-fit:contain;border-radius:3px;">
+            <img src="isle-logo.jpg" alt="Isle Utilities" style="width:22px;height:22px;object-fit:contain;border-radius:3px;">
             <span style="font-size:0.65rem;font-weight:600;color:var(--navy);">Isle Utilities</span>
           </div>
         </div>
@@ -425,7 +285,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>4</span>
   </footer>
 </section>
@@ -474,7 +334,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>5</span>
   </footer>
 </section>
@@ -491,7 +351,7 @@
           <p style="font-size:0.82rem;color:var(--dim);margin-top:4px;">UCLA Spin Out · Los Angeles, CA</p>
         </div>
         <span class="rbadge" style="margin-top:8px;flex-shrink:0;">Pre-Seed Investment</span>
-        <img src="slides/nexttfx-membrane.png" alt="Next TFX membrane module" style="margin-left:auto;height:64px;width:auto;object-fit:contain;align-self:center;">
+        <img src="nexttfx-membrane.png" alt="Next TFX membrane module" style="margin-left:auto;height:64px;width:auto;object-fit:contain;align-self:center;">
       </div>
       <div class="twocol" style="gap:32px;flex:1;">
         <div class="col" style="gap:14px;">
@@ -532,7 +392,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>6</span>
   </footer>
 </section>
@@ -581,7 +441,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>7</span>
   </footer>
 </section>
@@ -638,7 +498,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>8</span>
   </footer>
 </section>
@@ -677,7 +537,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>9</span>
   </footer>
 </section>
@@ -718,7 +578,7 @@
     </div>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.35;" alt="">Beyond Utility Water Ventures</div>
     <span>10</span>
   </footer>
 </section>
@@ -728,7 +588,7 @@
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 18% 50%,rgba(75,123,245,0.13) 0%,transparent 70%);pointer-events:none;"></div>
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 85% 55%,rgba(212,168,75,0.09) 0%,transparent 60%);pointer-events:none;"></div>
   <div class="inner" style="justify-content:center;align-items:center;text-align:center;">
-    <img src="icon-nav.png" width="38" height="38" alt="" style="margin-bottom:20px;opacity:0.85;">
+    <img src="../assets/icon-nav.png" width="38" height="38" alt="" style="margin-bottom:20px;opacity:0.85;">
     <div class="tag" style="text-align:center;">Fund I &middot; 2026</div>
     <h1 class="hl" style="font-size:3.4rem;margin-bottom:18px;color:#fff;">Let's build the future<br>of <span class="go">water.</span></h1>
     <div style="width:40px;height:2px;background:#D4A84B;opacity:0.4;margin:0 auto 24px;"></div>
@@ -739,108 +599,11 @@
     </p>
   </div>
   <footer>
-    <div class="fl"><img src="icon-nav.png" width="12" height="12" style="opacity:0.4;" alt="">Beyond Utility Water Ventures</div>
+    <div class="fl"><img src="../assets/icon-nav.png" width="12" height="12" style="opacity:0.4;" alt="">Beyond Utility Water Ventures</div>
     <span>Confidential</span>
   </footer>
 </section>
 
 </deck-stage>
-
-<div id="deck-toolbar">
-  <a href="documents.html" id="back-btn">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-    Documents
-  </a>
-  <button class="tbtn" id="theme-btn">
-    <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    <span id="theme-label">Dark Mode</span>
-  </button>
-  <button class="tbtn" id="dl-btn">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Download
-  </button>
-</div>
-
-<div id="dl-modal">
-  <div class="mbox">
-    <h3>Download Deck</h3>
-    <p>Choose a version to save as PDF. Your browser's print dialog will open — select "Save as PDF".</p>
-    <div class="mopts">
-      <div class="mopt" id="opt-light">
-        <div class="mswatch"><div class="d" style="background:#4B7BF5;"></div><div class="d" style="background:#C49A30;"></div><div class="d" style="background:#f0f2f8;"></div></div>
-        <strong>Light</strong><span>White &amp; gold — designed mode</span>
-      </div>
-      <div class="mopt" id="opt-dark">
-        <div class="mswatch"><div class="d" style="background:#7BA1F7;"></div><div class="d" style="background:#D4A84B;"></div><div class="d" style="background:#080E1A;"></div></div>
-        <strong>Dark</strong><span>Deep navy &amp; gold</span>
-      </div>
-    </div>
-    <button class="mcancel" id="modal-cancel">Cancel</button>
-  </div>
-</div>
-
-<script>
-  const html = document.documentElement;
-  const stage = document.querySelector('deck-stage');
-  const stocItems = document.querySelectorAll('.stoc-item');
-  const modal = document.getElementById('dl-modal');
-  const moonSVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>';
-  const sunSVG = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>';
-
-  // TOC: sync with deck-stage
-  function syncToc(idx) {
-    stocItems.forEach((item, i) => item.classList.toggle('active', i === idx));
-  }
-  syncToc(stage ? stage.index : 0);
-  if (stage) {
-    stage.addEventListener('slidechange', (e) => syncToc(e.detail.index));
-  }
-
-  // TOC: click to navigate
-  stocItems.forEach((item) => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (stage) stage.goTo(parseInt(item.dataset.goto, 10));
-    });
-  });
-
-  // Theme toggle: light ↔ dark
-  const themeBtn = document.getElementById('theme-btn');
-  const themeLabel = document.getElementById('theme-label');
-  const themeIcon = document.getElementById('theme-icon');
-  themeBtn.addEventListener('click', () => {
-    const isDark = html.hasAttribute('data-force-dark');
-    if (isDark) {
-      html.removeAttribute('data-force-dark');
-      themeIcon.outerHTML; themeBtn.innerHTML = sunSVG + '<span id="theme-label">Dark Mode</span>';
-    } else {
-      html.setAttribute('data-force-dark', '');
-      themeBtn.innerHTML = moonSVG + '<span id="theme-label">Light Mode</span>';
-    }
-  });
-
-  // Download modal
-  document.getElementById('dl-btn').addEventListener('click', () => modal.classList.add('open'));
-  document.getElementById('modal-cancel').addEventListener('click', () => modal.classList.remove('open'));
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('open'); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.remove('open'); });
-
-  function printWithTheme(dark) {
-    const wasDark = html.hasAttribute('data-force-dark');
-    if (dark) html.setAttribute('data-force-dark', '');
-    else html.removeAttribute('data-force-dark');
-    modal.classList.remove('open');
-    setTimeout(() => {
-      window.print();
-      setTimeout(() => {
-        if (wasDark) html.setAttribute('data-force-dark', '');
-        else html.removeAttribute('data-force-dark');
-      }, 1000);
-    }, 150);
-  }
-  document.getElementById('opt-light').addEventListener('click', () => printWithTheme(false));
-  document.getElementById('opt-dark').addEventListener('click', () => printWithTheme(true));
-</script>
-
 </body>
 </html>

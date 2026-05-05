@@ -183,23 +183,28 @@
 
   /* ── SLIDE TOC ──────────────────────────────────────────────────── */
   #slide-toc {
-    position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 12px; z-index: 9999;
+    position: fixed; left: 16px; top: 50%; transform: translateY(-50%);
+    display: flex; flex-direction: column; gap: 10px; z-index: 9999;
+    background: rgba(8,14,26,0.45); backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 12px 10px; border-radius: 20px;
+    transition: padding 0.2s;
   }
   .stoc-item { display: flex; align-items: center; gap: 9px; text-decoration: none; cursor: pointer; }
   .stoc-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: rgba(255,255,255,0.28); flex-shrink: 0;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.4); flex-shrink: 0;
     transition: background 0.2s, transform 0.2s;
   }
   .stoc-label {
     font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 600;
     letter-spacing: 0.09em; text-transform: uppercase;
-    color: rgba(255,255,255,0.4); white-space: nowrap;
+    color: rgba(255,255,255,0.6); white-space: nowrap;
     opacity: 0; transition: opacity 0.2s, color 0.2s;
   }
+  #slide-toc:hover { padding: 12px 14px 12px 10px; }
   #slide-toc:hover .stoc-label { opacity: 1; }
-  .stoc-item.active .stoc-dot { background: #D4A84B; transform: scale(1.45); }
+  .stoc-item.active .stoc-dot { background: #D4A84B; transform: scale(1.5); }
   .stoc-item.active .stoc-label { color: #D4A84B; opacity: 1; }
 
   /* ── TOOLBAR ────────────────────────────────────────────────────── */

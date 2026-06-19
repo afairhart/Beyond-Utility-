@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biota, Inc. IC Memo · Beyond Utility Water Ventures</title>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#080E1A;--bg-soft:#0B1322;--blue:#4B7BF5;--blue-light:#7BA1F7;--blue-dim:rgba(75,123,245,0.15);
+    --gold:#D4A84B;--gold-dark:#B8903D;--text:rgba(255,255,255,0.88);--text-dim:rgba(255,255,255,0.45);
+    --text-faint:rgba(255,255,255,0.30);--border:rgba(255,255,255,0.06);--border-mid:rgba(255,255,255,0.12);
+    --card:rgba(255,255,255,0.03);--card-hi:rgba(255,255,255,0.05);--error:#f87171;--success:#34d399;--warn:#e0b24c;
+    --shadow:0 8px 30px rgba(0,0,0,0.3);
+    --strong-color:#fff;
+    --table-head-bg:rgba(255,255,255,0.02);
+    --hl-bg:rgba(52,211,153,0.06);
+    --v-main-bg:linear-gradient(135deg,rgba(52,211,153,0.10),rgba(75,123,245,0.06));
+    --v-main-border:rgba(52,211,153,0.30);
+    --flag-gold-bg:rgba(212,168,75,0.06);
+    --flag-red-bg:rgba(248,113,113,0.06);
+    --flag-blue-bg:rgba(75,123,245,0.15);
+    --flag-green-bg:rgba(52,211,153,0.06);
+    --mast-bg:linear-gradient(180deg,rgba(75,123,245,0.05),rgba(8,14,26,0));
+    --label-gold-bg:rgba(212,168,75,0.10);
+    --label-green-bg:rgba(52,211,153,0.10);
+    --tag-strong-bg:rgba(52,211,153,0.10);
+    --tag-mod-bg:rgba(212,168,75,0.10);
+    --tag-weak-bg:rgba(248,113,113,0.10);
+    --pip-off:rgba(255,255,255,0.10);
+    --toggle-bg:rgba(255,255,255,0.06);
+    --toggle-border:rgba(255,255,255,0.14);
+  }
+  html[data-theme="light"]{
+    --bg:#FFFFFF;--bg-soft:#F4F6FB;--blue:#2B56C4;--blue-light:#3E6BD9;--blue-dim:rgba(43,86,196,0.10);
+    --gold:#9C7A2E;--gold-dark:#7E6224;--text:#1A2233;--text-dim:#5B6678;
+    --text-faint:#8A93A6;--border:rgba(8,14,26,0.10);--border-mid:rgba(8,14,26,0.18);
+    --card:#F4F6FB;--card-hi:#EBF0F8;--error:#C0392B;--success:#0F7A52;--warn:#9C7A2E;
+    --shadow:0 6px 20px rgba(8,14,26,0.06);
+    --strong-color:#0B1322;
+    --table-head-bg:#EBF0F8;
+    --hl-bg:rgba(15,122,82,0.07);
+    --v-main-bg:linear-gradient(135deg,rgba(15,122,82,0.10),rgba(43,86,196,0.06));
+    --v-main-border:rgba(15,122,82,0.30);
+    --flag-gold-bg:rgba(156,122,46,0.07);
+    --flag-red-bg:rgba(192,57,43,0.07);
+    --flag-blue-bg:rgba(43,86,196,0.07);
+    --flag-green-bg:rgba(15,122,82,0.07);
+    --mast-bg:linear-gradient(180deg,rgba(43,86,196,0.05),rgba(255,255,255,0));
+    --label-gold-bg:rgba(156,122,46,0.10);
+    --label-green-bg:rgba(15,122,82,0.10);
+    --tag-strong-bg:rgba(15,122,82,0.10);
+    --tag-mod-bg:rgba(156,122,46,0.10);
+    --tag-weak-bg:rgba(192,57,43,0.10);
+    --pip-off:rgba(8,14,26,0.12);
+    --toggle-bg:rgba(8,14,26,0.04);
+    --toggle-border:rgba(8,14,26,0.14);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'DM Sans',system-ui,sans-serif;
+    font-weight:400;line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;
+    transition:background-color 0.2s, color 0.2s;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px}
+  h1,h2,h3,h4,.display{font-family:'Space Grotesk',sans-serif;font-weight:600;letter-spacing:-0.01em}
+  a{color:var(--blue);text-decoration:none}a:hover{color:var(--blue-light)}
+  .label{display:inline-block;font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--gold);background:var(--label-gold-bg);padding:4px 9px;border-radius:4px;}
+  .label.blue{color:var(--blue-light);background:var(--blue-dim)}
+  .label.green{color:var(--success);background:var(--label-green-bg)}
+  .label.plain{background:none;color:var(--text-dim);padding-left:0}
+  header.mast{border-bottom:1px solid var(--border);background:var(--mast-bg);}
+  .brandrow{display:flex;align-items:center;gap:12px;padding:26px 0 22px}
+  .spiral{width:30px;height:30px;flex:0 0 auto}
+  .wordmark{font-family:'Space Grotesk';font-weight:600;font-size:0.95rem;letter-spacing:0.01em;color:var(--text)}
+  .wordmark .g{color:var(--gold)}
+  .mast-meta{margin-left:auto;text-align:right;font-size:0.72rem;color:var(--text-dim);line-height:1.5}
+  .mast-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+  .back-link{font-size:0.72rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.08em;
+    padding:7px 12px;border:1px solid var(--toggle-border);border-radius:6px;text-decoration:none;
+    background:var(--toggle-bg);transition:border-color 0.2s, color 0.2s;}
+  .back-link:hover{border-color:var(--blue);color:var(--text)}
+  .theme-toggle{display:inline-flex;align-items:center;gap:6px;font-size:0.72rem;color:var(--text-dim);
+    text-transform:uppercase;letter-spacing:0.08em;padding:7px 12px;border:1px solid var(--toggle-border);
+    border-radius:6px;background:var(--toggle-bg);cursor:pointer;font-family:'Space Grotesk',sans-serif;
+    font-weight:600;transition:border-color 0.2s, color 0.2s;}
+  .theme-toggle:hover{border-color:var(--blue);color:var(--text)}
+  .theme-toggle svg{width:14px;height:14px}
+  .hero{padding:30px 0 40px}
+  .hero .kicker{margin-bottom:18px}
+  .hero h1{font-size:2.5rem;line-height:1.08;margin:0 0 14px;font-weight:700;color:var(--strong-color)}
+  .hero h1 .sub{display:block;font-size:1.05rem;font-weight:500;color:var(--text-dim);margin-top:12px;letter-spacing:0}
+  .hero .lede{font-size:1.05rem;color:var(--text);max-width:64ch;margin:18px 0 0}
+  .verdict{display:flex;flex-wrap:wrap;gap:14px;margin-top:26px;align-items:stretch;}
+  .verdict .v-main{flex:1 1 320px;border:1px solid var(--v-main-border);border-radius:12px;
+    background:var(--v-main-bg);padding:18px 20px;}
+  .verdict .v-main .rec{font-family:'Space Grotesk';font-size:1.5rem;font-weight:700;color:var(--success);letter-spacing:-0.01em}
+  .verdict .v-main .recline{font-size:0.92rem;color:var(--text);margin-top:6px}
+  .verdict .v-side{flex:1 1 200px;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .stat{border:1px solid var(--border);border-radius:10px;background:var(--card);padding:12px 14px}
+  .stat .n{font-family:'Space Grotesk';font-weight:600;font-size:1.12rem;color:var(--strong-color);line-height:1.1}
+  .stat .k{font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim);margin-top:5px}
+  section{padding:38px 0;border-top:1px solid var(--border)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px}
+  .sec-num{font-family:'Space Grotesk';font-weight:700;font-size:0.95rem;color:var(--blue);letter-spacing:0.04em;flex:0 0 auto}
+  .sec-head h2{font-size:1.5rem;margin:0;font-weight:600;color:var(--strong-color)}
+  .sec-sub{color:var(--text-dim);font-size:0.95rem;margin:-8px 0 18px;padding-left:42px}
+  p{margin:0 0 14px}
+  section p{max-width:74ch}
+  strong{color:var(--strong-color);font-weight:600}
+  em{color:var(--blue-light);font-style:normal}
+  ul.clean{list-style:none;padding:0;margin:0 0 14px}
+  ul.clean li{position:relative;padding-left:20px;margin-bottom:9px;max-width:74ch}
+  ul.clean li::before{content:"";position:absolute;left:2px;top:10px;width:6px;height:6px;border-radius:2px;background:var(--blue)}
+  ul.clean li.g::before{background:var(--gold)}
+  ul.clean li.ok::before{background:var(--success)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .card{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:18px 20px}
+  .card h4{margin:0 0 8px;font-size:1rem;color:var(--strong-color)}
+  .card p{font-size:0.9rem;color:var(--text);margin:0}
+  .card .label{margin-bottom:10px}
+  .flag{border-left:3px solid var(--gold);background:var(--flag-gold-bg);border-radius:0 8px 8px 0;padding:14px 18px;margin:16px 0}
+  .flag.red{border-left-color:var(--error);background:var(--flag-red-bg)}
+  .flag.blue{border-left-color:var(--blue);background:var(--flag-blue-bg)}
+  .flag.green{border-left-color:var(--success);background:var(--flag-green-bg)}
+  .flag .ft{font-family:'Space Grotesk';font-weight:600;font-size:0.78rem;letter-spacing:0.04em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+  .flag.red .ft{color:var(--error)}.flag.blue .ft{color:var(--blue-light)}.flag.green .ft{color:var(--success)}
+  .flag p{margin:0;font-size:0.92rem}
+  table{width:100%;border-collapse:collapse;margin:8px 0 16px;font-size:0.88rem}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+  th{font-family:'Space Grotesk';font-weight:600;font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim)}
+  td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+  tr:last-child td{border-bottom:none}
+  .t-wrap{border:1px solid var(--border);border-radius:12px;overflow:hidden;background:var(--card)}
+  .t-wrap table{margin:0}.t-wrap th{background:var(--table-head-bg)}
+  tr.hl td{background:var(--hl-bg)}
+  .score-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+  .score-row:last-child{border-bottom:none}
+  .score-dot{flex:0 0 auto;display:flex;gap:5px}
+  .pip{width:9px;height:9px;border-radius:50%;background:var(--pip-off)}
+  .pip.on{background:var(--blue)}.pip.gold{background:var(--gold)}
+  .score-body{flex:1}
+  .score-body .crit{font-family:'Space Grotesk';font-weight:600;font-size:0.96rem;color:var(--strong-color)}
+  .score-body .note{font-size:0.86rem;color:var(--text-dim);margin-top:2px}
+  .score-tag{flex:0 0 auto;font-family:'Space Grotesk';font-weight:600;font-size:0.7rem;letter-spacing:0.06em;
+    text-transform:uppercase;padding:4px 9px;border-radius:5px}
+  .tag-strong{color:var(--success);background:var(--tag-strong-bg)}
+  .tag-mod{color:var(--gold);background:var(--tag-mod-bg)}
+  .tag-weak{color:var(--error);background:var(--tag-weak-bg)}
+  footer{border-top:1px solid var(--border);padding:30px 0 60px;color:var(--text-dim);font-size:0.78rem}
+  .conf{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 0}
+  .conf span{font-size:0.7rem;color:var(--text-faint)}
+  .two-col-note{color:var(--text-dim);font-size:0.82rem}
+  hr.soft{border:none;border-top:1px solid var(--border);margin:22px 0}
+  @media (max-width:680px){
+    .hero h1{font-size:1.9rem}.grid2,.grid3,.verdict .v-side{grid-template-columns:1fr}
+    .sec-sub{padding-left:0}.mast-meta{display:none}
+    .brandrow{flex-wrap:wrap}
+  }
+  @media print{
+    body{background:#fff;color:#11161f;font-size:11.5px}
+    :root{--text:#1A2233;--text-dim:#5b6678;--border:rgba(8,14,26,0.12);--card:#F4F6FB;--bg:#fff;--strong-color:#0B1322}
+    header.mast,.hero,section,footer{break-inside:avoid}
+    .verdict .v-main{background:#eef7f1}
+    a{color:#2b56c4}
+    .theme-toggle,.back-link{display:none}
+  }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap">
+    <div class="brandrow">
+      <svg class="spiral" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <path d="M50 8 a42 42 0 1 1 -29.7 12.3" stroke="#4B7BF5" stroke-width="7" stroke-linecap="round"/>
+        <path d="M50 24 a26 26 0 1 1 -18.4 7.6" stroke="#7BA1F7" stroke-width="6" stroke-linecap="round"/>
+        <circle cx="50" cy="50" r="7" fill="#D4A84B"/>
+      </svg>
+      <span class="wordmark">Beyond Utility <span class="g">Water Ventures</span></span>
+      <div class="mast-actions">
+        <a href="investment-memos.html" class="back-link">&larr; Memos</a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+          </svg>
+          <span id="themeLabel">Light</span>
+        </button>
+      </div>
+    </div>
+    <div class="mast-meta" style="padding:0 0 16px;text-align:left">
+      Investment Committee Memo · Confidential · A. Fairhart, GP · June 2026
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="kicker"><span class="label green">Decision · Invest</span> &nbsp;<span class="label blue">PFAS Detection · Seed</span></div>
+    <h1>Biota, Inc.
+      <span class="sub">Rapid in-field PFAS screening (RapidTest™) plus magnetic-nanoparticle sample prep (MagnaPrep™), building toward the "Abbott of environmental diagnostics." Longmont, CO.</span>
+    </h1>
+    <p class="lede">I'm backing Rose Nash and a market that has no good option today for fast, cheap, in-field PFAS testing. The entry is much better than it was, and Burnt Island is leading. The two risks I'm taking are the ppt sensitivity gap and how fast this market actually forms. I'll watch both and help where I can.</p>
+
+    <div class="verdict">
+      <div class="v-main">
+        <div class="label plain" style="color:var(--text-dim)">Recommendation</div>
+        <div class="rec">Invest · ~$600K for ~5.0%</div>
+        <div class="recline">Invest alongside Burnt Island at the renegotiated $12M post. The call comes down to Rose, real demand with no good alternative today, a lead competitor that is stumbling, and obvious acquirers already circling. The open risks are field performance and how fast the market forms.</div>
+      </div>
+      <div class="v-side">
+        <div class="stat"><div class="n">$12M post</div><div class="k">Down from $20M</div></div>
+        <div class="stat"><div class="n">~5.0%</div><div class="k">~$600K check</div></div>
+        <div class="stat"><div class="n">$3.0M</div><div class="k">Seed round</div></div>
+        <div class="stat"><div class="n">Burnt Island</div><div class="k">Specialist lead</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 00 RECOMMENDATION -->
+  <section id="rec">
+    <div class="sec-head"><span class="sec-num">00</span><h2>Recommendation and Deal Snapshot</h2></div>
+    <p>Recommendation: invest. I want ~$600K for about 5.0% at the $12M post-money Seed, alongside Burnt Island Ventures. At this stage I weight team, founder insight, and product velocity above everything else, and on that test Biota holds up. After spending time with Rose in person, my read is that she works backward from the market, moves fast, and has built the product an unserved market is asking for at a price that market will pay. My earlier pass at the $20M ask was a price call. At $12M it changes.</p>
+
+    <div class="flag green">
+      <div class="ft">What changed since I passed</div>
+      <p>1) The entry repriced from $20M to $12M post, set by the incoming lead, so a ~$600K check now hits my 5% target. 2) I met Rose and came away convinced. 3) Burnt Island, a water specialist whose discipline I respect, ran a full diligence memo (3 May 2026) and is investing. 4) The first real-sample test came in (Aclarity landfill leachate, 8 Apr 2026, about 9 to 18% RSD). 5) The lead competitor, FREDsense, is in trouble. 6) The IP plan moved from trade-secret-only to two omnibus provisionals across both products.</p>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <span class="label">The deal</span>
+        <h4>$3.0M Seed · $12M post · 24-mo runway</h4>
+        <p>BUV puts in ~$600K for about 5.0%, with a reserve for the bridge to Series A. Use of funds: roughly 70% commercialization, 20% product (including the MagnaPrep into RapidTest integration), 10% platform. Co-investors include Burnt Island as lead and pre-seed holders Antler, Zymo, and Mazarine.</p>
+      </div>
+      <div class="card">
+        <span class="label">The bet</span>
+        <h4>Back the founder into an unserved market</h4>
+        <p>A demand for fast, cheap, in-field PFAS screening that nothing serves well today. A differentiated dual product (screen plus sample prep) at over 80% margins. A credible flywheel. And a clean line to water-tech and analytical acquirers who are already circling, with Veralto/Hach the closest.</p>
+      </div>
+    </div>
+    <p class="two-col-note">Corrections to my earlier draft: the round is $3M at $12M post (confirmed), IP is moving to two omnibus provisionals (broader than the single March filing), and my ownership target is 5%, not 7.5%.</p>
+  </section>
+
+  <!-- 01 COMPANY -->
+  <section id="company">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Company Overview</h2></div>
+    <p>Biota, Inc. is a Delaware C-corp based in Longmont, CO. Rose Nash founded it in 2024 out of the Antler Boulder residency. The long-term vision is a platform, the "Abbott or BD of environmental diagnostics," with a set of products per contaminant from field screening up to regulated-grade testing. Microplastics is the likely second platform (dev in 2027, launch in 2028). Two PFAS products are commercializing now.</p>
+    <div class="grid2">
+      <div class="card">
+        <span class="label blue">Product · screening lane</span>
+        <h4>RapidTest™</h4>
+        <p>A protein-binding fluorescence displacement assay that runs on a ~$3K off-the-shelf fluorimeter. Total-PFAS readout in under 15 minutes at about $10 per analysis (~$30 per sample in triplicate). Kits of 50 tests at $500, over 80% gross margin. It screens; it does not replace regulated LC-MS/MS.</p>
+      </div>
+      <div class="card">
+        <span class="label blue">Product · lab workflow</span>
+        <h4>MagnaPrep™</h4>
+        <p>Magnetic nanoparticles coated with proprietary WAX-like "head" binders and fluorous "tail" binders (about 200 formulations screened) that concentrate PFAS roughly 1000x in place of SPE. About 90 samples/hr vs 8 per shift. Short-chain recovery goes from about 2% to about 98%. $450 per bottle (~$15/sample), over 80% margin. Drops into EPA Method 1633 workflows.</p>
+      </div>
+    </div>
+    <p>The flywheel: RapidTest drives a 10 to 50x jump in sampling volume, some of those samples go to the lab, MagnaPrep speeds the confirmatory LC-MS/MS step, and Biota gets written into the project. The eventual MagnaPrep into RapidTest integration (preconcentration feeding the field assay for low-ppt) is the key piece of the platform, and it is not built yet.</p>
+  </section>
+
+  <!-- 02 MARKET -->
+  <section id="market">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Why Now and Market</h2></div>
+    <p>PFAS testing is a modest market today, about $0.5B across the US and Europe, and almost all of it is grab-sample-and-ship to a lab against a regulated method (1633) at $300 to $500 per test with a 2 to 6 week turnaround (rush fees run 50 to 300%). The opportunity is the unserved need for fast, cheap, in-field screening among the operators for whom turnaround drives project cycle time: remediation and engineering firms, PFAS destruction and treatment operators, landfill and industrial dischargers.</p>
+    <div class="flag green">
+      <div class="ft">The regulatory path is better than a pure compliance-lane read</div>
+      <p>For drinking water, Biota's tech would have to be written into an EPA-approved (prescriptive) method, which is roughly a 5-year path. But for non-drinking-water matrices (wastewater, leachate, biosolids, soil), Method 1633 is performance-based. Labs can adopt new sample prep like MagnaPrep in weeks through their own validation, with no central EPA certification. That is the beachhead, and it skips the multi-year clearance that kills most environmental-tech timelines.</p>
+    </div>
+    <ul class="clean">
+      <li class="ok">Demand support is broad, if uneven. EPA's "PFAS OUT" initiative and a joint EPA/HHS $144M emerging-contaminants program (Apr 2026), PFAS on the Contaminant Candidate List, and PFAS legislation active in about 39 states create state-level momentum that does not depend on federal action. Litigation against the likes of 3M is a non-regulatory driver of testing demand.</li>
+      <li class="g">Timing risk is still here. Federal drinking-water treatment deadlines (2029) could slip, and the binding compliance market is served by LC-MS/MS, not by Biota. The honest "why now" is part regulatory, part economic, and the beachhead is the economic, screening side.</li>
+    </ul>
+    <p>Sizing: Biota's bottom-up SAM is about $880M (RapidTest) plus about $60M US (MagnaPrep). As with the Fluorityx pitch I looked at, the big RapidTest layers (operational and wastewater monitoring) lean on routine ppt-grade monitoring that needs both regulation and the unbuilt ppt capability. The serviceable-today slice (remediation plus tech-dev screening, where ppb works) is the real near-term market. I'm underwriting to that slice and treating the rest as upside.</p>
+  </section>
+
+  <!-- 03 TECHNOLOGY -->
+  <section id="tech">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Technology and Validation</h2></div>
+    <p>RapidTest uses a human transport protein (transthyretin family) loaded with a quenched fluorescent reporter. PFAS competitively displace the reporter and fluorescence drops. The mechanism is clean and the class reactivity is broad, but it is a one-to-one interaction with no signal amplification. MagnaPrep's dual head-and-tail ligand chemistry is the bigger differentiator and the stronger near-term wedge.</p>
+
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>Validated parameter</th><th>Result</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>Linearity (4-PL)</td><td>r² ≈ 0.9993</td><td>Strong</td></tr>
+          <tr><td>RapidTest LOD (standalone)</td><td>~5 ppb</td><td>Fine for the beachhead, not compliance-grade</td></tr>
+          <tr><td>MagnaPrep + RapidTest (lab)</td><td>~200 ppt now, 20 ppt target</td><td>Field-deployable single-digit ppt not built yet</td></tr>
+          <tr><td>Short-chain recovery (MagnaPrep)</td><td>~2% to ~98%</td><td>Big advantage over SPE</td></tr>
+          <tr><td>Throughput (MagnaPrep)</td><td>~90/hr vs ~8/shift SPE</td><td>About 10x</td></tr>
+          <tr class="hl"><td>First real-matrix test (8 Apr 2026)</td><td>Landfill leachate, ~9 to 18% RSD</td><td>Promising, but field validation just started</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flag">
+      <div class="ft">The sensitivity question is a risk I can manage, not a dealbreaker</div>
+      <p>Standalone RapidTest sits at about 5 ppb, against the 4 ppt drinking-water MCL. The key point from Burnt Island's customer work is that the beachhead buyers (remediation, engineering, treatment) do not need ppt. A lot of their work is in the ppb range, and what they want is a fast result that holds up against 1633. Field-deployable low-ppt through MagnaPrep integration is upside I am not paying for in the base case. I track it; I do not depend on it.</p>
+    </div>
+
+    <ul class="clean">
+      <li class="g">Real-matrix performance is the live technical risk. Until about 8 Apr 2026, all testing was on synthetic and contrived waters. The first real sample (Aclarity leachate) performed well, and 12 spiked samples across varied pH, ionic strength, and TOC collapsed to under 5% RSD. The dataset is still thin, and surfactant interference above the CMC is a known boundary condition. The mitigations (dilution, a correction algorithm, MagnaPrep cleanup) are sensible but not yet proven across many matrices.</li>
+      <li>Validation is in-house, run on an entry-level Waters Xevo TQ-S micro. Independent, third-party, dirty-matrix benchmarking against 1633 is still open. The assay misses GenX and short-chain PFBA (panel is C4 and up), and TFA is out of scope.</li>
+    </ul>
+  </section>
+
+  <!-- 04 TEAM -->
+  <section id="team">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Team, the Core of the Bet</h2></div>
+    <p>This is a founder bet, and the founder reads well to me and to Burnt Island, separately.</p>
+    <ul class="clean">
+      <li class="ok">Rose Nash, PhD, Founder/CEO/CSO. Microbiology and biochemistry PhD. She built and pivoted R&amp;D at GT Molecular (wastewater COVID surveillance) and was COO of a pathogen-detection platform. She works backward from the market: she killed an early WWTP virus-monitoring idea after about 100 interviews and built to the PFAS pain she found. Fast clock-speed, strong external presence, customer-obsessed, not married to any one technology. She holds 87.4% fully diluted.</li>
+      <li>Dan Feldheim, PhD, Head of Chemistry (advisor-level equity, 2.9% FD). Two prior startups since 2013, one acquired by Editas in 2017, and $17M-plus in grants. Burnt Island calls him a major asset.</li>
+      <li class="g">The rest of the bench is thin but capable: Tom Wieser (Head of Assay Dev, PhD biochem, CU), Sydney Ciechanowicz (Analytical and Mass-Spec Lead), and Jacob Gillis (part-time Ops). Four full-time, one part-time. Most of the commercial and ops leadership gets hired after the round (a Director of BD plus manufacturing, applications, and ops). Sales stays founder-led, a plan she revised after coaching feedback.</li>
+    </ul>
+    <div class="flag">
+      <div class="ft">Founder risk I'm taking</div>
+      <p>Solo founder, no prior exit, carrying sales and the company. Burnt Island's own note, paraphrased: a gifted communicator and natural technologist who has not yet been through a couple of rounds of real difficulty that show what kind of operator she is, but so far so good. I agree. High ceiling, unproven under fire. A board seat (BIV has one) and active support help. I'll also run a routine background check on Feldheim's academic record.</p>
+    </div>
+    <div class="flag blue">
+      <div class="ft">Zymo Research dependency</div>
+      <p>Zymo is an investor, the sole magnetic-nanoparticle supplier for MagnaPrep, and an advisor. That is a real single-source dependency on the MagnaPrep moat. I want to diligence it and second-source it over time.</p>
+    </div>
+  </section>
+
+  <!-- 05 IP -->
+  <section id="ip">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Intellectual Property and Defensibility</h2></div>
+    <p>The IP posture got better during Burnt Island's diligence, which itself tells me Rose takes input.</p>
+    <ul class="clean">
+      <li class="ok">Two omnibus provisionals are in preparation with experienced counsel, one for MagnaPrep and one for RapidTest. They cover composition of matter (ligand chemistry, assay components), process (extraction and detection workflows), and system-level claims (the MagnaPrep plus RapidTest integration), and they extend MagnaPrep chemistry to PFAS removal and treatment, which widens the strategic value. This is a move off trade-secret-only, prompted by the lead.</li>
+      <li>Existing filing: provisional US 63/880,119 (filed 11 Sep 2025) on photoresponsive elution for MagnaPrep. It abandons by about Sep 2026 unless converted, and the round funds the conversion and PCT.</li>
+      <li class="g">Caveat: these are still provisional and unexamined, the core RapidTest chemistry was trade-secret until now, and first-mover, flywheel, and brand matter as much as the patents. I want to confirm the two filings are actually submitted (targeted within weeks of the BIV memo) before close.</li>
+    </ul>
+  </section>
+
+  <!-- 06 MODEL -->
+  <section id="model">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Business Model and Unit Economics</h2></div>
+    <p>Recurring consumables, low COGS, over 80% gross margin, priced at or below the incumbent so adoption needs no budget increase. This is the cleanest part of the company, and it fits the historically high margins of analytical-instrument businesses (Waters, Beckman, Hach), which is also why the strategic exits pay well.</p>
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>Product</th><th>Price</th><th>COGS @ scale</th><th>Gross margin</th><th>Customer value</th></tr></thead>
+        <tbody>
+          <tr><td>RapidTest™</td><td>~$10/analysis ($500/50-kit)</td><td>&lt;$2, falling to &lt;$1</td><td>&gt;80%</td><td>~90% cheaper than lab, real-time decisions</td></tr>
+          <tr><td>MagnaPrep™</td><td>$450/bottle (~$15/sample)</td><td>&lt;$3</td><td>&gt;80%</td><td>~96% less labor, ~90x throughput</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>The pricing is deliberately low to drive adoption. Cornelsen even told BIV that $15 per test would be accepted as readily as $10, so there is room to raise price, plus a planned higher-priced ppt product later. The risk is not margin, it is volume. At $500 per kit, a lot of kits have to sell to reach $10M and up, so adoption velocity is the metric that matters.</p>
+  </section>
+
+  <!-- 07 TRACTION -->
+  <section id="traction">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Traction</h2></div>
+    <ul class="clean">
+      <li class="ok">Written into 3 government contracts as the rapid-analytics partner (AECOM, CDM Smith, and one more), including an AECOM project mapping PFAS at Kennedy Space Center (about 200 kits). This is the written-into-the-contract channel Rose is going after, and it is sticky.</li>
+      <li class="ok">RapidTest: first kits and fluorimeter shipped to Cornelsen UK (23 Mar 2026, under NDA). Starter kits invoiced to Arvia and the University of Surrey. Cornelsen says repeatability and accuracy beat FREDsense.</li>
+      <li class="ok">MagnaPrep: first invoiced sale (University of Surrey). Two large 1633 labs are in pilot discussions, one of them processing over 500K PFAS samples a year.</li>
+      <li class="g">Veralto and Hach want to use MagnaPrep in their own workflows after validation, and are discussing a strategic partnership, possibly as the manufacturing partner for the RapidTest fluorimeter. The CTO of Veralto's Water Quality segment visited twice.</li>
+      <li>Accepted into ImagineH2O 2026. Inbound from AECOM, Parsons, Element, Purafloc (a UK water authority), Mantisonix, and Enthalpy.</li>
+    </ul>
+    <div class="flag">
+      <div class="ft">Honest read on the traction</div>
+      <p>Most of this is first invoices, pilots, and purchase intent, not booked recurring revenue (March 2026 AR is about $168K), and it skews UK and Europe. But the quality of the pull, named operators plus government contracts plus a strategic in Veralto, is strong for the stage.</p>
+    </div>
+  </section>
+
+  <!-- 08 COMPETITION -->
+  <section id="competition">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Competition</h2></div>
+    <div class="grid2">
+      <div class="card">
+        <span class="label green">The lead competitor is faltering</span>
+        <h4>FREDsense</h4>
+        <p>Raised a $7M Series A (Sep 2025, HG Ventures and Emerald) but is struggling. President Eric Stoermer left in Mar 2026. Cornelsen UK called the product hard to use and stopped using their unit. $16K instrument, $100 per test, about 3 hours of prep. Biota is cheaper, faster, and reportedly better in dirty matrices, which opens a window to be first with something that works.</p>
+      </div>
+      <div class="card">
+        <span class="label">The broader field</span>
+        <h4>Incumbents and emerging sensors</h4>
+        <p>SPE incumbents (Waters, Agilent, Thermo, Phenomenex) for MagnaPrep, with no magnetic-nanoparticle analytical competitor today. Salvus, Fluorityx (my parallel diligence), and academic electro and MIP sensors for RapidTest. Battelle and Thermo work instrumentation, not field tests. SimpleLab and CycloPure are mail-in, so possible channels rather than rivals.</p>
+      </div>
+    </div>
+    <p class="two-col-note">The position is first mover with a working, low-cost field product plus a defensible sample-prep wedge. The moat is flywheel, brand, and IP rather than one patent, which fits the stage.</p>
+  </section>
+
+  <!-- 09 FINANCIALS -->
+  <section id="financials">
+    <div class="sec-head"><span class="sec-num">09</span><h2>Financials, Burn, and Runway</h2></div>
+    <ul class="clean">
+      <li class="g">Cash is tight and the raise is timely. About $300K in the bank (Mar 2026) against roughly $80K a month in burn, so 3 to 4 months, rising to about $120K a month after the round with four new hires. The $3M funds about 24 months. I'll confirm current cash and any bridge before wiring.</li>
+      <li class="ok">Capital-efficient and clean. 2025 spend was about $880K, offset by about $450K in grants, for roughly $430K net burn. No venture or bank debt. $1.1M raised to date (all SAFEs) plus $555K non-dilutive (Colorado AI and NIH SBIR), with a second SBIR Phase I (~$305K) pending and Phase II shots (~$2M) ahead. Lean team, and Rose can clearly win grants.</li>
+      <li>The projections are bullish and assumption-heavy (break-even around Q4 2027, about $10M in 2028, $30M-plus by 2029 to 2030). I'm underwriting to MagnaPrep plus near-term RapidTest screening and treating the ppt product, microplastics, and operational and utility monitoring as un-modeled upside, the same way Burnt Island does.</li>
+    </ul>
+  </section>
+
+  <!-- 10 DEAL -->
+  <section id="deal">
+    <div class="sec-head"><span class="sec-num">10</span><h2>Deal Terms, Ownership, and Fit</h2></div>
+    <p>Pre-seed was $1.1M of post-money SAFEs (Antler $250K plus $250K ARC, Zymo $500K, Mazarine $50K, Aerion $25K, Unpopular $25K). Rose holds 87.4% fully diluted, and the SAFEs convert into this Seed. The Seed is now $3M at a $12M post-money, renegotiated down from the $20M ask I passed on, by the incoming lead.</p>
+
+    <div class="t-wrap">
+      <table>
+        <thead><tr><th>BUV check</th><th class="num">Ownership at $12M post</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>$400K (standard initial)</td><td class="num">3.33%</td><td>Below my 5% target</td></tr>
+          <tr class="hl"><td><strong>$600K (recommended)</strong></td><td class="num"><strong>5.00%</strong></td><td>Hits target, about 4.8% of fund</td></tr>
+          <tr><td>$750K (stretch)</td><td class="num">6.25%</td><td>Higher conviction and concentration</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="flag green">
+      <div class="ft">Fit with the fund model</div>
+      <p>At $12M post, a ~$600K check gets me to my 5% target, versus only about 2% at the prior $20M ask where I passed. $600K is about 4.8% of the $12.5M fund. With a 50% reserve for the bridge, total exposure is roughly $900K to $1.2M. That is a deliberate conviction position, sized about right, not an outlier. I'll push for information rights and pro-rata, and confirm I can co-invest cleanly alongside the lead.</p>
+    </div>
+    <p class="two-col-note">Co-investor context: Burnt Island Ventures (the specialist lead) and Mazarine Ventures (already on the cap table) are both water specialists, so their presence is good outside validation and a useful syndicate reference.</p>
+  </section>
+
+  <!-- 11 BUV SIX -->
+  <section id="six">
+    <div class="sec-head"><span class="sec-num">11</span><h2>The BUV Six</h2></div>
+    <div class="score-row">
+      <div class="score-dot"><span class="pip gold"></span><span class="pip gold"></span><span class="pip on"></span></div>
+      <div class="score-body"><div class="crit">Sector-earned credibility</div><div class="note">A market-driven domain-operator founder who two separate diligence processes came away convinced by. The offset is a thin, junior full-time team and solo-founder risk.</div></div>
+      <div class="score-tag tag-strong">Strong (the bet)</div>
+    </div>
+    <div class="score-row">
+      <div class="score-dot"><span class="pip on"></span><span class="pip on"></span><span class="pip"></span></div>
+      <div class="score-body"><div class="crit">Mandated or forced demand</div><div class="note">Performance-based 1633 lets non-drinking-water labs adopt fast, with state momentum (about 39 states), PFAS OUT, and litigation demand behind it. The demand is more economic than mandated, but it is there.</div></div>
+      <div class="score-tag tag-mod">Moderate</div>
+    </div>
+    <div class="score-row">
+      <div class="score-dot"><span class="pip on"></span><span class="pip on"></span><span class="pip gold"></span></div>
+      <div class="score-body"><div class="crit">Narrow beachhead incumbents can't serve</div><div class="note">MagnaPrep is a real SPE-replacement wedge incumbents are not built for, and RapidTest is first to a working field product while the lead competitor stumbles.</div></div>
+      <div class="score-tag tag-strong">Strong</div>
+    </div>
+    <div class="score-row">
+      <div class="score-dot"><span class="pip on"></span><span class="pip on"></span><span class="pip"></span></div>
+      <div class="score-body"><div class="crit">Systems thinking around the product</div><div class="note">A two-product flywheel that complements LC-MS/MS instead of fighting it, on a consumables model. The integration that unlocks field ppt is still pending.</div></div>
+      <div class="score-tag tag-mod">Moderate</div>
+    </div>
+    <div class="score-row">
+      <div class="score-dot"><span class="pip gold"></span><span class="pip gold"></span><span class="pip gold"></span></div>
+      <div class="score-body"><div class="crit">The buyer leans in</div><div class="note">Three government contracts, a Kennedy Space Center deployment, Veralto partnership talks, real invoices, and a customer that prefers it to FREDsense. The strongest signal here.</div></div>
+      <div class="score-tag tag-strong">Strong</div>
+    </div>
+    <div class="score-row">
+      <div class="score-dot"><span class="pip gold"></span><span class="pip gold"></span><span class="pip gold"></span></div>
+      <div class="score-body"><div class="crit">A named, plausible exit</div><div class="note">Veralto and Hach (engaged), Xylem, Ecolab, Veolia, plus Waters, Agilent, Beckman, and the big labs (Eurofins, Pace, ALS). Right on my strategic-acquirer thesis.</div></div>
+      <div class="score-tag tag-strong">Strong</div>
+    </div>
+  </section>
+
+  <!-- 12 PRE-MORTEM -->
+  <section id="premortem">
+    <div class="sec-head"><span class="sec-num">12</span><h2>Pre-Mortem</h2></div>
+    <div class="sec-sub">It is 2029 and this is a write-down. The likeliest stories, and what I'd lean on against each:</div>
+    <ul class="clean">
+      <li>Real-matrix performance does not generalize. The assay works in synthetic and early leachate tests but stumbles across messy real matrices (surfactant interference). Against it: dilution, the correction algorithm, and MagnaPrep cleanup. I'll watch the validation dataset grow over the next two quarters as a gating signal.</li>
+      <li class="g">Market creation is slow. Buyers used to 1633-certified results are slow to trust owning the testing, and labs resist switching off SPE. Against it: MagnaPrep's drop-in 1633 compatibility and the government-contract channel. I underwrite to the near-term slice, not the big SAM.</li>
+      <li>Solo-founder execution. A first-time founder under cash pressure mis-hires or stalls through the first crises. Against it: the board seat (BIV) and my own engagement. This is the core risk of the bet.</li>
+      <li class="g">Pricing and volume. $500 kits need huge unit volume to scale, and viral adoption underdelivers. Against it: the demonstrated pricing room and the higher-priced ppt product to come.</li>
+      <li>The ppt bridge never closes and the bigger operational and utility market never opens. I can live with that, because I am not paying for it in the base case.</li>
+    </ul>
+  </section>
+
+  <!-- 13 ACTIONS -->
+  <section id="open">
+    <div class="sec-head"><span class="sec-num">13</span><h2>Conditions to Close and Post-Investment</h2></div>
+    <div class="grid2">
+      <div class="card">
+        <span class="label">Confirm before wiring</span>
+        <ul class="clean" style="margin:8px 0 0">
+          <li class="ok">Final round docs at the $12M post-money cap, clean co-invest alongside the lead, information rights and pro-rata.</li>
+          <li class="g">The two omnibus provisionals are actually filed.</li>
+          <li>Current cash and any bridge since March, with updated burn.</li>
+          <li class="g">Expanded real-matrix validation (Aclarity plus others) and any third-party or 1633 side-by-side.</li>
+          <li>Status of the two 1633-lab pilots and the Veralto partnership.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="label">Post-investment posture</span>
+        <h4>Lead-aligned, hands-on at the margin</h4>
+        <p>Put in ~$600K for about 5%, with a reserve for the Series A bridge. Add value where BUV is differentiated: water-sector commercial intros (utilities, treatment, remediation), the regulated-lab channel, and Europe. Track the validation dataset and adoption velocity as the two milestones that de-risk the next round. Use the Burnt Island and Mazarine relationships as syndicate anchors.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div><strong style="color:var(--text)">Beyond Utility Water Ventures</strong> · Investment Committee Memorandum · Biota, Inc. (Seed) · Decision: Invest</div>
+    <div class="conf">
+      <span>Confidential and for internal IC use only.</span>
+      <span>Sources: Biota Seed data room (Mar 2026), Burnt Island Ventures diligence memo (3 May 2026, non-reliance), BUV prior diligence and GP in-person meetings.</span>
+      <span>Not legal, tax, or investment advice. Figures unaudited and to be independently verified.</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function(){
+    var KEY = 'buv-memo-theme';
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var label = document.getElementById('themeLabel');
+    var iconEl = document.getElementById('themeIcon');
+
+    var sunIcon = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+    var moonIcon = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+    function apply(theme){
+      if (theme === 'light') {
+        root.setAttribute('data-theme','light');
+        label.textContent = 'Dark';
+        iconEl.innerHTML = moonIcon;
+      } else {
+        root.removeAttribute('data-theme');
+        label.textContent = 'Light';
+        iconEl.innerHTML = sunIcon;
+      }
+    }
+
+    var saved;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    if (!saved) {
+      saved = (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+    }
+    apply(saved);
+
+    btn.addEventListener('click', function(){
+      var next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      apply(next);
+      try { localStorage.setItem(KEY, next); } catch(e){}
+    });
+  })();
+</script>
+
+</body>
+</html>

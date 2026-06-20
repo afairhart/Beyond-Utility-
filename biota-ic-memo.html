@@ -126,7 +126,7 @@
   .nav-logo span{color:var(--gold)}
   .nav-logo img{margin-right:8px;vertical-align:middle}
   .nav-right{display:flex;align-items:center;gap:10px}
-  .nav-back, .theme-toggle{
+  .nav-back, .theme-toggle, .nav-download{
     color:var(--text-dim);
     text-decoration:none;
     font-family:'Outfit',sans-serif;
@@ -137,7 +137,7 @@
     padding:8px 18px;
     border:1px solid var(--toggle-border);
     border-radius:5px;
-    transition:border-color 0.2s, color 0.2s;
+    transition:border-color 0.2s, color 0.2s, background-color 0.2s;
     white-space:nowrap;
     background:var(--toggle-bg);
     cursor:pointer;
@@ -145,11 +145,21 @@
     align-items:center;
     gap:6px;
   }
-  .nav-back:hover, .theme-toggle:hover{
+  .nav-back:hover, .theme-toggle:hover, .nav-download:hover{
     border-color:var(--border-hover);
     color:var(--strong-color);
   }
-  .theme-toggle svg{width:14px;height:14px}
+  .nav-download{
+    background:var(--blue-dim);
+    color:var(--blue-light);
+    border-color:transparent;
+  }
+  .nav-download:hover{
+    background:var(--blue-dim);
+    border-color:var(--blue);
+    color:var(--blue-light);
+  }
+  .theme-toggle svg, .nav-download svg{width:14px;height:14px}
 
   /* ── PAGE ── */
   .wrap{flex:1;max-width:920px;margin:0 auto;padding:0 40px;width:100%}
@@ -306,7 +316,23 @@
   }
 
   @media print{
-    .nav-back, .theme-toggle{display:none}
+    :root, html[data-theme="light"]{
+      --bg:#FFFFFF;--bg-card:#F4F6FB;--blue:#2B56C4;--blue-light:#3E6BD9;
+      --blue-dim:rgba(43,86,196,0.10);--gold:#9C7A2E;--text:#1A2233;
+      --text-dim:#5B6678;--text-muted:#8A93A6;--border:rgba(8,14,26,0.12);
+      --success:#0F7A52;--error:#C0392B;--strong-color:#0B1322;
+      --table-head-bg:#EBF0F8;--hl-bg:rgba(15,122,82,0.07);
+      --v-main-bg:#EEF7F1;--v-main-border:rgba(15,122,82,0.30);
+      --flag-gold-bg:rgba(156,122,46,0.07);--flag-red-bg:rgba(192,57,43,0.07);
+      --flag-blue-bg:rgba(43,86,196,0.07);--flag-green-bg:rgba(15,122,82,0.07);
+      --pip-off:rgba(8,14,26,0.12);
+    }
+    html,body{background:#fff;color:#1A2233;font-size:11.5px}
+    .nav, .nav-back, .theme-toggle, .nav-download, .footer{print-color-adjust:exact}
+    .nav-back, .theme-toggle, .nav-download{display:none}
+    .nav{border-bottom:1px solid rgba(8,14,26,0.12)}
+    section, .hero, .footer{break-inside:avoid}
+    a{color:#2B56C4}
   }
 </style>
 </head>
@@ -324,6 +350,12 @@
           <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
         </svg>
         <span id="themeLabel">Light</span>
+      </button>
+      <button class="nav-download" id="downloadBtn" aria-label="Download as PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+        </svg>
+        <span>Download</span>
       </button>
     </div>
   </nav>
@@ -672,6 +704,9 @@
       apply(next);
       try { localStorage.setItem(KEY, next); } catch(e){}
     });
+
+    var dl = document.getElementById('downloadBtn');
+    if (dl) dl.addEventListener('click', function(){ window.print(); });
   })();
 </script>
 

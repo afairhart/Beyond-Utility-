@@ -261,20 +261,16 @@
       try {
         const cred = await BUAuth.login(email, password);
 
-        // Check if user has a Firestore profile (admin may have removed them)
+        // Access requires an admin-provisioned profile. No profile means the
+        // account was never granted access (or was removed by an admin).
         const profile = await BUAuth.getProfile(cred.user.uid);
         if (!profile) {
-          // Check if this is the very first user (bootstrap case)
-          const snapshot = await db.collection('users').limit(1).get();
-          if (!snapshot.empty) {
-            // Users exist but this person was removed — block access
-            await BUAuth.logout();
-            errorEl.textContent = 'This account has been deactivated. Contact your administrator.';
-            errorEl.classList.add('visible');
-            loginBtn.disabled = false;
-            loginBtn.textContent = 'Log In';
-            return;
-          }
+          await BUAuth.logout();
+          errorEl.textContent = 'This account is not authorized. Contact your administrator.';
+          errorEl.classList.add('visible');
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Log In';
+          return;
         }
 
         // Record login activity

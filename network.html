@@ -1121,7 +1121,7 @@
             <h3>Select a conversation</h3>
             <p>Choose a thread from the left to view the full message history.</p>
           </div>
-          <div id="msgDetailView" style="display:none;flex-direction:column;overflow:hidden;flex:1"
+          <div id="msgDetailView" style="display:none;flex-direction:column;overflow:hidden;flex:1">
             <div class="msg-detail-header">
               <div>
                 <div class="msg-detail-name" id="msgDetailName"></div>
@@ -1210,7 +1210,7 @@
         </div>
         <div class="settings-card">
           <h3>Claude API Key</h3>
-          <p>Enter your Anthropic API key to enable AI search. The key is stored securely in the fund's database and never exposed to the browser.</p>
+          <p>Enter your Anthropic API key to enable AI search. The key is write-only: it is stored in the fund's admin-only database and read only by the server, never fetched back into the browser. Re-enter it to change it.</p>
           <input class="settings-input" type="password" id="apiKeyInput" placeholder="sk-ant-…">
           <button class="btn-primary" onclick="saveApiKey()">Save Key</button>
           <div class="settings-msg" id="apiKeyMsg"></div>
@@ -1352,7 +1352,6 @@
 
       if (profile.role === 'admin') {
         document.getElementById('settingsTabBtn').style.display = '';
-        loadApiKeyDisplay();
       }
 
       document.getElementById('importBtn').onclick = () => switchTab('import');
@@ -1399,7 +1398,9 @@
         banner.style.cssText = 'background:rgba(248,113,113,0.12);border:1px solid rgba(248,113,113,0.3);color:#f87171;padding:12px 20px;margin:12px 40px;border-radius:8px;font-size:0.82rem;line-height:1.5;';
         document.querySelector('.stats-bar')?.after(banner);
       }
-      banner.innerHTML += (banner.innerHTML ? '<br>' : '') + msg;
+      const line = document.createElement('div');
+      line.textContent = msg;
+      banner.appendChild(line);
     }
 
     // ── FIRESTORE ─────────────────────────────────────────────────────────────
@@ -1446,16 +1447,6 @@
       await firebase.firestore().collection('linkedinConnections').doc(id).update({ notes });
     }
 
-    async function clearAllData() {
-      const db = firebase.firestore();
-      const snap = await db.collection('linkedinConnections').get();
-      const CHUNK = 400;
-      for (let i = 0; i < snap.docs.length; i += CHUNK) {
-        const batch = db.batch();
-        snap.docs.slice(i, i + CHUNK).forEach(d => batch.delete(d.ref));
-        await batch.commit();
-      }
-    }
 
     // ── MESSAGES FIRESTORE ────────────────────────────────────────────────
     async function loadMessages() {
@@ -1760,9 +1751,9 @@
         .on('mouseover', function(event, d) {
           tooltip.style.display = 'block';
           tooltip.innerHTML = `
-            <div class="tooltip-name">${d.data.name}</div>
-            <div class="tooltip-pos">${d.data.position || ''}</div>
-            <div class="tooltip-co">${d.data.company || ''}</div>`;
+            <div class="tooltip-name">${escHtml(d.data.name)}</div>
+            <div class="tooltip-pos">${escHtml(d.data.position || '')}</div>
+            <div class="tooltip-co">${escHtml(d.data.company || '')}</div>`;
           d3.select(this).select('circle').attr('r', 8);
         })
         .on('mousemove', function(event) {
@@ -1900,17 +1891,17 @@
         chips += `<div class="enriched-chip">Last: <span class="chip-val">${lastDate.toLocaleDateString()}</span></div>`;
       }
       if (conn.connectedOn) {
-        chips += `<div class="enriched-chip">Connected: <span class="chip-val">${conn.connectedOn}</span></div>`;
+        chips += `<div class="enriched-chip">Connected: <span class="chip-val">${escHtml(conn.connectedOn)}</span></div>`;
       }
       if (conn.email) {
-        chips += `<div class="enriched-chip"><span class="chip-val">${conn.email}</span></div>`;
+        chips += `<div class="enriched-chip"><span class="chip-val">${escHtml(conn.email)}</span></div>`;
       }
       enrichedStats.innerHTML = chips;
 
       if (inv) {
         const dir = inv.direction === 'OUTGOING' ? 'outgoing' : 'incoming';
         const label = inv.direction === 'OUTGOING' ? 'You reached out' : 'They reached out';
-        enrichedInv.innerHTML = `<div class="enriched-invitation ${dir}">${label} · ${inv.sentAt}</div>`;
+        enrichedInv.innerHTML = `<div class="enriched-invitation ${dir}">${label} · ${escHtml(inv.sentAt)}</div>`;
       } else {
         enrichedInv.innerHTML = '';
       }
@@ -1942,9 +1933,12 @@
     }
 
     function escHtml(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
+      return String(str == null ? '' : str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
     }
 
     async function saveNotes() {
@@ -2025,11 +2019,11 @@
       const tbody = document.getElementById('previewBody');
       tbody.innerHTML = rows.map(r => `
         <tr>
-          <td>${r.name}</td>
-          <td>${r.company}</td>
-          <td>${r.position}</td>
-          <td><span class="cat-chip" style="background:${catBg(r.category)};color:${catColor(r.category)}">${r.category}</span></td>
-          <td>${r.connectedOn}</td>
+          <td>${escHtml(r.name)}</td>
+          <td>${escHtml(r.company)}</td>
+          <td>${escHtml(r.position)}</td>
+          <td><span class="cat-chip" style="background:${catBg(r.category)};color:${catColor(r.category)}">${escHtml(r.category)}</span></td>
+          <td>${escHtml(r.connectedOn)}</td>
         </tr>`).join('');
       document.getElementById('importPreview').classList.add('visible');
     }
@@ -2081,19 +2075,22 @@
         }
 
         document.getElementById('searchStatus').textContent = `Found ${results.length} relevant connections`;
-        document.getElementById('searchResults').innerHTML = results.map((r, i) => `
+        document.getElementById('searchResults').innerHTML = results.map((r, i) => {
+          const score = Math.max(0, Math.min(10, Number(r.score) || 0));
+          return `
           <div class="result-card">
             <div class="result-rank">${i + 1}</div>
             <div class="result-body">
-              <div class="result-name">${r.name}</div>
-              <div class="result-role">${r.position || ''}${r.company ? ' · ' + r.company : ''}</div>
-              <div class="result-reason">${r.reason}</div>
+              <div class="result-name">${escHtml(r.name)}</div>
+              <div class="result-role">${escHtml(r.position || '')}${r.company ? ' · ' + escHtml(r.company) : ''}</div>
+              <div class="result-reason">${escHtml(r.reason)}</div>
               <div class="result-score">
-                <div class="score-bar"><div class="score-fill" style="width:${(r.score / 10) * 100}%"></div></div>
-                <div class="score-label">${r.score}/10</div>
+                <div class="score-bar"><div class="score-fill" style="width:${score * 10}%"></div></div>
+                <div class="score-label">${score}/10</div>
               </div>
             </div>
-          </div>`).join('');
+          </div>`;
+        }).join('');
       } catch (e) {
         const msg = e.message?.includes('api key not configured')
           ? 'Claude API key not configured. Set it in the Settings tab.'
@@ -2117,31 +2114,28 @@
         const invInfo = inv ? `${inv.direction} invitation ${inv.sentAt}` : '';
         const text = `${c.name} ${c.company} ${c.position} ${c.category} ${c.notes} ${msgSnippets} ${invInfo}`.toLowerCase();
         const score = words.filter(w => text.includes(w)).length;
-        // Enrich with message count and last interaction for the AI
-        const enriched = { ...c };
-        if (msgs.length) enriched.messageCount = msgs.length;
-        if (inv) enriched.invitationDirection = inv.direction;
-        return { ...enriched, _score: score };
+        return { c, score };
       });
-      scored.sort((a, b) => b._score - a._score);
-      const top = scored.slice(0, limit);
-      return top.map(({ _score, ...rest }) => rest);
+      scored.sort((a, b) => b.score - a.score);
+      // Send ONLY the four fields the server needs. Private fields (email, url,
+      // notes, message content) are used for local ranking above but never
+      // leave the browser.
+      return scored.slice(0, limit).map(({ c }) => ({
+        name: c.name,
+        position: c.position || '',
+        company: c.company || '',
+        category: c.category || 'Other',
+      }));
     }
 
     // ── SETTINGS ──────────────────────────────────────────────────────────────
-    async function loadApiKeyDisplay() {
-      const db = firebase.firestore();
-      try {
-        const doc = await db.collection('settings').doc('apiKeys').get();
-        if (doc.exists && doc.data().claude) {
-          document.getElementById('apiKeyInput').placeholder = '●●●● (key saved)';
-        }
-      } catch (e) { /* silent */ }
-    }
+    // The API key is write-only from the browser: it is sent to Firestore on
+    // save and read only server-side by the networkSearch Cloud Function. We
+    // deliberately never fetch it back into the page, so the key never enters
+    // the browser after it is typed.
 
     async function saveApiKey() {
       const key = document.getElementById('apiKeyInput').value.trim();
-      const msg = document.getElementById('apiKeyMsg');
       if (!key) { showSettingsMsg('apiKeyMsg', 'error', 'Enter an API key.'); return; }
       try {
         await firebase.firestore().collection('settings').doc('apiKeys').set({ claude: key }, { merge: true });
@@ -2168,7 +2162,7 @@
       if (!confirm('Are you sure you want to delete ALL imported data (connections, messages, invitations, company follows)? This cannot be undone.')) return;
       try {
         await Promise.all([
-          clearAllData(),
+          clearCollection('linkedinConnections'),
           clearCollection('linkedinMessages'),
           clearCollection('linkedinInvitations'),
           clearCollection('linkedinCompanyFollows'),
@@ -2207,15 +2201,17 @@
         return;
       }
       document.getElementById('msgListStats').innerHTML = `<span>${threads.length} conversations</span><span>${allMessages.length} total messages</span>`;
-      list.innerHTML = threads.map(t => {
+      list.innerHTML = threads.map((t, idx) => {
         const preview = (t.lastMsg || '').slice(0, 50) + ((t.lastMsg?.length || 0) > 50 ? '…' : '');
         const dateStr = t.lastDate ? new Date(t.lastDate).toLocaleDateString() : '';
-        return `<div class="msg-thread-item${selectedThread?.id === t.id ? ' active' : ''}" onclick="selectThread(allThreads.find(x=>x.id==='${t.id.replace(/'/g, "\\'")}'))">
-          <div class="msg-thread-name">${escHtml(t.name)}<span class="msg-thread-badge">${t.msgCount}</span></div>
+        return `<div class="msg-thread-item${selectedThread?.id === t.id ? ' active' : ''}" data-idx="${idx}">
+          <div class="msg-thread-name">${escHtml(t.name)}<span class="msg-thread-badge">${Number(t.msgCount) || 0}</span></div>
           <div class="msg-thread-preview">${escHtml(preview)}</div>
           <div class="msg-thread-date">${dateStr}</div>
         </div>`;
       }).join('');
+      list.querySelectorAll('.msg-thread-item').forEach(el =>
+        el.addEventListener('click', () => selectThread(threads[el.dataset.idx])));
     }
 
     function selectThread(thread) {
@@ -2233,7 +2229,7 @@
         ? `${conn.position || ''}${conn.company ? ' · ' + conn.company : ''}`
         : '';
       const link = document.getElementById('msgDetailLink');
-      if (thread.url) { link.href = thread.url; link.style.display = ''; }
+      if (thread.url && /^https?:\/\//i.test(thread.url)) { link.href = thread.url; link.style.display = ''; }
       else { link.style.display = 'none'; }
 
       // Render messages
@@ -2273,13 +2269,15 @@
       }
       section.classList.add('visible');
       const sorted = [...allCompanyFollows].sort((a, b) => new Date(b.followedOn) - new Date(a.followedOn));
-      list.innerHTML = sorted.map(f => {
+      list.innerHTML = sorted.map((f, idx) => {
         const dateStr = f.followedOn ? new Date(f.followedOn).toLocaleDateString() : '';
-        return `<div class="follows-item" onclick="filterByCompany('${escHtml(f.organization)}')">
+        return `<div class="follows-item" data-idx="${idx}">
           <span>${escHtml(f.organization)}</span>
           <span class="follows-date">${dateStr}</span>
         </div>`;
       }).join('');
+      list.querySelectorAll('.follows-item').forEach(el =>
+        el.addEventListener('click', () => filterByCompany(sorted[el.dataset.idx].organization)));
     }
 
     function filterByCompany(company) {

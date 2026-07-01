@@ -1,71 +1,36 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+
+    // True only when the signed-in user's own profile has role == admin.
+    function isAdmin() {
+      return request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
     match /users/{userId} {
-      // Any authenticated user can read their own profile
+      // A user can read their own profile; admins can read, list, and write any.
       allow read: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if isAdmin();
 
-      // Admins can read/list/write any user profile
-      allow read, write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-
-      // Allow authenticated users to create their own profile
-      // (used for first-user bootstrap and admin-created accounts)
-      allow create: if request.auth != null && request.auth.uid == userId
-        && request.resource.data.role in ['admin', 'partner'];
-
-      // Allow users to update their own login activity fields
+      // A user may update only their own login-activity fields — nothing else
+      // (notably not their own role).
       allow update: if request.auth != null && request.auth.uid == userId
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastLoginAt', 'loginCount']);
     }
 
-    // Allow authenticated users to list the users collection
-    // (needed for the first-user bootstrap check)
-    match /users/{document=**} {
-      allow list: if request.auth != null;
-    }
+    // Deal pipeline, LinkedIn data, and settings (API keys) — admin only.
+    match /pipeline_companies/{docId}     { allow read, write: if isAdmin(); }
+    match /linkedinConnections/{docId}    { allow read, write: if isAdmin(); }
+    match /linkedinMessages/{docId}       { allow read, write: if isAdmin(); }
+    match /linkedinInvitations/{docId}    { allow read, write: if isAdmin(); }
+    match /linkedinCompanyFollows/{docId} { allow read, write: if isAdmin(); }
+    match /settings/{docId}               { allow read, write: if isAdmin(); }
 
-    // LinkedIn connections — admin read/write only
-    match /linkedinConnections/{docId} {
-      allow read, write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-    }
-
-    // LinkedIn messages — admin read/write only
-    match /linkedinMessages/{docId} {
-      allow read, write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-    }
-
-    // LinkedIn invitations — admin read/write only
-    match /linkedinInvitations/{docId} {
-      allow read, write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-    }
-
-    // LinkedIn company follows — admin read/write only
-    match /linkedinCompanyFollows/{docId} {
-      allow read, write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-    }
-
-    // Deal pipeline companies — admin read/write only
-    match /pipeline_companies/{docId} {
-      allow read, write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-    }
-
-    // Settings (API keys, etc.) — admin read/write only
-    match /settings/{docId} {
-      allow read, write: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-    }
-
-    // Usage tracking — read-only for admins, writes only from server (functions)
+    // Usage counters — admins may read; only Cloud Functions (Admin SDK) write.
     match /usage/{docId} {
-      allow read: if request.auth != null &&
-        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "admin";
-      allow write: if false; // only Cloud Functions (admin SDK) can write
+      allow read: if isAdmin();
+      allow write: if false;
     }
   }
 }

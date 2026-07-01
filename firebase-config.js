@@ -65,28 +65,6 @@ const BUAuth = {
   },
 
   /**
-   * Ensure user profile exists in Firestore.
-   * If no users exist yet, make this user the admin.
-   */
-  async ensureProfile(user) {
-    const docRef = db.collection('users').doc(user.uid);
-    const doc = await docRef.get();
-    if (doc.exists) return doc.data();
-
-    // Check if any users exist — first user becomes admin
-    const snapshot = await db.collection('users').limit(1).get();
-    const role = snapshot.empty ? 'admin' : 'lp';
-
-    const profile = {
-      email: user.email,
-      role: role,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-    await docRef.set(profile);
-    return profile;
-  },
-
-  /**
    * Create a new user (admin only).
    * Uses a secondary Firebase app so the admin stays logged in.
    */
@@ -145,15 +123,8 @@ const BUAuth = {
       return null;
     }
 
-    // Check if any users exist at all (first-user bootstrap)
-    const snapshot = await db.collection('users').limit(1).get();
-    if (snapshot.empty) {
-      // No users yet — bootstrap the first admin
-      const profile = await this.ensureProfile(user);
-      return { user, profile };
-    }
-
-    // Users exist — only allow access if this user has a profile
+    // Access requires a profile provisioned by an admin. No profile means the
+    // account was never granted access (or was removed) — sign out.
     const profile = await this.getProfile(user.uid);
     if (!profile) {
       await this.logout();

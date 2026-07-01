@@ -6,12 +6,17 @@ on:
       - master
   # Pushes made by the auto-merge workflow use GITHUB_TOKEN, which GitHub
   # deliberately does not let trigger other workflows — so the push trigger
-  # above never fires for auto-merged claude/** branches. workflow_dispatch
-  # allows running the deploy manually (Actions tab or API) in that case.
+  # above never fires for auto-merged claude/** branches. The workflow_run
+  # trigger below chains this deploy off the auto-merge completing instead,
+  # and workflow_dispatch allows manual runs from the Actions tab or API.
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Auto-merge Claude branches to master"]
+    types: [completed]
 
 jobs:
   deploy:
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps:

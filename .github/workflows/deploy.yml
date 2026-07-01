@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - master
+  # Pushes made by the auto-merge workflow use GITHUB_TOKEN, which GitHub
+  # deliberately does not let trigger other workflows — so the push trigger
+  # above never fires for auto-merged claude/** branches. workflow_dispatch
+  # allows running the deploy manually (Actions tab or API) in that case.
+  workflow_dispatch:
 
 jobs:
   deploy:

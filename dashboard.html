@@ -697,6 +697,28 @@
         </div>
       </a>
 
+      <a href="pipeline.html" class="tile" id="pipelineTile" data-min-role="admin" style="display:none;">
+        <div class="tile-preview">
+          <svg class="tile-chart-icon" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="12" width="28" height="12" rx="3" fill="rgba(75,123,245,0.6)"/>
+            <rect x="10" y="30" width="28" height="12" rx="3" fill="rgba(75,123,245,0.45)"/>
+            <rect x="10" y="48" width="28" height="12" rx="3" fill="rgba(75,123,245,0.3)"/>
+            <rect x="46" y="21" width="28" height="12" rx="3" fill="rgba(212,168,75,0.55)"/>
+            <rect x="46" y="39" width="28" height="12" rx="3" fill="rgba(212,168,75,0.35)"/>
+            <rect x="82" y="30" width="28" height="12" rx="3" fill="rgba(52,211,153,0.5)"/>
+            <line x1="38" y1="18" x2="46" y2="27" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <line x1="38" y1="36" x2="46" y2="45" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+            <line x1="74" y1="27" x2="82" y2="36" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+          </svg>
+        </div>
+        <div class="tile-body">
+          <span class="tag">Admin</span>
+          <h2>Deal Pipeline</h2>
+          <p>Approved investment prospects from the sourcing pipeline — BUV Six scores, raising status, and diligence tracking.</p>
+          <span class="tile-arrow">&rarr;</span>
+        </div>
+      </a>
+
       <a href="documents.html" class="tile" data-min-role="prospect">
         <div class="tile-preview">
           <svg class="tile-chart-icon" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -878,7 +900,7 @@
       document.querySelectorAll('.tile[data-min-role]').forEach(tile => {
         if (!hasAccess(role, tile.dataset.minRole)) {
           tile.style.display = 'none';
-        } else if (tile.id === 'networkTile' && role === 'admin') {
+        } else if ((tile.id === 'networkTile' || tile.id === 'pipelineTile') && role === 'admin') {
           tile.style.display = '';
         }
       });
@@ -887,6 +909,7 @@
       if (role === 'admin') {
         document.getElementById('adminSection').style.display = 'block';
         document.getElementById('networkTile').style.display = '';
+        document.getElementById('pipelineTile').style.display = '';
         loadUsers(user.uid);
       }
     })();

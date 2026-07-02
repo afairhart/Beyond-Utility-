@@ -1,0 +1,17 @@
+{
+  "name": "buv-firestore-rules-tests",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Firestore security-rules regression tests, run against the emulator in CI.",
+  "scripts": {
+    "test": "cd .. && firebase emulators:exec --only firestore --project buv-rules-ci \"node test/firestore-rules.test.mjs\""
+  },
+  "dependencies": {
+    "@firebase/rules-unit-testing": "5.0.1",
+    "firebase": "12.15.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "15.22.4"
+  }
+}

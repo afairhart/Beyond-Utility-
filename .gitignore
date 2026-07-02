@@ -51,3 +51,10 @@ CLAUDE.md
 # Service account keys (never commit)
 *-firebase-adminsdk-*.json
 serviceAccountKey*.json
+
+# Rules-test dependencies
+test/node_modules/
+
+# Firestore emulator debug log
+firestore-debug.log
+firestore-debug.log.*

@@ -7,6 +7,7 @@
       ".github",
       "functions",
       "node_modules",
+      "test",
       ".git",
       "*.md"
     ],
@@ -33,5 +34,9 @@
   },
   "firestore": {
     "rules": "firestore.rules"
+  },
+  "emulators": {
+    "firestore": { "port": 8181 },
+    "ui": { "enabled": false }
   }
 }

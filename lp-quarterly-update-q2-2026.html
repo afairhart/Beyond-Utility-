@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>LP Quarterly Update — Q2 2026 — Beyond Utility Water Ventures</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --ink:#080D1A; --blue:#4B7BF5; --blue-deep:#3A67E0; --blue-light:#7BA1F7;
+    --gold:#D4A74A; --gold-deep:#B8862F;
+    --paper:#FFFFFF; --card:#F4F5FA; --dark:#0B1324;
+    --body:#4B5566; --muted:#8A94A6; --faint:#AEB6C4; --line:#E7EAF1;
+    --mat:#E4E8EF;
+    --display:'Space Grotesk', system-ui, sans-serif;
+    --sans:'DM Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--mat); font-family:var(--sans); color:var(--body);
+    -webkit-font-smoothing:antialiased; padding:22px 14px; display:flex; justify-content:center; align-items:flex-start; }
+
+  .sheet { width:8.5in; background:var(--paper); box-shadow:0 8px 34px rgba(8,13,26,0.22);
+    display:flex; flex-direction:column; overflow:hidden; position:relative; }
+
+  .draft-flag { position:absolute; top:0; right:0; z-index:5; background:var(--blue); color:#fff;
+    font-family:var(--display); font-size:8px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
+    padding:4px 11px; border-bottom-left-radius:8px; }
+
+  .fig { color:var(--blue); font-family:var(--display); font-weight:700;
+    border-bottom:1.4px dashed var(--blue); font-variant-numeric:tabular-nums; white-space:nowrap; }
+  .fig.g { color:var(--gold-deep); border-bottom-color:var(--gold); }
+
+  /* ── Dark masthead (echoes deck cover) ── */
+  .masthead { background:linear-gradient(120deg,#0B1324 0%,#0F1A30 55%,#0B1324 100%);
+    padding:20px 34px 18px; display:flex; justify-content:space-between; align-items:center; }
+  .brand { display:flex; align-items:center; gap:12px; }
+  .mark { width:30px; height:30px; flex-shrink:0; }
+  .brand-name { font-family:var(--display); font-weight:700; font-size:15px; color:#fff; line-height:1.1; letter-spacing:-0.01em; }
+  .brand-name .sub { display:block; font-family:var(--display); font-size:7.5px; font-weight:500; letter-spacing:0.17em;
+    text-transform:uppercase; color:var(--gold); margin-top:4px; }
+  .mh-right { text-align:right; }
+  .mh-title { font-family:var(--display); font-weight:600; font-size:13px; color:#fff; }
+  .mh-meta { font-family:var(--display); font-size:7.5px; font-weight:500; letter-spacing:0.15em;
+    text-transform:uppercase; color:var(--blue-light); margin-top:5px; }
+
+  /* ── Body ── */
+  .body { padding:22px 34px 20px; display:flex; flex-direction:column; gap:18px; }
+
+  .thesis { font-size:9.5px; line-height:1.55; color:var(--body); max-width:6.7in; }
+  .thesis strong { color:var(--ink); font-weight:600; }
+
+  .eyebrow { font-family:var(--display); font-size:8px; font-weight:600; letter-spacing:0.16em;
+    text-transform:uppercase; color:var(--blue); margin-bottom:9px; display:flex; align-items:center; gap:9px; }
+  .eyebrow::after { content:''; flex:1; height:1px; background:var(--line); }
+
+  /* Metric cards (deck stat-card treatment) */
+  .metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .metric { background:var(--card); border-radius:14px; padding:16px 14px 15px; text-align:center; }
+  .metric-val { font-family:var(--display); font-weight:700; font-size:25px; line-height:1;
+    color:var(--blue); letter-spacing:-0.01em; font-variant-numeric:tabular-nums; }
+  .metric.gold .metric-val { color:var(--gold-deep); }
+  .metric-val .fig { font-size:25px; border-bottom-width:1.8px; }
+  .metric-val .unit { font-size:13px; font-weight:600; opacity:0.6; }
+  .metric-label { font-family:var(--display); font-size:8px; font-weight:600; letter-spacing:0.05em;
+    text-transform:uppercase; color:var(--ink); margin-top:8px; }
+  .metric-sub { font-size:7.5px; color:var(--muted); margin-top:3px; line-height:1.3; }
+  .mini { height:3.5px; background:#E1E5EE; border-radius:2px; margin:8px auto 0; width:70%; position:relative; overflow:hidden; }
+  .mini span { position:absolute; inset:0 55% 0 0; background:var(--gold); border-radius:2px; }
+
+  .band { display:grid; grid-template-columns:1.32fr 1fr; gap:28px; }
+  .panel { display:flex; flex-direction:column; }
+
+  /* Funnel */
+  .funnel { display:flex; flex-direction:column; gap:7px; }
+  .stage { display:flex; align-items:center; gap:9px; }
+  .stage-name { font-family:var(--display); font-size:8px; font-weight:500; color:var(--muted);
+    width:94px; flex-shrink:0; text-align:right; }
+  .stage-bar { height:27px; border-radius:6px; background:linear-gradient(90deg,var(--blue),var(--blue-deep));
+    display:flex; align-items:center; padding-left:10px; color:#fff; font-family:var(--display);
+    font-weight:600; font-size:10px; font-variant-numeric:tabular-nums; }
+  .stage:nth-child(4) .stage-bar { background:linear-gradient(90deg,#5A86F7,#4B7BF5); }
+  .stage:nth-child(5) .stage-bar { background:linear-gradient(90deg,var(--gold),var(--gold-deep)); }
+  .stage-bar .fig { color:#fff; border-bottom-color:rgba(255,255,255,0.6); font-size:10px; }
+  .note { font-size:7.5px; color:var(--faint); margin-top:7px; line-height:1.45; }
+  .note strong { color:var(--body); font-weight:600; }
+  .antiport { display:flex; align-items:baseline; gap:8px; margin-top:8px; padding-top:8px; border-top:1px solid var(--line); }
+  .antiport .n { font-family:var(--display); font-weight:700; font-size:16px; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .antiport .n .fig { font-size:16px; }
+  .antiport .t { font-size:7.5px; color:var(--muted); line-height:1.35; }
+
+  /* Capital */
+  .cap-target { font-family:var(--display); font-size:8px; font-weight:500; color:var(--muted);
+    display:flex; justify-content:space-between; margin-bottom:6px; }
+  .cap-track { height:30px; border-radius:6px; background:var(--card); position:relative; overflow:hidden; }
+  .cap-committed { position:absolute; inset:0 62% 0 0; background:linear-gradient(90deg,var(--blue),var(--blue-deep)); }
+  .cap-soft { position:absolute; inset:0 40% 0 38%;
+    background:repeating-linear-gradient(45deg,var(--gold),var(--gold) 5px,#e0b660 5px,#e0b660 10px); }
+  .cap-legend { display:flex; flex-direction:column; gap:6px; margin-top:11px; }
+  .cap-row { display:flex; align-items:baseline; gap:8px; font-size:8px; }
+  .sw { width:9px; height:9px; border-radius:2px; flex-shrink:0; position:relative; top:1px; }
+  .sw-b { background:var(--blue); } .sw-g { background:var(--gold); }
+  .sw-l { background:var(--card); border:1px solid var(--line); }
+  .cap-row .lbl { color:var(--body); } .cap-row .amt { margin-left:auto; font-family:var(--display); font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums; }
+  .cap-foot { font-size:7.5px; color:var(--faint); margin-top:9px; line-height:1.5; }
+
+  /* Portfolio */
+  .holding { background:var(--card); border-radius:12px; padding:13px 15px; margin-bottom:11px; }
+  .holding-top { display:flex; justify-content:space-between; align-items:baseline; }
+  .holding-name { font-family:var(--display); font-weight:700; font-size:13px; color:var(--ink); }
+  .holding-tag { font-family:var(--display); font-size:6.5px; font-weight:600; letter-spacing:0.1em;
+    text-transform:uppercase; color:var(--blue); background:#E7EEFE; padding:3px 8px; border-radius:20px; }
+  .holding-desc { font-size:8px; color:var(--body); margin-top:5px; line-height:1.45; }
+  .buckets { display:flex; flex-direction:column; gap:9px; }
+  .bucket { display:flex; align-items:center; gap:9px; }
+  .bdot { width:6px; height:6px; border-radius:50%; background:var(--blue); flex-shrink:0; }
+  .bucket-name { font-size:8px; color:var(--ink); flex:1; }
+  .dots { display:flex; gap:4px; }
+  .dot { width:10px; height:10px; border-radius:50%; border:1.4px solid var(--blue); }
+  .dot.filled { background:var(--blue); }
+  .bucket-count { font-family:var(--display); font-size:7.5px; color:var(--faint); width:26px; text-align:right; font-variant-numeric:tabular-nums; }
+
+  /* Ecosystem */
+  .eco-stat { display:flex; align-items:baseline; gap:9px; margin-bottom:10px; }
+  .eco-num { font-family:var(--display); font-weight:700; font-size:22px; color:var(--blue); line-height:1; font-variant-numeric:tabular-nums; }
+  .eco-num .fig { font-size:22px; }
+  .eco-stat-lbl { font-size:8px; color:var(--body); line-height:1.3; }
+  .chips { display:flex; flex-wrap:wrap; gap:5px; }
+  .chip { font-family:var(--display); font-size:7.5px; font-weight:500; color:var(--ink);
+    background:var(--card); border-radius:20px; padding:3px 9px; }
+  .chip.ph { color:var(--blue); background:#E7EEFE; border:1px dashed var(--blue); }
+  .eco-line { font-size:8px; color:var(--body); line-height:1.5; margin-top:10px; }
+  .eco-line strong { color:var(--ink); font-weight:600; }
+
+  /* Q3 band */
+  .ahead { background:var(--dark); border-radius:12px; padding:14px 18px; display:flex; align-items:center; gap:13px; }
+  .ahead-tag { font-family:var(--display); font-size:7.5px; font-weight:600; letter-spacing:0.13em;
+    text-transform:uppercase; color:var(--gold); flex-shrink:0; }
+  .ahead-txt { font-size:8.5px; line-height:1.45; color:#CBD5E4; }
+  .ahead-txt .fig { color:var(--blue-light); border-bottom-color:var(--blue-light); }
+
+  /* Footer */
+  .footer { padding:14px 34px 18px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:flex-end; }
+  .foot-left { display:flex; align-items:center; gap:8px; }
+  .mark-sm { width:16px; height:16px; }
+  .sig-name { font-family:var(--display); font-weight:600; font-size:9px; color:var(--ink); }
+  .sig-role { font-size:7.5px; color:var(--muted); margin-top:1px; }
+  .sig-contact { font-size:7.5px; color:var(--blue); margin-top:2px; }
+  .confidential { text-align:right; font-family:var(--display); font-size:6.5px; font-weight:500;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); line-height:1.6; max-width:3in; }
+
+  @media print {
+    body { background:#fff; padding:0; }
+    .sheet { box-shadow:none; width:100%; min-height:auto; }
+    .draft-flag { display:none; }
+    @page { size:letter; margin:0.3in; }
+  }
+  @media (max-width:850px){
+    .sheet { width:100%; min-height:auto; }
+    .metrics { grid-template-columns:repeat(2,1fr); }
+    .band { grid-template-columns:1fr; gap:16px; }
+  }
+  </style>
+</head>
+<body>
+
+<div class="sheet">
+  <div class="draft-flag">Draft · replace figures</div>
+
+  <header class="masthead">
+    <div class="brand">
+      <svg class="mark" viewBox="-13 -13 26 26" fill="none" aria-label="Beyond Utility Water Ventures">
+  <polygon points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="none" stroke="rgba(123,161,247,0.4)" stroke-width="0.8"/>
+  <path d="M0,-10 L3,-3.5 L9.5,-5.5Z" fill="#4B7BF5" opacity="0.95"/>
+  <path d="M9.5,-5.5 L3.5,0 L9.5,5.5Z" fill="#6390F6" opacity="0.9"/>
+  <path d="M9.5,5.5 L2,3.5 L0,11Z" fill="#7BA1F7" opacity="0.85"/>
+  <path d="M0,11 L-3,3.5 L-9.5,5.5Z" fill="#4B7BF5" opacity="0.95"/>
+  <path d="M-9.5,5.5 L-3.5,0 L-9.5,-5.5Z" fill="#6390F6" opacity="0.9"/>
+  <path d="M-9.5,-5.5 L-2,-3.5 L0,-10Z" fill="#7BA1F7" opacity="0.85"/>
+  <circle cx="0" cy="0" r="2.5" fill="#7BA1F7" opacity="0.6"/>
+</svg>
+      <div class="brand-name">Beyond Utility Water Ventures
+        <span class="sub">Fund I · General Partner Update</span>
+      </div>
+    </div>
+    <div class="mh-right">
+      <div class="mh-title">LP Quarterly Update</div>
+      <div class="mh-meta">Q2 2026 · Confidential</div>
+    </div>
+  </header>
+
+  <div class="body">
+    <p class="thesis">
+      Fund I invests pre-seed and seed capital in the <strong>new water economy</strong> — venture capital for water
+      technology companies solving the problems businesses can't afford to ignore. A summary of the quarter's
+      fundraising, deal pipeline, and ecosystem work.
+    </p>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-val"><span class="fig">$X.X</span><span class="unit">M</span></div>
+        <div class="metric-label">Capital Committed</div>
+        <div class="mini"><span></span></div>
+        <div class="metric-sub">of $12.5M target</div>
+      </div>
+      <div class="metric gold">
+        <div class="metric-val"><span class="fig g">NN</span></div>
+        <div class="metric-label">Companies Evaluated</div>
+        <div class="metric-sub">new opportunities in Q2</div>
+      </div>
+      <div class="metric">
+        <div class="metric-val"><span class="fig">N</span></div>
+        <div class="metric-label">In Active Diligence</div>
+        <div class="metric-sub">advanced to deep review</div>
+      </div>
+      <div class="metric gold">
+        <div class="metric-val"><span class="fig g">NN</span></div>
+        <div class="metric-label">Partner &amp; LP Calls</div>
+        <div class="metric-sub">VC, operator &amp; LP conversations</div>
+      </div>
+    </div>
+
+    <div class="band">
+      <div class="panel">
+        <div class="eyebrow">Deal Pipeline · Q2</div>
+        <div class="funnel">
+          <div class="stage"><div class="stage-name">Sourced</div><div class="stage-bar" style="width:100%"><span class="fig">NN</span></div></div>
+          <div class="stage"><div class="stage-name">Screened</div><div class="stage-bar" style="width:70%"><span class="fig">NN</span></div></div>
+          <div class="stage"><div class="stage-name">First Meeting</div><div class="stage-bar" style="width:44%"><span class="fig">NN</span></div></div>
+          <div class="stage"><div class="stage-name">Deep Diligence</div><div class="stage-bar" style="width:24%"><span class="fig">N</span></div></div>
+          <div class="stage"><div class="stage-name">IC / Invested</div><div class="stage-bar" style="width:12%"><span class="fig">N</span></div></div>
+        </div>
+        <p class="note">Every opportunity is scored against the <strong>BUV Six</strong> and logged. Bar widths illustrate stage-to-stage conversion. A weekly sourcing digest now runs across LinkedIn, accelerator cohorts (including the Imagine H2O 2026 cohort), SBIR awards, and university tech transfer.</p>
+        <div class="antiport">
+          <span class="n"><span class="fig">NN</span></span>
+          <span class="t"><strong style="color:var(--body)">Passes logged</strong> — building the fund's anti-portfolio and a disciplined record for every deal seen.</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="eyebrow">Capital Formation</div>
+        <div class="cap-target"><span>Committed &amp; in progress</span><span>Target&nbsp;$12.5M</span></div>
+        <div class="cap-track"><div class="cap-committed"></div><div class="cap-soft"></div></div>
+        <div class="cap-legend">
+          <div class="cap-row"><span class="sw sw-b"></span><span class="lbl">Closed commitments</span><span class="amt fig">$X.XM</span></div>
+          <div class="cap-row"><span class="sw sw-g"></span><span class="lbl">Soft-circled / in diligence</span><span class="amt fig g">$X&ndash;YM</span></div>
+          <div class="cap-row"><span class="sw sw-l"></span><span class="lbl">Remaining to target</span><span class="amt fig">$X.XM</span></div>
+        </div>
+        <p class="cap-foot"><span class="fig">N</span> new LP conversations opened this quarter; <span class="fig">N</span> advanced to diligence or subscription documents.</p>
+      </div>
+    </div>
+
+    <div class="band">
+      <div class="panel">
+        <div class="eyebrow">Portfolio &amp; Allocation</div>
+        <div class="holding">
+          <div class="holding-top"><span class="holding-name">Next TFX</span><span class="holding-tag">First Investment</span></div>
+          <div class="holding-desc">UCLA spin-out · ultra-high-pressure RO membranes for lithium recovery, desalination &amp; produced water. Q2 status: <span class="fig">[milestone / follow-on]</span>.</div>
+        </div>
+        <div class="holding">
+          <div class="holding-top"><span class="holding-name">Biota Inc</span><span class="holding-tag">Second Investment</span></div>
+          <div class="holding-desc">PFAS detection — monitoring the contaminant class driving the next decade of water compliance spend. Q2 status: <span class="fig">[milestone / follow-on]</span>.</div>
+        </div>
+        <div class="buckets">
+          <div class="bucket"><span class="bdot"></span><span class="bucket-name">Treatment Technology</span><span class="dots"><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></span><span class="bucket-count">1/3</span></div>
+          <div class="bucket"><span class="bdot"></span><span class="bucket-name">Digital &amp; Software</span><span class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span><span class="bucket-count">0/3</span></div>
+          <div class="bucket"><span class="bdot"></span><span class="bucket-name">Non-Treatment Hardware</span><span class="dots"><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></span><span class="bucket-count">1/3</span></div>
+          <div class="bucket"><span class="bdot"></span><span class="bucket-name">New Models &amp; Emerging</span><span class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span><span class="bucket-count">0/3</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="eyebrow">Network &amp; Ecosystem</div>
+        <div class="eco-stat"><span class="eco-num"><span class="fig">NN</span></span><span class="eco-stat-lbl">calls with water-focused VCs,<br>operators &amp; co-investors</span></div>
+        <div class="chips">
+          <span class="chip">Burnt Island Ventures</span>
+          <span class="chip">Echo River Capital</span>
+          <span class="chip">Imagine H2O</span>
+          <span class="chip">Pure Terra</span>
+          <span class="chip">Safar Partners</span>
+          <span class="chip">Elemental Excelerator</span>
+          <span class="chip">BlueTech Forum</span>
+        </div>
+        <p class="eco-line"><strong><span class="fig">N</span> advisor reviews</strong> completed under the mandatory pre-investment gate. Active co-investment dialogue across <span class="fig">N</span>+ funds at pre-seed and seed.</p>
+      </div>
+    </div>
+
+    <div class="ahead">
+      <span class="ahead-tag">Looking Ahead · Q3</span>
+      <span class="ahead-txt"><span class="fig">[Targeting first close by ___ · N new diligence processes · next portfolio decision]</span></span>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="foot-left">
+      <svg class="mark-sm" viewBox="-13 -13 26 26" fill="none" aria-label="Beyond Utility Water Ventures">
+  <polygon points="0,-11 9.5,-5.5 9.5,5.5 0,11 -9.5,5.5 -9.5,-5.5" fill="none" stroke="rgba(75,123,245,0.35)" stroke-width="0.8"/>
+  <path d="M0,-10 L3,-3.5 L9.5,-5.5Z" fill="#4B7BF5" opacity="0.95"/>
+  <path d="M9.5,-5.5 L3.5,0 L9.5,5.5Z" fill="#6390F6" opacity="0.9"/>
+  <path d="M9.5,5.5 L2,3.5 L0,11Z" fill="#7BA1F7" opacity="0.85"/>
+  <path d="M0,11 L-3,3.5 L-9.5,5.5Z" fill="#4B7BF5" opacity="0.95"/>
+  <path d="M-9.5,5.5 L-3.5,0 L-9.5,-5.5Z" fill="#6390F6" opacity="0.9"/>
+  <path d="M-9.5,-5.5 L-2,-3.5 L0,-10Z" fill="#7BA1F7" opacity="0.85"/>
+  <circle cx="0" cy="0" r="2.5" fill="#7BA1F7" opacity="0.6"/>
+</svg>
+      <div>
+        <div class="sig-name">Alex Fairhart · General Partner</div>
+        <div class="sig-contact">alex@beyondutilityventures.com · Seattle, WA</div>
+      </div>
+    </div>
+    <div class="confidential">Confidential — for existing and prospective Limited Partners only. Not an offer to sell securities.</div>
+  </footer>
+</div>
+
+</body>
+</html>

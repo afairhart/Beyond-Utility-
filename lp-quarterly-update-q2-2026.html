@@ -159,10 +159,10 @@
     letter-spacing:0.08em; text-transform:uppercase; color:var(--faint); line-height:1.6; max-width:3in; }
 
   @media print {
-    body { background:#fff; padding:0; }
-    .sheet { box-shadow:none; width:100%; min-height:auto; }
+    body { background:#fff; padding:0; display:block; }
+    .sheet { box-shadow:none; width:8.5in; min-height:auto; margin:0; }
     .dl-btn { display:none; }
-    @page { size:letter; margin:0.3in; }
+    @page { size:8.5in 13.65in; margin:0; }
   }
   @media (max-width:850px){
     .sheet { width:100%; min-height:auto; }

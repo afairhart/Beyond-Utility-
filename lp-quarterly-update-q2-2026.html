@@ -28,9 +28,10 @@
   .sheet { width:8.5in; background:var(--paper); box-shadow:0 8px 34px rgba(8,13,26,0.22);
     display:flex; flex-direction:column; overflow:hidden; position:relative; }
 
-  .draft-flag { position:absolute; top:0; right:0; z-index:5; background:var(--blue); color:#fff;
+  .dl-btn { position:absolute; top:0; right:0; z-index:5; background:var(--blue); color:#fff; text-decoration:none;
     font-family:var(--display); font-size:8px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase;
     padding:4px 11px; border-bottom-left-radius:8px; }
+  .dl-btn:hover { background:var(--blue-deep); }
 
   .fig { color:var(--blue); font-family:var(--display); font-weight:700;
     border-bottom:1.4px dashed var(--blue); font-variant-numeric:tabular-nums; white-space:nowrap; }
@@ -71,7 +72,7 @@
     text-transform:uppercase; color:var(--ink); margin-top:8px; }
   .metric-sub { font-size:7.5px; color:var(--muted); margin-top:3px; line-height:1.3; }
   .mini { height:3.5px; background:#E1E5EE; border-radius:2px; margin:8px auto 0; width:70%; position:relative; overflow:hidden; }
-  .mini span { position:absolute; inset:0 55% 0 0; background:var(--gold); border-radius:2px; }
+  .mini span { position:absolute; inset:0 85.6% 0 0; background:var(--gold); border-radius:2px; }
 
   .band { display:grid; grid-template-columns:1.32fr 1fr; gap:28px; }
   .panel { display:flex; flex-direction:column; }
@@ -98,13 +99,15 @@
   .cap-target { font-family:var(--display); font-size:8px; font-weight:500; color:var(--muted);
     display:flex; justify-content:space-between; margin-bottom:6px; }
   .cap-track { height:30px; border-radius:6px; background:var(--card); position:relative; overflow:hidden; }
-  .cap-committed { position:absolute; inset:0 62% 0 0; background:linear-gradient(90deg,var(--blue),var(--blue-deep)); }
-  .cap-soft { position:absolute; inset:0 40% 0 38%;
+  .cap-committed { position:absolute; inset:0 85.6% 0 0; background:linear-gradient(90deg,var(--blue),var(--blue-deep)); }
+  .cap-dd { position:absolute; inset:0 69.6% 0 14.4%;
+    background:repeating-linear-gradient(45deg,var(--blue-light),var(--blue-light) 5px,#93B2F8 5px,#93B2F8 10px); }
+  .cap-soft { position:absolute; inset:0 21.6% 0 30.4%;
     background:repeating-linear-gradient(45deg,var(--gold),var(--gold) 5px,#e0b660 5px,#e0b660 10px); }
   .cap-legend { display:flex; flex-direction:column; gap:6px; margin-top:11px; }
   .cap-row { display:flex; align-items:baseline; gap:8px; font-size:8px; }
   .sw { width:9px; height:9px; border-radius:2px; flex-shrink:0; position:relative; top:1px; }
-  .sw-b { background:var(--blue); } .sw-g { background:var(--gold); }
+  .sw-b { background:var(--blue); } .sw-bl { background:var(--blue-light); } .sw-g { background:var(--gold); }
   .sw-l { background:var(--card); border:1px solid var(--line); }
   .cap-row .lbl { color:var(--body); } .cap-row .amt { margin-left:auto; font-family:var(--display); font-weight:700; color:var(--ink); font-variant-numeric:tabular-nums; }
   .cap-foot { font-size:7.5px; color:var(--faint); margin-top:9px; line-height:1.5; }
@@ -158,7 +161,7 @@
   @media print {
     body { background:#fff; padding:0; }
     .sheet { box-shadow:none; width:100%; min-height:auto; }
-    .draft-flag { display:none; }
+    .dl-btn { display:none; }
     @page { size:letter; margin:0.3in; }
   }
   @media (max-width:850px){
@@ -171,7 +174,7 @@
 <body>
 
 <div class="sheet">
-  <div class="draft-flag">Draft · replace figures</div>
+  <a class="dl-btn" href="BUV_LP_Quarterly_Update_Q2_2026.pdf" download>Download PDF</a>
 
   <header class="masthead">
     <div class="brand">
@@ -204,23 +207,23 @@
 
     <div class="metrics">
       <div class="metric">
-        <div class="metric-val"><span class="fig">$X.X</span><span class="unit">M</span></div>
+        <div class="metric-val">$1.8<span class="unit">M</span></div>
         <div class="metric-label">Capital Committed</div>
         <div class="mini"><span></span></div>
         <div class="metric-sub">of $12.5M target</div>
       </div>
       <div class="metric gold">
-        <div class="metric-val"><span class="fig g">NN</span></div>
+        <div class="metric-val">65+</div>
         <div class="metric-label">Companies Evaluated</div>
         <div class="metric-sub">new opportunities in Q2</div>
       </div>
       <div class="metric">
-        <div class="metric-val"><span class="fig">N</span></div>
+        <div class="metric-val">4</div>
         <div class="metric-label">In Active Diligence</div>
         <div class="metric-sub">advanced to deep review</div>
       </div>
       <div class="metric gold">
-        <div class="metric-val"><span class="fig g">NN</span></div>
+        <div class="metric-val">9</div>
         <div class="metric-label">Partner &amp; LP Calls</div>
         <div class="metric-sub">VC, operator &amp; LP conversations</div>
       </div>
@@ -230,15 +233,15 @@
       <div class="panel">
         <div class="eyebrow">Deal Pipeline · Q2</div>
         <div class="funnel">
-          <div class="stage"><div class="stage-name">Sourced</div><div class="stage-bar" style="width:100%"><span class="fig">NN</span></div></div>
-          <div class="stage"><div class="stage-name">Screened</div><div class="stage-bar" style="width:70%"><span class="fig">NN</span></div></div>
-          <div class="stage"><div class="stage-name">First Meeting</div><div class="stage-bar" style="width:44%"><span class="fig">NN</span></div></div>
-          <div class="stage"><div class="stage-name">Deep Diligence</div><div class="stage-bar" style="width:24%"><span class="fig">N</span></div></div>
-          <div class="stage"><div class="stage-name">IC / Invested</div><div class="stage-bar" style="width:12%"><span class="fig">N</span></div></div>
+          <div class="stage"><div class="stage-name">Sourced</div><div class="stage-bar" style="width:100%">65</div></div>
+          <div class="stage"><div class="stage-name">Screened</div><div class="stage-bar" style="width:62%">40</div></div>
+          <div class="stage"><div class="stage-name">First Meeting</div><div class="stage-bar" style="width:26%">15</div></div>
+          <div class="stage"><div class="stage-name">Deep Diligence</div><div class="stage-bar" style="width:14%">4</div></div>
+          <div class="stage"><div class="stage-name">IC / Invested</div><div class="stage-bar" style="width:10%">1</div></div>
         </div>
         <p class="note">Every opportunity is scored against the <strong>BUV Six</strong> and logged. Bar widths illustrate stage-to-stage conversion. A weekly sourcing digest now runs across LinkedIn, accelerator cohorts (including the Imagine H2O 2026 cohort), SBIR awards, and university tech transfer.</p>
         <div class="antiport">
-          <span class="n"><span class="fig">NN</span></span>
+          <span class="n">40+</span>
           <span class="t"><strong style="color:var(--body)">Passes logged</strong> — building the fund's anti-portfolio and a disciplined record for every deal seen.</span>
         </div>
       </div>
@@ -246,13 +249,14 @@
       <div class="panel">
         <div class="eyebrow">Capital Formation</div>
         <div class="cap-target"><span>Committed &amp; in progress</span><span>Target&nbsp;$12.5M</span></div>
-        <div class="cap-track"><div class="cap-committed"></div><div class="cap-soft"></div></div>
+        <div class="cap-track"><div class="cap-committed"></div><div class="cap-dd"></div><div class="cap-soft"></div></div>
         <div class="cap-legend">
-          <div class="cap-row"><span class="sw sw-b"></span><span class="lbl">Closed commitments</span><span class="amt fig">$X.XM</span></div>
-          <div class="cap-row"><span class="sw sw-g"></span><span class="lbl">Soft-circled / in diligence</span><span class="amt fig g">$X&ndash;YM</span></div>
-          <div class="cap-row"><span class="sw sw-l"></span><span class="lbl">Remaining to target</span><span class="amt fig">$X.XM</span></div>
+          <div class="cap-row"><span class="sw sw-b"></span><span class="lbl">Closed commitments (2 LPs)</span><span class="amt">$1.8M</span></div>
+          <div class="cap-row"><span class="sw sw-bl"></span><span class="lbl">In final due diligence</span><span class="amt">$2.0M</span></div>
+          <div class="cap-row"><span class="sw sw-g"></span><span class="lbl">Soft-circled / in diligence</span><span class="amt">$6.0M</span></div>
+          <div class="cap-row"><span class="sw sw-l"></span><span class="lbl">Remaining to target</span><span class="amt">$2.7M</span></div>
         </div>
-        <p class="cap-foot"><span class="fig">N</span> new LP conversations opened this quarter; <span class="fig">N</span> advanced to diligence or subscription documents.</p>
+        <p class="cap-foot">3 new LP conversations opened this quarter; 2 advanced to due diligence.</p>
       </div>
     </div>
 
@@ -261,11 +265,11 @@
         <div class="eyebrow">Portfolio &amp; Allocation</div>
         <div class="holding">
           <div class="holding-top"><span class="holding-name">Next TFX</span><span class="holding-tag">First Investment</span></div>
-          <div class="holding-desc">UCLA spin-out · ultra-high-pressure RO membranes for lithium recovery, desalination &amp; produced water. Q2 status: <span class="fig">[milestone / follow-on]</span>.</div>
+          <div class="holding-desc">UCLA spin-out · ultra-high-pressure RO membranes for lithium recovery, desalination &amp; produced water. First portfolio update coming in Q3.</div>
         </div>
         <div class="holding">
           <div class="holding-top"><span class="holding-name">Biota Inc</span><span class="holding-tag">Second Investment</span></div>
-          <div class="holding-desc">PFAS detection — monitoring the contaminant class driving the next decade of water compliance spend. Q2 status: <span class="fig">[milestone / follow-on]</span>.</div>
+          <div class="holding-desc">PFAS detection — monitoring the contaminant class driving the next decade of water compliance spend. Update coming in Q3.</div>
         </div>
         <div class="buckets">
           <div class="bucket"><span class="bdot"></span><span class="bucket-name">Treatment Technology</span><span class="dots"><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></span><span class="bucket-count">1/3</span></div>
@@ -277,7 +281,7 @@
 
       <div class="panel">
         <div class="eyebrow">Network &amp; Ecosystem</div>
-        <div class="eco-stat"><span class="eco-num"><span class="fig">NN</span></span><span class="eco-stat-lbl">calls with water-focused VCs,<br>operators &amp; co-investors</span></div>
+        <div class="eco-stat"><span class="eco-num">9</span><span class="eco-stat-lbl">calls with water-focused VCs,<br>operators, LPs &amp; co-investors</span></div>
         <div class="chips">
           <span class="chip">Burnt Island Ventures</span>
           <span class="chip">Echo River Capital</span>
@@ -287,13 +291,13 @@
           <span class="chip">Elemental Excelerator</span>
           <span class="chip">BlueTech Forum</span>
         </div>
-        <p class="eco-line"><strong><span class="fig">N</span> advisor reviews</strong> completed under the mandatory pre-investment gate. Active co-investment dialogue across <span class="fig">N</span>+ funds at pre-seed and seed.</p>
+        <p class="eco-line"><strong>3 advisor reviews</strong> completed under the mandatory pre-investment gate. Active co-investment dialogue with 3 funds at pre-seed and seed.</p>
       </div>
     </div>
 
     <div class="ahead">
       <span class="ahead-tag">Looking Ahead · Q3</span>
-      <span class="ahead-txt"><span class="fig">[Targeting first close by ___ · N new diligence processes · next portfolio decision]</span></span>
+      <span class="ahead-txt">Targeting second close by July 31 · 5+ new due diligence processes · next portfolio decision by July 15</span>
     </div>
   </div>
 

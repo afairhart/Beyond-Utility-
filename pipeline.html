@@ -1382,8 +1382,9 @@
       var status = STATUS_LABELS[d.status] ? d.status : 'new';
       var raising = d.raisingStatus || 'Unknown';
       var raisingClass = RAISING_CLASSES[raising] || 'raising-unknown';
-      var age = daysAgo(d.addedDate);
-      var isNew = age !== null && age <= NEW_DAYS;
+      // "New" pill: explicit isNew flag, set on creation and re-set by the
+      // daily scan when it appends updates. Cleared on first expand below.
+      var isNew = d.isNew === true;
 
       // ── Summary line ──
       var summary = document.createElement('div');
@@ -1399,7 +1400,19 @@
       summary.addEventListener('click', function() {
         expandedIds[id] = !expandedIds[id];
         row.classList.toggle('expanded', !!expandedIds[id]);
-        if (expandedIds[id]) ensureActivityLoaded(id, row);
+        if (expandedIds[id]) {
+          ensureActivityLoaded(id, row);
+          // First expand since the flag was set: mark as seen so the pill
+          // disappears. Intentionally does not touch lastUpdated — viewing
+          // a company is not activity.
+          if (d.isNew === true) {
+            d.isNew = false; // same object as the companies[] cache entry
+            var pill = summary.querySelector('.new-pill');
+            if (pill) pill.remove();
+            db.collection(COLLECTION).doc(id).update({ isNew: false })
+              .catch(function(err) { console.error('Failed to clear isNew for', id, err); });
+          }
+        }
       });
       row.appendChild(summary);
 
@@ -1923,6 +1936,7 @@
           notes: document.getElementById('pc-notes').value.trim(),
           nextStep: document.getElementById('pc-nextStep').value.trim(),
           status: document.getElementById('pc-status').value,
+          isNew: true,
           addedDate: firebase.firestore.FieldValue.serverTimestamp(),
           lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
         });

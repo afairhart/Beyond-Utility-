@@ -26,6 +26,7 @@ into the pipeline must follow this so the CRM features — filters, sorting,
 | `notes` | string | optional | Quick notes (freeform). Leave `""` for automated adds — this is the GP's field. |
 | `nextStep` | string | optional | Suggested next action, e.g. `"Check raise timing with founder"`. |
 | `status` | string | **yes** | Exactly one of: `"new"`, `"diligence"`, `"passed"`, `"invested"` (lowercase). Automated adds should always use `"new"`. |
+| `isNew` | boolean | **yes for automated adds** | Drives the "New" pill in the list. Set `true` on every newly created company, and set it back to `true` on an existing company whenever the scan appends new findings to its activity log. The web UI flips it to `false` the first time the admin expands that row. |
 | `addedDate` | timestamp | **yes** | Must be a **Firestore server timestamp** (`FieldValue.serverTimestamp()` / `SERVER_TIMESTAMP`), not a string. Powers the "Added" column, `Added ≤7d` insight, and date filters. |
 | `lastUpdated` | timestamp | **yes** | Server timestamp; set equal to `addedDate` on create. Powers the `Stale 30d+` insight. |
 
@@ -57,9 +58,9 @@ GP logs notes/calls/meetings manually.
 
 1. **De-duplicate before adding.** Query `pipeline_companies` for an existing
    doc with the same `name` (case-insensitive compare on the fetched list).
-   If it exists, do **not** create a duplicate — optionally append an
-   `activity` entry (`type: "research"`) with the new information instead,
-   and update `lastUpdated`.
+   If it exists, do **not** create a duplicate — append an `activity` entry
+   (`type: "research"`) with the new information instead, and update
+   `lastUpdated` and set `isNew: true` so the update surfaces in the UI.
 2. **Never overwrite GP-owned fields** on an existing doc: `notes`, `status`,
    `nextStep`, and never touch `addedDate` after creation.
 3. Use server timestamps for `addedDate`, `lastUpdated`, and `createdAt`.
@@ -73,11 +74,12 @@ GP logs notes/calls/meetings manually.
 > Yes / Likely soon / No / Unknown), `buvScore` (the compact score ONLY, like
 > "4/6" — put the strong/weak rationale in `fitNotes` instead), `fitNotes`,
 > `source` (use a consistent channel name), `link`, `nextStep` (suggested next
-> action), `notes` set to "", `status` set to "new", and `addedDate` +
-> `lastUpdated` as Firestore server timestamps. Before adding, check whether a
-> company with the same name already exists; if it does, add a `research`
-> entry to its `activity` subcollection with the new findings and update
-> `lastUpdated` instead of creating a duplicate. After creating a new company
+> action), `notes` set to "", `status` set to "new", `isNew` set to true, and
+> `addedDate` + `lastUpdated` as Firestore server timestamps. Before adding,
+> check whether a company with the same name already exists; if it does, add a
+> `research` entry to its `activity` subcollection with the new findings and
+> update `lastUpdated` and set `isNew: true` on the company doc instead of
+> creating a duplicate. After creating a new company
 > doc, add one entry to its `activity` subcollection with `type: "system"`,
 > `createdAt` as a server timestamp, and `text` explaining where it was
 > surfaced and why it fits the thesis.

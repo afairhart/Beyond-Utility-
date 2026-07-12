@@ -20,7 +20,12 @@ service cloud.firestore {
     }
 
     // Deal pipeline, LinkedIn data, and settings (API keys) — admin only.
-    match /pipeline_companies/{docId}     { allow read, write: if isAdmin(); }
+    // The per-company activity subcollection (timestamped notes, calls,
+    // status changes) inherits the same admin-only access.
+    match /pipeline_companies/{docId} {
+      allow read, write: if isAdmin();
+      match /activity/{entryId} { allow read, write: if isAdmin(); }
+    }
     match /linkedinConnections/{docId}    { allow read, write: if isAdmin(); }
     match /linkedinMessages/{docId}       { allow read, write: if isAdmin(); }
     match /linkedinInvitations/{docId}    { allow read, write: if isAdmin(); }

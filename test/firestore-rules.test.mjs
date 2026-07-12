@@ -27,6 +27,7 @@ await testEnv.withSecurityRulesDisabled(async (ctx) => {
   await db.collection('users').doc('admin-uid').set({ email: 'admin@buv.test', role: 'admin' });
   await db.collection('users').doc('lp-uid').set({ email: 'lp@buv.test', role: 'lp' });
   await db.collection('pipeline_companies').doc('co1').set({ name: 'Test Co', status: 'new' });
+  await db.collection('pipeline_companies').doc('co1').collection('activity').doc('a0').set({ type: 'system', text: 'seeded', createdAt: new Date() });
   await db.collection('settings').doc('apiKeys').set({ claude: 'sk-secret' });
   await db.collection('linkedinConnections').doc('c1').set({ name: 'Someone' });
   await db.collection('usage').doc('functions-2026-07').set({ invocations: 1 });
@@ -67,6 +68,17 @@ for (const col of ADMIN_ONLY) {
   await check(`anon cannot read ${col}`, assertFails(anon.collection(col).get()));
   await check(`lp cannot write ${col}`, assertFails(lp.collection(col).doc('x').set({ a: 1 })));
 }
+
+console.log('\n# pipeline activity subcollection is admin-only');
+const activityRef = (ctx) => ctx.collection('pipeline_companies').doc('co1').collection('activity');
+await check('lp cannot read pipeline activity', assertFails(activityRef(lp).get()));
+await check('stranger cannot read pipeline activity', assertFails(activityRef(stranger).get()));
+await check('anon cannot read pipeline activity', assertFails(activityRef(anon).get()));
+await check('lp cannot write pipeline activity', assertFails(
+  activityRef(lp).doc('x').set({ type: 'note', text: 'nope' })));
+await check('admin can write pipeline activity', assertSucceeds(
+  activityRef(admin).doc('a1').set({ type: 'note', text: 'diligence call notes', createdAt: new Date() })));
+await check('admin can read pipeline activity', assertSucceeds(activityRef(admin).get()));
 
 console.log('\n# login-activity self-update stays allowed, everything else denied');
 await check('lp can update own login activity', assertSucceeds(

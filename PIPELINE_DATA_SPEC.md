@@ -19,7 +19,7 @@ into the pipeline must follow this so the CRM features — filters, sorting,
 | `technology` | string | recommended | One-line description of the technology. |
 | `stageAmount` | string | optional | e.g. `"Seed, raising $2M"`. |
 | `raisingStatus` | string | recommended | Exactly one of: `"Yes"`, `"Likely soon"`, `"No"`, `"Unknown"`. The page filters/sorts on these exact values. |
-| `buvScore` | string | recommended | e.g. `"4/6"`. The page parses `N/D` (or a bare number, assumed out of 6) for numeric sorting. |
+| `buvScore` | string | recommended | **Compact score only**, e.g. `"4/6"` — do not append the strong/weak rationale here; that belongs in `fitNotes`. The page parses `N/D` (or a bare number, assumed out of 6) for numeric sorting and shows only the leading `N/D` in the list column. |
 | `fitNotes` | string | recommended | Why it fits (or doesn't fit) the BUV thesis. |
 | `source` | string | **yes for automated adds** | Which scan/channel surfaced it, e.g. `"Daily sourcing scan"`, `"Imagine H2O cohort"`. The source filter is built dynamically from these values, so keep them consistent — same channel, same exact string. |
 | `link` | string | optional | Full URL including `https://`. |
@@ -70,7 +70,8 @@ GP logs notes/calls/meetings manually.
 > When adding a company to the pipeline, write to the Firestore collection
 > `pipeline_companies` in project `beyond-utility-ventures` with exactly these
 > fields: `name`, `technology`, `stageAmount`, `raisingStatus` (one of
-> Yes / Likely soon / No / Unknown), `buvScore` (like "4/6"), `fitNotes`,
+> Yes / Likely soon / No / Unknown), `buvScore` (the compact score ONLY, like
+> "4/6" — put the strong/weak rationale in `fitNotes` instead), `fitNotes`,
 > `source` (use a consistent channel name), `link`, `nextStep` (suggested next
 > action), `notes` set to "", `status` set to "new", and `addedDate` +
 > `lastUpdated` as Firestore server timestamps. Before adding, check whether a

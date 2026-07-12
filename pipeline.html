@@ -464,9 +464,16 @@
       font-size: 0.85rem;
       color: var(--gold);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .c-raising { font-size: 0.75rem; white-space: nowrap; }
+    .c-raising {
+      font-size: 0.75rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
     .raising-yes { color: var(--green); }
     .raising-soon { color: var(--gold); }
     .raising-no { color: var(--text-dim); }
@@ -476,6 +483,8 @@
       font-size: 0.72rem;
       color: var(--text-dim);
       white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .new-pill {
       display: inline-block;
@@ -1382,7 +1391,7 @@
       summary.innerHTML =
         '<div class="c-name">' + escapeHtml(d.name || '(unnamed)') + (isNew ? '<span class="new-pill">New</span>' : '') + '</div>' +
         '<div class="c-tech">' + escapeHtml(d.technology || '—') + '</div>' +
-        '<div class="c-score">' + escapeHtml(d.buvScore || '—') + '</div>' +
+        '<div class="c-score" title="' + escapeHtml(d.buvScore || '') + '">' + escapeHtml(shortScore(d.buvScore)) + '</div>' +
         '<div class="c-raising ' + raisingClass + '">' + escapeHtml(raising) + '</div>' +
         '<div class="c-added" title="' + escapeHtml(formatDateTime(d.addedDate)) + '">' + formatRelative(d.addedDate) + '</div>' +
         '<span class="status-badge status-' + status + '">' + STATUS_LABELS[status] + '</span>' +
@@ -1973,6 +1982,19 @@
     function detailField(label, value) {
       return '<div class="detail-field"><div class="detail-label">' + escapeHtml(label) + '</div>' +
         '<div class="detail-value">' + escapeHtml(value || '—') + '</div></div>';
+    }
+
+    // The daily import sometimes writes the rationale into buvScore
+    // ("2/6 — strong: …; weak: …"). The summary column shows only the
+    // compact "N/6" part; the full text lives in the detail panel + tooltip.
+    function shortScore(s) {
+      if (!s) return '—';
+      var m = String(s).match(/^\s*(\d+(?:\.\d+)?\s*\/\s*\d+(?:\.\d+)?)/);
+      if (m) return m[1].replace(/\s+/g, '');
+      m = String(s).match(/^\s*(\d+(?:\.\d+)?)/);
+      if (m) return m[1];
+      var t = String(s).trim();
+      return t.length > 8 ? t.slice(0, 8) + '…' : (t || '—');
     }
 
     function formatRelative(ts) {

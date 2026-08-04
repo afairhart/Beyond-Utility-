@@ -25,6 +25,7 @@
       --green: #34d399;
       --red: #f87171;
       --purple: #a78bfa;
+      --cyan: #22d3ee;
       --text: rgba(255, 255, 255, 0.88);
       --text-dim: rgba(255, 255, 255, 0.45);
       --text-muted: rgba(255, 255, 255, 0.3);
@@ -143,7 +144,7 @@
     /* ── STAT TILES ── */
     .stat-strip {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(8, 1fr);
       gap: 10px;
       margin-bottom: 24px;
     }
@@ -176,6 +177,7 @@
       white-space: nowrap;
     }
     .stat-tile[data-stat="status:new"] .stat-num { color: var(--blue-light); }
+    .stat-tile[data-stat="status:exploring"] .stat-num { color: var(--cyan); }
     .stat-tile[data-stat="status:diligence"] .stat-num { color: var(--gold); }
     .stat-tile[data-stat="status:invested"] .stat-num { color: var(--green); }
     .stat-tile[data-stat="status:passed"] .stat-num { color: var(--text-dim); }
@@ -511,6 +513,7 @@
       white-space: nowrap;
     }
     .status-new { background: var(--blue-dim); color: var(--blue-light); }
+    .status-exploring { background: rgba(34, 211, 238, 0.12); color: var(--cyan); }
     .status-diligence { background: rgba(212, 168, 75, 0.12); color: var(--gold); }
     .status-passed { background: rgba(255, 255, 255, 0.06); color: var(--text-dim); }
     .status-invested { background: rgba(52, 211, 153, 0.12); color: var(--green); }
@@ -861,6 +864,7 @@
     <div class="stat-strip" id="statStrip">
       <div class="stat-tile" data-stat="all"><div class="stat-num" id="stat-all">–</div><div class="stat-label">Total</div></div>
       <div class="stat-tile" data-stat="status:new"><div class="stat-num" id="stat-new">–</div><div class="stat-label">New</div></div>
+      <div class="stat-tile" data-stat="status:exploring"><div class="stat-num" id="stat-exploring">–</div><div class="stat-label">Exploring</div></div>
       <div class="stat-tile" data-stat="status:diligence"><div class="stat-num" id="stat-diligence">–</div><div class="stat-label">Diligence</div></div>
       <div class="stat-tile" data-stat="status:invested"><div class="stat-num" id="stat-invested">–</div><div class="stat-label">Invested</div></div>
       <div class="stat-tile" data-stat="status:passed"><div class="stat-num" id="stat-passed">–</div><div class="stat-label">Passed</div></div>
@@ -910,6 +914,7 @@
             <label for="pc-status">Status</label>
             <select id="pc-status" name="status">
               <option value="new" selected>New</option>
+              <option value="exploring">Exploring</option>
               <option value="diligence">Diligence</option>
               <option value="passed">Passed</option>
               <option value="invested">Invested</option>
@@ -945,6 +950,7 @@
       <select id="f-status" title="Filter by status">
         <option value="all">Status: All</option>
         <option value="new">New</option>
+        <option value="exploring">Exploring</option>
         <option value="diligence">Diligence</option>
         <option value="passed">Passed</option>
         <option value="invested">Invested</option>
@@ -1011,8 +1017,8 @@
 
   <script>
     var COLLECTION = 'pipeline_companies';
-    var STATUS_LABELS = { new: 'New', diligence: 'Diligence', passed: 'Passed', invested: 'Invested' };
-    var STATUS_ORDER = { new: 0, diligence: 1, invested: 2, passed: 3 };
+    var STATUS_LABELS = { new: 'New', exploring: 'Exploring', diligence: 'Diligence', passed: 'Passed', invested: 'Invested' };
+    var STATUS_ORDER = { new: 0, exploring: 1, diligence: 2, invested: 3, passed: 4 };
     var RAISING_CLASSES = { 'Yes': 'raising-yes', 'Likely soon': 'raising-soon', 'No': 'raising-no', 'Unknown': 'raising-unknown' };
     var RAISING_ORDER = { 'Yes': 0, 'Likely soon': 1, 'No': 2, 'Unknown': 3 };
     var ACTIVITY_TYPES = { note: 'Note', call: 'Call', meeting: 'Meeting', email: 'Email', research: 'Research', status: 'Status', system: 'System' };
@@ -1092,7 +1098,7 @@
 
     function isStale(d) {
       var status = d.status || 'new';
-      if (status !== 'new' && status !== 'diligence') return false;
+      if (status !== 'new' && status !== 'exploring' && status !== 'diligence') return false;
       var last = tsMillis(d.lastUpdated) || tsMillis(d.addedDate);
       if (!last) return false;
       return (Date.now() - last) > STALE_DAYS * 86400000;
@@ -1179,7 +1185,7 @@
 
     // ── Stats ──
     function renderStats() {
-      var counts = { all: companies.length, new: 0, diligence: 0, passed: 0, invested: 0, added7: 0, stale: 0 };
+      var counts = { all: companies.length, new: 0, exploring: 0, diligence: 0, passed: 0, invested: 0, added7: 0, stale: 0 };
       companies.forEach(function(c) {
         var d = c.data;
         var s = STATUS_LABELS[d.status] ? d.status : 'new';
@@ -1191,6 +1197,7 @@
 
       document.getElementById('stat-all').textContent = counts.all;
       document.getElementById('stat-new').textContent = counts.new;
+      document.getElementById('stat-exploring').textContent = counts.exploring;
       document.getElementById('stat-diligence').textContent = counts.diligence;
       document.getElementById('stat-invested').textContent = counts.invested;
       document.getElementById('stat-passed').textContent = counts.passed;
@@ -1499,7 +1506,7 @@
 
       var statusSelect = document.createElement('select');
       statusSelect.className = 'status-select';
-      ['new', 'diligence', 'passed', 'invested'].forEach(function(s) {
+      ['new', 'exploring', 'diligence', 'passed', 'invested'].forEach(function(s) {
         var opt = document.createElement('option');
         opt.value = s;
         opt.textContent = STATUS_LABELS[s];

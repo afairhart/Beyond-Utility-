@@ -25,7 +25,7 @@ into the pipeline must follow this so the CRM features — filters, sorting,
 | `link` | string | optional | Full URL including `https://`. |
 | `notes` | string | optional | Quick notes (freeform). Leave `""` for automated adds — this is the GP's field. |
 | `nextStep` | string | optional | Suggested next action, e.g. `"Check raise timing with founder"`. |
-| `status` | string | **yes** | Exactly one of: `"new"`, `"diligence"`, `"passed"`, `"invested"` (lowercase). Automated adds should always use `"new"`. |
+| `status` | string | **yes** | Exactly one of: `"new"`, `"exploring"`, `"diligence"`, `"passed"`, `"invested"` (lowercase). `"exploring"` = GP has active interest and is gathering info, short of full diligence. Automated adds should always use `"new"`. |
 | `isNew` | boolean | **yes for automated adds** | Drives the "New" pill in the list. Set `true` on every newly created company, and set it back to `true` on an existing company whenever the scan appends new findings to its activity log. The web UI flips it to `false` the first time the admin expands that row. |
 | `addedDate` | timestamp | **yes** | Must be a **Firestore server timestamp** (`FieldValue.serverTimestamp()` / `SERVER_TIMESTAMP`), not a string. Powers the "Added" column, `Added ≤7d` insight, and date filters. |
 | `lastUpdated` | timestamp | **yes** | Server timestamp; set equal to `addedDate` on create. Powers the `Stale 30d+` insight. |

@@ -141,6 +141,38 @@
     }
     .page-error.visible { display: block; }
 
+    /* ── FILTER SUMMARY (only shown while filtering) ── */
+    .filter-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      background: var(--blue-dim);
+      border: 1px solid rgba(75, 123, 245, 0.3);
+      border-radius: 10px;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .filter-summary[hidden] { display: none; }
+    .filter-summary strong { color: var(--blue-light); font-weight: 600; }
+    .filter-summary-clear {
+      background: none;
+      border: 1px solid var(--border-hover);
+      color: var(--text-dim);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .filter-summary-clear:hover { border-color: var(--blue); color: var(--text); }
+
     /* ── STAT TILES ── */
     .stat-strip {
       display: grid;
@@ -860,6 +892,12 @@
 
     <div class="page-error" id="pageError"></div>
 
+    <!-- ── Filter match count (appears only while filtering) ── -->
+    <div class="filter-summary" id="filterSummary" hidden>
+      <span id="filterSummaryText"></span>
+      <button type="button" class="filter-summary-clear" id="filterSummaryClear">Clear filters</button>
+    </div>
+
     <!-- ── Insight tiles (click to filter) ── -->
     <div class="stat-strip" id="statStrip">
       <div class="stat-tile" data-stat="all"><div class="stat-num" id="stat-all">–</div><div class="stat-label">Total</div></div>
@@ -1244,6 +1282,7 @@
         renderAll();
       });
       document.getElementById('clearFilters').addEventListener('click', clearFilters);
+      document.getElementById('filterSummaryClear').addEventListener('click', clearFilters);
 
       // Stat tiles as one-click filters
       document.querySelectorAll('.stat-tile').forEach(function(tile) {
@@ -1358,6 +1397,17 @@
         count.textContent = companies.length + (companies.length === 1 ? ' company' : ' companies');
       } else {
         count.textContent = filtered.length + ' of ' + companies.length + ' companies';
+      }
+
+      // Top-of-page filter match count — only while a filter is active
+      var summary = document.getElementById('filterSummary');
+      if (anyFilterActive()) {
+        document.getElementById('filterSummaryText').innerHTML =
+          'Showing <strong>' + filtered.length + '</strong> of ' + companies.length +
+          (companies.length === 1 ? ' company' : ' companies') + ' matching filters';
+        summary.hidden = false;
+      } else {
+        summary.hidden = true;
       }
 
       if (companies.length === 0) {

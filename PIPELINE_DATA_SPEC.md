@@ -33,6 +33,26 @@ into the pipeline must follow this so the CRM features — filters, sorting,
 Unknown/missing optional fields render as `—`; never write the literal string
 `"Unknown"` except in `raisingStatus`.
 
+## Sourcing registry counter (`settings/sourcingRegistry`)
+
+The Deal Pipeline page shows a small **"In Sourcing Registry"** tracker in the
+top-left. It reflects the *full* de-dupe registry — every technology/company the
+daily scan has ever seen — of which only a curated subset is promoted into
+`pipeline_companies`. The page reads this number live; it cannot compute it,
+because the registry lives outside Firestore (the scan's local seen-list).
+
+Write it to the admin-only doc `settings/sourcingRegistry`:
+
+| Field | Type | Notes |
+|---|---|---|
+| `seenCount` | number | Total distinct technologies/companies in the sourcing registry to date (the full de-dupe list, not just what's in the pipeline). |
+| `updatedAt` | timestamp | Firestore server timestamp of the last update. |
+
+Update it once per scan, **after** de-duplicating: set `seenCount` to the new
+registry size (e.g. the line count of the seen-companies list) and `updatedAt`
+to the server timestamp. If the doc doesn't exist yet, create it. The page shows
+`– syncs on next sourcing scan` until the first write lands.
+
 ## Activity log entries (`.../activity/{entryId}`)
 
 Each entry documents one step of the process:
@@ -83,3 +103,11 @@ GP logs notes/calls/meetings manually.
 > doc, add one entry to its `activity` subcollection with `type: "system"`,
 > `createdAt` as a server timestamp, and `text` explaining where it was
 > surfaced and why it fits the thesis.
+>
+> Also, once per run after de-duplicating, update the doc
+> `settings/sourcingRegistry` in the same project: set `seenCount` to the total
+> number of technologies/companies in your sourcing registry (the full de-dupe
+> list of everything seen to date — e.g. the line count of the seen-companies
+> file), and `updatedAt` to a Firestore server timestamp. Create the doc if it
+> doesn't exist. This drives the "In Sourcing Registry" tracker on the pipeline
+> page.

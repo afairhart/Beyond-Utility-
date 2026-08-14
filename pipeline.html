@@ -129,6 +129,38 @@
     }
     .btn-ghost:hover { border-color: rgba(255, 255, 255, 0.3); color: #fff; }
 
+    /* ── SOURCING REGISTRY TRACKER (top-left) ── */
+    .registry-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 18px;
+      margin-bottom: 22px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 10px;
+      width: fit-content;
+      max-width: 100%;
+    }
+    .registry-num {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .registry-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .registry-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .registry-sub { font-size: 0.75rem; color: var(--text-muted); }
+
     .page-error {
       display: none;
       margin: 0 0 20px;
@@ -880,6 +912,15 @@
   </nav>
 
   <main class="page">
+    <!-- ── Sourcing registry coverage tracker (top-left) ── -->
+    <div class="registry-box" id="registryBox" title="Total technologies logged in the sourcing registry across all scans. Only a curated subset is promoted into the pipeline below.">
+      <div class="registry-num" id="registryCount">&ndash;</div>
+      <div class="registry-meta">
+        <div class="registry-label">In Sourcing Registry</div>
+        <div class="registry-sub" id="registrySub">technologies tracked to date</div>
+      </div>
+    </div>
+
     <div class="page-header">
       <div>
         <h1>Deal Pipeline</h1>
@@ -1063,6 +1104,9 @@
     var STALE_DAYS = 30;
     var NEW_DAYS = 7;
 
+    var REGISTRY_DOC = 'sourcingRegistry';   // settings/sourcingRegistry — total names ever seen by the sourcing scan
+    var registrySeenCount = null;            // null until the registry doc is read
+
     var companies = [];      // cached list from last load: [{id, data}]
     var expandedIds = {};    // preserve expansion across re-renders
     var editingIds = {};     // rows currently in "edit details" mode
@@ -1086,8 +1130,40 @@
 
       document.body.classList.remove('auth-loading');
       wireToolbar();
+      watchRegistry();
       loadCompanies();
     })();
+
+    // ── Sourcing registry tracker ──
+    // Reads the running total of technologies the daily sourcing scan has seen
+    // (the full de-dupe registry, of which only a curated subset is promoted
+    // into this pipeline). See PIPELINE_DATA_SPEC.md for the write contract.
+    function watchRegistry() {
+      db.collection('settings').doc(REGISTRY_DOC).onSnapshot(function(doc) {
+        var data = doc.exists ? doc.data() : null;
+        registrySeenCount = (data && typeof data.seenCount === 'number') ? data.seenCount : null;
+        renderRegistry();
+      }, function() { /* non-fatal: leave placeholder */ });
+    }
+
+    function renderRegistry() {
+      var numEl = document.getElementById('registryCount');
+      var subEl = document.getElementById('registrySub');
+      if (!numEl || !subEl) return;
+      if (registrySeenCount === null || isNaN(registrySeenCount)) {
+        numEl.textContent = '–';
+        subEl.textContent = 'syncs on next sourcing scan';
+        return;
+      }
+      numEl.textContent = registrySeenCount.toLocaleString();
+      var inPipeline = companies.length;
+      if (inPipeline > 0 && registrySeenCount >= inPipeline) {
+        var pct = Math.round((inPipeline / registrySeenCount) * 100);
+        subEl.textContent = inPipeline.toLocaleString() + ' promoted to pipeline (' + pct + '%)';
+      } else {
+        subEl.textContent = 'technologies tracked to date';
+      }
+    }
 
     function showPageError(msg) {
       var el = document.getElementById('pageError');
@@ -1116,6 +1192,7 @@
       renderStats();
       renderList();
       updateToolbarState();
+      renderRegistry();
     }
 
     // ── Timestamp helpers ──

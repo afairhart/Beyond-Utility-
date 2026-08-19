@@ -160,6 +160,34 @@
       color: var(--text-dim);
     }
     .registry-sub { font-size: 0.75rem; color: var(--text-muted); }
+    .registry-edit {
+      margin-left: 4px;
+      padding: 5px 11px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: none;
+      border: 1px solid var(--border-hover);
+      border-radius: 7px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .registry-edit:hover { border-color: var(--gold); color: var(--gold); }
+    .registry-input {
+      width: 84px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--gold);
+      background: rgba(212, 168, 75, 0.08);
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      padding: 2px 8px;
+      -moz-appearance: textfield;
+    }
+    .registry-input:focus { outline: none; }
 
     .page-error {
       display: none;
@@ -919,6 +947,7 @@
         <div class="registry-label">In Sourcing Registry</div>
         <div class="registry-sub" id="registrySub">technologies tracked to date</div>
       </div>
+      <button type="button" class="registry-edit" id="registryEdit" title="Set the current registry total">Set</button>
     </div>
 
     <div class="page-header">
@@ -1144,6 +1173,59 @@
         registrySeenCount = (data && typeof data.seenCount === 'number') ? data.seenCount : null;
         renderRegistry();
       }, function() { /* non-fatal: leave placeholder */ });
+
+      var editBtn = document.getElementById('registryEdit');
+      if (editBtn) editBtn.addEventListener('click', enterRegistryEdit);
+    }
+
+    function saveRegistryCount(n) {
+      return db.collection('settings').doc(REGISTRY_DOC).set({
+        seenCount: n,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    }
+
+    // Inline editor so the admin can set/update the registry total by hand.
+    // Any automated write (see PIPELINE_DATA_SPEC.md) still flows in live.
+    function enterRegistryEdit() {
+      var box = document.getElementById('registryBox');
+      var numEl = document.getElementById('registryCount');
+      var btn = document.getElementById('registryEdit');
+      if (!box || !numEl || box.querySelector('.registry-input')) return;
+
+      var input = document.createElement('input');
+      input.type = 'number';
+      input.min = '0';
+      input.className = 'registry-input';
+      input.value = (registrySeenCount !== null && !isNaN(registrySeenCount)) ? registrySeenCount : '';
+      input.placeholder = '0';
+      numEl.style.display = 'none';
+      numEl.insertAdjacentElement('afterend', input);
+      if (btn) btn.disabled = true;
+      input.focus();
+      input.select();
+
+      var done = false;
+      function commit(save) {
+        if (done) return;
+        done = true;
+        if (save) {
+          var n = parseInt(input.value, 10);
+          if (!isNaN(n) && n >= 0) {
+            saveRegistryCount(n).catch(function(e) {
+              showPageError('Could not save registry count: ' + e.message);
+            });
+          }
+        }
+        input.remove();
+        numEl.style.display = '';
+        if (btn) btn.disabled = false;
+      }
+      input.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') { e.preventDefault(); commit(true); }
+        else if (e.key === 'Escape') { e.preventDefault(); commit(false); }
+      });
+      input.addEventListener('blur', function() { commit(true); });
     }
 
     function renderRegistry() {
@@ -1152,7 +1234,7 @@
       if (!numEl || !subEl) return;
       if (registrySeenCount === null || isNaN(registrySeenCount)) {
         numEl.textContent = '–';
-        subEl.textContent = 'syncs on next sourcing scan';
+        subEl.textContent = 'not synced yet — click Set to enter the total';
         return;
       }
       numEl.textContent = registrySeenCount.toLocaleString();

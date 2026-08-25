@@ -53,6 +53,39 @@ registry size (e.g. the line count of the seen-companies list) and `updatedAt`
 to the server timestamp. If the doc doesn't exist yet, create it. The page shows
 `– syncs on next sourcing scan` until the first write lands.
 
+## Full sourcing registry (`sourcing_registry`)
+
+Backs the **Sourcing Registry** page (`registry.html`), a read-only record of
+**every company the scan evaluates — including the ones rejected below a 2/6
+BUV Six score.** Only strong-fit companies are promoted into
+`pipeline_companies`; this collection keeps the rest so they can be reviewed
+later. The registry number on the Deal Pipeline page links into it (defaulting
+to the rejected view).
+
+Write **one doc per evaluated company** to `sourcing_registry` (admin-only):
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `name` | string | **yes** | Company name. Used for de-duplication (case-insensitive compare on the fetched list). |
+| `description` | string | recommended | One-line description of the technology / what they do. Shown in the Description column. (`technology` is accepted as a fallback.) |
+| `buvScore` | string | recommended | Compact score only, e.g. `"1/6"`. Parsed as `N/6` (bare number assumed out of 6). Anything `< 2/6` counts as rejected. |
+| `verdict` | string | **yes** | One of: `"rejected"` (scored `< 2/6`, not pursued), `"watch"` (borderline — monitor), `"promoted"` (also added to `pipeline_companies`). If omitted, the page derives it from `buvScore` (`< 2/6` → rejected, else `logged`). |
+| `source` | string | recommended | Which scan/channel surfaced it, e.g. `"Daily sourcing scan"`. |
+| `link` | string | optional | Full URL incl. `https://`. Makes the company name a link. |
+| `seenDate` | timestamp | **yes** | Firestore server timestamp of when it was first evaluated. Powers the "Seen" column and date sort. |
+| `promotedId` | string | optional | If promoted, the `pipeline_companies` doc id, for cross-reference. |
+
+Rules for the daily program:
+
+1. **Log every evaluated company here**, whatever the score — this is the full
+   record. Promote only strong-fit ones into `pipeline_companies` as well (set
+   `verdict: "promoted"` and, if handy, `promotedId`).
+2. **De-duplicate before adding** by `name` (case-insensitive). If it already
+   exists, update the existing doc (e.g. a better score / new `verdict`) instead
+   of creating a duplicate.
+3. Keep `seenCount` in `settings/sourcingRegistry` equal to the number of docs in
+   this collection.
+
 ## Activity log entries (`.../activity/{entryId}`)
 
 Each entry documents one step of the process:
@@ -104,10 +137,19 @@ GP logs notes/calls/meetings manually.
 > `createdAt` as a server timestamp, and `text` explaining where it was
 > surfaced and why it fits the thesis.
 >
+> For **every** company you evaluate — not just the ones good enough for the
+> pipeline — also write one doc to the Firestore collection `sourcing_registry`
+> with: `name`, `description` (one line), `buvScore` (compact, e.g. "1/6"),
+> `verdict` (one of `rejected` for `< 2/6`, `watch` for borderline, `promoted`
+> if you also added it to `pipeline_companies`), `source`, `link`, and
+> `seenDate` as a Firestore server timestamp. De-duplicate by `name`
+> (case-insensitive): if it already exists, update that doc rather than adding a
+> duplicate. This is the full record behind the Sourcing Registry page, so
+> rejects can be reviewed later.
+>
 > Also, once per run after de-duplicating, update the doc
 > `settings/sourcingRegistry` in the same project: set `seenCount` to the total
-> number of technologies/companies in your sourcing registry (the full de-dupe
-> list of everything seen to date — e.g. the line count of the seen-companies
-> file), and `updatedAt` to a Firestore server timestamp. Create the doc if it
-> doesn't exist. This drives the "In Sourcing Registry" tracker on the pipeline
-> page.
+> number of docs in `sourcing_registry` (the full de-dupe list of everything
+> seen to date), and `updatedAt` to a Firestore server timestamp. Create the doc
+> if it doesn't exist. This drives the "In Sourcing Registry" tracker on the
+> pipeline page.

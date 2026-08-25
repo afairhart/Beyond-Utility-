@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Sourcing Registry — Beyond Utility Water Ventures</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #080E1A;
+      --bg-card: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.06);
+      --border-hover: rgba(255, 255, 255, 0.14);
+      --blue: #4B7BF5;
+      --blue-light: #7BA1F7;
+      --blue-dim: rgba(75, 123, 245, 0.15);
+      --gold: #D4A84B;
+      --green: #34d399;
+      --red: #f87171;
+      --purple: #a78bfa;
+      --cyan: #22d3ee;
+      --text: rgba(255, 255, 255, 0.88);
+      --text-dim: rgba(255, 255, 255, 0.45);
+      --text-muted: rgba(255, 255, 255, 0.3);
+    }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .auth-loading main, .auth-loading footer { display: none; }
+
+    /* ── NAV ── */
+    .nav {
+      padding: 28px 40px;
+      padding-top: calc(28px + env(safe-area-inset-top));
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-left { display: flex; align-items: center; gap: 20px; }
+    .nav-logo {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 500;
+      font-size: 1.05rem;
+      color: #fff;
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-back {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 5px;
+      transition: border-color 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .nav-back:hover { border-color: rgba(255, 255, 255, 0.3); color: #fff; }
+
+    /* ── PAGE ── */
+    .page {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 40px 80px;
+      width: 100%;
+    }
+    .page-header { margin-bottom: 24px; }
+    .page-header h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .page-header p { color: var(--text-dim); font-size: 0.95rem; max-width: 720px; }
+
+    .page-error {
+      display: none;
+      margin: 0 0 20px;
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      color: var(--red);
+      background: rgba(248, 113, 113, 0.08);
+      border: 1px solid rgba(248, 113, 113, 0.2);
+      border-radius: 8px;
+    }
+    .page-error.visible { display: block; }
+
+    /* ── STAT CHIPS ── */
+    .chip-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 22px; }
+    .chip {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+    .chip:hover { border-color: var(--border-hover); }
+    .chip.active { border-color: rgba(75, 123, 245, 0.5); background: rgba(75, 123, 245, 0.08); }
+    .chip .chip-num { font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 1rem; }
+    .chip .chip-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em; color: var(--text-dim); text-transform: uppercase; }
+    .chip[data-verdict="rejected"] .chip-num { color: var(--red); }
+    .chip[data-verdict="promoted"] .chip-num { color: var(--green); }
+    .chip[data-verdict="watch"] .chip-num { color: var(--gold); }
+    .chip[data-verdict="all"] .chip-num { color: var(--blue-light); }
+
+    /* ── TOOLBAR ── */
+    .toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+    .toolbar input[type="search"], .toolbar select {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .toolbar input[type="search"] { flex: 1; min-width: 200px; }
+    .toolbar input[type="search"]::placeholder { color: var(--text-muted); }
+    .toolbar select { cursor: pointer; }
+    .clear-filters {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      background: none;
+      border: 1px solid var(--border-hover);
+      border-radius: 8px;
+      padding: 0 16px;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .clear-filters:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── LIST ── */
+    .list-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; gap: 12px; }
+    .list-header h2 { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600; }
+    .list-count { font-size: 0.8rem; color: var(--text-dim); }
+
+    .reg-table { width: 100%; border-collapse: collapse; }
+    .reg-table thead th {
+      text-align: left;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    .reg-table thead th:hover { color: var(--text); }
+    .reg-table thead th.no-sort { cursor: default; }
+    .reg-table thead th.no-sort:hover { color: var(--text-dim); }
+    .reg-table tbody td {
+      padding: 13px 14px;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .reg-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+    .reg-name { font-weight: 600; color: #fff; }
+    .reg-name a { color: #fff; text-decoration: none; border-bottom: 1px solid var(--border-hover); }
+    .reg-name a:hover { border-bottom-color: var(--gold); color: var(--gold); }
+    .reg-desc { color: var(--text-dim); font-size: 0.85rem; line-height: 1.45; max-width: 440px; }
+    .reg-score { font-family: 'Outfit', sans-serif; font-weight: 700; white-space: nowrap; }
+    .reg-src { color: var(--text-dim); font-size: 0.82rem; }
+    .reg-date { color: var(--text-muted); font-size: 0.82rem; white-space: nowrap; }
+    .muted { color: var(--text-muted); }
+
+    .verdict-badge {
+      display: inline-block;
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .verdict-rejected { color: var(--red); background: rgba(248, 113, 113, 0.1); border: 1px solid rgba(248, 113, 113, 0.25); }
+    .verdict-promoted { color: var(--green); background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25); }
+    .verdict-watch { color: var(--gold); background: rgba(212, 168, 75, 0.1); border: 1px solid rgba(212, 168, 75, 0.25); }
+    .verdict-logged { color: var(--text-dim); background: rgba(255, 255, 255, 0.04); border: 1px solid var(--border); }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-dim);
+      background: var(--bg-card);
+      border: 1px dashed var(--border-hover);
+      border-radius: 12px;
+    }
+    .empty-state strong { display: block; color: var(--text); font-size: 1.05rem; margin-bottom: 8px; font-family: 'Outfit', sans-serif; }
+    .empty-state span { font-size: 0.88rem; }
+
+    .table-wrap { overflow-x: auto; }
+
+    /* ── FOOTER ── */
+    .footer {
+      padding: 28px 40px;
+      padding-bottom: calc(28px + env(safe-area-inset-bottom));
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      .nav { padding: 20px 16px; padding-top: calc(20px + env(safe-area-inset-top)); }
+      .page { padding: 32px 16px 60px; }
+      .reg-desc { max-width: none; }
+    }
+  </style>
+</head>
+<body class="auth-loading">
+
+  <nav class="nav">
+    <div class="nav-left">
+      <a href="index.html" class="nav-logo"><img src="icon-nav.png" alt="Beyond Utility" class="nav-icon" width="22" height="22" style="vertical-align: middle; margin-right: 8px;">Beyond Utility <span>Water Ventures</span></a>
+      <a href="pipeline.html" class="nav-back">&larr; Deal Pipeline</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <div class="page-header">
+      <h1>Sourcing Registry</h1>
+      <p>Every technology the sourcing scan has evaluated — including those rejected below a 2/6 BUV Six score. Only the strongest are promoted into the Deal Pipeline; this is the full record so nothing gets lost. Admin only.</p>
+    </div>
+
+    <div class="page-error" id="pageError"></div>
+
+    <!-- ── Verdict chips (click to filter) ── -->
+    <div class="chip-strip" id="chipStrip">
+      <div class="chip" data-verdict="all"><span class="chip-num" id="chip-all">–</span><span class="chip-label">All</span></div>
+      <div class="chip" data-verdict="rejected"><span class="chip-num" id="chip-rejected">–</span><span class="chip-label">Rejected &lt; 2/6</span></div>
+      <div class="chip" data-verdict="watch"><span class="chip-num" id="chip-watch">–</span><span class="chip-label">Watch</span></div>
+      <div class="chip" data-verdict="promoted"><span class="chip-num" id="chip-promoted">–</span><span class="chip-label">Promoted</span></div>
+    </div>
+
+    <!-- ── Toolbar ── -->
+    <div class="toolbar">
+      <input type="search" id="f-search" placeholder="Search name, description, source&hellip;" autocomplete="off">
+      <select id="f-verdict" title="Filter by verdict">
+        <option value="all">Verdict: All</option>
+        <option value="rejected">Rejected &lt; 2/6</option>
+        <option value="watch">Watch</option>
+        <option value="promoted">Promoted</option>
+      </select>
+      <select id="f-sort" title="Sort by">
+        <option value="seenDate">Sort: Date seen</option>
+        <option value="name">Name</option>
+        <option value="buvScore">BUV score</option>
+        <option value="verdict">Verdict</option>
+      </select>
+      <button type="button" class="clear-filters" id="clearFilters">Clear</button>
+    </div>
+
+    <div class="list-header">
+      <h2>Companies</h2>
+      <span class="list-count" id="listCount"></span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="reg-table" id="regTable">
+        <thead>
+          <tr>
+            <th data-sort="name">Company</th>
+            <th class="no-sort">Description</th>
+            <th data-sort="buvScore">Score</th>
+            <th data-sort="verdict">Verdict</th>
+            <th data-sort="name" class="no-sort">Source</th>
+            <th data-sort="seenDate">Seen</th>
+          </tr>
+        </thead>
+        <tbody id="regBody"></tbody>
+      </table>
+    </div>
+
+    <div class="empty-state" id="emptyState" hidden>
+      <strong>Nothing here yet</strong>
+      <span id="emptyMsg">No companies match this view.</span>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <span>&copy; 2026 Beyond Utility Water Ventures</span>
+  </footer>
+
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+
+  <script>
+    var COLLECTION = 'sourcing_registry';
+    var VERDICT_LABELS = { rejected: 'Rejected', watch: 'Watch', promoted: 'Promoted', logged: 'Logged' };
+    var VERDICT_ORDER = { rejected: 0, watch: 1, promoted: 2, logged: 3 };
+    var REJECT_THRESHOLD = 2 / 6;   // "< 2/6" — matches the routine's reject cutoff
+
+    var entries = [];   // [{id, data}]
+    var filters = { search: '', verdict: 'all', sortField: 'seenDate', sortDir: 'desc' };
+
+    // ── Auth guard: admins only ──
+    (async function init() {
+      var result = await BUAuth.guard();
+      if (!result) return;
+      if (!result.profile || result.profile.role !== 'admin') {
+        window.location.href = 'dashboard.html';
+        return;
+      }
+      document.body.classList.remove('auth-loading');
+      applyUrlFilter();
+      wireControls();
+      loadEntries();
+    })();
+
+    // Deep-link support: registry.html?verdict=rejected (or ?filter=rejected)
+    function applyUrlFilter() {
+      var params = new URLSearchParams(window.location.search);
+      var v = params.get('verdict') || params.get('filter');
+      if (v && VERDICT_LABELS[v]) filters.verdict = v;
+    }
+
+    function showPageError(msg) {
+      var el = document.getElementById('pageError');
+      el.textContent = msg;
+      el.classList.add('visible');
+    }
+
+    async function loadEntries() {
+      try {
+        var snapshot = await db.collection(COLLECTION).get();
+        entries = snapshot.docs.map(function(doc) { return { id: doc.id, data: doc.data() }; });
+        renderAll();
+        document.getElementById('pageError').classList.remove('visible');
+      } catch (err) {
+        showPageError('Failed to load registry: ' + err.message);
+      }
+    }
+
+    // ── Helpers ──
+    function tsMillis(ts) {
+      if (!ts) return 0;
+      try {
+        if (ts.toDate) return ts.toDate().getTime();
+        var d = new Date(ts);
+        return isNaN(d.getTime()) ? 0 : d.getTime();
+      } catch (e) { return 0; }
+    }
+
+    function fmtDate(ts) {
+      var t = tsMillis(ts);
+      if (!t) return '—';
+      var d = new Date(t);
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    // Parse "N/D" (or a bare number, assumed out of 6) into a 0–1 fraction.
+    function parseScore(s) {
+      if (s === null || s === undefined || s === '') return -1;
+      var m = String(s).match(/(\d+(?:\.\d+)?)\s*(?:\/\s*(\d+(?:\.\d+)?))?/);
+      if (!m) return -1;
+      var num = parseFloat(m[1]);
+      var den = m[2] ? parseFloat(m[2]) : 6;
+      if (!den) return num;
+      return num / den;
+    }
+
+    // Effective verdict: explicit field wins; otherwise derive from score.
+    function verdictOf(d) {
+      if (d.verdict && VERDICT_LABELS[d.verdict]) return d.verdict;
+      var frac = parseScore(d.buvScore);
+      if (frac >= 0 && frac < REJECT_THRESHOLD) return 'rejected';
+      return 'logged';
+    }
+
+    // ── Filter + sort ──
+    function getFiltered() {
+      var q = filters.search.trim().toLowerCase();
+      var out = entries.filter(function(c) {
+        var d = c.data;
+        if (filters.verdict !== 'all' && verdictOf(d) !== filters.verdict) return false;
+        if (q) {
+          var hay = [d.name, d.description, d.technology, d.source, d.buvScore]
+            .map(function(v) { return v ? String(v) : ''; }).join(' ').toLowerCase();
+          if (hay.indexOf(q) === -1) return false;
+        }
+        return true;
+      });
+
+      var dir = filters.sortDir === 'asc' ? 1 : -1;
+      var f = filters.sortField;
+      out.sort(function(a, b) {
+        var da = a.data, dbb = b.data, va, vb;
+        switch (f) {
+          case 'name':
+            va = String(da.name || '').toLowerCase(); vb = String(dbb.name || '').toLowerCase();
+            if (va === vb) return 0;
+            if (!va) return 1;
+            if (!vb) return -1;
+            return va < vb ? -dir : dir;
+          case 'buvScore':
+            return (parseScore(da.buvScore) - parseScore(dbb.buvScore)) * dir;
+          case 'verdict':
+            va = VERDICT_ORDER[verdictOf(da)]; vb = VERDICT_ORDER[verdictOf(dbb)];
+            return (va - vb) * dir;
+          case 'seenDate':
+          default:
+            return (tsMillis(da.seenDate) - tsMillis(dbb.seenDate)) * dir;
+        }
+      });
+      return out;
+    }
+
+    // ── Render ──
+    function renderAll() { renderChips(); renderList(); syncControls(); }
+
+    function renderChips() {
+      var counts = { all: entries.length, rejected: 0, watch: 0, promoted: 0 };
+      entries.forEach(function(c) {
+        var v = verdictOf(c.data);
+        if (counts[v] !== undefined) counts[v]++;
+      });
+      document.getElementById('chip-all').textContent = counts.all;
+      document.getElementById('chip-rejected').textContent = counts.rejected;
+      document.getElementById('chip-watch').textContent = counts.watch;
+      document.getElementById('chip-promoted').textContent = counts.promoted;
+      document.querySelectorAll('.chip').forEach(function(chip) {
+        chip.classList.toggle('active', chip.dataset.verdict === filters.verdict);
+      });
+    }
+
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function renderList() {
+      var rows = getFiltered();
+      var body = document.getElementById('regBody');
+      var table = document.getElementById('regTable');
+      var empty = document.getElementById('emptyState');
+      document.getElementById('listCount').textContent =
+        rows.length + (rows.length === 1 ? ' company' : ' companies');
+
+      if (!rows.length) {
+        body.innerHTML = '';
+        table.style.display = 'none';
+        empty.hidden = false;
+        document.getElementById('emptyMsg').textContent = entries.length
+          ? 'No companies match this filter.'
+          : 'The registry is empty — it fills in as the sourcing scan logs evaluated companies.';
+        return;
+      }
+      table.style.display = '';
+      empty.hidden = true;
+
+      body.innerHTML = rows.map(function(c) {
+        var d = c.data;
+        var v = verdictOf(d);
+        var desc = d.description || d.technology || '';
+        var name = esc(d.name || 'Unnamed');
+        var nameCell = d.link
+          ? '<a href="' + esc(d.link) + '" target="_blank" rel="noopener">' + name + '</a>'
+          : name;
+        var score = d.buvScore ? esc(String(d.buvScore)) : '<span class="muted">—</span>';
+        return '<tr>' +
+          '<td class="reg-name">' + nameCell + '</td>' +
+          '<td class="reg-desc">' + (desc ? esc(desc) : '<span class="muted">—</span>') + '</td>' +
+          '<td class="reg-score">' + score + '</td>' +
+          '<td><span class="verdict-badge verdict-' + v + '">' + VERDICT_LABELS[v] + '</span></td>' +
+          '<td class="reg-src">' + (d.source ? esc(d.source) : '<span class="muted">—</span>') + '</td>' +
+          '<td class="reg-date">' + fmtDate(d.seenDate) + '</td>' +
+          '</tr>';
+      }).join('');
+    }
+
+    // ── Controls ──
+    function wireControls() {
+      document.getElementById('f-search').addEventListener('input', function(e) {
+        filters.search = e.target.value; renderList();
+      });
+      document.getElementById('f-verdict').addEventListener('change', function(e) {
+        filters.verdict = e.target.value; renderChips(); renderList();
+      });
+      document.getElementById('f-sort').addEventListener('change', function(e) {
+        filters.sortField = e.target.value; renderList();
+      });
+      document.getElementById('clearFilters').addEventListener('click', function() {
+        filters.search = ''; filters.verdict = 'all';
+        filters.sortField = 'seenDate'; filters.sortDir = 'desc';
+        syncControls(); renderChips(); renderList();
+      });
+      document.querySelectorAll('.chip').forEach(function(chip) {
+        chip.addEventListener('click', function() {
+          filters.verdict = chip.dataset.verdict;
+          syncControls(); renderChips(); renderList();
+        });
+      });
+      document.querySelectorAll('.reg-table thead th[data-sort]').forEach(function(th) {
+        if (th.classList.contains('no-sort')) return;
+        th.addEventListener('click', function() {
+          var field = th.dataset.sort;
+          if (filters.sortField === field) {
+            filters.sortDir = filters.sortDir === 'asc' ? 'desc' : 'asc';
+          } else {
+            filters.sortField = field;
+            filters.sortDir = (field === 'name') ? 'asc' : 'desc';
+          }
+          syncControls(); renderList();
+        });
+      });
+    }
+
+    function syncControls() {
+      document.getElementById('f-search').value = filters.search;
+      document.getElementById('f-verdict').value = filters.verdict;
+      document.getElementById('f-sort').value = filters.sortField;
+    }
+  </script>
+</body>
+</html>

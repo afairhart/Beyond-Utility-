@@ -38,7 +38,7 @@ const lp       = testEnv.authenticatedContext('lp-uid').firestore();
 const stranger = testEnv.authenticatedContext('stranger-uid').firestore(); // signed up, no profile
 const anon     = testEnv.unauthenticatedContext().firestore();
 
-const ADMIN_ONLY = ['pipeline_companies', 'linkedinConnections', 'linkedinMessages', 'linkedinInvitations', 'linkedinCompanyFollows', 'settings'];
+const ADMIN_ONLY = ['pipeline_companies', 'sourcing_registry', 'linkedinConnections', 'linkedinMessages', 'linkedinInvitations', 'linkedinCompanyFollows', 'settings'];
 
 let pass = 0, fail = 0;
 async function check(label, promise) {

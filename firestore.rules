@@ -26,6 +26,8 @@ service cloud.firestore {
       allow read, write: if isAdmin();
       match /activity/{entryId} { allow read, write: if isAdmin(); }
     }
+    // Full sourcing registry — every evaluated company, incl. rejects (< 2/6).
+    match /sourcing_registry/{docId} { allow read, write: if isAdmin(); }
     match /linkedinConnections/{docId}    { allow read, write: if isAdmin(); }
     match /linkedinMessages/{docId}       { allow read, write: if isAdmin(); }
     match /linkedinInvitations/{docId}    { allow read, write: if isAdmin(); }

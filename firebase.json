@@ -6,6 +6,7 @@
       ".firebaserc",
       ".github",
       "functions",
+      "scripts",
       "node_modules",
       "test",
       ".git",

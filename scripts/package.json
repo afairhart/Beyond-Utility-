@@ -1,0 +1,13 @@
+{
+  "name": "buv-scripts",
+  "description": "One-off maintenance scripts for the Beyond Utility Water Ventures site/data.",
+  "private": true,
+  "type": "commonjs",
+  "scripts": {
+    "add-companies": "node add-companies-to-pipeline.js",
+    "add-companies:commit": "node add-companies-to-pipeline.js --commit"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

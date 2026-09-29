@@ -54,6 +54,7 @@ serviceAccountKey*.json
 
 # Rules-test dependencies
 test/node_modules/
+scripts/node_modules/
 
 # Firestore emulator debug log
 firestore-debug.log

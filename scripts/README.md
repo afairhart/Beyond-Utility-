@@ -72,3 +72,27 @@ If you'd rather not run a script, add each company through the **"Add Company"**
 form on the live pipeline page. The `fitNotes`, `technology`, and `link` values
 in `add-companies-to-pipeline.js` are written out per company and can be copied
 straight into the form.
+
+## sourcing-scan.mjs
+
+Storage helper for the **BUV daily sourcing scan**, which now runs as a Claude
+Code cloud routine instead of a Cowork task on the Mac. The registry, daily logs
+and Deal Pipeline all live in the admin-only Firestore collections described in
+`PIPELINE_DATA_SPEC.md`, plus `sourcing_daily_logs/{YYYY-MM-DD}` for the logs.
+
+Auth: set `FIREBASE_SERVICE_ACCOUNT_JSON` (the service-account key JSON) in the
+cloud environment's settings. Never commit the key.
+
+```bash
+cd scripts && npm install
+node sourcing-scan.mjs check                      # verify access, show counts
+node sourcing-scan.mjs registry-dump registry.md  # registry for de-duplication
+node sourcing-scan.mjs log-get 2                  # last two daily logs
+node sourcing-scan.mjs sbir legionella            # sbir.gov award search
+node sourcing-scan.mjs registry-upsert today.json # log every evaluated company
+node sourcing-scan.mjs pipeline-add new.json      # promote 2+/6 finds to the site
+node sourcing-scan.mjs log-append 2026-09-29 log.md
+node sourcing-scan.mjs registry-import registry.md # one-time backfill from the Mac
+```
+
+See the header comment in the script for the JSON fields each command takes.

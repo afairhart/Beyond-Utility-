@@ -44,7 +44,9 @@ const signalRe = new RegExp(cfg.signalRegex, 'i');
 let known = [];
 const regPath = arg('registry');
 if (regPath) {
-  known = readFileSync(regPath, 'utf8').split('\n')
+  let reg = '';
+  try { reg = readFileSync(regPath, 'utf8'); } catch { console.error(`⚠️ Registry file ${regPath} not found — [KNOWN] tagging skipped.`); }
+  known = reg.split('\n')
     .map((l) => l.split('|')[0].trim().toLowerCase())
     .filter((n) => n.length >= 5 && !n.startsWith('#') && n !== 'company name');
 }

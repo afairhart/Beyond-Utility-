@@ -185,15 +185,20 @@ async function registryImport(path) {
     const date = parts[1].trim();
     if (!name || /^company name/i.test(name) || !/^\d{4}-\d{2}-\d{2}/.test(date)) continue;
     const event = parts.slice(2).join('|').trim();
-    const score = (event.match(/\b([0-6])\s*\/\s*6\b/) || [])[0] || '';
-    const prev = byName.get(name.toLowerCase());
-    // Keep the earliest first-seen date and the most recent event line.
-    byName.set(name.toLowerCase(), {
+    // A rescore reads "1/6 -> 2/6"; take the score after the arrow, else the first one.
+    const rescored = event.match(/\b[0-6]\s*\/\s*6\s*(?:->|→|⇒|to)\s*([0-6])\s*\/\s*6\b/);
+    const score = rescored ? `${rescored[1]}/6` : ((event.match(/\b([0-6])\s*\/\s*6\b/) || [])[0] || '').replace(/\s/g, '');
+    const key = name.toLowerCase();
+    const prev = byName.get(key);
+    // Keep the earliest first-seen date, the latest score, and the FULL history
+    // (oldest → newest) so later scans can see every recorded event.
+    const history = prev ? `${prev.lastEvent} ⏩ [${date}] ${event}` : `[${date}] ${event}`;
+    byName.set(key, {
       name,
       seenDate: prev && prev.seenDate < date ? prev.seenDate : date,
-      lastEvent: event.slice(0, 1500),
+      lastEvent: history.length > 6000 ? '…' + history.slice(-6000) : history,
       buvScore: score || (prev ? prev.buvScore : ''),
-      verdict: /\(on site\)|APPROVED/i.test(event) ? 'promoted' : undefined,
+      verdict: /\(on site\)|APPROVED/i.test(event) || (prev && prev.verdict === 'promoted') ? 'promoted' : undefined,
       source: 'Daily sourcing scan',
     });
   }

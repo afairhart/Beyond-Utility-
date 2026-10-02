@@ -26,6 +26,8 @@
  *                                  `research` activity entry instead
  *   log-get [n]                    print the n most recent daily logs (default 2)
  *   log-append <YYYY-MM-DD> <file> append a markdown file to that day's log
+ *   seen-dump <out.txt>            write investor-portfolio names already reviewed
+ *   seen-add <names.txt>           mark portfolio names (one per line) as reviewed
  *   sbir <keyword…>                search sbir.gov awards, newest first
  *
  * AUTH: set FIREBASE_PRIVATE_KEY to the "private_key" value from the service-account
@@ -43,6 +45,7 @@ const PROJECT_ID = 'beyond-utility-ventures';
 const REGISTRY = 'sourcing_registry';
 const PIPELINE = 'pipeline_companies';
 const LOGS = 'sourcing_daily_logs';
+const SEEN = 'sourcing_portfolio_seen';
 const REJECT_THRESHOLD = 2 / 6;
 const RAISING = ['Yes', 'Likely soon', 'No', 'Unknown'];
 
@@ -299,6 +302,28 @@ async function logAppend(date, path) {
   console.log(`✓ Saved daily log ${date} (${size} chars).`);
 }
 
+// ---- reviewed investor-portfolio names ---------------------------------------
+// Kept apart from the registry so non-water portfolio companies don't inflate it,
+// but stop reappearing in the daily portfolio watch once triaged.
+async function seenDump(outPath) {
+  initDb();
+  const snap = await db.collection(SEEN).get();
+  const { writeFileSync } = await import('node:fs');
+  writeFileSync(outPath, snap.docs.map((d) => d.get('name')).join('\n') + '\n');
+  console.log(`✓ Wrote ${snap.size} reviewed portfolio names to ${outPath}.`);
+}
+
+async function seenAdd(path) {
+  const names = [...new Set(readFileSync(path, 'utf8').split('\n').map((l) => l.trim()).filter(Boolean))];
+  initDb();
+  for (let i = 0; i < names.length; i += 400) {
+    const batch = db.batch();
+    for (const n of names.slice(i, i + 400)) batch.set(db.collection(SEEN).doc(slugId(n)), { name: n, reviewedAt: FieldValue.serverTimestamp() }, { merge: true });
+    await batch.commit();
+  }
+  console.log(`✓ Marked ${names.length} portfolio names as reviewed.`);
+}
+
 // ---- sbir -------------------------------------------------------------------
 
 async function sbir(keyword) {
@@ -333,6 +358,8 @@ const commands = {
   'pipeline-add': () => pipelineAdd(readJsonArray(args[0] || die('Need a JSON file.'))),
   'log-get': () => logGet(parseInt(args[0] || '2', 10)),
   'log-append': () => logAppend(args[0], args[1] || die('Need a markdown file.')),
+  'seen-dump': () => seenDump(args[0] || 'reviewed.txt'),
+  'seen-add': () => seenAdd(args[0] || die('Need a names file.')),
   sbir: () => sbir(args.join(' ') || die('Need a keyword.')),
 };
 if (!commands[cmd]) die('Unknown command. One of: ' + Object.keys(commands).join(', '));

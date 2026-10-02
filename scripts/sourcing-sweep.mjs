@@ -19,6 +19,9 @@
  *        [--only news,feeds,sbir,nsf,formd]
  *   --registry tags headlines that mention a company already in the registry dump
  *   (from `sourcing-scan.mjs registry-dump`) with [KNOWN: name].
+ *   --seen reviewed.txt (from `sourcing-scan.mjs seen-dump`) hides portfolio names already
+ *   reviewed. New portfolio names are also written to <out>.portfolio-new.txt so they can be
+ *   marked reviewed after triage with `sourcing-scan.mjs seen-add <that file>`.
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
@@ -33,7 +36,7 @@ const argv = process.argv.slice(2);
 const arg = (k, d) => { const i = argv.indexOf('--' + k); return i >= 0 ? argv[i + 1] : d; };
 const days = Math.max(1, parseInt(arg('days', '2'), 10));
 const outPath = arg('out', 'candidates.md');
-const only = new Set((arg('only', 'news,feeds,sbir,nsf,formd')).split(','));
+const only = new Set((arg('only', 'portfolios,news,feeds,sbir,nsf,formd')).split(','));
 const since = new Date(Date.now() - days * 86400e3);
 const thisYear = new Date().getFullYear();
 const waterRe = new RegExp(cfg.waterRegex, 'i');
@@ -51,6 +54,14 @@ if (regPath) {
     .filter((n) => n.length >= 5 && !n.startsWith('#') && n !== 'company name');
 }
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const normName = (s) => s.toLowerCase().replace(/\(.*?\)/g, '').replace(/[^a-z0-9]+/g, '');
+let reviewed = [];
+const seenPath = arg('seen');
+if (seenPath) {
+  try { reviewed = readFileSync(seenPath, 'utf8').split('\n').map((l) => l.trim()).filter(Boolean); }
+  catch { console.error(`⚠️ Reviewed-names file ${seenPath} not found — portfolio diff uses the registry only.`); }
+}
+const knownNorm = [...known, ...reviewed].map(normName).filter((n) => n.length >= 3);
 const knownRes = known.map((n) => [n, new RegExp('\\b' + esc(n) + '\\b', 'i')]);
 const tagKnown = (text) => {
   const hits = knownRes.filter(([, re]) => re.test(text)).map(([n]) => n);
@@ -104,7 +115,9 @@ const LOCALES = {
 
 async function sweepNews() {
   const jobs = [];
-  for (const [loc, qs] of Object.entries(cfg.news)) for (const q of qs) jobs.push({ loc, q, keep: (t) => waterRe.test(t) });
+  // A water-specific query already matched the article body, so a headline with a deal
+  // signal (raise, partnership, award, launch…) is kept even if it never says "water".
+  for (const [loc, qs] of Object.entries(cfg.news)) for (const q of qs) jobs.push({ loc, q, keep: (t) => waterRe.test(t) || signalRe.test(t) });
   for (const { q, must } of cfg.newsNames || []) {
     const re = new RegExp('\\b' + esc(must) + '\\b', 'i');
     jobs.push({ loc: 'en-US', q, keep: (t) => re.test(t) });
@@ -244,11 +257,46 @@ async function sweepFormD() {
   return { title: `SEC Form D filings since ${startdt} — issuer name matches a water term (pre-announcement raise signals; funds/LPs excluded)`, lines: [...byName.values()].sort().reverse() };
 }
 
+// ---- Investor portfolio pages ----------------------------------------------
+// Lists every company name on each portfolio page that is NOT in the registry.
+// The first run is effectively a full portfolio pull; afterwards only additions.
+const NAV = /^(collapse toggle|we are making an impact\.?|about our impact|start now|echo river blog|< prev|empowering what's next|cookies?|preferences|deny|always active|accept all cookies|allow all cookies|reject all cookies|confirm my preferences and close|newsletter sign-up|our people|our founders|our portfolio companies|portfolio companies|news & updates|exclusive content|venture capital|real estate|fund|network|passport|news & insights|inquire now|button text|text link|partners|partner with us|asset type|filter by|filter portfolio|pitch us|portfolio careers|all portfolio jobs|hamburger|close|active investments|exits|media inquiries|funding opportunities|projects|mission and impact|our approach|latest|donate|new investments?|status|hq location|key|featured|other|skip to content|team|blog|impact|podcast|newsletter|events|portfolio|jobs|careers|contact|contact us|about|about us|home|news|press|insights|login|log in|back|here|storage|privacy|privacy policy|terms|investors|founders|apply|menu|search|read more|learn more|view|view all|website|linkedin|twitter|instagram|facebook|youtube|x|subscribe|get in touch|click here|our team|approach|thesis|resources|all|exited|acquired|current|active|fund i+|fund [ivx]+|sectors?|stage|filter|load more|see more|next|previous|people|perspectives|companies|strategy|platform|community|program|programs|accelerator|apply now|sign up|cookie|accept|decline|cookies settings|reject all|accept all|manage preferences)$/i;
+async function sweepPortfolios() {
+  const lines = [], failed = [], allNew = [];
+  await pool(cfg.portfolios || [], 4, async (p) => {
+    const html = await get(p.url);
+    if (html === null) { failed.push(p.name); return; }
+    const body = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<nav[\s\S]*?<\/nav>|<footer[\s\S]*?<\/footer>/g, '');
+    const cands = [
+      ...[...body.matchAll(/<(a|h[1-6]|strong|b)\b[^>]*>([\s\S]*?)<\/\1>/g)].map((m) => m[2]),
+      ...[...body.matchAll(/alt="([^"]{2,60})"/g)].map((m) => m[1]),
+    ];
+    const names = new Set();
+    for (const c of cands) {
+      const n = decode(c).replace(/\s*[—–-]\s*(exit|acquired).*$/i, '').trim();
+      if (n.length < 2 || n.length > 40 || n.split(' ').length > 5) continue;
+      if (NAV.test(n) || /^acquired by|icon$|^back to top|impact report|sign-?up|interest form|image of/i.test(n) || /\.(png|jpe?g|svg|webp|gif)$/i.test(n) || /[?:@]|^\d+$|^folder|^for |^who |untitled|screen ?shot|design \(|logo$/i.test(n)) continue;
+      if (normName(n) === normName(p.name) || normName(n).length < 3) continue;
+      names.add(n);
+    }
+    const isDomain = (n) => /^[\w.-]+\.[a-z]{2,}$/i.test(n) && !n.includes(' ');
+    // Drop bare domains only when most entries are plain names (some pages list companies only by domain).
+    const domains = [...names].filter(isDomain);
+    if (domains.length < names.size / 2) for (const n of domains) names.delete(n);
+    const unknown = [...names].filter((n) => { const k = normName(n); return !knownNorm.some((r) => r === k || r.startsWith(k) || k.startsWith(r)); });
+    lines.push(`- **${p.name}** (${names.size} names on page, ${unknown.length} new — not in registry or reviewed list) · ${p.url}` + (unknown.length ? `\n  NEW: ${unknown.join(' · ')}` : ''));
+    allNew.push(...unknown);
+  });
+  if (allNew.length) writeFileSync(outPath.replace(/\.md$/, '') + '.portfolio-new.txt', [...new Set(allNew)].join('\n') + '\n');
+  if (!known.length) lines.unshift('_⚠️ No registry file given — every name is listed as unknown._');
+  return { title: `Investor portfolio pages (${(cfg.portfolios || []).length}) — names not yet in the registry`, lines: lines.sort(), note: failed.length ? `Unreadable without a browser (cover via WebSearch): ${failed.join(', ')}` : '' };
+}
+
 // ---- main ------------------------------------------------------------------
-const runners = { news: sweepNews, feeds: sweepFeeds, sbir: sweepSbir, nsf: sweepNsf, formd: sweepFormD };
+const runners = { portfolios: sweepPortfolios, news: sweepNews, feeds: sweepFeeds, sbir: sweepSbir, nsf: sweepNsf, formd: sweepFormD };
 const t0 = Date.now();
 const sections = [];
-for (const k of ['feeds', 'news', 'sbir', 'nsf', 'formd']) {
+for (const k of ['portfolios', 'feeds', 'news', 'sbir', 'nsf', 'formd']) {
   if (!only.has(k)) continue;
   const s = await runners[k]();
   sections.push(s);

@@ -168,7 +168,46 @@
       "Stanford water startup",
       "UCLA water spinout",
       "Rice University water startup",
-      "UT Austin water startup"
+      "UT Austin water startup",
+      "smart irrigation",
+      "smart sprinkler",
+      "drip irrigation system",
+      "leak detection",
+      "water leak detector",
+      "smart water shutoff valve",
+      "smart water monitor",
+      "home water monitor",
+      "lead testing drinking water",
+      "water test kit",
+      "lead service line",
+      "heat pump water heater",
+      "tankless water heater",
+      "UV-C LED",
+      "UV disinfection water",
+      "water submetering",
+      "water submeter apartment",
+      "bottle filling station",
+      "hydration station",
+      "water refill station",
+      "commercial kitchen water",
+      "dishwasher water savings",
+      "low-flow fixture",
+      "WaterSense",
+      "water rebate program",
+      "water conservation program new device",
+      "water filtration system launch",
+      "under-sink filter",
+      "whole house water filter",
+      "water softener",
+      "reverse osmosis system home",
+      "building water management",
+      "Legionella water management",
+      "water damage prevention",
+      "plumbing technology startup",
+      "plumbing innovation award",
+      "restaurant water savings",
+      "multifamily water",
+      "apartment water leak"
     ],
     "en-GB": [
       "water startup funding",
@@ -360,7 +399,7 @@
     "watertech",
     "hydrotech"
   ],
-  "waterRegex": "\\b(water|wastewater|PFAS|forever chemicals|desalinat|membrane|reverse osmosis|filtration|purif|irrigat|leak|plumbing|hydro|aqua|H2O|sewage|sewer|stormwater|brine|drinking|legionella|effluent|watershed|lead pipe|lead service|faucet|toilet|Wasser|Abwasser|eau|eaux|agua|água|aguas|waterzuivering)|水|수처리|초순수|污水|מים",
+  "waterRegex": "\\b(water|wastewater|PFAS|forever chemicals|desalinat|membrane|reverse osmosis|filtration|purif|irrigat|leak|plumbing|hydro|aqua|H2O|sewage|sewer|stormwater|brine|drinking|legionella|effluent|watershed|lead pipe|lead service|faucet|sprinkler|drip|heat pump|water heater|UV-C|UV LED|hydration|refill|bottle fill|leak|shutoff|submeter|plumb|softener|dishwasher|fixture|WaterSense|lead pipe|lead test|toilet|Wasser|Abwasser|eau|eaux|agua|água|aguas|waterzuivering)|水|수처리|초순수|污水|מים",
   "newsNames": [
     {
       "q": "Burnt Island Ventures",
@@ -492,5 +531,59 @@
     }
   ],
   "noiseRegex": "Market (to Reach|Size|Report|Share|Worth|Forecast|Analysis|Outlook)|CAGR|by 20[34]\\d,? (growing|at)|Stock (Price|Analysis)|Shares (Rise|Fall|Up|Down)|obituar|horoscope|NFL|NBA|MLB|Wild Card|playoff|Market,? 20\\d\\d|Consensus|Target Price|\\((NYSE|NASDAQ|Nasdaq)\\s*:|boil (water )?(notice|advisory|order)|main break|water outage|weather forecast",
-  "signalRegex": "rais(es|ed|ing)|seed|pre-seed|Series [A-C]|funding|financing|invest|grant|award|prize|winner|finalist|cohort|accelerator|incubat|startup|start-up|spin-?out|spun out|launch|acquir|merger|partnership|pilot|Finanzierung|Gründ|levée|ronda|資金調達|투자|融资"
+  "signalRegex": "rais(es|ed|ing)|seed|pre-seed|Series [A-C]|funding|financing|invest|grant|award|prize|winner|finalist|cohort|accelerator|incubat|startup|start-up|spin-?out|spun out|launch|acquir|merger|partnership|pilot|Finanzierung|Gründ|levée|ronda|資金調達|투자|融资",
+  "portfolios": [
+    {
+      "name": "Burnt Island Ventures",
+      "url": "https://www.burntislandventures.com/portfolio"
+    },
+    {
+      "name": "Echo River Capital",
+      "url": "https://www.echoriver.capital"
+    },
+    {
+      "name": "Moderne Ventures",
+      "url": "https://www.moderneventures.com/portfolio"
+    },
+    {
+      "name": "Camber Creek",
+      "url": "https://www.cambercreek.com/portfolio"
+    },
+    {
+      "name": "Fifth Wall",
+      "url": "https://www.fifthwall.com/portfolio"
+    },
+    {
+      "name": "MetaProp",
+      "url": "https://www.metaprop.vc/portfolio"
+    },
+    {
+      "name": "Brick & Mortar Ventures",
+      "url": "https://www.brickmortar.vc/portfolio"
+    },
+    {
+      "name": "Boost VC",
+      "url": "https://www.boost.vc/portfolio"
+    },
+    {
+      "name": "RET Ventures",
+      "url": "https://www.retventures.com/portfolio"
+    },
+    {
+      "name": "PureTerra Ventures",
+      "url": "https://www.pureterraventures.com/portfolio"
+    },
+    {
+      "name": "Safar Partners",
+      "url": "https://www.safarpartners.com/portfolio"
+    },
+    {
+      "name": "Elemental Impact",
+      "url": "https://elementalimpact.com/portfolio/"
+    },
+    {
+      "name": "Imagine H2O",
+      "url": "https://imagineh2o.org/innovators/"
+    }
+  ]
 }

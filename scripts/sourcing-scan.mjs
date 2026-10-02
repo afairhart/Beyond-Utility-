@@ -28,7 +28,8 @@
  *   log-append <YYYY-MM-DD> <file> append a markdown file to that day's log
  *   sbir <keyword…>                search sbir.gov awards, newest first
  *
- * AUTH: set FIREBASE_SERVICE_ACCOUNT_JSON to the service-account key JSON (raw
+ * AUTH: set FIREBASE_PRIVATE_KEY to the "private_key" value from the service-account
+ *   key file (one line, \n escapes kept), or FIREBASE_SERVICE_ACCOUNT_JSON to the whole JSON (raw
  *   or base64) for the `beyond-utility-ventures` project, or point
  *   GOOGLE_APPLICATION_CREDENTIALS at the key file. `sbir` needs no auth.
  *
@@ -51,7 +52,21 @@ let db, FieldValue, Timestamp;
 function initDb() {
   if (db) return db;
   const raw = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-  if (raw) {
+  const pk = process.env.FIREBASE_PRIVATE_KEY;
+  if (pk) {
+    // Just the "private_key" value from the key file, copied as one line. Tolerate
+    // the surrounding quotes / trailing comma, and turn literal \n back into newlines.
+    const privateKey = pk.trim().replace(/,$/, '').replace(/^"|"$/g, '').replace(/\\n/g, '\n');
+    if (!privateKey.includes('BEGIN PRIVATE KEY')) die('FIREBASE_PRIVATE_KEY does not look like a private key (missing BEGIN PRIVATE KEY).');
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId: PROJECT_ID,
+        clientEmail: process.env.FIREBASE_CLIENT_EMAIL || `firebase-adminsdk-fbsvc@${PROJECT_ID}.iam.gserviceaccount.com`,
+        privateKey,
+      }),
+      projectId: PROJECT_ID,
+    });
+  } else if (raw) {
     let json = raw.trim();
     if (!json.startsWith('{')) json = Buffer.from(json, 'base64').toString('utf8');
     let key;
@@ -60,7 +75,7 @@ function initDb() {
   } else if (process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.FIRESTORE_EMULATOR_HOST) {
     admin.initializeApp({ projectId: PROJECT_ID });
   } else {
-    die('No Firebase credentials. Set FIREBASE_SERVICE_ACCOUNT_JSON in the cloud environment settings.');
+    die('No Firebase credentials. Set FIREBASE_PRIVATE_KEY (or FIREBASE_SERVICE_ACCOUNT_JSON) in the cloud environment settings.');
   }
   db = admin.firestore();
   ({ FieldValue, Timestamp } = admin.firestore);

@@ -1,0 +1,496 @@
+{
+  "_comment": "Search terms and feeds for the BUV daily sourcing sweep (sourcing-sweep.mjs). Add or remove terms freely. Google News queries get ' when:<days>d' appended automatically. 'news' results are kept only if the headline matches waterRegex; 'newsNames' results only if the headline contains 'must'. Headlines matching noiseRegex are always dropped.",
+  "news": {
+    "en-US": [
+      "\"water\" \"seed round\"",
+      "\"water\" \"pre-seed\"",
+      "water startup raises",
+      "water technology startup funding",
+      "water tech startup seed",
+      "water startup Series A",
+      "water company raises million",
+      "water startup grant award",
+      "water innovation award winner",
+      "water startup launches",
+      "water technology spinout",
+      "university spinout water",
+      "water accelerator cohort",
+      "water innovation challenge winners",
+      "water startup pitch competition",
+      "cleantech startup water raises",
+      "climate tech water startup",
+      "water stealth startup",
+      "water founder startup",
+      "PFAS destruction startup",
+      "PFAS startup funding",
+      "PFAS treatment technology company",
+      "PFAS detection startup",
+      "forever chemicals startup raises",
+      "membrane water treatment startup",
+      "membrane technology startup seed round",
+      "reverse osmosis startup",
+      "nanofiltration startup",
+      "forward osmosis company",
+      "desalination startup",
+      "desalination technology funding",
+      "brine concentration startup",
+      "zero liquid discharge startup",
+      "mineral recovery brine startup",
+      "wastewater treatment startup",
+      "wastewater technology funding",
+      "industrial wastewater startup",
+      "nutrient recovery wastewater startup",
+      "sludge biosolids startup",
+      "produced water treatment",
+      "produced water startup",
+      "oilfield water recycling company",
+      "lithium brine water startup",
+      "industrial water reuse startup",
+      "water recycling startup",
+      "water reuse technology funding",
+      "decentralized water treatment startup",
+      "modular water treatment company",
+      "electrochemical water treatment startup",
+      "electrocoagulation startup",
+      "advanced oxidation startup",
+      "plasma water treatment",
+      "UV water treatment startup",
+      "atmospheric water generation",
+      "atmospheric water generator company funding",
+      "air to water startup",
+      "semiconductor ultrapure water startup",
+      "ultrapure water technology",
+      "data center water cooling startup",
+      "data center water use technology",
+      "cooling tower water treatment startup",
+      "water sensor startup seed round",
+      "water quality sensor startup",
+      "water monitoring startup funding",
+      "water analytics startup",
+      "water AI startup",
+      "smart water meter startup",
+      "water utility software startup",
+      "digital water startup",
+      "water compliance software",
+      "water infrastructure software funding",
+      "pipe inspection robot startup",
+      "water main leak startup",
+      "non-revenue water startup",
+      "water network monitoring startup",
+      "agricultural water technology startup",
+      "irrigation technology startup funding",
+      "precision irrigation startup",
+      "soil moisture sensor startup",
+      "water-as-a-service startup",
+      "water as a service funding",
+      "water markets startup",
+      "water rights platform",
+      "stormwater technology startup",
+      "flood sensor startup",
+      "groundwater remediation startup",
+      "heavy metal removal water startup",
+      "lead removal water technology",
+      "arsenic removal startup",
+      "microplastics water startup",
+      "biofilm startup",
+      "scaling inhibitor technology",
+      "legionella startup",
+      "water disinfection startup",
+      "drinking water technology startup",
+      "\"leak detection\" seed round",
+      "\"leak detection\" startup",
+      "smart water shutoff funding",
+      "water leak sensor company",
+      "water submetering startup",
+      "\"point of use\" water treatment funding",
+      "point of entry water treatment",
+      "POU water filter startup",
+      "water filtration startup raises",
+      "home water filter startup",
+      "water testing startup funding",
+      "at-the-tap lead testing",
+      "\"Lead and Copper Rule\" compliance",
+      "lead service line inventory startup",
+      "water testing lab startup",
+      "multifamily water conservation startup",
+      "\"water intelligence\" building",
+      "building water management startup",
+      "apartment water savings technology",
+      "smart irrigation controller funding",
+      "commercial kitchen water savings",
+      "\"water heater\" startup seed",
+      "heat pump water heater startup",
+      "bottle filling station startup",
+      "water refill station startup",
+      "drinking water access startup",
+      "water dispenser startup",
+      "UV-C LED water disinfection",
+      "\"NSF 55\" certification",
+      "NSF/ANSI 53 certified new",
+      "\"behind the meter\" water",
+      "conservation as a service water",
+      "\"water damage\" insurance startup",
+      "water damage prevention startup",
+      "cooling tower Legionella startup",
+      "utility rebate new water product",
+      "WaterSense labeled new product",
+      "EPA SBIR water",
+      "NSF SBIR water",
+      "DOE water technology award",
+      "ARPA-E water",
+      "water prize winners",
+      "Ofwat innovation fund winners",
+      "Innovate UK water",
+      "EIC Accelerator water",
+      "EIT water startup",
+      "WQA convention new product",
+      "AHR Expo water",
+      "Smart Water Summit",
+      "Elemental Excelerator water",
+      "ClimateHaven water",
+      "gener8tor water",
+      "Breakthrough Energy Ventures water",
+      "Congruent Ventures water",
+      "Prelude Ventures water",
+      "Emerald Technology Ventures water",
+      "Ecolab ventures startup",
+      "Fifth Wall water",
+      "Pentair investment startup",
+      "Moen startup",
+      "Fortune Brands water acquisition",
+      "Masco water",
+      "Watts Water acquires",
+      "Resideo water",
+      "Halma acquires water",
+      "Hunter Industries water",
+      "Quadrant-i Georgia Tech water",
+      "MIT water startup",
+      "Stanford water startup",
+      "UCLA water spinout",
+      "Rice University water startup",
+      "UT Austin water startup"
+    ],
+    "en-GB": [
+      "water startup funding",
+      "water technology startup raises",
+      "Ofwat Water Breakthrough Challenge",
+      "Ofwat Innovation Fund",
+      "Innovate UK water",
+      "wastewater startup UK",
+      "PFAS startup UK"
+    ],
+    "en-IN": [
+      "water technology startup raises",
+      "water startup funding India",
+      "wastewater startup India"
+    ],
+    "en-SG": [
+      "water technology startup Singapore",
+      "PUB water innovation startup"
+    ],
+    "en-IL": [
+      "Israeli water technology startup raises",
+      "water tech Israel funding"
+    ],
+    "en-AU": [
+      "water technology startup Australia funding",
+      "water startup Australia"
+    ],
+    "de": [
+      "Wasser Startup Finanzierung",
+      "Wassertechnologie Startup",
+      "Abwasser Startup",
+      "Wasseraufbereitung Startup",
+      "PFAS Startup",
+      "Wasser Start-up Seed",
+      "Ausgründung Wasser",
+      "Wasserstoff aus Abwasser Startup"
+    ],
+    "fr": [
+      "startup eau levée de fonds",
+      "startup traitement de l'eau",
+      "startup eaux usées",
+      "PFAS startup"
+    ],
+    "es": [
+      "startup agua ronda de inversión",
+      "startup tratamiento de agua",
+      "startup aguas residuales"
+    ],
+    "pt-BR": [
+      "startup água investimento",
+      "startup tratamento de água"
+    ],
+    "nl": [
+      "water startup investering",
+      "waterzuivering startup"
+    ],
+    "ja": [
+      "水処理 スタートアップ 資金調達",
+      "超純水 スタートアップ",
+      "水 ベンチャー 資金調達"
+    ],
+    "ko": [
+      "수처리 스타트업 투자",
+      "초순수 스타트업"
+    ],
+    "zh-CN": [
+      "水处理 初创 融资",
+      "污水处理 初创公司 融资"
+    ],
+    "he": [
+      "סטארט-אפ מים גיוס",
+      "טכנולוגיית מים סטארט-אפ"
+    ]
+  },
+  "feeds": [
+    {
+      "name": "H2O Global News",
+      "url": "https://h2oglobalnews.com/feed/",
+      "filter": false
+    },
+    {
+      "name": "gwf Wasser (DE)",
+      "url": "https://gwf-wasser.de/feed/",
+      "filter": false
+    },
+    {
+      "name": "WATER Magazine UK",
+      "url": "https://www.watermagazine.co.uk/feed/",
+      "filter": false
+    },
+    {
+      "name": "BlueTech Research",
+      "url": "https://www.bluetechresearch.com/feed/",
+      "filter": false
+    },
+    {
+      "name": "AgFunderNews",
+      "url": "https://agfundernews.com/feed",
+      "filter": true
+    },
+    {
+      "name": "EU-Startups",
+      "url": "https://www.eu-startups.com/feed/",
+      "filter": true
+    },
+    {
+      "name": "TechCrunch Climate",
+      "url": "https://techcrunch.com/category/climate/feed/",
+      "filter": true
+    },
+    {
+      "name": "Canary Media",
+      "url": "https://www.canarymedia.com/rss.rss",
+      "filter": true
+    },
+    {
+      "name": "Tech Startups",
+      "url": "https://techstartups.com/feed/",
+      "filter": true
+    },
+    {
+      "name": "CTVC",
+      "url": "https://www.ctvc.co/rss/",
+      "filter": true
+    },
+    {
+      "name": "PR Newswire Environment",
+      "url": "https://www.prnewswire.com/rss/environment-latest-news/environment-latest-news-list.rss",
+      "filter": true
+    }
+  ],
+  "sbir": [
+    "biofilm",
+    "scaling inhibitor",
+    "groundwater remediation",
+    "brine concentration",
+    "nutrient removal",
+    "chlorination byproduct",
+    "heavy metal removal",
+    "legionella",
+    "water reuse",
+    "ultrapure water",
+    "PFAS destruction",
+    "PFAS",
+    "produced water",
+    "membrane fouling",
+    "cooling tower water",
+    "ion exchange water",
+    "resource recovery wastewater",
+    "drinking water contaminant sensor",
+    "water treatment",
+    "wastewater",
+    "water purification",
+    "water quality sensor",
+    "desalination",
+    "leak detection",
+    "water disinfection",
+    "lead in drinking water",
+    "irrigation water",
+    "stormwater",
+    "water filtration",
+    "electrochemical water"
+  ],
+  "nsf": [
+    "water treatment",
+    "wastewater",
+    "water purification",
+    "PFAS",
+    "membrane",
+    "desalination",
+    "water sensor",
+    "drinking water",
+    "water reuse",
+    "irrigation"
+  ],
+  "formd": [
+    "water",
+    "aqua",
+    "H2O",
+    "hydro",
+    "PFAS",
+    "filtration",
+    "purification",
+    "desalination",
+    "wastewater",
+    "membrane",
+    "irrigation",
+    "aquatech",
+    "watertech",
+    "hydrotech"
+  ],
+  "waterRegex": "\\b(water|wastewater|PFAS|forever chemicals|desalinat|membrane|reverse osmosis|filtration|purif|irrigat|leak|plumbing|hydro|aqua|H2O|sewage|sewer|stormwater|brine|drinking|legionella|effluent|watershed|lead pipe|lead service|faucet|toilet|Wasser|Abwasser|eau|eaux|agua|água|aguas|waterzuivering)|水|수처리|초순수|污水|מים",
+  "newsNames": [
+    {
+      "q": "Burnt Island Ventures",
+      "must": "Burnt Island Ventures"
+    },
+    {
+      "q": "Echo River Capital",
+      "must": "Echo River Capital"
+    },
+    {
+      "q": "PureTerra Ventures",
+      "must": "PureTerra Ventures"
+    },
+    {
+      "q": "Safar Partners",
+      "must": "Safar Partners"
+    },
+    {
+      "q": "Imagine H2O",
+      "must": "Imagine H2O"
+    },
+    {
+      "q": "Xylem Innovation Labs",
+      "must": "Xylem Innovation Labs"
+    },
+    {
+      "q": "BlueTech Forum",
+      "must": "BlueTech Forum"
+    },
+    {
+      "q": "Veolia startup partnership",
+      "must": "Veolia"
+    },
+    {
+      "q": "Kurita startup investment",
+      "must": "Kurita"
+    },
+    {
+      "q": "RET Ventures",
+      "must": "RET Ventures"
+    },
+    {
+      "q": "Moderne Ventures",
+      "must": "Moderne Ventures"
+    },
+    {
+      "q": "Camber Creek",
+      "must": "Camber Creek"
+    },
+    {
+      "q": "MetaProp",
+      "must": "MetaProp"
+    },
+    {
+      "q": "Era Ventures",
+      "must": "Era Ventures"
+    },
+    {
+      "q": "Brick & Mortar Ventures",
+      "must": "Brick & Mortar Ventures"
+    },
+    {
+      "q": "Suffolk Technologies",
+      "must": "Suffolk Technologies"
+    },
+    {
+      "q": "Alate Partners",
+      "must": "Alate Partners"
+    },
+    {
+      "q": "Nine Four Ventures",
+      "must": "Nine Four Ventures"
+    },
+    {
+      "q": "A/O Proptech",
+      "must": "A/O Proptech"
+    },
+    {
+      "q": "Amazon Alexa Fund",
+      "must": "Amazon Alexa Fund"
+    },
+    {
+      "q": "Boost VC",
+      "must": "Boost VC"
+    },
+    {
+      "q": "A.O. Smith acquires",
+      "must": "A.O. Smith"
+    },
+    {
+      "q": "Kohler Ventures",
+      "must": "Kohler Ventures"
+    },
+    {
+      "q": "Rheem acquires",
+      "must": "Rheem"
+    },
+    {
+      "q": "Zurn Elkay acquires",
+      "must": "Zurn Elkay"
+    },
+    {
+      "q": "Culligan acquires",
+      "must": "Culligan"
+    },
+    {
+      "q": "Badger Meter acquires",
+      "must": "Badger Meter"
+    },
+    {
+      "q": "Grundfos acquires",
+      "must": "Grundfos"
+    },
+    {
+      "q": "Xylem acquires",
+      "must": "Xylem"
+    },
+    {
+      "q": "Veralto acquires",
+      "must": "Veralto"
+    },
+    {
+      "q": "Rain Bird new",
+      "must": "Rain Bird"
+    },
+    {
+      "q": "Toro irrigation acquires",
+      "must": "Toro"
+    }
+  ],
+  "noiseRegex": "Market (to Reach|Size|Report|Share|Worth|Forecast|Analysis|Outlook)|CAGR|by 20[34]\\d,? (growing|at)|Stock (Price|Analysis)|Shares (Rise|Fall|Up|Down)|obituar|horoscope|NFL|NBA|MLB|Wild Card|playoff|Market,? 20\\d\\d|Consensus|Target Price|\\((NYSE|NASDAQ|Nasdaq)\\s*:|boil (water )?(notice|advisory|order)|main break|water outage|weather forecast",
+  "signalRegex": "rais(es|ed|ing)|seed|pre-seed|Series [A-C]|funding|financing|invest|grant|award|prize|winner|finalist|cohort|accelerator|incubat|startup|start-up|spin-?out|spun out|launch|acquir|merger|partnership|pilot|Finanzierung|Gründ|levée|ronda|資金調達|투자|融资"
+}

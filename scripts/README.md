@@ -96,3 +96,17 @@ node sourcing-scan.mjs registry-import registry.md # one-time backfill from the 
 ```
 
 See the header comment in the script for the JSON fields each command takes.
+
+## sourcing-sweep.mjs
+
+Bulk discovery sweep for the daily scan (no credentials needed). In about 30–60
+seconds it pulls Google News for every query in `sourcing-sources.json` across
+15 languages/regions, the trade/startup RSS feeds, sbir.gov (every keyword), NSF
+SBIR/STTR awards and SEC Form D filings with water-named issuers, then writes
+one de-duplicated, relevance-filtered list with deal-signal headlines (⭐) first.
+
+```bash
+node sourcing-sweep.mjs --days 2 --registry registry.md --out candidates.md
+```
+
+To widen or narrow the search, edit `sourcing-sources.json` — no code changes needed.

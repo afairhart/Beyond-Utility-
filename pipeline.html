@@ -433,6 +433,9 @@
       padding-right: 30px;
     }
     .toolbar select:focus { border-color: var(--blue); }
+    /* Source names can run to 200+ characters; cap the closed control so the
+       toolbar stays on one row (the open list still shows full names). */
+    .toolbar #f-source { max-width: 150px; text-overflow: ellipsis; }
     .toolbar select option { background: #141b2d; color: #fff; }
     .toolbar select.filter-active { border-color: rgba(75, 123, 245, 0.55); color: var(--blue-light); }
 
@@ -598,6 +601,22 @@
       margin-left: 5px;
       vertical-align: 1px;
     }
+    /* Stage flag: how far past BUV's pre-seed/seed entry point a company is */
+    .stage-pill {
+      display: inline-block;
+      font-size: 0.55rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-left: 5px;
+      vertical-align: 1px;
+      cursor: help;
+    }
+    .stage-pre-raise { color: var(--green); background: rgba(52, 211, 153, 0.12); }
+    .stage-in-range { color: var(--blue-light); background: rgba(123, 161, 247, 0.14); }
+    .stage-late { color: #fb923c; background: rgba(251, 146, 60, 0.14); }
+    .stage-unknown { color: var(--text-dim); background: rgba(255, 255, 255, 0.06); }
 
     .status-badge {
       display: inline-block;
@@ -1013,6 +1032,16 @@
             </select>
           </div>
           <div class="form-field">
+            <label for="pc-stage">Stage Flag</label>
+            <select id="pc-stage" name="stage">
+              <option value="" selected>— not set —</option>
+              <option value="pre-raise">Pre-raise</option>
+              <option value="in-range">In range</option>
+              <option value="late">Late</option>
+              <option value="unknown">Unknown</option>
+            </select>
+          </div>
+          <div class="form-field">
             <label for="pc-score">BUV Six Score</label>
             <input type="text" id="pc-score" name="buvScore" placeholder="4/6">
           </div>
@@ -1076,6 +1105,14 @@
         <option value="No">No</option>
         <option value="Unknown">Unknown</option>
       </select>
+      <select id="f-stage" title="Filter by stage flag">
+        <option value="all">Stage: All</option>
+        <option value="not-late">Not late</option>
+        <option value="pre-raise">Pre-raise</option>
+        <option value="in-range">In range</option>
+        <option value="late">Late</option>
+        <option value="unknown">Unknown</option>
+      </select>
       <select id="f-source" title="Filter by source">
         <option value="all">Source: All</option>
       </select>
@@ -1135,6 +1172,7 @@
     var STATUS_ORDER = { new: 0, exploring: 1, diligence: 2, invested: 3, passed: 4 };
     var RAISING_CLASSES = { 'Yes': 'raising-yes', 'Likely soon': 'raising-soon', 'No': 'raising-no', 'Unknown': 'raising-unknown' };
     var RAISING_ORDER = { 'Yes': 0, 'Likely soon': 1, 'No': 2, 'Unknown': 3 };
+    var STAGE_LABELS = { 'pre-raise': 'Pre-raise', 'in-range': 'In range', late: 'Late', unknown: 'Unknown' };
     var ACTIVITY_TYPES = { note: 'Note', call: 'Call', meeting: 'Meeting', email: 'Email', research: 'Research', status: 'Status', system: 'System' };
     var STALE_DAYS = 30;
     var NEW_DAYS = 7;
@@ -1148,7 +1186,7 @@
     var activityCache = {};  // id -> [{id, data}] (newest first), or 'loading'
 
     var filters = {
-      search: '', status: 'all', raising: 'all', source: 'all', added: 'all',
+      search: '', status: 'all', raising: 'all', stage: 'all', source: 'all', added: 'all',
       stale: false, sortField: 'addedDate', sortDir: 'desc'
     };
 
@@ -1326,6 +1364,9 @@
         var d = c.data;
         if (filters.status !== 'all' && (d.status || 'new') !== filters.status) return false;
         if (filters.raising !== 'all' && (d.raisingStatus || 'Unknown') !== filters.raising) return false;
+        if (filters.stage === 'not-late') {
+          if (d.stage === 'late') return false;
+        } else if (filters.stage !== 'all' && d.stage !== filters.stage) return false;
         if (filters.source !== 'all' && String(d.source || '').trim() !== filters.source) return false;
         if (filters.added !== 'all') {
           var t = tsMillis(d.addedDate);
@@ -1333,7 +1374,7 @@
         }
         if (filters.stale && !isStale(d)) return false;
         if (q) {
-          var hay = [d.name, d.technology, d.stageAmount, d.fitNotes, d.notes, d.source, d.nextStep, d.buvScore]
+          var hay = [d.name, d.technology, d.stageAmount, STAGE_LABELS[d.stage], d.fitNotes, d.notes, d.source, d.nextStep, d.buvScore]
             .map(function(v) { return v ? String(v) : ''; }).join(' ').toLowerCase();
           if (hay.indexOf(q) === -1) return false;
         }
@@ -1383,7 +1424,7 @@
 
     function anyFilterActive() {
       return filters.search.trim() !== '' || filters.status !== 'all' || filters.raising !== 'all'
-        || filters.source !== 'all' || filters.added !== 'all' || filters.stale;
+        || filters.stage !== 'all' || filters.source !== 'all' || filters.added !== 'all' || filters.stale;
     }
 
     // ── Stats ──
@@ -1430,6 +1471,9 @@
       });
       document.getElementById('f-raising').addEventListener('change', function() {
         filters.raising = this.value; renderAll();
+      });
+      document.getElementById('f-stage').addEventListener('change', function() {
+        filters.stage = this.value; renderAll();
       });
       document.getElementById('f-source').addEventListener('change', function() {
         filters.source = this.value; renderAll();
@@ -1498,7 +1542,7 @@
     }
 
     function clearFilters() {
-      filters.search = ''; filters.status = 'all'; filters.raising = 'all';
+      filters.search = ''; filters.status = 'all'; filters.raising = 'all'; filters.stage = 'all';
       filters.source = 'all'; filters.added = 'all'; filters.stale = false;
       syncToolbarInputs();
       renderAll();
@@ -1508,6 +1552,7 @@
       document.getElementById('f-search').value = filters.search;
       document.getElementById('f-status').value = filters.status;
       document.getElementById('f-raising').value = filters.raising;
+      document.getElementById('f-stage').value = filters.stage;
       document.getElementById('f-source').value = filters.source;
       document.getElementById('f-added').value = filters.added;
       document.getElementById('f-sort').value = filters.sortField;
@@ -1517,7 +1562,7 @@
       document.getElementById('f-dir').innerHTML = filters.sortDir === 'asc' ? '&uarr;' : '&darr;';
       document.getElementById('clearFilters').classList.toggle('visible', anyFilterActive());
 
-      ['f-status', 'f-raising', 'f-source', 'f-added'].forEach(function(id) {
+      ['f-status', 'f-raising', 'f-stage', 'f-source', 'f-added'].forEach(function(id) {
         var el = document.getElementById(id);
         el.classList.toggle('filter-active', el.value !== 'all');
       });
@@ -1607,12 +1652,18 @@
       // "New" pill: explicit isNew flag, set on creation and re-set by the
       // daily scan when it appends updates. Cleared on first expand below.
       var isNew = d.isNew === true;
+      // Stage flag (only for known values, so the class name is always safe);
+      // hovering shows the stage line with total raised and last round.
+      var stagePill = STAGE_LABELS[d.stage]
+        ? '<span class="stage-pill stage-' + d.stage + '" title="' + escapeHtml(d.stageAmount || STAGE_LABELS[d.stage]) + '">' +
+          (d.stage === 'unknown' ? 'Stage ?' : STAGE_LABELS[d.stage]) + '</span>'
+        : '';
 
       // ── Summary line ──
       var summary = document.createElement('div');
       summary.className = 'company-summary';
       summary.innerHTML =
-        '<div class="c-name">' + escapeHtml(d.name || '(unnamed)') + (isNew ? '<span class="new-pill">New</span>' : '') + '</div>' +
+        '<div class="c-name">' + escapeHtml(d.name || '(unnamed)') + (isNew ? '<span class="new-pill">New</span>' : '') + stagePill + '</div>' +
         '<div class="c-tech">' + escapeHtml(d.technology || '—') + '</div>' +
         '<div class="c-score" title="' + escapeHtml(d.buvScore || '') + '">' + escapeHtml(shortScore(d.buvScore)) + '</div>' +
         '<div class="c-raising ' + raisingClass + '">' + escapeHtml(raising) + '</div>' +
@@ -1693,6 +1744,7 @@
         detailField('Company', d.name) +
         detailField('Technology', d.technology) +
         detailField('Stage / Amount', d.stageAmount) +
+        detailField('Stage Flag', STAGE_LABELS[d.stage] || '') +
         detailField('Raising Now?', raising) +
         detailField('BUV Six Score', d.buvScore) +
         detailField('Source', d.source) +
@@ -1844,6 +1896,16 @@
       var techIn = field('Technology', textInput(d.technology));
       var stageIn = field('Stage / Amount', textInput(d.stageAmount, 'Seed, raising $2M'));
 
+      var stageFlagSel = document.createElement('select');
+      stageFlagSel.className = 'edit-select';
+      [['', '— not set —']].concat(Object.keys(STAGE_LABELS).map(function(k) { return [k, STAGE_LABELS[k]]; })).forEach(function(p) {
+        var opt = document.createElement('option');
+        opt.value = p[0]; opt.textContent = p[1];
+        if ((d.stage || '') === p[0]) opt.selected = true;
+        stageFlagSel.appendChild(opt);
+      });
+      field('Stage Flag', stageFlagSel);
+
       var raisingSel = document.createElement('select');
       raisingSel.className = 'edit-select';
       ['Unknown', 'Yes', 'Likely soon', 'No'].forEach(function(v) {
@@ -1912,6 +1974,7 @@
           name: name,
           technology: techIn.value.trim(),
           stageAmount: stageIn.value.trim(),
+          stage: stageFlagSel.value,
           raisingStatus: raisingSel.value,
           buvScore: scoreIn.value.trim(),
           source: sourceIn.value.trim(),
@@ -1923,7 +1986,7 @@
 
         // Log which fields changed, so the paper trail shows edits
         var changed = [];
-        ['name', 'technology', 'stageAmount', 'raisingStatus', 'buvScore', 'source', 'nextStep', 'link', 'fitNotes'].forEach(function(k) {
+        ['name', 'technology', 'stageAmount', 'stage', 'raisingStatus', 'buvScore', 'source', 'nextStep', 'link', 'fitNotes'].forEach(function(k) {
           if (String(d[k] || '') !== String(updates[k] || '')) changed.push(k);
         });
 
@@ -2150,6 +2213,7 @@
           name: name,
           technology: document.getElementById('pc-technology').value.trim(),
           stageAmount: document.getElementById('pc-stageAmount').value.trim(),
+          stage: document.getElementById('pc-stage').value,
           raisingStatus: document.getElementById('pc-raising').value,
           buvScore: document.getElementById('pc-score').value.trim(),
           fitNotes: document.getElementById('pc-fitNotes').value.trim(),
@@ -2183,8 +2247,8 @@
 
     // ── CSV export (respects current filters + sort) ──
     function exportCsv() {
-      var cols = ['name', 'technology', 'stageAmount', 'raisingStatus', 'buvScore', 'status', 'source', 'nextStep', 'link', 'fitNotes', 'notes', 'addedDate', 'lastUpdated'];
-      var header = ['Company', 'Technology', 'Stage/Amount', 'Raising', 'BUV Score', 'Status', 'Source', 'Next Step', 'Link', 'Fit Notes', 'Quick Notes', 'Added', 'Last Updated'];
+      var cols = ['name', 'technology', 'stageAmount', 'stage', 'raisingStatus', 'buvScore', 'status', 'source', 'nextStep', 'link', 'fitNotes', 'notes', 'addedDate', 'lastUpdated'];
+      var header = ['Company', 'Technology', 'Stage/Amount', 'Stage Flag', 'Raising', 'BUV Score', 'Status', 'Source', 'Next Step', 'Link', 'Fit Notes', 'Quick Notes', 'Added', 'Last Updated'];
 
       function cell(v) {
         var s = v === null || v === undefined ? '' : String(v);
@@ -2200,6 +2264,7 @@
             return cell(t ? new Date(t).toISOString() : '');
           }
           if (k === 'status') return cell(STATUS_LABELS[c.data.status] || 'New');
+          if (k === 'stage') return cell(STAGE_LABELS[c.data.stage] || '');
           return cell(c.data[k]);
         }).join(','));
       });

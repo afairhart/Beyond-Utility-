@@ -17,7 +17,8 @@ into the pipeline must follow this so the CRM features — filters, sorting,
 |---|---|---|---|
 | `name` | string | **yes** | Company name. Also used for de-duplication (see below). |
 | `technology` | string | recommended | One-line description of the technology. |
-| `stageAmount` | string | optional | e.g. `"Seed, raising $2M"`. |
+| `stageAmount` | string | optional | e.g. `"Seed, raising $2M"`. For automated adds, start with the stage line: `"STAGE: IN RANGE — $1.2M total; last round $800K seed, Mar 2026 (investors)"`. It is the hover text of the stage pill. |
+| `stage` | string | recommended | The stage flag shown as a pill in the list and filterable ("Not late" hides late companies). Exactly one of: `"pre-raise"` (no priced equity round — grants, competitions, accelerators or angels only), `"in-range"` (pre-seed/seed, total raised under ~$3M), `"late"` (total raised ~$3M or more, or any Series A+ — past BUV's usual entry; flag it, never drop it), `"unknown"` (stage could not be established). Omit when not assessed. `pipeline-add` also updates it on existing companies when an update supplies one. |
 | `raisingStatus` | string | recommended | Exactly one of: `"Yes"`, `"Likely soon"`, `"No"`, `"Unknown"`. The page filters/sorts on these exact values. |
 | `buvScore` | string | recommended | **Compact score only**, e.g. `"4/6"` — do not append the strong/weak rationale here; that belongs in `fitNotes`. The page parses `N/D` (or a bare number, assumed out of 6) for numeric sorting and shows only the leading `N/D` in the list column. |
 | `fitNotes` | string | recommended | Why it fits (or doesn't fit) the BUV thesis. |
@@ -123,7 +124,8 @@ GP logs notes/calls/meetings manually.
 
 > When adding a company to the pipeline, write to the Firestore collection
 > `pipeline_companies` in project `beyond-utility-ventures` with exactly these
-> fields: `name`, `technology`, `stageAmount`, `raisingStatus` (one of
+> fields: `name`, `technology`, `stageAmount` (starting with the STAGE line),
+> `stage` (one of pre-raise / in-range / late / unknown), `raisingStatus` (one of
 > Yes / Likely soon / No / Unknown), `buvScore` (the compact score ONLY, like
 > "4/6" — put the strong/weak rationale in `fitNotes` instead), `fitNotes`,
 > `source` (use a consistent channel name), `link`, `nextStep` (suggested next

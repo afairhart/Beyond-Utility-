@@ -23,7 +23,8 @@
  *   pipeline-list                  print names already on the Deal Pipeline
  *   pipeline-add <file.json>       add companies to the Deal Pipeline per
  *                                  PIPELINE_DATA_SPEC.md; existing names get a
- *                                  `research` activity entry instead
+ *                                  `research` activity entry instead (and their
+ *                                  `stage` flag updated, when one is given)
  *   log-get [n]                    print the n most recent daily logs (default 2)
  *   log-append <YYYY-MM-DD> <file> append a markdown file to that day's log
  *   seen-dump <out.txt>            write investor-portfolio names already reviewed
@@ -48,6 +49,7 @@ const LOGS = 'sourcing_daily_logs';
 const SEEN = 'sourcing_portfolio_seen';
 const REJECT_THRESHOLD = 2 / 6;
 const RAISING = ['Yes', 'Likely soon', 'No', 'Unknown'];
+const STAGES = ['pre-raise', 'in-range', 'late', 'unknown'];
 
 function die(msg) { console.error('✗ ' + msg); process.exit(1); }
 
@@ -242,9 +244,10 @@ async function pipelineAdd(companies) {
     const text = c.activityText || `Added by daily sourcing scan — surfaced via ${c.source || 'daily scan'}. ${c.fitNotes || ''}`.trim();
     const hit = existing.get(key);
     if (hit) {
-      // Never overwrite GP-owned fields; log the new information instead.
+      // Never overwrite GP-owned fields; log the new information instead. The stage
+      // flag is the exception: a new round is exactly what it exists to show.
       await hit.ref.collection('activity').add({ type: 'research', text, createdAt: FieldValue.serverTimestamp() });
-      await hit.ref.update({ lastUpdated: FieldValue.serverTimestamp(), isNew: true });
+      await hit.ref.update({ lastUpdated: FieldValue.serverTimestamp(), isNew: true, ...(STAGES.includes(c.stage) ? { stage: c.stage } : {}) });
       updatedNames.push(c.name);
       continue;
     }
@@ -253,6 +256,7 @@ async function pipelineAdd(companies) {
       name: String(c.name).trim(),
       technology: c.technology || '',
       stageAmount: c.stageAmount || '',
+      ...(STAGES.includes(c.stage) ? { stage: c.stage } : {}),
       raisingStatus: raising,
       buvScore: (String(c.buvScore || '').match(/\d+\s*\/\s*\d+/) || [''])[0].replace(/\s/g, ''),
       fitNotes: c.fitNotes || '',

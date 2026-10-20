@@ -1,5 +1,5 @@
 {
-  "_comment": "Search terms and feeds for the BUV daily sourcing sweep (sourcing-sweep.mjs). Add or remove terms freely. Google News queries get ' when:<days>d' appended automatically. 'news' results are kept only if the headline matches waterRegex; 'newsNames' results only if the headline contains 'must'. Headlines matching noiseRegex are always dropped.",
+  "_comment": "Search terms and feeds for the BUV daily sourcing sweep (sourcing-sweep.mjs). Add or remove terms freely. Google News queries get ' when:<days>d' appended automatically. 'news' results are kept only if the headline matches waterRegex; 'newsNames' results only if the headline contains 'must'. Headlines matching noiseRegex are always dropped. 'feeds' with filter=true keep only items matching waterRegex; filter=\"strict\" (general-interest feeds) uses strictWaterRegex, which leaves out broad terms like 'hydro' that would admit hydrogen news. 'nsfProgramRegex' picks which NSF award programs are listed (I-Corps teams are pre-company university spinouts); an I-Corps award is listed only if its title matches 'iCorpsTitleRegex', because I-Corps spans every field of science. 'priorityThemes' only TAGS candidate lines [FIT: …] — themes Alex has moved to Exploring/Diligence above his base rate (measured from his Deal Pipeline decisions); tagging never filters anything out; a theme with alsoWater=true is tagged only when the same text also matches waterRegex.",
   "news": {
     "en-US": [
       "\"water\" \"seed round\"",
@@ -207,7 +207,108 @@
       "plumbing innovation award",
       "restaurant water savings",
       "multifamily water",
-      "apartment water leak"
+      "apartment water leak",
+      "semiconductor wastewater recycling startup",
+      "fab water reuse technology",
+      "semiconductor water reclamation",
+      "\"ultrapure water\" startup",
+      "ultrapure water monitoring",
+      "gallium recovery wastewater",
+      "germanium recovery startup",
+      "IPA recovery semiconductor",
+      "CHIPS Act water recycling",
+      "fluoride wastewater treatment technology",
+      "chip fab water startup",
+      "chemical-free cooling tower treatment",
+      "cooling water treatment startup",
+      "cooling tower blowdown reuse",
+      "biofouling control startup",
+      "biocide-free water treatment",
+      "rapid Legionella test",
+      "ASHRAE 188 water management",
+      "electrodialysis startup",
+      "capacitive deionization startup",
+      "electrochemical oxidation water startup",
+      "electrified water treatment",
+      "chemical-free water treatment startup",
+      "electrochemical ammonia recovery",
+      "electrochemical nitrate removal",
+      "membrane-free desalination",
+      "direct lithium extraction startup",
+      "geothermal brine lithium startup",
+      "produced water beneficial reuse",
+      "hypersaline brine treatment",
+      "high-recovery desalination startup",
+      "membrane distillation startup",
+      "brine crystallizer startup",
+      "batch reverse osmosis",
+      "brine valorization startup",
+      "ammonia recovery wastewater startup",
+      "phosphorus recovery startup",
+      "struvite recovery",
+      "nitrogen recovery wastewater",
+      "manure treatment technology startup",
+      "urine diversion startup",
+      "fertilizer from wastewater startup",
+      "mine water treatment startup",
+      "acid mine drainage startup",
+      "critical minerals from wastewater",
+      "metal recovery from wastewater startup",
+      "rare earth recovery water startup",
+      "tailings water recovery technology",
+      "food and beverage wastewater startup",
+      "dairy wastewater technology",
+      "brewery wastewater startup",
+      "textile wastewater startup",
+      "pharmaceutical wastewater treatment startup",
+      "on-site wastewater treatment startup",
+      "industrial water AI startup",
+      "process water optimization startup",
+      "landfill leachate treatment startup",
+      "vehicle wash water recycling",
+      "onsite water reuse building",
+      "greywater recycling startup",
+      "blackwater treatment building",
+      "net zero water building",
+      "non-potable water reuse system",
+      "district water reuse",
+      "waterless data center cooling",
+      "data center water usage effectiveness",
+      "data center leak detection",
+      "Raman water sensor",
+      "real-time pathogen detection water",
+      "eDNA water monitoring startup",
+      "reagent-free water analyzer",
+      "in-line water quality sensor industrial",
+      "wastewater surveillance startup",
+      "NSF I-Corps water",
+      "\"I-Corps\" water treatment",
+      "Activate fellows water",
+      "Cyclotron Road water",
+      "Breakthrough Energy Fellows water",
+      "Chain Reaction Innovations water",
+      "Innovation Crossroads water",
+      "VentureWell water",
+      "National Alliance for Water Innovation pilot",
+      "\"exclusive license\" water treatment",
+      "university license water technology startup",
+      "\"emerges from stealth\" water",
+      "water startup first pilot",
+      "water startup pilot industrial",
+      "lab spinout membrane",
+      "university startup competition water",
+      "Rice Business Plan Competition water",
+      "Current water accelerator Chicago",
+      "mHUB water accelerator",
+      "AquaEntrepreneur cohort",
+      "Mining Water Tech pilot program",
+      "Cleantech Open water",
+      "QSTP TotalEnergies WaterTech",
+      "Third Derivative water",
+      "Greentown Labs water",
+      "The Engine water startup",
+      "Great Lakes ReNEW Engine water",
+      "SBIR water accelerator"
     ],
     "en-GB": [
       "water startup funding",
@@ -216,20 +317,27 @@
       "Ofwat Innovation Fund",
       "Innovate UK water",
       "wastewater startup UK",
-      "PFAS startup UK"
+      "PFAS startup UK",
+      "electrochemical water startup UK",
+      "nutrient recovery startup UK",
+      "industrial wastewater startup UK"
     ],
     "en-IN": [
       "water technology startup raises",
       "water startup funding India",
-      "wastewater startup India"
+      "wastewater startup India",
+      "zero liquid discharge startup India",
+      "industrial wastewater reuse startup India"
     ],
     "en-SG": [
       "water technology startup Singapore",
-      "PUB water innovation startup"
+      "PUB water innovation startup",
+      "semiconductor water startup Singapore"
     ],
     "en-IL": [
       "Israeli water technology startup raises",
-      "water tech Israel funding"
+      "water tech Israel funding",
+      "Israeli wastewater startup"
     ],
     "en-AU": [
       "water technology startup Australia funding",
@@ -243,39 +351,59 @@
       "PFAS Startup",
       "Wasser Start-up Seed",
       "Ausgründung Wasser",
-      "Wasserstoff aus Abwasser Startup"
+      "Wasserstoff aus Abwasser Startup",
+      "Reinstwasser Halbleiter",
+      "Elektrodialyse Startup",
+      "Phosphorrückgewinnung Startup",
+      "Kühlturm Wasseraufbereitung",
+      "Ausgründung Membran"
     ],
     "fr": [
       "startup eau levée de fonds",
       "startup traitement de l'eau",
       "startup eaux usées",
-      "PFAS startup"
+      "PFAS startup",
+      "récupération phosphore startup",
+      "eaux industrielles startup",
+      "électrochimie eau startup"
     ],
     "es": [
       "startup agua ronda de inversión",
       "startup tratamiento de agua",
-      "startup aguas residuales"
+      "startup aguas residuales",
+      "recuperación de nutrientes aguas residuales startup",
+      "salmuera litio startup"
     ],
     "pt-BR": [
       "startup água investimento",
-      "startup tratamento de água"
+      "startup tratamento de água",
+      "reúso de água industrial startup"
     ],
     "nl": [
       "water startup investering",
-      "waterzuivering startup"
+      "waterzuivering startup",
+      "fosfaatterugwinning startup",
+      "elektrochemische waterzuivering"
     ],
     "ja": [
       "水処理 スタートアップ 資金調達",
       "超純水 スタートアップ",
-      "水 ベンチャー 資金調達"
+      "水 ベンチャー 資金調達",
+      "半導体 排水 リサイクル",
+      "冷却塔 水処理",
+      "電気化学 水処理"
     ],
     "ko": [
       "수처리 스타트업 투자",
-      "초순수 스타트업"
+      "초순수 스타트업",
+      "반도체 폐수 재이용",
+      "냉각탑 수처리"
     ],
     "zh-CN": [
       "水处理 初创 融资",
-      "污水处理 初创公司 融资"
+      "污水处理 初创公司 融资",
+      "半导体 废水 回用",
+      "电渗析 初创"
     ],
     "he": [
       "סטארט-אפ מים גיוס",
@@ -337,6 +465,131 @@
       "name": "PR Newswire Environment",
       "url": "https://www.prnewswire.com/rss/environment-latest-news/environment-latest-news-list.rss",
       "filter": true
+    },
+    {
+      "name": "Current (Chicago water hub)",
+      "url": "https://currentwater.org/feed/",
+      "filter": false
+    },
+    {
+      "name": "The Water Council",
+      "url": "https://thewatercouncil.com/feed/",
+      "filter": false
+    },
+    {
+      "name": "NAWI (National Alliance for Water Innovation)",
+      "url": "https://www.nawihub.org/feed/",
+      "filter": false
+    },
+    {
+      "name": "MIT News — water",
+      "url": "https://news.mit.edu/topic/mitwater-rss.xml",
+      "filter": false
+    },
+    {
+      "name": "WaterWorld",
+      "url": "https://www.waterworld.com/__rss/website-scheduled-content.xml?input=%7B%22sectionAlias%22%3A%22home%22%7D",
+      "filter": false
+    },
+    {
+      "name": "Water & Wastes Digest",
+      "url": "https://www.wwdmag.com/__rss/website-scheduled-content.xml?input=%7B%22sectionAlias%22%3A%22home%22%7D",
+      "filter": false
+    },
+    {
+      "name": "Semiconductor Digest",
+      "url": "https://www.semiconductor-digest.com/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "Chemical Processing",
+      "url": "https://www.chemicalprocessing.com/__rss/website-scheduled-content.xml?input=%7B%22sectionAlias%22%3A%22home%22%7D",
+      "filter": "strict"
+    },
+    {
+      "name": "Chemical Engineering",
+      "url": "https://www.chemengonline.com/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "Process Worldwide",
+      "url": "https://www.process-worldwide.com/rss/news.xml",
+      "filter": "strict"
+    },
+    {
+      "name": "Food Processing",
+      "url": "https://www.foodprocessing.com/__rss/website-scheduled-content.xml?input=%7B%22sectionAlias%22%3A%22home%22%7D",
+      "filter": "strict"
+    },
+    {
+      "name": "Plant Services",
+      "url": "https://www.plantservices.com/__rss/website-scheduled-content.xml?input=%7B%22sectionAlias%22%3A%22home%22%7D",
+      "filter": "strict"
+    },
+    {
+      "name": "DatacenterDynamics",
+      "url": "https://www.datacenterdynamics.com/en/rss/",
+      "filter": "strict"
+    },
+    {
+      "name": "Mining.com",
+      "url": "https://www.mining.com/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "C&EN (ACS)",
+      "url": "https://cen.acs.org/feeds/rss/latestnews.xml",
+      "filter": "strict"
+    },
+    {
+      "name": "Pulse 2.0",
+      "url": "https://pulse2.com/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "Innovation News Network",
+      "url": "https://www.innovationnewsnetwork.com/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "Trellis (GreenBiz)",
+      "url": "https://trellis.net/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "VentureWell",
+      "url": "https://venturewell.org/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "Tech Funding News",
+      "url": "https://techfundingnews.com/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "Sifted",
+      "url": "https://sifted.eu/feed",
+      "filter": "strict"
+    },
+    {
+      "name": "Tech.eu",
+      "url": "https://tech.eu/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "ArcticStartup",
+      "url": "https://arcticstartup.com/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "Silicon Canals",
+      "url": "https://www.siliconcanals.com/feed/",
+      "filter": "strict"
+    },
+    {
+      "name": "Startup Daily (AU)",
+      "url": "https://www.startupdaily.net/feed/",
+      "filter": "strict"
     }
   ],
   "sbir": [
@@ -369,7 +622,27 @@
     "irrigation water",
     "stormwater",
     "water filtration",
-    "electrochemical water"
+    "electrochemical water",
+    "electrodialysis",
+    "ammonia recovery",
+    "phosphorus recovery",
+    "nitrate removal",
+    "lithium extraction",
+    "mineral recovery",
+    "acid mine drainage",
+    "membrane distillation",
+    "membrane bioreactor",
+    "arsenic removal",
+    "landfill leachate",
+    "semiconductor wastewater",
+    "pathogen detection water",
+    "decentralized wastewater",
+    "greywater",
+    "industrial wastewater",
+    "food processing wastewater",
+    "manure treatment",
+    "deionization",
+    "cooling water treatment"
   ],
   "nsf": [
     "water treatment",
@@ -381,7 +654,22 @@
     "water sensor",
     "drinking water",
     "water reuse",
-    "irrigation"
+    "irrigation",
+    "electrodialysis",
+    "nutrient recovery",
+    "brine",
+    "ultrapure water",
+    "cooling tower",
+    "Legionella",
+    "biofilm",
+    "lithium extraction",
+    "critical minerals",
+    "ammonia recovery",
+    "nitrate",
+    "phosphorus recovery",
+    "semiconductor wastewater",
+    "pathogen detection",
+    "wastewater resource recovery"
   ],
   "formd": [
     "water",
@@ -397,9 +685,14 @@
     "irrigation",
     "aquatech",
     "watertech",
-    "hydrotech"
+    "hydrotech",
+    "brine",
+    "desal",
+    "agua",
+    "potable"
   ],
-  "waterRegex": "\\b(water|wastewater|PFAS|forever chemicals|desalinat|membrane|reverse osmosis|filtration|purif|irrigat|leak|plumbing|hydro|aqua|H2O|sewage|sewer|stormwater|brine|drinking|legionella|effluent|watershed|lead pipe|lead service|faucet|sprinkler|drip|heat pump|water heater|UV-C|UV LED|hydration|refill|bottle fill|leak|shutoff|submeter|plumb|softener|dishwasher|fixture|WaterSense|lead pipe|lead test|toilet|Wasser|Abwasser|eau|eaux|agua|água|aguas|waterzuivering)|水|수처리|초순수|污水|מים",
+  "waterRegex": "\\b(water|wastewater|PFAS|forever chemicals|desalinat|membrane|reverse osmosis|filtration|purif|irrigat|leak|plumbing|hydro|aqua|H2O|sewage|sewer|stormwater|brine|drinking|legionella|effluent|watershed|lead pipe|lead service|faucet|sprinkler|drip|heat pump|water heater|UV-C|UV LED|hydration|refill|bottle fill|leak|shutoff|submeter|plumb|softener|dishwasher|fixture|WaterSense|lead pipe|lead test|toilet|Wasser|Abwasser|eau|eaux|agua|água|aguas|waterzuivering|groundwater|seawater|saltwater|greywater|graywater|blackwater|rainwater|freshwater|afvalwater|drinkwater|grondwater|Trinkwasser|Grundwasser|Reinstwasser|Prozesswasser|Kühlwasser|Regenwasser|Meerwasser|nanofiltration|ultrafiltration|microfiltration|osmosis|osmose|Membran|desalini|dessal|aquifer|ultrapure|UPW|cooling tower|biofoul|electrodialysis|deioniz|desalt|nitrate|struvite|nutrient recovery|ammonia recovery|phosphorus recovery|sludge|biosolids|digestate|leachate|mine water|mine drainage|direct lithium extraction|polyfluoro|perfluoro)|水|수처리|초순수|污水|מים|폐수",
+  "strictWaterRegex": "\\b(water|wastewater|PFAS|polyfluoro|perfluoro|forever chemicals|desalin|dessal|brine|sewage|sewer|effluent|drinking|groundwater|seawater|stormwater|greywater|graywater|blackwater|aquifer|legionella|cooling tower|biofoul|reverse osmosis|osmosis|nanofiltration|ultrafiltration|membrane distillation|electrodialysis|deioniz|nitrate|struvite|nutrient recovery|phosphorus recovery|ammonia recovery|sludge|biosolids|leachate|mine water|mine drainage|ultrapure|UPW|irrigat)",
   "newsNames": [
     {
       "q": "Burnt Island Ventures",
@@ -528,10 +821,105 @@
     {
       "q": "Toro irrigation acquires",
       "must": "Toro"
+    },
+    {
+      "q": "mHUB",
+      "must": "mHUB"
+    },
+    {
+      "q": "AquaEntrepreneur",
+      "must": "AquaEntrepreneur"
+    },
+    {
+      "q": "AquaAction",
+      "must": "AquaAction"
+    },
+    {
+      "q": "Cleantech Open",
+      "must": "Cleantech Open"
+    },
+    {
+      "q": "QSTP TotalEnergies",
+      "must": "QSTP"
+    },
+    {
+      "q": "Nomadic Venture Partners",
+      "must": "Nomadic Venture Partners"
+    },
+    {
+      "q": "Cyclotron Road",
+      "must": "Cyclotron Road"
+    },
+    {
+      "q": "Breakthrough Energy Fellows",
+      "must": "Breakthrough Energy Fellows"
+    },
+    {
+      "q": "Chain Reaction Innovations",
+      "must": "Chain Reaction Innovations"
+    },
+    {
+      "q": "Innovation Crossroads",
+      "must": "Innovation Crossroads"
+    },
+    {
+      "q": "National Alliance for Water Innovation",
+      "must": "National Alliance for Water Innovation"
+    },
+    {
+      "q": "NAWI water",
+      "must": "NAWI"
+    },
+    {
+      "q": "VentureWell",
+      "must": "VentureWell"
+    },
+    {
+      "q": "Third Derivative",
+      "must": "Third Derivative"
+    },
+    {
+      "q": "Greentown Labs",
+      "must": "Greentown"
+    },
+    {
+      "q": "The Water Council",
+      "must": "Water Council"
+    },
+    {
+      "q": "Great Lakes ReNEW",
+      "must": "Great Lakes ReNEW"
     }
   ],
   "noiseRegex": "Market (to Reach|Size|Report|Share|Worth|Forecast|Analysis|Outlook)|CAGR|by 20[34]\\d,? (growing|at)|Stock (Price|Analysis)|Shares (Rise|Fall|Up|Down)|obituar|horoscope|NFL|NBA|MLB|Wild Card|playoff|Market,? 20\\d\\d|Consensus|Target Price|\\((NYSE|NASDAQ|Nasdaq)\\s*:|boil (water )?(notice|advisory|order)|main break|water outage|weather forecast",
-  "signalRegex": "rais(es|ed|ing)|seed|pre-seed|Series [A-C]|funding|financing|invest|grant|award|prize|winner|finalist|cohort|accelerator|incubat|startup|start-up|spin-?out|spun out|launch|acquir|merger|partnership|pilot|Finanzierung|Gründ|levée|ronda|資金調達|투자|融资",
+  "signalRegex": "rais(es|ed|ing)|seed|pre-seed|Series [A-C]|funding|financing|invest|grant|award|prize|winner|finalist|cohort|accelerator|incubat|startup|start-up|spin-?out|spun out|launch|acquir|merger|partnership|pilot|Finanzierung|Gründ|levée|ronda|資金調達|투자|融资|I-Corps|SBIR|STTR|first (customer|pilot|deployment|commercial)",
+  "nsfProgramRegex": "SBIR|STTR|small business|I-Corps",
+  "iCorpsTitleRegex": "\\b(water|wastewater|PFAS|polyfluoro|perfluoro|forever chemicals|desalin|brine|sewage|effluent|drinking|groundwater|seawater|stormwater|legionella|nutrient recovery|ammonia recovery|nitrate|phosphorus recovery|struvite|ultrapure|cooling tower|biofoul|electrodialysis|deioniz|irrigat|aquifer)",
+  "priorityThemes": [
+    {
+      "name": "semiconductor & UPW water",
+      "regex": "semiconductor|ultrapure|\\bUPW\\b|wafer|chipmak|CHIPS Act|chip fab|wafer fab|semiconductor fab|fab water|Reinstwasser|超純水|초순수|半導体|반도체|半导体",
+      "alsoWater": true
+    },
+    {
+      "name": "cooling towers, Legionella & biofouling",
+      "regex": "cooling[- ]tower|cooling water|evaporative cool|legionella|biofoul|biofilm|biocide|Kühlturm|冷却塔|냉각탑"
+    },
+    {
+      "name": "electrochemical / chemical-free treatment",
+      "regex": "electrochem|electrodialysis|electroly[sz]|electro-?oxidation|capacitive deioni|\\bCDI\\b|electrocoag|chemical[- ]free|plasma|Elektrodialyse|電気化学|电渗析",
+      "alsoWater": true
+    },
+    {
+      "name": "brine, ZLD, produced water & novel desal",
+      "regex": "brine|hypersaline|zero[- ]liquid|\\bZLD\\b|produced water|desalin|dessal|membrane distillation|lithium extraction|\\bDLE\\b|salmuera"
+    },
+    {
+      "name": "nutrient & resource recovery",
+      "regex": "nutrient|ammonia|nitrogen recovery|phosph|struvite|fertili[sz]|urine|digestate|nitrate|metal recovery|mineral recovery|critical mineral|rare earth|gallium|germanium|Phosphor|fosfaat",
+      "alsoWater": true
+    }
+  ],
   "portfolios": [
     {
       "name": "Burnt Island Ventures",
@@ -584,6 +972,10 @@
     {
       "name": "Imagine H2O",
       "url": "https://imagineh2o.org/innovators/"
+    },
+    {
+      "name": "Chain Reaction Innovations (Argonne)",
+      "url": "https://chainreaction.anl.gov/innovators/"
     }
   ]
 }

@@ -5,12 +5,19 @@
  * Pulls every source listed in sourcing-sources.json in one go and writes a
  * single de-duplicated candidate list for the scan to triage:
  *   - Google News RSS: every query, in every listed language/region
- *   - Trade / startup RSS feeds (non-water feeds filtered by waterRegex)
+ *   - Trade / startup RSS feeds (non-water feeds filtered by waterRegex, or by
+ *     the narrower strictWaterRegex for general-interest feeds)
  *   - sbir.gov award search: every keyword, first two pages, recent years only
- *   - NSF awards API: SBIR/STTR (small-business) awards only
+ *   - NSF awards API: SBIR/STTR (small-business) awards, plus I-Corps teams
+ *     (university spinouts before they incorporate or raise) — set by
+ *     nsfProgramRegex in sourcing-sources.json
  *   - SEC EDGAR Form D filings whose issuer name matches a water term
  *     (a Form D is filed when a private company raises — often before any
  *     press release, so these are pre-announcement raise signals)
+ *
+ * Lines matching a priorityThemes entry in sourcing-sources.json are tagged
+ * [FIT: theme] so triage looks them up first. Tags only rank — nothing is
+ * filtered out.
  *
  * No credentials needed.
  *
@@ -40,8 +47,16 @@ const only = new Set((arg('only', 'portfolios,news,feeds,sbir,nsf,formd')).split
 const since = new Date(Date.now() - days * 86400e3);
 const thisYear = new Date().getFullYear();
 const waterRe = new RegExp(cfg.waterRegex, 'i');
+const strictWaterRe = new RegExp(cfg.strictWaterRegex || cfg.waterRegex, 'i');
 const noiseRe = new RegExp(cfg.noiseRegex, 'i');
 const signalRe = new RegExp(cfg.signalRegex, 'i');
+const nsfProgramRe = new RegExp(cfg.nsfProgramRegex || 'SBIR|STTR|small business', 'i');
+const iCorpsTitleRe = new RegExp(cfg.iCorpsTitleRegex || cfg.waterRegex, 'i');
+const themes = (cfg.priorityThemes || []).map((t) => [t.name, new RegExp(t.regex, 'i'), !!t.alsoWater]);
+const fitTag = (text) => {
+  const hits = themes.filter(([, re, alsoWater]) => re.test(text) && (!alsoWater || waterRe.test(text))).map(([n]) => n);
+  return hits.length ? ` [FIT: ${hits.join(', ')}]` : '';
+};
 
 // Registry names for [KNOWN] tagging (first pipe field, 5+ chars to avoid noise).
 let known = [];
@@ -140,12 +155,13 @@ async function sweepNews() {
       if (!key || seen.has(key)) continue;
       seen.add(key);
       const src = (it.match(/<source url="([^"]+)"/) || [])[1] || '';
-      got.push({ d, sig: signalRe.test(headline), line: `- ${signalRe.test(headline) ? '⭐ ' : ''}${ymd(d)} · ${title} · ${src} · ${tag(it, 'link')}${tagKnown(title)}  _(q: ${q}${loc === 'en-US' ? '' : ' · ' + loc})_` });
+      const fit = fitTag(headline);
+      got.push({ d, sig: signalRe.test(headline), fit: !!fit, line: `- ${signalRe.test(headline) ? '⭐ ' : ''}${ymd(d)} · ${title} · ${src} · ${tag(it, 'link')}${tagKnown(title)}${fit}  _(q: ${q}${loc === 'en-US' ? '' : ' · ' + loc})_` });
     }
     perQuery.push(`${loc === 'en-US' ? '' : loc + ': '}${q} → ${items.length}`);
     return got;
   })).flat();
-  rows.sort((a, b) => (b.sig - a.sig) || (b.d - a.d));
+  rows.sort((a, b) => (b.sig - a.sig) || (b.fit - a.fit) || (b.d - a.d));
   return { title: `Google News — ⭐ deal-signal headlines first (${jobs.length} queries across ${Object.keys(cfg.news).length} locales)`, lines: rows.map((r) => r.line), note: `${rows.filter((r) => r.sig).length} ⭐ deal-signal headlines; ${perQuery.filter((s) => s.endsWith('→ 0')).length} queries returned nothing; ${dropped} off-topic or noise headlines filtered out` };
 }
 
@@ -161,12 +177,12 @@ async function sweepFeeds() {
       if (!isNaN(d) && d < since) continue;
       const title = tag(it, 'title');
       const desc = tag(it, 'description').slice(0, 400);
-      if ((f.filter && !waterRe.test(title + ' ' + desc)) || noiseRe.test(title)) continue;
+      if ((f.filter && !(f.filter === 'strict' ? strictWaterRe : waterRe).test(title + ' ' + desc)) || noiseRe.test(title)) continue;
       const key = norm(title);
       if (!key || seen.has(key)) continue;
       seen.add(key);
       const link = tag(it, 'link') || (it.match(/<link[^>]+href="([^"]+)"/) || [])[1] || '';
-      lines.push(`- ${ymd(d)} · ${title} · ${f.name} · ${link}${tagKnown(title + ' ' + desc)}`);
+      lines.push(`- ${ymd(d)} · ${title} · ${f.name} · ${link}${tagKnown(title + ' ' + desc)}${fitTag(title + ' ' + desc)}`);
     }
   });
   return { title: `Trade & startup RSS feeds (${cfg.feeds.length})`, lines: lines.sort().reverse() };
@@ -202,12 +218,12 @@ async function sweepSbir() {
     }
   });
   for (const e of [...byCo.values()].sort((a, b) => b.year - a.year || a.co.localeCompare(b.co))) {
-    lines.push(`- ${e.year} ${e.agency} ${e.phase} · **${e.co}** · ${e.title} — ${e.abstract}…${tagKnown(e.co)}  _(kw: ${[...e.kws].join(', ')})_`);
+    lines.push(`- ${e.year} ${e.agency} ${e.phase} · **${e.co}** · ${e.title} — ${e.abstract}…${tagKnown(e.co)}${fitTag(e.title + ' ' + e.abstract)}  _(kw: ${[...e.kws].join(', ')})_`);
   }
   return { title: `sbir.gov awards tagged ${thisYear - 1}–${thisYear} (${cfg.sbir.length} keywords; these are DISCOVERED companies, not same-week news)`, lines, note: 'Result counts: ' + counts.sort().join(' · ') };
 }
 
-// ---- NSF awards API (SBIR/STTR only) ---------------------------------------
+// ---- NSF awards API (SBIR/STTR + I-Corps, per nsfProgramRegex) -------------
 async function sweepNsf() {
   const start = new Date(Date.now() - Math.max(days, 60) * 86400e3);
   const ds = `${String(start.getMonth() + 1).padStart(2, '0')}/${String(start.getDate()).padStart(2, '0')}/${start.getFullYear()}`;
@@ -220,15 +236,18 @@ async function sweepNsf() {
     let awards = [];
     try { awards = JSON.parse(txt).response.award || []; } catch { stats.failed.push(`nsf ${kw} (bad JSON)`); return; }
     for (const a of awards) {
-      if (!/SBIR|STTR|small business/i.test(`${a.fundProgramName} ${a.program}`)) continue;
+      if (!nsfProgramRe.test(`${a.fundProgramName} ${a.program}`)) continue;
       if (!waterRe.test(`${a.title} ${(a.abstractText || '').slice(0, 1500)}`)) continue;
+      // I-Corps spans every field of science, so its teams must name water in the title.
+      if (/I-Corps/i.test(`${a.fundProgramName} ${a.program}`) && !iCorpsTitleRe.test(a.title)) continue;
       const e = byId.get(a.id) || { ...a, kws: new Set() };
       e.kws.add(kw); byId.set(a.id, e);
     }
   });
   const lines = [...byId.values()].sort((a, b) => new Date(b.date) - new Date(a.date)).map((a) =>
-    `- ${a.date} · **${a.awardeeName}** (${a.awardeeCity}, ${a.awardeeStateCode}) · $${Number(a.fundsObligatedAmt || 0).toLocaleString()} ${a.fundProgramName} · ${a.title} — ${(a.abstractText || '').slice(0, 220)}… · https://www.nsf.gov/awardsearch/showAward?AWD_ID=${a.id}${tagKnown(a.awardeeName)}  _(kw: ${[...a.kws].join(', ')})_`);
-  return { title: `NSF SBIR/STTR awards since ${ds} (${cfg.nsf.length} keywords)`, lines };
+    `- ${a.date} · ${/I-Corps/i.test(`${a.fundProgramName} ${a.program}`) ? '🎓 PRE-COMPANY TEAM · ' : ''}**${a.awardeeName}** (${a.awardeeCity}, ${a.awardeeStateCode}) · $${Number(a.fundsObligatedAmt || 0).toLocaleString()} ${a.fundProgramName} · ${a.title} — ${(a.abstractText || '').slice(0, 220)}… · https://www.nsf.gov/awardsearch/showAward?AWD_ID=${a.id}${tagKnown(a.awardeeName)}${fitTag(`${a.title} ${(a.abstractText || '').slice(0, 1500)}`)}  _(kw: ${[...a.kws].join(', ')})_`);
+  const iCorps = nsfProgramRe.test('I-Corps') ? ' + I-Corps (🎓 = university team that has not formed a company or raised yet — find the PI and the planned spinout)' : '';
+  return { title: `NSF SBIR/STTR${iCorps} awards since ${ds} (${cfg.nsf.length} keywords)`, lines };
 }
 
 // ---- SEC EDGAR Form D ------------------------------------------------------
@@ -304,10 +323,13 @@ for (const k of ['portfolios', 'feeds', 'news', 'sbir', 'nsf', 'formd']) {
 }
 const total = sections.reduce((n, s) => n + s.lines.length, 0);
 const knownCount = sections.reduce((n, s) => n + s.lines.filter((l) => l.includes('[KNOWN:')).length, 0);
+const fitCount = sections.reduce((n, s) => n + s.lines.filter((l) => l.includes('[FIT:')).length, 0);
 const md = [
   `# Sourcing sweep — ${ymd(new Date())} — window ${days} day(s) (since ${ymd(since)})`,
   `${total} unique items (${knownCount} mention a registry company). Took ${Math.round((Date.now() - t0) / 1000)}s.` +
     (stats.failed.length ? ` ⚠️ ${stats.failed.length} source(s) failed: ${stats.failed.join('; ')}` : ' All sources answered.'),
+  ...(themes.length ? [`${fitCount} items tagged [FIT: …] — the themes that convert best on the Deal Pipeline (${themes.map(([n]) => n).join('; ')}). ` +
+    'Look these up first. Tags only rank: every other line still gets triaged. For any company, establish total raised and the date of the last round early — BUV invests at pre-seed/seed, so stage settles most passes.'] : []),
   'Google News links are redirects — search the headline (or publisher + title) to get the real article URL before citing it.',
   ...sections.map((s) => `\n## ${s.title} — ${s.lines.length}\n${s.note ? '_' + s.note + '_\n' : ''}${s.lines.join('\n') || '_(nothing in window)_'}`),
 ].join('\n');

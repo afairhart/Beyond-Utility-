@@ -99,14 +99,24 @@ See the header comment in the script for the JSON fields each command takes.
 
 ## sourcing-sweep.mjs
 
-Bulk discovery sweep for the daily scan (no credentials needed). In about 30–60
-seconds it pulls Google News for every query in `sourcing-sources.json` across
+Bulk discovery sweep for the daily scan (no credentials needed). In about a
+minute it pulls Google News for every query in `sourcing-sources.json` across
 15 languages/regions, the trade/startup RSS feeds, sbir.gov (every keyword), NSF
-SBIR/STTR awards and SEC Form D filings with water-named issuers, then writes
-one de-duplicated, relevance-filtered list with deal-signal headlines (⭐) first.
+SBIR/STTR awards plus I-Corps university teams (🎓 — pre-company, months before
+any raise), and SEC Form D filings with water-named issuers, then writes one
+de-duplicated, relevance-filtered list with deal-signal headlines (⭐) first.
 
 ```bash
 node sourcing-sweep.mjs --days 2 --registry registry.md --out candidates.md
 ```
 
-To widen or narrow the search, edit `sourcing-sources.json` — no code changes needed.
+To widen or narrow the search, edit `sourcing-sources.json` — no code changes needed:
+
+- `priorityThemes` — themes that convert best on the Deal Pipeline. Matching
+  lines are tagged `[FIT: theme]` and sorted up; tags never filter anything out.
+  `alsoWater: true` tags a line only when it also mentions water.
+- `feeds[].filter` — `false` keeps every item, `true` keeps items matching
+  `waterRegex`, `"strict"` uses the narrower `strictWaterRegex` (for
+  general-interest feeds, where `waterRegex`'s "hydro" would admit hydrogen news).
+- `nsfProgramRegex` / `iCorpsTitleRegex` — which NSF programs are listed; I-Corps
+  teams must name water in the award title, since I-Corps spans every field.
